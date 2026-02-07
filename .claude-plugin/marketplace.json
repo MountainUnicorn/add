@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "add-marketplace",
+  "description": "Agent Driven Development — AI-native SDLC methodology plugin for Claude Code",
+  "owner": {
+    "name": "abrooke"
+  },
+  "plugins": [
+    {
+      "name": "add",
+      "description": "Agent Driven Development (ADD) — Structured methodology for AI agent teams. PRD interviews, spec-driven TDD, human-AI collaboration protocols, environment-aware deployment, and multi-agent orchestration with trust-but-verify.",
+      "version": "0.1.0",
+      "author": {
+        "name": "abrooke"
+      },
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}

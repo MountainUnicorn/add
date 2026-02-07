@@ -1,0 +1,26 @@
+# ADD Cross-Project Knowledge Library
+
+> This file lives at `~/.claude/add/library.md` and accumulates wisdom across ALL your projects.
+> Entries are promoted from individual project `.add/learnings.md` files during retrospectives.
+> Agents read this alongside project-level learnings before starting work.
+
+## Technical Patterns
+<!-- Patterns that apply across projects, regardless of specific stack -->
+<!-- Format: - {date}: {pattern}. Source: {project name}. -->
+
+## Architecture Decisions
+<!-- Decisions and rationale that transfer to new projects -->
+<!-- Format: - {date}: Chose {X} over {Y} because {reason}. Applies to: {context}. Source: {project}. -->
+
+## Anti-Patterns
+<!-- Things that caused problems — avoid in future projects -->
+<!-- Format: - {date}: {anti-pattern}. Impact: {what went wrong}. Source: {project}. -->
+
+## Performance Insights
+<!-- Performance lessons that apply across stacks and projects -->
+
+## Collaboration Insights
+<!-- What works well in human-agent collaboration across projects -->
+
+## Last Updated
+<!-- {date} — from /retro on {project_name} -->

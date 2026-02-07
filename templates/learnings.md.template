@@ -1,0 +1,29 @@
+# Project Learnings — {PROJECT_NAME}
+
+> This file is maintained automatically by ADD agents. Entries are added at checkpoints
+> (after verify, TDD cycles, deployments, away sessions) and reviewed during retrospectives.
+>
+> **Agents:** Read this file before starting any task. Previous learnings may affect your approach.
+> **Humans:** Review with `/retro --agent-summary` or during full `/retro`.
+
+## Technical Discoveries
+<!-- Things learned about the tech stack, libraries, APIs, infrastructure -->
+<!-- Format: - {date}: {discovery}. Source: {how we learned this}. -->
+
+## Architecture Decisions
+<!-- Decisions made and their rationale -->
+<!-- Format: - {date}: Chose {X} over {Y} because {reason}. -->
+
+## What Worked
+<!-- Patterns, approaches, tools that proved effective -->
+
+## What Didn't Work
+<!-- Patterns, approaches, tools that caused problems -->
+
+## Agent Checkpoints
+<!-- Automatic entries from verification, TDD cycles, deploys, away sessions -->
+<!-- These are processed and archived during /retro -->
+
+## Profile Update Candidates
+<!-- Cross-project patterns flagged for promotion to ~/.claude/add/profile.md -->
+<!-- Only promoted during /retro with human confirmation -->

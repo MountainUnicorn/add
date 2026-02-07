@@ -1,0 +1,120 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/config.schema.json",
+  "version": "0.1.0",
+  "project": {
+    "name": "{PROJECT_NAME}",
+    "description": "{PROJECT_DESCRIPTION}",
+    "created": "{DATE}",
+    "author": "{AUTHOR}"
+  },
+  "maturity": {
+    "level": "{poc|alpha|beta|ga}",
+    "promoted_from": null,
+    "promoted_date": null,
+    "next_promotion_criteria": "{WHAT_IS_NEEDED_FOR_NEXT_LEVEL}"
+  },
+  "architecture": {
+    "languages": [
+      {
+        "name": "{LANGUAGE}",
+        "version": "{VERSION}",
+        "role": "{ROLE: backend|frontend|fullstack|scripting}"
+      }
+    ],
+    "backend": {
+      "framework": "{BACKEND_FRAMEWORK_OR_NULL}",
+      "version": "{FRAMEWORK_VERSION}",
+      "runtime": "{RUNTIME_AND_VERSION}"
+    },
+    "frontend": {
+      "framework": "{FRONTEND_FRAMEWORK_OR_NULL}",
+      "version": "{FRAMEWORK_VERSION}",
+      "bundler": "{BUNDLER: vite|webpack|turbopack|none}"
+    },
+    "database": {
+      "type": "{DATABASE_OR_NULL}",
+      "version": "{DB_VERSION}"
+    },
+    "containerized": false,
+    "container_strategy": "{docker-compose|dockerfile-only|none}",
+    "suggested_by_claude": false
+  },
+  "infrastructure": {
+    "git_host": "{github|gitlab|bitbucket|local}",
+    "git_remote": "{REMOTE_URL_OR_NULL}",
+    "cloud_provider": "{gcp|aws|vercel|netlify|cloudflare|self-hosted|none}",
+    "cloud_services": ["{SERVICE_NAMES}"],
+    "cicd": {
+      "platform": "{github-actions|gitlab-ci|argo|jenkins|none}",
+      "scaffolded_by_add": false,
+      "pipeline_file": "{PATH_TO_PIPELINE_FILE}"
+    },
+    "infrastructure_as_code": "{terraform|pulumi|cdk|cloudformation|none}"
+  },
+  "environments": {
+    "tier": 2,
+    "local": {
+      "run": "{RUN_COMMAND}",
+      "test": "{TEST_COMMAND}",
+      "e2e": "{E2E_COMMAND_OR_NULL}",
+      "url": "http://localhost:{PORT}"
+    },
+    "dev": {
+      "deploy_trigger": "{TRIGGER_OR_NULL}",
+      "url": "{DEV_URL_OR_NULL}",
+      "verify": ["unit_tests", "integration_tests"]
+    },
+    "staging": {
+      "deploy_trigger": "{TRIGGER_OR_NULL}",
+      "url": "{STAGING_URL_OR_NULL}",
+      "verify": ["e2e_tests", "performance_tests"]
+    },
+    "production": {
+      "deploy_trigger": "merge to main",
+      "verify": ["smoke_tests"],
+      "url": "{PRODUCTION_URL_OR_NULL}",
+      "requires_approval": true
+    }
+  },
+  "quality": {
+    "mode": "standard",
+    "coverage_threshold": 80,
+    "type_check_blocking": true,
+    "e2e_required": true,
+    "screenshot_protocol": true,
+    "lint": {
+      "backend": "{LINT_COMMAND}",
+      "frontend": "{LINT_COMMAND}"
+    },
+    "typecheck": {
+      "backend": "{TYPECHECK_COMMAND}",
+      "frontend": "{TYPECHECK_COMMAND}"
+    },
+    "test": {
+      "unit": "{UNIT_TEST_COMMAND}",
+      "integration": "{INTEGRATION_TEST_COMMAND}",
+      "e2e": "{E2E_TEST_COMMAND}"
+    }
+  },
+  "collaboration": {
+    "autonomy_level": "balanced",
+    "team_size": "solo",
+    "commit_review_gate": false,
+    "pr_review_gate": true,
+    "deploy_approval_required": true
+  },
+  "source_control": {
+    "branching": "feature-branches",
+    "default_branch": "main",
+    "commit_convention": "conventional",
+    "pr_template": true,
+    "protected_branches": ["main"]
+  },
+  "planning": {
+    "current_milestone": "{M{N}-{NAME}_OR_NULL}",
+    "current_cycle": "{cycle-{N}_OR_NULL}",
+    "wip_limit": "{FROM_MATURITY_CASCADE}",
+    "parallel_agents": "{FROM_MATURITY_CASCADE}",
+    "cycle_history": []
+  }
+}

@@ -1,0 +1,111 @@
+# Spec: {FEATURE_NAME}
+
+**Version:** 0.1.0
+**Created:** {DATE}
+**PRD Reference:** docs/prd.md
+**Status:** Draft | Approved | Implementing | Complete
+
+## 1. Overview
+
+{FEATURE_DESCRIPTION}
+
+### User Story
+
+As a {ROLE}, I want {CAPABILITY}, so that {BENEFIT}.
+
+## 2. Acceptance Criteria
+
+| ID | Criterion | Priority |
+|----|-----------|----------|
+| AC-001 | {CRITERION_1} | Must |
+| AC-002 | {CRITERION_2} | Must |
+| AC-003 | {CRITERION_3} | Should |
+
+## 3. User Test Cases
+
+Human-readable test scenarios. Each maps to an automated E2E test.
+
+### TC-001: {TEST_NAME}
+
+**Precondition:** {PRECONDITION}
+**Steps:**
+1. {STEP_1}
+2. {STEP_2}
+3. {STEP_3}
+**Expected Result:** {EXPECTED}
+**Screenshot Checkpoint:** {SCREENSHOT_PATH}
+**Maps to:** {TEST_FILE} → "{TEST_FUNCTION_NAME}"
+
+### TC-002: {TEST_NAME}
+
+**Precondition:** {PRECONDITION}
+**Steps:**
+1. {STEP_1}
+2. {STEP_2}
+**Expected Result:** {EXPECTED}
+**Screenshot Checkpoint:** {SCREENSHOT_PATH}
+**Maps to:** {TEST_FILE} → "{TEST_FUNCTION_NAME}"
+
+## 4. Data Model
+
+### {ENTITY_NAME}
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| {FIELD_1} | {TYPE} | Yes/No | {DESCRIPTION} |
+
+### Relationships
+
+{RELATIONSHIP_DESCRIPTION}
+
+## 5. API Contract (if applicable)
+
+### {METHOD} {ENDPOINT}
+
+**Description:** {DESCRIPTION}
+
+**Request:**
+```json
+{REQUEST_SCHEMA}
+```
+
+**Response (200):**
+```json
+{RESPONSE_SCHEMA}
+```
+
+**Error Responses:**
+- `400` — {DESCRIPTION}
+- `401` — {DESCRIPTION}
+- `404` — {DESCRIPTION}
+
+## 6. UI Behavior (if applicable)
+
+### States
+
+- **Loading:** {LOADING_BEHAVIOR}
+- **Empty:** {EMPTY_STATE}
+- **Error:** {ERROR_STATE}
+- **Success:** {SUCCESS_STATE}
+
+### Screenshot Checkpoints
+
+| Step | Description | Path |
+|------|-------------|------|
+| 1 | {DESCRIPTION} | tests/screenshots/{FEATURE}/step-01-{DESC}.png |
+
+## 7. Edge Cases
+
+| Case | Expected Behavior |
+|------|-------------------|
+| {EDGE_CASE_1} | {BEHAVIOR_1} |
+
+## 8. Dependencies
+
+- {DEPENDENCY_1}
+
+## 9. Revision History
+
+| Date | Version | Author | Changes |
+|------|---------|--------|---------|
+| {DATE} | 0.1.0 | {AUTHOR} | Initial spec from /spec interview |

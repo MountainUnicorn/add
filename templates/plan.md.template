@@ -1,0 +1,71 @@
+# Plan: {FEATURE_NAME}
+
+**Spec:** specs/{FEATURE_SLUG}.md
+**Created:** {DATE}
+**Estimated Effort:** {ESTIMATE}
+**Status:** Draft | Approved | In Progress | Complete
+
+## 1. Overview
+
+{PLAN_SUMMARY}
+
+## 2. Task Breakdown
+
+| # | Task | Spec Ref | Files | Type | Estimate |
+|---|------|----------|-------|------|----------|
+| 1 | {TASK_1} | AC-001 | {FILES} | test | {EST} |
+| 2 | {TASK_2} | AC-001 | {FILES} | impl | {EST} |
+| 3 | {TASK_3} | AC-002 | {FILES} | test | {EST} |
+
+## 3. Execution Order
+
+```mermaid
+graph TD
+    T1[Task 1: Tests for AC-001] --> T2[Task 2: Implement AC-001]
+    T2 --> T3[Task 3: Tests for AC-002]
+    T3 --> T4[Task 4: Implement AC-002]
+    T4 --> T5[Task 5: Integration tests]
+    T5 --> T6[Task 6: E2E tests]
+    T6 --> T7[Task 7: Verify + Review]
+```
+
+## 4. TDD Strategy
+
+### RED Phase (Tests First)
+- {TEST_APPROACH}
+
+### GREEN Phase (Implementation)
+- {IMPL_APPROACH}
+
+### REFACTOR Phase
+- {REFACTOR_TARGETS}
+
+## 5. File Changes
+
+### New Files
+- {FILE_PATH} — {PURPOSE}
+
+### Modified Files
+- {FILE_PATH} — {CHANGES}
+
+## 6. Dependencies
+
+### Must Complete First
+- {BLOCKER}
+
+### Can Parallelize
+- {PARALLEL_TASK_A} and {PARALLEL_TASK_B} are independent
+
+## 7. Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| {RISK_1} | {IMPACT} | {MITIGATION} |
+
+## 8. Acceptance Verification
+
+After all tasks complete, verify spec compliance:
+
+| AC ID | Criterion | Test(s) | Status |
+|-------|-----------|---------|--------|
+| AC-001 | {CRITERION} | {TEST_NAMES} | Pending |

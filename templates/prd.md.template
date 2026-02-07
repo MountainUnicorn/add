@@ -1,0 +1,120 @@
+# {PROJECT_NAME} — Product Requirements Document
+
+**Version:** 0.1.0
+**Created:** {DATE}
+**Author:** {AUTHOR}
+**Status:** Draft
+
+## 1. Problem Statement
+
+{PROBLEM_STATEMENT}
+
+## 2. Target Users
+
+{TARGET_USERS}
+
+## 3. Success Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| {METRIC_1} | {TARGET_1} | {HOW_MEASURED_1} |
+
+## 4. Scope
+
+### In Scope (MVP)
+
+{IN_SCOPE}
+
+### Out of Scope
+
+{OUT_OF_SCOPE}
+
+## 5. Architecture
+
+### Tech Stack
+
+| Layer | Technology | Version | Notes |
+|-------|-----------|---------|-------|
+| Language (backend) | {LANGUAGE} | {VERSION} | {NOTES} |
+| Language (frontend) | {LANGUAGE} | {VERSION} | {NOTES} |
+| Backend Framework | {FRAMEWORK} | {VERSION} | {NOTES} |
+| Frontend Framework | {FRAMEWORK} | {VERSION} | {NOTES} |
+| Database | {DATABASE} | {VERSION} | {NOTES} |
+| Auth | {AUTH_PROVIDER} | {VERSION} | {NOTES} |
+
+### Infrastructure
+
+| Component | Choice | Notes |
+|-----------|--------|-------|
+| Git Host | {github/gitlab/bitbucket/local} | {REMOTE_URL} |
+| Cloud Provider | {gcp/aws/vercel/none} | {SERVICES_USED} |
+| CI/CD | {github-actions/gitlab-ci/argo/none} | {PIPELINE_FILE} |
+| Containers | {docker-compose/dockerfile/none} | {STRATEGY} |
+| IaC | {terraform/pulumi/none} | {NOTES} |
+
+### Environment Strategy
+
+| Environment | Purpose | URL | Deploy Trigger |
+|-------------|---------|-----|----------------|
+| Local | Development & unit tests | http://localhost:{PORT} | Manual |
+| {DEV} | {PURPOSE} | {URL} | {TRIGGER} |
+| {STAGING} | {PURPOSE} | {URL} | {TRIGGER} |
+| Production | Live users | {URL} | {TRIGGER} |
+
+**Environment Tier:** {TIER} (1=local only, 2=local+prod, 3=full pipeline)
+
+{ADDITIONAL_ENVIRONMENT_NOTES}
+
+## 6. Milestones & Roadmap
+
+### Current Maturity: {MATURITY_LEVEL}
+
+### Roadmap
+
+| Milestone | Goal | Target Maturity | Status | Success Criteria |
+|-----------|------|-----------------|--------|------------------|
+| M1: {NAME} | {GOAL} | {poc\|alpha\|beta\|ga} | {NOW\|NEXT\|LATER} | {CRITERIA} |
+
+### Milestone Detail
+
+#### M1: {MILESTONE_NAME} [NOW]
+**Goal:** {1-2 sentences}
+**Appetite:** {effort budget — not an estimate}
+**Target maturity:** {level}
+**Features:**
+- {feature_1} — {brief description}
+- {feature_2} — {brief description}
+**Success criteria:**
+- [ ] {criterion_1}
+- [ ] {criterion_2}
+
+{ADDITIONAL_MILESTONES}
+
+### Maturity Promotion Path
+
+| From | To | Requirements |
+|------|-----|-------------|
+| poc → alpha | {REQUIREMENTS} |
+| alpha → beta | {REQUIREMENTS} |
+| beta → ga | {REQUIREMENTS} |
+
+## 7. Key Features
+
+### Feature 1: {FEATURE_NAME}
+{FEATURE_DESCRIPTION}
+
+## 8. Non-Functional Requirements
+
+- **Performance:** {PERF_REQUIREMENTS}
+- **Security:** {SECURITY_REQUIREMENTS}
+- **Accessibility:** {A11Y_REQUIREMENTS}
+
+## 9. Open Questions
+
+- {QUESTION_1}
+
+## 10. Revision History
+
+| Date | Version | Author | Changes |
+|------|---------|--------|---------|
+| {DATE} | 0.1.0 | {AUTHOR} | Initial draft from /init interview |

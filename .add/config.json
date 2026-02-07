@@ -1,0 +1,109 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/config.schema.json",
+  "version": "0.1.0",
+  "project": {
+    "name": "ADD",
+    "description": "Agent Driven Development — Claude Code plugin implementing an AI-native SDLC methodology",
+    "created": "2026-02-07",
+    "author": "abrooke"
+  },
+  "maturity": {
+    "level": "alpha",
+    "promoted_from": "poc",
+    "promoted_date": "2026-02-07",
+    "next_promotion_criteria": "Dog-food on 2+ existing projects, /cycle and /init --adopt working end-to-end, milestone tracking validated"
+  },
+  "planning": {
+    "current_milestone": "M1-core-plugin",
+    "current_cycle": null,
+    "wip_limit": 4,
+    "parallel_agents": 2,
+    "cycle_history": []
+  },
+  "architecture": {
+    "languages": [
+      {
+        "name": "Markdown",
+        "version": "CommonMark",
+        "role": "fullstack"
+      },
+      {
+        "name": "JSON",
+        "version": "standard",
+        "role": "configuration"
+      }
+    ],
+    "backend": {
+      "framework": null,
+      "version": null,
+      "runtime": "Claude Code plugin runtime"
+    },
+    "frontend": {
+      "framework": null,
+      "version": null,
+      "bundler": "none"
+    },
+    "database": {
+      "type": null,
+      "version": null
+    },
+    "containerized": false,
+    "container_strategy": "none",
+    "suggested_by_claude": false
+  },
+  "infrastructure": {
+    "git_host": "github",
+    "git_remote": "https://github.com/MountainUnicorn/add.git",
+    "cloud_provider": "none",
+    "cloud_services": [],
+    "cicd": {
+      "platform": "none",
+      "scaffolded_by_add": false,
+      "pipeline_file": null
+    },
+    "infrastructure_as_code": "none"
+  },
+  "environments": {
+    "tier": 1,
+    "local": {
+      "run": "claude plugin install ./",
+      "test": "dog-food on existing projects",
+      "e2e": null,
+      "url": null
+    }
+  },
+  "quality": {
+    "mode": "standard",
+    "coverage_threshold": 0,
+    "type_check_blocking": false,
+    "e2e_required": false,
+    "screenshot_protocol": false,
+    "lint": {
+      "backend": null,
+      "frontend": null
+    },
+    "typecheck": {
+      "backend": null,
+      "frontend": null
+    },
+    "test": {
+      "unit": null,
+      "integration": null,
+      "e2e": null
+    }
+  },
+  "collaboration": {
+    "autonomy_level": "balanced",
+    "team_size": "solo",
+    "commit_review_gate": false,
+    "pr_review_gate": true,
+    "deploy_approval_required": false
+  },
+  "source_control": {
+    "branching": "feature-branches",
+    "default_branch": "main",
+    "commit_convention": "conventional",
+    "pr_template": true,
+    "protected_branches": ["main"]
+  }
+}

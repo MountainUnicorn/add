@@ -1,0 +1,81 @@
+# {PROJECT_NAME}
+
+{PROJECT_DESCRIPTION}
+
+## Methodology
+
+This project follows **Agent Driven Development (ADD)** — specs drive agents, humans architect and decide, trust-but-verify ensures quality.
+
+- **PRD:** docs/prd.md
+- **Specs:** specs/
+- **Plans:** docs/plans/
+- **Config:** .add/config.json
+
+Document hierarchy: PRD → Spec → Plan → User Test Cases → Automated Tests → Implementation
+
+## Tech Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| {LAYER} | {TECH} | {VERSION} |
+
+## Commands
+
+### Development
+```
+{RUN_COMMAND}                    # Start local dev
+{TEST_COMMAND}                   # Run unit tests
+{E2E_COMMAND}                    # Run E2E tests
+{LINT_COMMAND}                   # Lint check
+{TYPECHECK_COMMAND}              # Type check
+```
+
+### ADD Workflow
+```
+/init                            # Initialize ADD (already done)
+/spec {feature}                  # Create feature specification
+/plan specs/{feature}.md         # Create implementation plan
+/tdd-cycle specs/{feature}.md    # Execute TDD cycle
+/verify                          # Run quality gates
+/deploy                          # Commit and deploy
+/away {duration}                 # Human stepping away
+/back                            # Human returning
+```
+
+## Architecture
+
+### Key Directories
+```
+{PROJECT_STRUCTURE}
+```
+
+### Environments
+
+- **Local:** {LOCAL_DESCRIPTION}
+- **Production:** {PRODUCTION_DESCRIPTION}
+
+## Quality Gates
+
+- **Mode:** {QUALITY_MODE}
+- **Coverage threshold:** {COVERAGE}%
+- **Type checking:** {BLOCKING/NON_BLOCKING}
+- **E2E required:** {YES/NO}
+
+All gates defined in `.add/config.json`. Run `/verify` to check.
+
+## Source Control
+
+- **Git host:** {GIT_HOST}
+- **Branching:** Feature branches off `main`
+- **Commits:** Conventional commits (feat:, fix:, test:, refactor:, docs:)
+- **CI/CD:** {CICD_PLATFORM}
+
+## Collaboration
+
+- **Autonomy level:** {AUTONOMY_LEVEL}
+- **Review gates:** {REVIEW_GATE_DESCRIPTION}
+- **Deploy approval:** Required for production
+
+## User Preferences
+
+{USER_PREFERENCES_FROM_PROFILE}

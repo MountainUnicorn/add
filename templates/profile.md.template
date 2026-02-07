@@ -1,0 +1,38 @@
+# ADD User Profile — {USERNAME}
+
+> This file lives at `~/.claude/add/profile.md` and carries your preferences across ALL projects.
+> Updated during retrospectives (/retro) when cross-project patterns are confirmed.
+> Read by /init to pre-populate project setup.
+
+## Tech Preferences
+
+### Languages & Runtimes
+<!-- e.g., Python 3.11+, TypeScript 5.x, Rust for CLI tools -->
+
+### Backend
+<!-- e.g., FastAPI, Express, Django — and why -->
+
+### Frontend
+<!-- e.g., React 18 + Vite, Next.js, SvelteKit -->
+
+### Database
+<!-- e.g., PostgreSQL for relational, Redis for caching, SeekDB for graph+vector -->
+
+### Infrastructure
+<!-- e.g., Docker with Alpine base, Docker Compose for local dev -->
+
+## Cloud & DevOps Preferences
+<!-- e.g., GCP (Cloud Run), GitHub + GitHub Actions, Terraform -->
+
+## Process Preferences
+<!-- e.g., Balanced autonomy, 80% coverage, conventional commits -->
+
+## Style Preferences
+<!-- e.g., Tailwind for CSS, toast notifications for errors, kebab-case file names -->
+
+## Lessons Learned (Cross-Project)
+<!-- Entries promoted from individual project retros -->
+<!-- Format: - {date}: {lesson}. Source: {project name}. -->
+
+## Last Updated
+<!-- {date} — from /retro on {project_name} -->
