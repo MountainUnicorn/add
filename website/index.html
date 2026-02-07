@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>ADD — Agent Driven Development | Coordinated AI Agent Teams for Software Development</title>
+  <meta name="description" content="Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms collaborate as a coordinated enterprise class development team. Co-author and ship software that simply works. Free Claude Code plugin.">
+  <meta name="keywords" content="agent driven development, ADD, claude code plugin, AI agents, SDLC methodology, TDD, agent swarm, AI development, software development methodology">
+  <meta name="author" content="MountainUnicorn">
+  <link rel="canonical" href="https://getadd.dev/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getadd.dev/">
+  <meta property="og:title" content="ADD — Agent Driven Development">
+  <meta property="og:description" content="Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms collaborate as an enterprise class development team. Co-author and ship software that simply works.">
+  <meta property="og:site_name" content="getADD.dev">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ADD — Agent Driven Development">
+  <meta name="twitter:description" content="Agent Driven Development (ADD) — orchestrated agent swarms that form an enterprise class development team. Co-author and ship software that simply works. Your ADD teams execute, verify, and self-learn.">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ADD — Agent Driven Development",
+    "description": "A structured SDLC methodology where orchestrated AI agent teams collaborate as a coordinated development team.",
+    "url": "https://getadd.dev",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "MountainUnicorn",
+      "url": "https://github.com/MountainUnicorn"
+    },
+    "softwareVersion": "0.1.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "codeRepository": "https://github.com/MountainUnicorn/add"
+  }
+  </script>
+  <style>
+    :root {
+      --accent: #b00149;
+      --accent-light: #d4326d;
+      --accent-dark: #8a0038;
+      --accent-muted: #c4607a;
+      --gradient-start: #b00149;
+      --gradient-mid: #d4326d;
+      --gradient-end: #ff6b9d;
+      --success: #22c55e;
+      --warning: #eab308;
+      --info: #0ea5e9;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-tertiary: #f1f3f5;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --text-muted: #adb5bd;
+      --border: #e9ecef;
+      --card-bg: #ffffff;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 10px 30px rgba(0,0,0,0.1);
+      --hero-text: #ffffff;
+      --code-bg: #f8f9fa;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a2e;
+      --bg-tertiary: #16213e;
+      --text-primary: #e4e4e4;
+      --text-secondary: #a0a0a0;
+      --text-muted: #6b7280;
+      --border: rgba(255,255,255,0.08);
+      --card-bg: rgba(255,255,255,0.05);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      --card-shadow-hover: 0 10px 30px rgba(0,0,0,0.4);
+      --code-bg: #161b22;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== HEADER / HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+      color: #ffffff;
+      padding: 80px 40px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(176,1,73,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(212,50,109,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.6);
+      max-width: 600px;
+      margin-bottom: 12px;
+    }
+    .hero-tagline {
+      font-size: 16px;
+      color: var(--accent-light);
+      font-style: italic;
+      font-weight: 500;
+    }
+    .hero-nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-nav a {
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .hero-nav .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .hero-nav .btn-primary:hover { background: var(--accent-dark); }
+    .hero-nav .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-nav .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+    .theme-toggle {
+      position: absolute;
+      top: 24px; right: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      z-index: 10;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,0.12); }
+
+    /* ===== METRICS BAR ===== */
+    .metrics-bar {
+      max-width: 1100px;
+      margin: -30px auto 0;
+      padding: 0 40px;
+      position: relative;
+      z-index: 2;
+    }
+    .metrics-inner {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+    }
+    .metric {
+      padding: 24px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .metric:last-child { border-right: none; }
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--success);
+    }
+    .metric-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section h2 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+
+    /* ===== CONCEPT SECTION ===== */
+    .concept-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .concept-text h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    .concept-text p {
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .principles {
+      list-style: none;
+    }
+    .principles li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: start;
+    }
+    .principles li:last-child { border-bottom: none; }
+    .principle-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .principle-content strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+    .principle-content span {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* ===== WORKFLOW SECTION ===== */
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .workflow-step {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s;
+      position: relative;
+    }
+    .workflow-step:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .workflow-step::after {
+      content: '\2192';
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent-muted);
+      font-size: 18px;
+      z-index: 1;
+    }
+    .workflow-step:last-child::after { content: none; }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .step-num.purple { background: rgba(176,1,73,0.15); color: var(--accent-light); }
+    .step-num.green { background: rgba(34,197,94,0.15); color: var(--success); }
+    .workflow-step h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .workflow-step p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .workflow-step code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      color: var(--accent-light);
+      background: rgba(176,1,73,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ===== VALUE CARDS ===== */
+    .value-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .value-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s;
+    }
+    .value-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .value-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .value-card h4 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+    .value-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== MATURITY TABLE ===== */
+    .maturity-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+    .maturity-table th {
+      background: var(--bg-tertiary);
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .maturity-table td {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .maturity-table tr:hover td {
+      background: var(--bg-secondary);
+    }
+    .maturity-level {
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .level-poc { background: rgba(234,179,8,0.15); color: #ca8a04; }
+    .level-alpha { background: rgba(176,1,73,0.15); color: var(--accent-light); }
+    .level-beta { background: rgba(212,50,109,0.15); color: #d4326d; }
+    .level-ga { background: rgba(34,197,94,0.15); color: var(--success); }
+
+    /* ===== LEARNING SECTION ===== */
+    .learning-flow {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .learning-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+    }
+    .learning-box h4 {
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    .learning-box ul {
+      list-style: none;
+    }
+    .learning-box li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .learning-box li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .flow-arrow {
+      text-align: center;
+      font-size: 24px;
+      color: var(--accent-muted);
+    }
+
+    .learning-triggers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 30px;
+    }
+    .trigger-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .trigger-card .trigger-icon { font-size: 20px; margin-bottom: 6px; }
+    .trigger-card .trigger-label { font-size: 12px; color: var(--text-secondary); }
+
+    /* ===== COMMANDS TABLE ===== */
+    .commands-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    .commands-table th {
+      background: var(--bg-tertiary);
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .commands-table td {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .commands-table code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 13px;
+      color: var(--accent);
+      background: rgba(176,1,73,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* ===== TERMINAL ===== */
+    .terminal {
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 40px;
+    }
+    .terminal-bar {
+      background: rgba(255,255,255,0.03);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .terminal-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+    .terminal-body {
+      padding: 20px 24px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 14px;
+      line-height: 2;
+    }
+    .terminal-body .prompt { color: #22c55e; }
+    .terminal-body .cmd { color: #d4326d; }
+    .terminal-body .arg { color: rgba(255,255,255,0.9); }
+    .terminal-body .comment { color: rgba(255,255,255,0.3); }
+
+    /* ===== AUDIENCE SECTION ===== */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .audience-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s;
+    }
+    .audience-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .audience-card .audience-icon { font-size: 28px; margin-bottom: 12px; }
+    .audience-card h4 { font-size: 15px; margin-bottom: 8px; }
+    .audience-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ===== ARCHITECTURE ===== */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .arch-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--card-shadow);
+    }
+    .arch-item h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+    .arch-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      text-align: center;
+    }
+    footer .footer-tagline {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    footer .footer-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    footer .footer-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .concept-grid,
+      .learning-flow { grid-template-columns: 1fr; }
+      .workflow-steps { grid-template-columns: 1fr 1fr; }
+      .workflow-step::after { content: none; }
+      .value-grid { grid-template-columns: 1fr; }
+      .audience-grid { grid-template-columns: 1fr 1fr; }
+      .arch-grid { grid-template-columns: 1fr; }
+      .metrics-inner { grid-template-columns: repeat(3, 1fr); }
+      .learning-triggers { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 60px 24px 40px; }
+      .section { padding: 60px 24px; }
+      .metrics-bar { padding: 0 24px; }
+      .metrics-inner { grid-template-columns: repeat(2, 1fr); }
+      .workflow-steps { grid-template-columns: 1fr; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .learning-triggers { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===== AGENT SWARM ===== */
+    .swarm-flow { margin-top: 40px; }
+    .orchestrator-card {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+      border-radius: 16px;
+      padding: 28px 32px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .orchestrator-card h4 { font-size: 20px; margin-bottom: 4px; }
+    .orchestrator-card > div:first-child p { font-size: 14px; opacity: 0.85; }
+    .orchestrator-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .dispatch-arrows {
+      display: flex;
+      justify-content: space-around;
+      padding: 4px 40px;
+      color: var(--accent-muted);
+      font-size: 14px;
+      line-height: 1;
+    }
+    .sub-agents-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .sub-agent-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s;
+      text-align: center;
+    }
+    .sub-agent-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .sub-agent-icon { font-size: 28px; margin-bottom: 10px; }
+    .sub-agent-card h5 { font-size: 14px; margin-bottom: 4px; }
+    .sub-agent-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .sub-agent-tools {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .tool-tag {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(176,1,73,0.1);
+      color: var(--accent);
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+    .verify-arrows {
+      display: flex;
+      justify-content: space-around;
+      padding: 4px 40px;
+      color: var(--success);
+      font-size: 14px;
+      line-height: 1;
+      opacity: 0.5;
+    }
+    .verify-card {
+      background: rgba(34,197,94,0.06);
+      border: 2px dashed rgba(34,197,94,0.3);
+      border-radius: 12px;
+      padding: 20px 28px;
+      text-align: center;
+    }
+    .verify-card h5 { color: var(--success); font-size: 16px; margin-bottom: 4px; }
+    .verify-card p { font-size: 13px; color: var(--text-secondary); }
+    .swarm-stats {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .swarm-stat {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .swarm-stat .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .swarm-stat .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* ===== AUTONOMY SPECTRUM ===== */
+    .autonomy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .autonomy-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s;
+    }
+    .autonomy-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .autonomy-card.highlighted {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), var(--card-shadow);
+    }
+    .autonomy-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .badge-guided { background: rgba(234,179,8,0.15); color: #ca8a04; }
+    .badge-balanced { background: rgba(176,1,73,0.15); color: var(--accent-light); }
+    .badge-autonomous { background: rgba(34,197,94,0.15); color: var(--success); }
+    .autonomy-card h4 { font-size: 18px; margin-bottom: 8px; }
+    .autonomy-card > p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    .autonomy-details {
+      list-style: none;
+    }
+    .autonomy-details li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .autonomy-details li:last-child { border-bottom: none; }
+    .autonomy-details li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 12px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .autonomy-details.guided li::before { background: #ca8a04; }
+    .autonomy-details.balanced li::before { background: var(--accent); }
+    .autonomy-details.autonomous li::before { background: var(--success); }
+    .away-flow {
+      margin-top: 32px;
+      display: flex;
+      align-items: stretch;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .away-flow-step {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .away-flow-step:last-child { border-right: none; }
+    .away-flow-step .flow-icon { font-size: 22px; margin-bottom: 6px; }
+    .away-flow-step h5 { font-size: 13px; margin-bottom: 4px; }
+    .away-flow-step p { font-size: 12px; color: var(--text-secondary); }
+    .away-flow-step code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      color: var(--accent);
+      background: rgba(176,1,73,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ===== WORK HIERARCHY ===== */
+    .hierarchy-levels { margin-top: 40px; }
+    .hierarchy-level {
+      border-left: 3px solid var(--border);
+      padding: 0 0 0 24px;
+      position: relative;
+    }
+    .hierarchy-level::before {
+      content: '';
+      position: absolute;
+      left: -7px; top: 20px;
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      background: var(--bg-primary);
+    }
+    [data-theme="dark"] .hierarchy-level::before { background: var(--bg-primary); }
+    .hierarchy-level:nth-child(1) { border-color: var(--gradient-start); margin-left: 0; }
+    .hierarchy-level:nth-child(1)::before { border-color: var(--gradient-start); }
+    .hierarchy-level:nth-child(2) { margin-left: 32px; border-color: var(--gradient-mid); }
+    .hierarchy-level:nth-child(2)::before { border-color: var(--gradient-mid); }
+    .hierarchy-level:nth-child(3) { margin-left: 64px; border-color: var(--gradient-end); }
+    .hierarchy-level:nth-child(3)::before { border-color: var(--gradient-end); }
+    .hierarchy-level:nth-child(4) { margin-left: 96px; border-color: var(--success); border-left-style: none; }
+    .hierarchy-level:nth-child(4)::before { border-color: var(--success); left: -5px; }
+    .hierarchy-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 12px 0 20px;
+      box-shadow: var(--card-shadow);
+    }
+    .hierarchy-content h4 { font-size: 17px; margin-bottom: 4px; }
+    .hierarchy-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .tag-roadmap { background: rgba(176,1,73,0.15); color: var(--accent); }
+    .tag-milestone { background: rgba(212,50,109,0.15); color: #d4326d; }
+    .tag-cycle { background: rgba(255,107,157,0.15); color: #ff6b9d; }
+    .tag-execution { background: rgba(34,197,94,0.15); color: var(--success); }
+    .hierarchy-content p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .hill-chart-demo {
+      margin-top: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+    }
+    .hill-chart-demo h5 {
+      font-size: 14px;
+      margin-bottom: 16px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+    .hill-visual {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 6px;
+      height: 80px;
+      margin-bottom: 8px;
+    }
+    .hill-bar {
+      flex: 1;
+      max-width: 80px;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .hill-bar-label {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .hill-divider {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-top: 30px;
+      border-top: 2px solid var(--border);
+      margin-top: 0;
+    }
+    .hill-divider span:first-child { color: var(--accent-muted); font-style: italic; }
+    .hill-divider span:last-child { color: var(--success); font-style: italic; }
+
+    /* ===== RESPONSIVE (new sections) ===== */
+    @media (max-width: 900px) {
+      .sub-agents-grid { grid-template-columns: 1fr 1fr; }
+      .autonomy-grid { grid-template-columns: 1fr; }
+      .swarm-stats { grid-template-columns: 1fr; }
+      .away-flow { flex-direction: column; }
+      .away-flow-step { border-right: none; border-bottom: 1px solid var(--border); }
+      .away-flow-step:last-child { border-bottom: none; }
+      .hierarchy-level:nth-child(2) { margin-left: 16px; }
+      .hierarchy-level:nth-child(3) { margin-left: 32px; }
+      .hierarchy-level:nth-child(4) { margin-left: 48px; }
+    }
+    @media (max-width: 600px) {
+      .sub-agents-grid { grid-template-columns: 1fr; }
+      .orchestrator-card { flex-direction: column; text-align: center; }
+      .hierarchy-level:nth-child(2) { margin-left: 12px; }
+      .hierarchy-level:nth-child(3) { margin-left: 24px; }
+      .hierarchy-level:nth-child(4) { margin-left: 36px; }
+    }
+
+    /* ===== PRINT ===== */
+    @media print {
+      .hero { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .theme-toggle { display: none; }
+      .hero-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Free &amp; Open Source Claude Code Plugin</div>
+      <h1>Coordinated agent teams<br><span class="gradient-text">that ship verified software.</span></h1>
+      <p class="hero-sub">Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms — test-writers, implementers, reviewers, deployers — collaborate as a coordinated enterprise class development team. Co-author and ship software that simply works. Your ADD teams will execute, verify, and self-learn with every project.</p>
+      <p class="hero-tagline">You've done TDD and BDD. Now ADD something to your development.</p>
+      <div class="hero-nav">
+        <a href="#get-started" class="btn-primary">Get Started</a>
+        <a href="#concept" class="btn-secondary">What is ADD?</a>
+        <a href="#agent-teams" class="btn-secondary">Agent Teams</a>
+        <a href="#human-loop" class="btn-secondary">Human in the Loop</a>
+        <a href="#hierarchy" class="btn-secondary">Work Hierarchy</a>
+        <a href="https://github.com/MountainUnicorn/add" class="btn-secondary">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== METRICS ===== -->
+  <div class="metrics-bar">
+    <div class="metrics-inner">
+      <div class="metric">
+        <div class="metric-value">6</div>
+        <div class="metric-label">Commands</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">8</div>
+        <div class="metric-label">Skills</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">10</div>
+        <div class="metric-label">Rules</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">10</div>
+        <div class="metric-label">Templates</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">0</div>
+        <div class="metric-label">Dependencies</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WHAT IS ADD ===== -->
+  <section class="section" id="concept">
+    <div class="section-eyebrow">The Methodology</div>
+    <h2>What is Agent Driven Development?</h2>
+    <div class="concept-grid">
+      <div class="concept-text">
+        <h3>The evolution of development methodology</h3>
+        <p><strong>TDD</strong> gave us tests before code. <strong>BDD</strong> gave us behavior before tests. <strong>ADD</strong> gives us coordinated agent teams before everything.</p>
+        <p>Agent Driven Development (ADD) is a structured software development lifecycle (SDLC) methodology designed for the reality that AI agents do the development work — writing tests, implementing features, reviewing code, deploying — while humans architect, decide, and verify. It's not a tool. It's a way of working.</p>
+        <p>AI code generation has changed how software gets built, but development practices haven't kept up. Developers and agents operate without structure, leading to specification drift, unpredictable quality, lost knowledge, and unclear handoffs. ADD brings discipline to AI-native development the same way TDD brought discipline to testing.</p>
+        <p style="margin-top: 16px; padding: 16px; background: rgba(176,1,73,0.08); border-radius: 8px; border-left: 3px solid var(--accent); font-size: 14px;">
+          <strong>The key insight:</strong> AI agents aren't solo contributors — they're team members. ADD treats them as a coordinated team with roles, scoped permissions, independent verification, and accumulated knowledge that compounds across projects.
+        </p>
+      </div>
+      <div>
+        <ul class="principles">
+          <li>
+            <div class="principle-num">1</div>
+            <div class="principle-content">
+              <strong>Specs before code</strong>
+              <span>Every feature starts as a specification. No spec, no code.</span>
+            </div>
+          </li>
+          <li>
+            <div class="principle-num">2</div>
+            <div class="principle-content">
+              <strong>Tests before implementation</strong>
+              <span>RED → GREEN → REFACTOR → VERIFY. Always.</span>
+            </div>
+          </li>
+          <li>
+            <div class="principle-num">3</div>
+            <div class="principle-content">
+              <strong>Trust but verify</strong>
+              <span>Sub-agents work. Orchestrators independently verify.</span>
+            </div>
+          </li>
+          <li>
+            <div class="principle-num">4</div>
+            <div class="principle-content">
+              <strong>Structured collaboration</strong>
+              <span>Interviews, away mode, decision points — clear protocols.</span>
+            </div>
+          </li>
+          <li>
+            <div class="principle-num">5</div>
+            <div class="principle-content">
+              <strong>Environment awareness</strong>
+              <span>Skills adapt to local, staging, or production.</span>
+            </div>
+          </li>
+          <li>
+            <div class="principle-num">6</div>
+            <div class="principle-content">
+              <strong>Continuous learning</strong>
+              <span>Agents accumulate knowledge across projects.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AGENT TEAMS ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="agent-teams">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-eyebrow">Coordinated Agent Teams</div>
+      <h2>Orchestrated swarms, not solo agents</h2>
+      <p class="section-desc">ADD doesn't just use one agent. It dispatches specialized sub-agents — each with scoped permissions — then independently verifies their work. Trust but verify.</p>
+
+      <div class="swarm-flow">
+        <!-- Orchestrator -->
+        <div class="orchestrator-card">
+          <div>
+            <h4>Orchestrator Agent</h4>
+            <p>Reads the spec, builds the plan, dispatches sub-agents, coordinates merge, and independently verifies all results.</p>
+          </div>
+          <div class="orchestrator-badge">Coordinates</div>
+        </div>
+
+        <!-- Dispatch arrows -->
+        <div class="dispatch-arrows">
+          <span>&#x2193;</span><span>dispatch</span>
+          <span>&#x2193;</span><span>dispatch</span>
+          <span>&#x2193;</span><span>dispatch</span>
+          <span>&#x2193;</span><span>dispatch</span>
+        </div>
+
+        <!-- Sub-agents -->
+        <div class="sub-agents-grid">
+          <div class="sub-agent-card">
+            <div class="sub-agent-icon">&#x1F9EA;</div>
+            <h5>Test Writer</h5>
+            <p>Writes failing tests from spec acceptance criteria. RED phase.</p>
+            <div class="sub-agent-tools">
+              <span class="tool-tag">Read</span>
+              <span class="tool-tag">Write</span>
+              <span class="tool-tag">Bash</span>
+            </div>
+          </div>
+          <div class="sub-agent-card">
+            <div class="sub-agent-icon">&#x1F528;</div>
+            <h5>Implementer</h5>
+            <p>Minimal code to make tests pass. No gold-plating. GREEN phase.</p>
+            <div class="sub-agent-tools">
+              <span class="tool-tag">Read</span>
+              <span class="tool-tag">Write</span>
+              <span class="tool-tag">Edit</span>
+              <span class="tool-tag">Bash</span>
+            </div>
+          </div>
+          <div class="sub-agent-card">
+            <div class="sub-agent-icon">&#x1F50D;</div>
+            <h5>Reviewer</h5>
+            <p>Code review for spec compliance, patterns, and quality. Read-only.</p>
+            <div class="sub-agent-tools">
+              <span class="tool-tag">Read</span>
+              <span class="tool-tag">Glob</span>
+              <span class="tool-tag">Grep</span>
+            </div>
+          </div>
+          <div class="sub-agent-card">
+            <div class="sub-agent-icon">&#x1F680;</div>
+            <h5>Deployer</h5>
+            <p>Environment-aware deployment with smoke tests and rollback.</p>
+            <div class="sub-agent-tools">
+              <span class="tool-tag">Bash</span>
+              <span class="tool-tag">Read</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verify arrows -->
+        <div class="verify-arrows">
+          <span>&#x2193;</span><span>results</span>
+          <span>&#x2193;</span><span>results</span>
+          <span>&#x2193;</span><span>results</span>
+          <span>&#x2193;</span><span>results</span>
+        </div>
+
+        <!-- Independent verification -->
+        <div class="verify-card">
+          <h5>&#x2705; Independent Verification</h5>
+          <p>Orchestrator runs its own verification — different agent, fresh context, no shared state. If it disagrees, the cycle restarts.</p>
+        </div>
+      </div>
+
+      <!-- Swarm stats -->
+      <div class="swarm-stats">
+        <div class="swarm-stat">
+          <div class="stat-value">2-5</div>
+          <div class="stat-label">Parallel agents at Beta/GA maturity</div>
+        </div>
+        <div class="swarm-stat">
+          <div class="stat-value">Git Worktrees</div>
+          <div class="stat-label">Full isolation per agent at Beta+</div>
+        </div>
+        <div class="swarm-stat">
+          <div class="stat-value">WIP Limits</div>
+          <div class="stat-label">Scale with maturity: POC=1 to GA=5</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHO IS IT FOR ===== -->
+  <section class="section">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-eyebrow">Who It's For</div>
+      <h2>Built for every team size</h2>
+      <p class="section-desc">ADD scales from solo developers to enterprise teams. The maturity dial adjusts process rigor to match your project's stage.</p>
+      <div class="audience-grid">
+        <div class="audience-card">
+          <div class="audience-icon">👤</div>
+          <h4>Solo Developers</h4>
+          <p>Structure without overhead. POC maturity means lightweight specs and optional TDD. Benefits without ceremony.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">👥</div>
+          <h4>Small Teams</h4>
+          <p>Shared language for AI collaboration. Specs, plans, quality gates, and a maturity model that grows with your project.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🏢</div>
+          <h4>Enterprises</h4>
+          <p>Cross-project learning at scale. Agents get smarter over time. Maturity lifecycle gives leadership visibility.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🌐</div>
+          <h4>Open Source</h4>
+          <p>Consistent practices for human and AI contributors. Every PR traces back to a specification.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORKFLOW ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="workflow">
+    <div class="section-eyebrow">How It Works</div>
+    <h2>From interview to deployment in four steps</h2>
+    <p class="section-desc">Every artifact traces to a parent. Every test traces to a spec. Every spec traces to a PRD.</p>
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-num purple">1</div>
+        <h4>Spec</h4>
+        <p>Structured interview defines the feature. Acceptance criteria, test cases, edge cases — all documented before any code.</p>
+        <p style="margin-top: 8px;"><code>/spec</code> <code>/plan</code></p>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num purple">2</div>
+        <h4>Test</h4>
+        <p>Agent writes failing tests first. Every acceptance criterion maps to a test. RED phase — nothing passes yet.</p>
+        <p style="margin-top: 8px;"><code>/test-writer</code></p>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num purple">3</div>
+        <h4>Build</h4>
+        <p>Agent implements minimal code to pass tests. Refactors for quality. Independent verifier confirms everything works.</p>
+        <p style="margin-top: 8px;"><code>/tdd-cycle</code></p>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num green">4</div>
+        <h4>Ship</h4>
+        <p>5 quality gates verified. Environment-aware deployment. Post-deploy smoke tests. Learnings captured automatically.</p>
+        <p style="margin-top: 8px;"><code>/verify</code> <code>/deploy</code></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HUMAN IN THE LOOP ===== -->
+  <section class="section" id="human-loop">
+    <div class="section-eyebrow">Human-Agent Collaboration</div>
+    <h2>You set the boundaries. Agents work within them.</h2>
+    <p class="section-desc">ADD defines three engagement modes. You choose how much autonomy agents get — from approving every step to fully autonomous overnight sessions.</p>
+
+    <div class="autonomy-grid">
+      <div class="autonomy-card">
+        <div class="autonomy-badge badge-guided">Guided</div>
+        <h4>Human Approves Each Step</h4>
+        <p>For new projects or critical features. You stay in the loop at every decision point.</p>
+        <ul class="autonomy-details guided">
+          <li>Agent proposes, human approves</li>
+          <li>Every file change reviewed before commit</li>
+          <li>Architecture decisions require explicit sign-off</li>
+          <li>Best for: POC maturity, unfamiliar codebases</li>
+        </ul>
+      </div>
+
+      <div class="autonomy-card highlighted">
+        <div class="autonomy-badge badge-balanced">Balanced</div>
+        <h4>Human at Decision Points</h4>
+        <p>The default mode. Agents execute freely within spec boundaries, pausing only when ambiguity arises.</p>
+        <ul class="autonomy-details balanced">
+          <li>Agent executes TDD cycles independently</li>
+          <li>Pauses at spec ambiguity or architecture forks</li>
+          <li>Structured interviews for decisions</li>
+          <li>Best for: Alpha/Beta, established patterns</li>
+        </ul>
+      </div>
+
+      <div class="autonomy-card">
+        <div class="autonomy-badge badge-autonomous">Autonomous</div>
+        <h4>Human Sets Boundaries</h4>
+        <p>Away mode. Define scope, set boundaries, walk away. Return to a full briefing of what happened.</p>
+        <ul class="autonomy-details autonomous">
+          <li>Full TDD cycles without human interaction</li>
+          <li>Boundary-scoped: which specs, which files, max commits</li>
+          <li>Decision log captures every choice made</li>
+          <li>Best for: GA maturity, well-specified features</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Away/Back flow -->
+    <div class="away-flow">
+      <div class="away-flow-step">
+        <div class="flow-icon">&#x1F4CB;</div>
+        <h5>Define Scope</h5>
+        <p>"Work on auth spec, no DB changes"</p>
+      </div>
+      <div class="away-flow-step">
+        <div class="flow-icon">&#x1F6EB;</div>
+        <h5><code>/away</code></h5>
+        <p>Agent generates work plan and starts executing</p>
+      </div>
+      <div class="away-flow-step">
+        <div class="flow-icon">&#x1F916;</div>
+        <h5>Autonomous Work</h5>
+        <p>TDD cycles, commits, verification — all logged</p>
+      </div>
+      <div class="away-flow-step">
+        <div class="flow-icon">&#x1F6EC;</div>
+        <h5><code>/back</code></h5>
+        <p>Full briefing: what shipped, what's blocked, decisions needed</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VALUE CARDS ===== -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-eyebrow">Key Features</div>
+      <h2>Outcomes, not just features</h2>
+      <div class="value-grid">
+        <div class="value-card">
+          <div class="value-icon">📋</div>
+          <h4>Zero specification drift</h4>
+          <p>PRD → Spec → Plan → Tests → Code. Every line of implementation traces to an approved requirement. No more "that's not what I asked for."</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🧪</div>
+          <h4>Tests before every line of code</h4>
+          <p>Strict TDD with independent verification. Sub-agents write tests, implement, refactor. Orchestrators verify independently. Trust but verify.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🧠</div>
+          <h4>Agents that get smarter over time</h4>
+          <p>Knowledge persists across projects. Patterns discovered on Project A automatically inform Project B. Retrospectives promote learnings to a cross-project library.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🎛️</div>
+          <h4>Right rigor for every stage</h4>
+          <p>The maturity dial (POC → Alpha → Beta → GA) governs all ADD behavior. One control that scales from "just hack" to "exhaustive verification."</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <h4>Structured human-AI teamwork</h4>
+          <p>5 engagement modes, structured interviews, away mode with boundaries. Humans architect and decide. Agents execute and verify. Clear handoffs always.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔄</div>
+          <h4>Cycles, not sprints</h4>
+          <p>Scope-boxed work batches that end when validation passes — not when a timer expires. Hill charts show what's being figured out vs. what's being executed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORK HIERARCHY ===== -->
+  <section class="section" id="hierarchy">
+    <div class="section-eyebrow">Big Picture to Execution</div>
+    <h2>Work hierarchy: Roadmap to TDD cycle</h2>
+    <p class="section-desc">ADD organizes work in four nested levels. Each level adds detail. The hill chart shows whether you're still figuring things out or executing on known solutions.</p>
+
+    <div class="hierarchy-levels">
+      <div class="hierarchy-level">
+        <div class="hierarchy-content">
+          <span class="hierarchy-tag tag-roadmap">Roadmap</span>
+          <h4>Now / Next / Later</h4>
+          <p>No fake dates. Three horizons that reflect actual priority. "Now" is committed work. "Next" is shaped but not started. "Later" is ideas that need shaping. Milestones live here — each one a meaningful increment of the product.</p>
+        </div>
+      </div>
+
+      <div class="hierarchy-level">
+        <div class="hierarchy-content">
+          <span class="hierarchy-tag tag-milestone">Milestone</span>
+          <h4>Hill chart tracking</h4>
+          <p>Each milestone contains features that progress along a hill: uphill is figuring it out (research, design, spec), downhill is execution (implement, test, deploy). When every feature is over the hill, the milestone is done.</p>
+        </div>
+      </div>
+
+      <div class="hierarchy-level">
+        <div class="hierarchy-content">
+          <span class="hierarchy-tag tag-cycle">Cycle</span>
+          <h4>Scope-boxed batches</h4>
+          <p>Not sprints — cycles end when validation passes, not when a timer expires. Each cycle selects features from the current milestone, assesses parallelism, defines validation criteria, and assigns agents. Typically 1-5 features depending on maturity WIP limits.</p>
+        </div>
+      </div>
+
+      <div class="hierarchy-level">
+        <div class="hierarchy-content">
+          <span class="hierarchy-tag tag-execution">Execution</span>
+          <h4>TDD: RED &#x2192; GREEN &#x2192; REFACTOR &#x2192; VERIFY</h4>
+          <p>The bottom level where code actually gets written. Each feature follows the TDD cycle: write failing tests from the spec, implement minimal code to pass, refactor for quality, and independently verify. Automated, repeatable, auditable.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hill chart demo -->
+    <div class="hill-chart-demo">
+      <h5>Hill Chart — Feature Progress Through a Milestone</h5>
+      <div class="hill-visual">
+        <div class="hill-bar" style="height: 20%; background: rgba(176,1,73,0.3);"><span class="hill-bar-label">Shaped</span></div>
+        <div class="hill-bar" style="height: 45%; background: rgba(176,1,73,0.5);"><span class="hill-bar-label">Specced</span></div>
+        <div class="hill-bar" style="height: 75%; background: rgba(212,50,109,0.6);"><span class="hill-bar-label">Planned</span></div>
+        <div class="hill-bar" style="height: 100%; background: linear-gradient(180deg, var(--gradient-mid), var(--gradient-end));"><span class="hill-bar-label">In Progress</span></div>
+        <div class="hill-bar" style="height: 75%; background: rgba(34,197,94,0.5);"><span class="hill-bar-label">Verified</span></div>
+        <div class="hill-bar" style="height: 45%; background: rgba(34,197,94,0.7);"><span class="hill-bar-label">Done</span></div>
+      </div>
+      <div class="hill-divider">
+        <span>&#x2191; Figuring it out</span>
+        <span>Executing &#x2193;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MATURITY DIAL ===== -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-eyebrow">The Master Dial</div>
+    <h2>Maturity lifecycle</h2>
+    <p class="section-desc">Every ADD project declares a maturity level. This single control governs all process rigor — PRD depth, TDD enforcement, quality gates, parallelism, and WIP limits.</p>
+    <table class="maturity-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>PRD</th>
+          <th>Specs</th>
+          <th>TDD</th>
+          <th>Quality Gates</th>
+          <th>Agents</th>
+          <th>WIP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="maturity-level level-poc">POC</span></td>
+          <td>A paragraph</td>
+          <td>Optional</td>
+          <td>Optional</td>
+          <td>Pre-commit only</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><span class="maturity-level level-alpha">Alpha</span></td>
+          <td>1-pager</td>
+          <td>Critical paths</td>
+          <td>Critical paths</td>
+          <td>+ CI</td>
+          <td>1-2</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td><span class="maturity-level level-beta">Beta</span></td>
+          <td>Full template</td>
+          <td>Required</td>
+          <td>Enforced</td>
+          <td>+ Pre-deploy</td>
+          <td>2-4</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td><span class="maturity-level level-ga">GA</span></td>
+          <td>Full + architecture</td>
+          <td>+ Acceptance criteria</td>
+          <td>Strict</td>
+          <td>All 5 levels</td>
+          <td>3-5</td>
+          <td>5</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ===== CROSS-PROJECT LEARNING ===== -->
+  <section class="section" id="learning">
+    <div class="section-eyebrow">Knowledge System</div>
+      <h2>Cross-project learning</h2>
+      <p class="section-desc">This is what makes ADD compound over time. Agents don't start from zero on each project.</p>
+
+      <div class="learning-flow">
+        <div class="learning-box">
+          <h4>Project-Level Knowledge</h4>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> — git-committed</p>
+          <ul>
+            <li>Architecture decisions and rationale</li>
+            <li>What worked and what didn't</li>
+            <li>Patterns discovered during development</li>
+            <li>Tool and framework quirks</li>
+          </ul>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="learning-box">
+          <h4>Cross-Project Library</h4>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code> — machine-local</p>
+          <ul>
+            <li>Your preferences and working style</li>
+            <li>Accumulated wisdom from all projects</li>
+            <li>Index of all ADD-managed projects</li>
+            <li>Patterns promoted during retrospectives</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 40px; margin-bottom: 16px; font-size: 15px;">Automatic Checkpoint Triggers</h4>
+      <div class="learning-triggers">
+        <div class="trigger-card">
+          <div class="trigger-icon">✅</div>
+          <div class="trigger-label">After /verify</div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-icon">🔄</div>
+          <div class="trigger-label">After TDD cycle</div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-icon">🚀</div>
+          <div class="trigger-label">After deploy</div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-icon">💤</div>
+          <div class="trigger-label">After away session</div>
+        </div>
+        <div class="trigger-card">
+          <div class="trigger-icon">🔍</div>
+          <div class="trigger-label">During /retro</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 30px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow);">
+        <h4 style="font-size: 14px; margin-bottom: 12px;">Example: Knowledge Flowing Across Projects</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
+          <strong>Project A</strong>: Agent discovers "UUID columns must be type <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">uuid</code>, not <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">text</code>"<br>
+          → Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> (project-level)<br>
+          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/retro</code><br><br>
+          <strong>Project B</strong>: Agent searches library before implementing database schema<br>
+          → Finds UUID pattern, applies it automatically<br>
+          → No one repeats the mistake
+        </p>
+      </div>
+  </section>
+
+  <!-- ===== COMMANDS & SKILLS ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="commands">
+    <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-eyebrow">Reference</div>
+    <h2>Commands &amp; Skills</h2>
+    <p class="section-desc">6 commands for orchestration. 8 skills for execution. 10 rules for behavior.</p>
+
+    <h3 style="font-size: 18px; margin-bottom: 16px;">Commands</h3>
+    <table class="commands-table">
+      <thead>
+        <tr><th>Command</th><th>Purpose</th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>/init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
+        <tr><td><code>/spec</code></td><td>Create feature specification through interview</td><td>specs/{feature}.md</td></tr>
+        <tr><td><code>/cycle</code></td><td>Plan, track, and complete work cycles</td><td>.add/cycles/cycle-{N}.md</td></tr>
+        <tr><td><code>/away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
+        <tr><td><code>/back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
+        <tr><td><code>/retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 18px; margin-bottom: 16px;">Skills</h3>
+    <table class="commands-table">
+      <thead>
+        <tr><th>Skill</th><th>Purpose</th><th>Phase</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>/tdd-cycle</code></td><td>Complete RED → GREEN → REFACTOR → VERIFY</td><td>Full TDD</td></tr>
+        <tr><td><code>/test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
+        <tr><td><code>/implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
+        <tr><td><code>/reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
+        <tr><td><code>/verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
+        <tr><td><code>/plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
+        <tr><td><code>/optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
+        <tr><td><code>/deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- ===== ARCHITECTURE ===== -->
+  <section class="section">
+    <div class="section-eyebrow">Architecture</div>
+      <h2>Intentionally simple</h2>
+      <p class="section-desc">~44 files of markdown, JSON, and templates. No runtime. No build step. No backend.</p>
+      <div class="arch-grid">
+        <div class="arch-item">
+          <h4>No dependencies</h4>
+          <p>Pure markdown and JSON files. Runs entirely within Claude Code's plugin system.</p>
+        </div>
+        <div class="arch-item">
+          <h4>No build step</h4>
+          <p>Install and use immediately. One command: <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">claude plugin install add</code></p>
+        </div>
+        <div class="arch-item">
+          <h4>No backend</h4>
+          <p>Everything lives in your git repo (.add/) or locally (~/.claude/add/). You own your data.</p>
+        </div>
+        <div class="arch-item">
+          <h4>No vendor lock-in</h4>
+          <p>Standard markdown specs and plans. Your artifacts work with any tool or process.</p>
+        </div>
+        <div class="arch-item">
+          <h4>Git-native</h4>
+          <p>Project state is committed. Cross-project state is local. Full audit trail via git history.</p>
+        </div>
+        <div class="arch-item">
+          <h4>Plugin format</h4>
+          <p>Commands, skills, rules, hooks, templates — all via Claude Code's native plugin system.</p>
+        </div>
+      </div>
+  </section>
+
+  <!-- ===== GET STARTED ===== -->
+  <section class="section" id="get-started">
+    <div class="section-eyebrow">Get Started</div>
+    <h2>Up and running in 5 minutes</h2>
+    <p class="section-desc">Install the plugin, run the interview, create your first spec, and let the agent build.</p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <div class="terminal-title">Terminal</div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> <span class="arg">claude plugin install add</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/init</span>     <span class="comment"># 5-minute interview → full project setup</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/spec</span>     <span class="comment"># feature interview → specs/{feature}.md</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/tdd-cycle</span> <span class="comment"># RED → GREEN → REFACTOR → VERIFY</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/verify</span>   <span class="comment"># 5 quality gates</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/deploy</span>   <span class="comment"># environment-aware, verified</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-tagline">ADD something to your development.</div>
+    <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
+    <div style="margin-bottom: 20px;">
+      <a href="https://github.com/MountainUnicorn/add" style="color: var(--accent); text-decoration: none; font-size: 14px; margin: 0 12px;">GitHub</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/README.md" style="color: var(--accent); text-decoration: none; font-size: 14px; margin: 0 12px;">Documentation</a>
+      <a href="https://github.com/MountainUnicorn/add/issues" style="color: var(--accent); text-decoration: none; font-size: 14px; margin: 0 12px;">Issues</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE" style="color: var(--accent); text-decoration: none; font-size: 14px; margin: 0 12px;">MIT License</a>
+    </div>
+    <div class="footer-meta">
+      ADD v0.1.0 — Agent Driven Development | Free &amp; open source<br>
+      Built with ADD, using ADD. Dog-fooded from day one.
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      if (body.dataset.theme === 'dark') {
+        body.removeAttribute('data-theme');
+        localStorage.setItem('add-theme', 'light');
+      } else {
+        body.dataset.theme = 'dark';
+        localStorage.setItem('add-theme', 'dark');
+      }
+    }
+
+    // Restore theme preference
+    const savedTheme = localStorage.getItem('add-theme');
+    if (savedTheme === 'dark') {
+      document.body.dataset.theme = 'dark';
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
