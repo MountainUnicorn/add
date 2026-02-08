@@ -26,5 +26,7 @@
       "Bash(git clean -f*)"
     ]
   },
-  "enabledPlugins": ["add"]
+  "enabledPlugins": {
+    "add": true
+  }
 }
