@@ -99,3 +99,12 @@
 - GitHub README renders SVG inline but strips all CSS/JS — the SVG infographic is the only way to get rich visuals in a README. GitHub Pages is the solution for the full website experience.
 - Distribution plan created (docs/distribution-plan.md) covering Phase 1-4 launch strategy: domain, GitHub, plugin registries, community announcements, awesome lists, AI directories, content series, SEO targets.
 - **Environment promotion ladder:** Added `autoPromote` per-env config, automatic rollback on verification failure, `--promote` flag on deploy skill. Updated environment-awareness rule, away command, deploy skill, and human-collaboration rule. Key design choice: ladder stops on first failure (no retries) and rolls back to last known good — safer than letting agents debug deployment issues autonomously.
+
+### Checkpoint: Away Session — 2026-02-08
+- First real away mode session: 45-minute window, all 4 tasks completed in ~10 minutes.
+- Parallel subagents for HTML report + SVG infographic edits — both completed concurrently while main agent tracked progress in away log.
+- HTML overview report was significantly stale (bare command names, missing promotion ladder, old eyebrow). 10 edits brought it in sync with the website.
+- SVG infographic expanded from 1800→2100px to accommodate promotion ladder visual. Section numbering and vertical offsets must be adjusted when adding sections mid-SVG — moved terminal and footer down 300px.
+- CLAUDE.md was already up to date from the namespace fix session — no changes needed. Good signal that bulk-editing sessions are thorough.
+- Away log + archive pattern works: `.add/away-log.md` as active log, archived to `.add/away-logs/away-{date}.md` on return. Gives clean history of autonomous sessions.
+- All four documentation surfaces (website, HTML report, SVG infographic, CLAUDE.md) now consistent: namespaced commands, promotion ladder, raspberry palette.
