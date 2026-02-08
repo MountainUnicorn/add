@@ -1,5 +1,5 @@
 <!-- ADD Plugin v0.1.0 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-02-07 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1800">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2100">
   <defs>
     <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#1a1a2e"/>
@@ -69,7 +69,7 @@
   </defs>
 
   <!-- Dark background -->
-  <rect width="1200" height="1800" fill="url(#heroGrad)"/>
+  <rect width="1200" height="2100" fill="url(#heroGrad)"/>
 
   <!-- Gradient orbs for depth -->
   <ellipse cx="100" cy="200" rx="350" ry="350" fill="url(#glowGrad)" opacity="0.5"/>
@@ -88,12 +88,14 @@
     <line x1="0" y1="1300" x2="1200" y2="1300"/><line x1="0" y1="1400" x2="1200" y2="1400"/>
     <line x1="0" y1="1500" x2="1200" y2="1500"/><line x1="0" y1="1600" x2="1200" y2="1600"/>
     <line x1="0" y1="1700" x2="1200" y2="1700"/>
-    <line x1="100" y1="0" x2="100" y2="1800"/><line x1="200" y1="0" x2="200" y2="1800"/>
-    <line x1="300" y1="0" x2="300" y2="1800"/><line x1="400" y1="0" x2="400" y2="1800"/>
-    <line x1="500" y1="0" x2="500" y2="1800"/><line x1="600" y1="0" x2="600" y2="1800"/>
-    <line x1="700" y1="0" x2="700" y2="1800"/><line x1="800" y1="0" x2="800" y2="1800"/>
-    <line x1="900" y1="0" x2="900" y2="1800"/><line x1="1000" y1="0" x2="1000" y2="1800"/>
-    <line x1="1100" y1="0" x2="1100" y2="1800"/>
+    <line x1="0" y1="1800" x2="1200" y2="1800"/><line x1="0" y1="1900" x2="1200" y2="1900"/>
+    <line x1="0" y1="2000" x2="1200" y2="2000"/>
+    <line x1="100" y1="0" x2="100" y2="2100"/><line x1="200" y1="0" x2="200" y2="2100"/>
+    <line x1="300" y1="0" x2="300" y2="2100"/><line x1="400" y1="0" x2="400" y2="2100"/>
+    <line x1="500" y1="0" x2="500" y2="2100"/><line x1="600" y1="0" x2="600" y2="2100"/>
+    <line x1="700" y1="0" x2="700" y2="2100"/><line x1="800" y1="0" x2="800" y2="2100"/>
+    <line x1="900" y1="0" x2="900" y2="2100"/><line x1="1000" y1="0" x2="1000" y2="2100"/>
+    <line x1="1100" y1="0" x2="1100" y2="2100"/>
   </g>
 
   <!-- ========== SECTION 1: HEADER BAR ========== -->
@@ -302,18 +304,74 @@
       <rect x="0" y="0" width="1120" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
       <text x="70" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.7" text-anchor="middle">📋 Define scope</text>
       <text x="220" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
-      <text x="330" y="30" font-family="SF Mono, Monaco, monospace" font-size="12" fill="#d4326d" text-anchor="middle">/away</text>
+      <text x="330" y="30" font-family="SF Mono, Monaco, monospace" font-size="12" fill="#d4326d" text-anchor="middle">/add:away</text>
       <text x="440" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
       <text x="600" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#22c55e" fill-opacity="0.7" text-anchor="middle">🤖 Agent works autonomously</text>
       <text x="780" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
-      <text x="870" y="30" font-family="SF Mono, Monaco, monospace" font-size="12" fill="#d4326d" text-anchor="middle">/back</text>
+      <text x="870" y="30" font-family="SF Mono, Monaco, monospace" font-size="12" fill="#d4326d" text-anchor="middle">/add:back</text>
       <text x="980" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
       <text x="1070" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.7" text-anchor="middle">📊 Briefing</text>
     </g>
   </g>
 
+  <!-- ========== SECTION 6B: PROMOTION LADDER ========== -->
+  <g transform="translate(40, 1440)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">ENVIRONMENT PROMOTION</text>
+    <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Verify at each level. Promote automatically.</text>
+
+    <!-- Ladder boxes -->
+    <g transform="translate(0, 60)">
+      <!-- Local -->
+      <rect x="0" y="0" width="220" height="70" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
+      <text x="110" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff" fill-opacity="0.5" text-anchor="middle" letter-spacing="1">LOCAL</text>
+      <text x="110" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Commit only</text>
+
+      <!-- Arrow 1 -->
+      <text x="240" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#22c55e" fill-opacity="0.6" text-anchor="middle">→</text>
+
+      <!-- Dev -->
+      <rect x="270" y="0" width="220" height="70" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
+      <text x="380" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#22c55e" text-anchor="middle" letter-spacing="1">DEV</text>
+      <text x="380" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Auto-promote</text>
+
+      <!-- Arrow 2 -->
+      <text x="510" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#22c55e" fill-opacity="0.6" text-anchor="middle">→</text>
+
+      <!-- Staging -->
+      <rect x="540" y="0" width="220" height="70" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
+      <text x="650" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#eab308" text-anchor="middle" letter-spacing="1">STAGING</text>
+      <text x="650" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Auto-promote</text>
+
+      <!-- Arrow 3 -->
+      <text x="780" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#d4326d" fill-opacity="0.6" text-anchor="middle">→</text>
+
+      <!-- Production -->
+      <rect x="810" y="0" width="310" height="70" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.4" stroke-width="1.5" filter="url(#glass)"/>
+      <text x="965" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#d4326d" text-anchor="middle" letter-spacing="1">PRODUCTION</text>
+      <text x="965" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Human approval required</text>
+    </g>
+
+    <!-- Feature labels -->
+    <g transform="translate(0, 150)">
+      <rect x="0" y="0" width="350" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+      <text x="20" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="16">✅</text>
+      <text x="44" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Verify at each level</text>
+      <text x="44" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">Integration in dev, e2e + perf in staging</text>
+
+      <rect x="385" y="0" width="350" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+      <text x="405" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="16">↩️</text>
+      <text x="429" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Automatic rollback on failure</text>
+      <text x="429" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">revert-commit or redeploy-previous-tag</text>
+
+      <rect x="770" y="0" width="350" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+      <text x="790" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="16">🛑</text>
+      <text x="814" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Human gate at production</text>
+      <text x="814" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">Agents stop, queue for approval</text>
+    </g>
+  </g>
+
   <!-- ========== SECTION 7: TERMINAL ========== -->
-  <g transform="translate(40, 1480)">
+  <g transform="translate(40, 1780)">
     <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">GET STARTED</text>
 
     <g transform="translate(0, 20)">
@@ -328,22 +386,22 @@
       <text x="24" y="68" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
       <text x="40" y="68" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.9"> claude plugin install add</text>
       <text x="24" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /init</text>
+      <text x="40" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:init</text>
       <text x="130" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3">  # 5-minute interview → full project setup</text>
       <text x="24" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /spec</text>
+      <text x="40" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:spec</text>
       <text x="130" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3"> # feature interview → specs/{feature}.md</text>
       <text x="24" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /tdd-cycle</text>
+      <text x="40" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:tdd-cycle</text>
       <text x="175" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3"> # RED → GREEN → REFACTOR → VERIFY</text>
       <text x="24" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /deploy</text>
+      <text x="40" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:deploy</text>
       <text x="150" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3"> # environment-aware, verified</text>
     </g>
   </g>
 
   <!-- ========== SECTION 8: FOOTER ========== -->
-  <g transform="translate(0, 1740)">
+  <g transform="translate(0, 2040)">
     <line x1="40" y1="0" x2="1160" y2="0" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
     <text x="60" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#ffffff" fill-opacity="0.3">ADD v0.1.0 — Agent Driven Development</text>
     <text x="600" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#ffffff" fill-opacity="0.3" text-anchor="middle">MIT License — Free &amp; Open Source</text>

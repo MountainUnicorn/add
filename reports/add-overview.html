@@ -973,7 +973,7 @@
   <header class="hero">
     <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
     <div class="hero-inner">
-      <div class="hero-eyebrow">Claude Code Plugin</div>
+      <div class="hero-eyebrow">Free & Open Source Claude Code Plugin</div>
       <h1>Coordinated agent teams<br><span class="gradient-text">that ship verified software.</span></h1>
       <p class="hero-sub">Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms — test-writers, implementers, reviewers, deployers — collaborate as a coordinated enterprise class development team. Co-author and ship software that simply works. Your ADD teams will execute, verify, and self-learn with every project.</p>
       <p class="hero-tagline">You've done TDD and BDD. Now ADD something to your development.</p>
@@ -982,6 +982,7 @@
         <a href="#concept" class="btn-secondary">What is ADD?</a>
         <a href="#agent-teams" class="btn-secondary">Agent Teams</a>
         <a href="#human-loop" class="btn-secondary">Human in the Loop</a>
+        <a href="#promotion-ladder" class="btn-secondary">Promotion Ladder</a>
         <a href="#hierarchy" class="btn-secondary">Work Hierarchy</a>
         <a href="https://github.com/MountainUnicorn/add" class="btn-secondary">GitHub</a>
       </div>
@@ -1216,25 +1217,25 @@
         <div class="step-num purple">1</div>
         <h4>Spec</h4>
         <p>Structured interview defines the feature. Acceptance criteria, test cases, edge cases — all documented before any code.</p>
-        <p style="margin-top: 8px;"><code>/spec</code> <code>/plan</code></p>
+        <p style="margin-top: 8px;"><code>/add:spec</code> <code>/add:plan</code></p>
       </div>
       <div class="workflow-step">
         <div class="step-num purple">2</div>
         <h4>Test</h4>
         <p>Agent writes failing tests first. Every acceptance criterion maps to a test. RED phase — nothing passes yet.</p>
-        <p style="margin-top: 8px;"><code>/test-writer</code></p>
+        <p style="margin-top: 8px;"><code>/add:test-writer</code></p>
       </div>
       <div class="workflow-step">
         <div class="step-num purple">3</div>
         <h4>Build</h4>
         <p>Agent implements minimal code to pass tests. Refactors for quality. Independent verifier confirms everything works.</p>
-        <p style="margin-top: 8px;"><code>/tdd-cycle</code></p>
+        <p style="margin-top: 8px;"><code>/add:tdd-cycle</code></p>
       </div>
       <div class="workflow-step">
         <div class="step-num green">4</div>
         <h4>Ship</h4>
         <p>5 quality gates verified. Environment-aware deployment. Post-deploy smoke tests. Learnings captured automatically.</p>
-        <p style="margin-top: 8px;"><code>/verify</code> <code>/deploy</code></p>
+        <p style="margin-top: 8px;"><code>/add:verify</code> <code>/add:deploy</code></p>
       </div>
     </div>
   </section>
@@ -1292,7 +1293,7 @@
       </div>
       <div class="away-flow-step">
         <div class="flow-icon">&#x1F6EB;</div>
-        <h5><code>/away</code></h5>
+        <h5><code>/add:away</code></h5>
         <p>Agent generates work plan and starts executing</p>
       </div>
       <div class="away-flow-step">
@@ -1302,8 +1303,78 @@
       </div>
       <div class="away-flow-step">
         <div class="flow-icon">&#x1F6EC;</div>
-        <h5><code>/back</code></h5>
+        <h5><code>/add:back</code></h5>
         <p>Full briefing: what shipped, what's blocked, decisions needed</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMOTION LADDER ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="promotion-ladder">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-eyebrow">Environment Promotion</div>
+      <h2>Verify at each level. Promote automatically.</h2>
+      <p class="section-desc">Agents climb the promotion ladder autonomously — deploying, verifying, and promoting through environments. Production always requires human approval.</p>
+
+      <!-- Ladder visual -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0; margin: 40px 0;">
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px 28px; text-align: center; box-shadow: var(--card-shadow); min-width: 140px;">
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 4px;">Local</div>
+          <div style="font-size: 13px; color: var(--text-secondary);">Commit only</div>
+        </div>
+        <div style="padding: 0 12px; color: var(--success); font-size: 20px;">&#x2192;</div>
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px 28px; text-align: center; box-shadow: var(--card-shadow); min-width: 140px;">
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--success); margin-bottom: 4px;">Dev</div>
+          <div style="font-size: 13px; color: var(--text-secondary);">Auto-promote</div>
+        </div>
+        <div style="padding: 0 12px; color: var(--success); font-size: 20px;">&#x2192;</div>
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px 28px; text-align: center; box-shadow: var(--card-shadow); min-width: 140px;">
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--warning); margin-bottom: 4px;">Staging</div>
+          <div style="font-size: 13px; color: var(--text-secondary);">Auto-promote</div>
+        </div>
+        <div style="padding: 0 12px; color: var(--accent-muted); font-size: 20px;">&#x2192;</div>
+        <div style="background: var(--card-bg); border: 2px solid var(--accent); border-radius: 12px; padding: 20px 28px; text-align: center; box-shadow: 0 0 0 1px var(--accent), var(--card-shadow); min-width: 140px;">
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-bottom: 4px;">Production</div>
+          <div style="font-size: 13px; color: var(--text-secondary);">Human required</div>
+        </div>
+      </div>
+
+      <!-- Feature cards -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px;">
+        <div class="value-card">
+          <div class="value-icon">&#x2705;</div>
+          <h4>Verify at each level</h4>
+          <p>Each environment runs its own verification command. Integration tests in dev, e2e + perf in staging. Pass gates before climbing.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x21A9;&#xFE0F;</div>
+          <h4>Automatic rollback</h4>
+          <p>If verification fails after deploy, the environment rolls back automatically. Two strategies: revert-commit (dev) or redeploy-previous-tag (staging).</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x1F6D1;</div>
+          <h4>Human gate at production</h4>
+          <p>The ladder always stops before production. Agents verify through staging autonomously, then queue production for human approval.</p>
+        </div>
+      </div>
+
+      <!-- Config example -->
+      <div class="terminal" style="margin-top: 24px;">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">.add/config.json</div>
+        </div>
+        <div class="terminal-body" style="line-height: 1.8;">
+          <div><span class="comment">{</span></div>
+          <div><span class="comment">  "environments": {</span></div>
+          <div><span class="comment">    "dev":  { </span><span class="cmd">"autoPromote": true</span><span class="comment">,  "rollbackStrategy": "revert-commit" },</span></div>
+          <div><span class="comment">    "stg":  { </span><span class="cmd">"autoPromote": true</span><span class="comment">,  "rollbackStrategy": "redeploy-previous-tag" },</span></div>
+          <div><span class="comment">    "prod": { </span><span class="cmd">"autoPromote": false</span><span class="comment">, "rollbackStrategy": "redeploy-previous-tag" }</span></div>
+          <div><span class="comment">  }</span></div>
+          <div><span class="comment">}</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -1500,7 +1571,7 @@
       <div class="learning-triggers">
         <div class="trigger-card">
           <div class="trigger-icon">✅</div>
-          <div class="trigger-label">After /verify</div>
+          <div class="trigger-label">After /add:verify</div>
         </div>
         <div class="trigger-card">
           <div class="trigger-icon">🔄</div>
@@ -1516,7 +1587,7 @@
         </div>
         <div class="trigger-card">
           <div class="trigger-icon">🔍</div>
-          <div class="trigger-label">During /retro</div>
+          <div class="trigger-label">During /add:retro</div>
         </div>
       </div>
 
@@ -1525,7 +1596,7 @@
         <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
           <strong>Project A</strong>: Agent discovers "UUID columns must be type <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">uuid</code>, not <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">text</code>"<br>
           → Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> (project-level)<br>
-          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/retro</code><br><br>
+          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/add:retro</code><br><br>
           <strong>Project B</strong>: Agent searches library before implementing database schema<br>
           → Finds UUID pattern, applies it automatically<br>
           → No one repeats the mistake
@@ -1546,12 +1617,12 @@
         <tr><th>Command</th><th>Purpose</th><th>Output</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>/init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
-        <tr><td><code>/spec</code></td><td>Create feature specification through interview</td><td>specs/{feature}.md</td></tr>
-        <tr><td><code>/cycle</code></td><td>Plan, track, and complete work cycles</td><td>.add/cycles/cycle-{N}.md</td></tr>
-        <tr><td><code>/away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
-        <tr><td><code>/back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
-        <tr><td><code>/retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
+        <tr><td><code>/add:init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
+        <tr><td><code>/add:spec</code></td><td>Create feature specification through interview</td><td>specs/{feature}.md</td></tr>
+        <tr><td><code>/add:cycle</code></td><td>Plan, track, and complete work cycles</td><td>.add/cycles/cycle-{N}.md</td></tr>
+        <tr><td><code>/add:away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
+        <tr><td><code>/add:back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
+        <tr><td><code>/add:retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
       </tbody>
     </table>
 
@@ -1561,14 +1632,14 @@
         <tr><th>Skill</th><th>Purpose</th><th>Phase</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>/tdd-cycle</code></td><td>Complete RED → GREEN → REFACTOR → VERIFY</td><td>Full TDD</td></tr>
-        <tr><td><code>/test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
-        <tr><td><code>/implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
-        <tr><td><code>/reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
-        <tr><td><code>/verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
-        <tr><td><code>/plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
-        <tr><td><code>/optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
-        <tr><td><code>/deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
+        <tr><td><code>/add:tdd-cycle</code></td><td>Complete RED → GREEN → REFACTOR → VERIFY</td><td>Full TDD</td></tr>
+        <tr><td><code>/add:test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
+        <tr><td><code>/add:implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
+        <tr><td><code>/add:reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
+        <tr><td><code>/add:verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
+        <tr><td><code>/add:plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
+        <tr><td><code>/add:optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
+        <tr><td><code>/add:deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
       </tbody>
     </table>
     </div>
@@ -1621,11 +1692,11 @@
       </div>
       <div class="terminal-body">
         <div><span class="prompt">$</span> <span class="arg">claude plugin install add</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/init</span>     <span class="comment"># 5-minute interview → full project setup</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/spec</span>     <span class="comment"># feature interview → specs/{feature}.md</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/tdd-cycle</span> <span class="comment"># RED → GREEN → REFACTOR → VERIFY</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/verify</span>   <span class="comment"># 5 quality gates</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/deploy</span>   <span class="comment"># environment-aware, verified</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:init</span>     <span class="comment"># 5-minute interview → full project setup</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>     <span class="comment"># feature interview → specs/{feature}.md</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="comment"># RED → GREEN → REFACTOR → VERIFY</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>   <span class="comment"># 5 quality gates</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>   <span class="comment"># environment-aware, verified</span></div>
       </div>
     </div>
   </section>
