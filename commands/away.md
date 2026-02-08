@@ -98,9 +98,10 @@ Away mode grants **elevated autonomy**. The human is not available — do not wa
 - **Read specs, plans, and PRD** — re-read `docs/prd.md` whenever you need to validate a decision against the product vision
 - **Run tests** — execute test suites freely to verify your work
 - **Install dev dependencies** — if tests or builds need a missing dev dependency, install it
+- **Promote through environments** — follow the promotion ladder defined in the environment-awareness rule. If verification passes at one level and `autoPromote` is true for the next environment, deploy there and verify. Rollback automatically on failure (see environment-awareness rule for details).
 
 ### Boundaries (do NOT cross without human)
-- Do NOT deploy to staging or production
+- Do NOT deploy to production or any environment where `autoPromote: false`
 - Do NOT merge PRs to main/production branches
 - Do NOT start new features that lack a spec — if you finish all planned work, write documentation, improve test coverage, or refactor within existing specs
 - Do NOT make irreversible changes (drop tables, delete branches, force push)

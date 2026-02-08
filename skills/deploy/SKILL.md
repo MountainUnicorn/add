@@ -544,10 +544,52 @@ Upon successful deployment, output:
 - Suggest manual investigation
 - For production, initiate rollback procedure
 
+## Environment Promotion Ladder
+
+When deploying to a multi-environment project (Tier 2+), the deploy skill supports automatic promotion through environments:
+
+### Promotion Mode (`--promote`)
+
+When invoked with `--promote` (or during away mode), the skill climbs the promotion ladder:
+
+1. Deploy to current environment → run `verifyCommand` for that environment
+2. If verification passes AND next environment has `autoPromote: true` → deploy to next environment
+3. Repeat until ladder ends, verification fails, or `autoPromote: false` is reached
+4. If verification fails at any level → **rollback that environment** to last known good, log failure, stop
+
+```
+/add:deploy --promote --env dev
+  → deploys to dev
+  → runs dev verifyCommand (integration tests)
+  → PASS → auto-promotes to staging
+  → runs staging verifyCommand (e2e + perf)
+  → PASS → stops (production requires human approval)
+  → logs: "Verified through staging. Production queued for human approval."
+```
+
+### Rollback on Failure
+
+If verification fails after deploying to an environment:
+
+1. Read `rollbackStrategy` from config for that environment:
+   - `revert-commit`: `git revert {commit} && git push` → redeploy
+   - `redeploy-previous-tag`: find last stable tag → checkout → redeploy
+2. Run smoke test against the rolled-back environment to confirm it's healthy
+3. Log the failure with: what was deployed, what failed, what was rolled back
+4. Stop the ladder — do not promote further
+
+### Away Mode Behavior
+
+During away mode, the deploy skill automatically uses `--promote` behavior:
+- Climb the ladder through all `autoPromote: true` environments
+- Stop before any `autoPromote: false` environment (always production)
+- On failure: rollback, log, move to next task in the away plan
+
 ## Integration with Other Skills
 
 - Called after /add:tdd-cycle and /add:verify succeed
 - Triggers /add:verify --level smoke after deployment
+- Supports `--promote` for automatic environment ladder climbing
 - Final step in development workflow
 - Completes the cycle: Spec → Plan → Code → Deploy
 

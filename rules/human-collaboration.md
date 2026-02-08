@@ -122,9 +122,11 @@ Away mode grants elevated autonomy. The human is unavailable — do not wait for
 - Run and fix quality gates (lint, types, formatting)
 - Run test suites, install dev dependencies
 - Read specs, plans, and PRD to stay aligned — re-read `docs/prd.md` whenever validating a decision
+- Promote through environments following the promotion ladder (see environment-awareness rule) — if verification passes at one level and `autoPromote: true` for the next, deploy there. Rollback automatically on failure.
 
 **Boundaries (queue for human return):**
-- Do NOT deploy to production or merge to main
+- Do NOT deploy to production or any environment where `autoPromote: false`
+- Do NOT merge to main
 - Do NOT start features without specs
 - Do NOT make irreversible changes or architecture decisions with multiple valid approaches
 - If ambiguous after reading the PRD, log the question and skip to the next task
