@@ -1,9 +1,16 @@
 # Project Learnings — {PROJECT_NAME}
 
+> **Tier 3: Project-Specific Knowledge**
+>
 > This file is maintained automatically by ADD agents. Entries are added at checkpoints
 > (after verify, TDD cycles, deployments, away sessions) and reviewed during retrospectives.
 >
-> **Agents:** Read this file before starting any task. Previous learnings may affect your approach.
+> This is one of three knowledge tiers agents read before starting work:
+> 1. **Tier 1: Plugin-Global** (`knowledge/global.md`) — universal ADD best practices
+> 2. **Tier 2: User-Local** (`~/.claude/add/library.md`) — your cross-project wisdom
+> 3. **Tier 3: Project-Specific** (this file) — discoveries specific to this project
+>
+> **Agents:** Read ALL three tiers before starting any task.
 > **Humans:** Review with `/add:retro --agent-summary` or during full `/add:retro`.
 
 ## Technical Discoveries

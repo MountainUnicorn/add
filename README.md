@@ -341,9 +341,28 @@ Features in a cycle progress through positions: SHAPED → SPECCED → PLANNED �
 
 This is what makes ADD compound over time. Agents don't start from zero on each project.
 
-### How it works
+### 3-Tier Knowledge Cascade
 
-**Project-level knowledge** lives in `.add/learnings.md` and gets committed to git. Every team member (human or agent) benefits from accumulated knowledge about *this* project.
+Agents read **all three tiers** before starting any task. More specific tiers take precedence:
+
+| Tier | Location | Scope | Who Updates |
+|------|----------|-------|-------------|
+| **Tier 1: Plugin-Global** | `knowledge/global.md` | Universal ADD best practices | Ships with ADD (read-only) |
+| **Tier 2: User-Local** | `~/.claude/add/library.md` | Your cross-project wisdom | Promoted during `/add:retro` |
+| **Tier 3: Project-Specific** | `.add/learnings.md` | This project's discoveries | Auto-checkpoints |
+
+**Tier 1** ships with ADD — curated best practices about agent coordination, away mode, and methodology. Every ADD user benefits immediately.
+
+**Tier 2** follows *you* across projects (machine-local, not committed):
+
+```
+~/.claude/add/
+├── profile.md    # Your preferences, conventions, working style
+├── library.md    # Accumulated wisdom from all your projects
+└── projects.json # Index of ADD-managed projects
+```
+
+**Tier 3** is committed to git — every team member (human or agent) benefits:
 
 ```
 .add/learnings.md
@@ -353,25 +372,20 @@ This is what makes ADD compound over time. Agents don't start from zero on each 
 └── Tool and framework quirks
 ```
 
-**User-level knowledge** lives in `~/.claude/add/` (machine-local, not committed). This follows *you* across projects:
-
-```
-~/.claude/add/
-├── profile.md    # Your preferences, conventions, working style
-├── library.md    # Accumulated wisdom from all your projects
-└── projects.json # Index of ADD-managed projects
-```
-
-### Knowledge flows
+### Knowledge flows upward
 
 ```
 Project A: discovers "UUID columns must be type uuid, not text"
-  → Stored in .add/learnings.md (project-level)
-  → Promoted to ~/.claude/add/library.md during /add:retro (cross-project)
+  → Stored in .add/learnings.md (Tier 3: project-level)
+  → Promoted to ~/.claude/add/library.md during /add:retro (Tier 2: cross-project)
 
-Project B: agent searches library before implementing database schema
+Project B: agent reads library before implementing database schema
   → Finds UUID pattern, applies it automatically
   → No one repeats the mistake
+
+ADD maintainers: universal methodology insights
+  → Promoted to knowledge/global.md (Tier 1: plugin-global)
+  → Every ADD user benefits on next install/update
 ```
 
 ### Checkpoint triggers
@@ -479,7 +493,7 @@ ADD is intentionally simple:
 - **No vendor lock-in** — Standard markdown specs and plans work with any tool
 - **Plugin format** — Claude Code `.claude-plugin/plugin.json` manifest
 
-The entire plugin is ~44 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, and templates.
+The entire plugin is ~45 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
 
 ---
 

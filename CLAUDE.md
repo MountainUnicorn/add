@@ -22,6 +22,8 @@ add/
 ├── skills/            # Workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
 ├── rules/             # Auto-loading behavioral rules (10 files)
 ├── hooks/             # PostToolUse automation
+├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)
+│   └── global.md      # Universal learnings that ship with ADD for all users
 └── templates/         # Document scaffolding (PRD, spec, plan, config, learnings, profile)
 ```
 
@@ -102,10 +104,16 @@ ADD is dog-fooding its own methodology. Project state lives in `.add/`:
 
 Cross-project persistence at `~/.claude/add/` (profile, library, project index).
 
-## Learning System
+## Learning System (3-Tier Knowledge Cascade)
 
-Agents accumulate knowledge automatically through checkpoint triggers:
-- After every `/add:verify`, TDD cycle, deployment, and away session
-- Stored in `.add/learnings.md` (project-level)
-- Cross-project preferences in `~/.claude/add/profile.md` (user-level)
-- Reviewed and promoted during `/add:retro`
+Agents read all three knowledge tiers before starting any task:
+
+| Tier | Location | Scope | Who Updates |
+|------|----------|-------|-------------|
+| **Tier 1: Plugin-Global** | `knowledge/global.md` | Universal ADD best practices for all users | ADD maintainers only |
+| **Tier 2: User-Local** | `~/.claude/add/library.md` | Cross-project wisdom accumulated by this user | Promoted during `/add:retro` |
+| **Tier 3: Project-Specific** | `.add/learnings.md` | Discoveries specific to this project | Auto-checkpoints + `/add:retro` |
+
+Knowledge flows upward: project discoveries can be promoted to user library during retros, and universal insights can be promoted to plugin-global (only in the ADD dev project). Precedence flows downward: project-specific overrides user-local overrides plugin-global.
+
+Checkpoint triggers (auto-populate Tier 3): after every `/add:verify`, TDD cycle, deployment, and away session.

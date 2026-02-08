@@ -1,0 +1,44 @@
+# .pluginignore — Documents what ships with the ADD plugin vs what doesn't
+#
+# This file is documentation for the rsync exclude list used to sync
+# the ADD source repo to the local marketplace cache. It is NOT
+# automatically parsed — the rsync command uses explicit --exclude flags.
+#
+# SHIPS WITH PLUGIN (included in distribution):
+#   commands/          — Slash commands
+#   skills/            — Workflow skills
+#   rules/             — Auto-loading behavioral rules
+#   hooks/             — PostToolUse automation
+#   knowledge/         — Tier 1: Plugin-global curated best practices
+#   templates/         — Document scaffolding
+#   .claude-plugin/    — Plugin manifest
+#   marketplace.json   — Marketplace metadata
+#   CLAUDE.md          — Developer/agent-facing overview
+#   README.md          — GitHub landing page
+#   LICENSE            — MIT license
+#   .pluginignore      — This file
+#
+# DOES NOT SHIP (excluded from distribution):
+#   .add/              — Project-specific ADD state (learnings, config, cycles, retros)
+#   .git/              — Git history
+#   .github/           — GitHub-specific config (Actions, Pages workflow)
+#   .DS_Store          — macOS filesystem metadata
+#   reports/           — HTML overview report (dev artifact)
+#   website/           — GitHub Pages website source (deployed separately)
+#   docs/prd.md        — ADD's own PRD (project-specific)
+#   docs/distribution-plan.md — Distribution strategy (project-specific)
+#   docs/milestones/   — Milestone tracking (project-specific)
+#   docs/plans/        — Implementation plans (project-specific)
+#   docs/infographic.svg — README infographic (GitHub-specific)
+#   specs/             — Feature specs (project-specific)
+#   tests/             — Test artifacts (project-specific)
+#
+# Rsync command:
+#   rsync -av --delete \
+#     --exclude='.add/' --exclude='.git/' --exclude='.github/' \
+#     --exclude='.DS_Store' --exclude='reports/' --exclude='website/' \
+#     --exclude='docs/prd.md' --exclude='docs/distribution-plan.md' \
+#     --exclude='docs/milestones/' --exclude='docs/plans/' \
+#     --exclude='docs/infographic.svg' --exclude='specs/' --exclude='tests/' \
+#     /Users/abrooke/projects/add/ \
+#     ~/.claude/plugins/cache/add-marketplace/add/0.1.0/

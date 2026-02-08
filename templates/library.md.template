@@ -1,8 +1,14 @@
 # ADD Cross-Project Knowledge Library
 
+> **Tier 2: User-Local Knowledge**
+>
 > This file lives at `~/.claude/add/library.md` and accumulates wisdom across ALL your projects.
 > Entries are promoted from individual project `.add/learnings.md` files during retrospectives.
-> Agents read this alongside project-level learnings before starting work.
+>
+> This is one of three knowledge tiers agents read before starting work:
+> 1. **Tier 1: Plugin-Global** (`knowledge/global.md`) — universal ADD best practices
+> 2. **Tier 2: User-Local** (this file) — your cross-project wisdom
+> 3. **Tier 3: Project-Specific** (`.add/learnings.md`) — per-project discoveries
 
 ## Technical Patterns
 <!-- Patterns that apply across projects, regardless of specific stack -->

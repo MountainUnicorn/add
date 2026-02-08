@@ -16,7 +16,10 @@ Both modes update `.add/learnings.md` and optionally `~/.claude/add/profile.md`.
 ## Pre-Flight
 
 1. Read `.add/config.json` for project context
-2. Read `.add/learnings.md` if it exists (agent observations since last retro)
+2. Read all 3 knowledge tiers:
+   a. **Tier 1:** Read `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` (plugin-global best practices)
+   b. **Tier 2:** Read `~/.claude/add/library.md` if it exists (cross-project wisdom)
+   c. **Tier 3:** Read `.add/learnings.md` if it exists (agent observations since last retro)
 3. Read `~/.claude/add/profile.md` if it exists (cross-project preferences)
 4. Determine the retro window:
    - If `--since` provided, use that date
@@ -157,11 +160,33 @@ Shall I apply these changes now?
    c. **Project index update** (`~/.claude/add/projects/{name}.json`):
       Update the `last_retro` date and `key_learnings` list in the project snapshot.
 
-4. **Apply config/template changes:**
+4. **Promote to plugin-global (ADD dev project only):**
+   If this retro is running inside the ADD plugin project itself (detected by checking
+   if `knowledge/global.md` exists as a local file, not a plugin reference), present
+   candidates for Tier 1 promotion:
+
+   ```
+   PLUGIN-GLOBAL PROMOTION CANDIDATES:
+     These learnings could benefit ALL ADD users:
+     - {learning 1 — from Tier 3 or Tier 2}
+     - {learning 2}
+
+   Promote to knowledge/global.md? (Only if universal — not stack/user/project-specific)
+   ```
+
+   Criteria for Tier 1 promotion:
+   - Universal: applies regardless of stack, team size, or project type
+   - Methodology: relates to ADD workflow, agent coordination, or collaboration
+   - Validated: proven across multiple projects or sessions
+   - NOT technology preferences, stack patterns, or user conventions
+
+   If promoted, append to `knowledge/global.md` under the appropriate section.
+
+5. **Apply config/template changes:**
    If agreed changes affect the process (e.g., "add edge case section to spec template"),
    make the edits now.
 
-5. **Clear agent checkpoints:**
+6. **Clear agent checkpoints:**
    Move processed checkpoint entries from `.add/learnings.md` into the retro archive.
    Fresh learnings start accumulating for the next period.
    Profile Update Candidates section is cleared after promotion decisions.

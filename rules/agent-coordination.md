@@ -144,9 +144,15 @@ Still worth recording if something notable happened:
 
 ### Before Dispatching Sub-Agents
 
-The orchestrator MUST read `.add/learnings.md` and include relevant lessons in the dispatch context. For example, if a previous checkpoint says "pymysql is not thread-safe," include that in the RESTRICTIONS when dispatching database-related work.
+The orchestrator MUST read all 3 knowledge tiers and include relevant lessons in the dispatch context:
 
-This is how the team gets smarter over time — past mistakes inform future dispatches.
+1. **Tier 1:** `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` — universal ADD best practices
+2. **Tier 2:** `~/.claude/add/library.md` — user's cross-project wisdom (if exists)
+3. **Tier 3:** `.add/learnings.md` — project-specific discoveries (if exists)
+
+For example, if a Tier 3 checkpoint says "pymysql is not thread-safe," include that in the RESTRICTIONS when dispatching database-related work. If a Tier 1 entry says "always independently run tests after sub-agent work," ensure the verification step is in the dispatch plan.
+
+This is how the team gets smarter over time — past mistakes from all tiers inform future dispatches.
 
 ## Agent Self-Retro Triggers
 
@@ -248,7 +254,9 @@ FILE RESERVATIONS:
   FORBIDDEN: {files owned by other agents}
 
 LEARNINGS TO APPLY:
-  {relevant entries from .add/learnings.md}
+  Tier 1 (plugin-global): {relevant entries from knowledge/global.md}
+  Tier 2 (user-local): {relevant entries from ~/.claude/add/library.md}
+  Tier 3 (project): {relevant entries from .add/learnings.md}
 
 QUALITY GATES (per maturity):
   {which gates must pass for this maturity level}
@@ -278,6 +286,6 @@ After parallel agents complete:
 - **Never** let two agents write to the same file simultaneously
 - **Never** go deeper than 2 levels of agent hierarchy (orchestrator → worker)
 - **Never** exceed WIP limits — coordination overhead grows exponentially
-- **Never** dispatch sub-agents without reading .add/learnings.md first
+- **Never** dispatch sub-agents without reading all 3 knowledge tiers first
 - **Never** merge without running integration tests after each merge
 - **Avoid** parallel work at poc maturity — overhead exceeds benefit

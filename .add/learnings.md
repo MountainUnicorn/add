@@ -1,20 +1,21 @@
 # Project Learnings — ADD
 
+> **Tier 3: Project-Specific Knowledge**
+>
 > This file is maintained automatically by ADD agents. Entries are added at checkpoints
 > (after verify, TDD cycles, deployments, away sessions) and reviewed during retrospectives.
 >
-> **Agents:** Read this file before starting any task. Previous learnings may affect your approach.
+> Agents also read Tier 1 (knowledge/global.md) and Tier 2 (~/.claude/add/library.md).
+>
+> **Agents:** Read ALL three tiers before starting any task.
 > **Humans:** Review with `/add:retro --agent-summary` or during full `/add:retro`.
 
 ## Technical Discoveries
 
-- 2026-02-07: macOS filesystems are case-insensitive. `add/` and `ADD/` are the same directory. Project directory names should use lowercase to avoid confusion.
-- 2026-02-07: Claude Code plugin format uses `.claude-plugin/plugin.json` as the manifest. `marketplace.json` is a sibling for marketplace distribution.
-- 2026-02-07: Rules with `autoload: true` in YAML frontmatter load automatically when Claude enters the project. This is the primary enforcement mechanism.
-- 2026-02-07: Skills use `allowed-tools` in frontmatter to restrict what a skill can do. This enables agent isolation (test-writer can't deploy, reviewer can't edit).
-- 2026-02-08: Claude Code plugins namespace commands and skills automatically as `pluginname:commandname` (e.g., `add:spec`). But Claude reproduces whatever naming pattern it sees in file content — so if command files reference `/spec`, Claude will suggest `/spec` to users instead of `/add:spec`. All internal references must use the full namespaced form.
-- 2026-02-08: GitHub Pages can only serve from root `/` or `/docs` on a branch — not arbitrary directories like `website/`. Use a GitHub Actions workflow with `actions/upload-pages-artifact` to deploy from any directory. Set `build_type: workflow` via `gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow`.
-- 2026-02-08: GitHub README strips all `<style>` and `<script>` tags. SVG is the only vehicle for rich visuals in a README. For full styled content, serve via GitHub Pages.
+> Universal plugin architecture and methodology entries promoted to Tier 1 (knowledge/global.md) on 2026-02-08.
+
+- 2026-02-08: GitHub Pages deployment for this project uses Actions workflow at `.github/workflows/pages.yml` serving `website/` directory — live at `mountainunicorn.github.io/add/`. Set `build_type: workflow` via `gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow`.
+- 2026-02-08: Local marketplace cache must be synced manually after changes: rsync from source to `~/.claude/plugins/cache/add-marketplace/add/0.1.0/` (with excludes for project-specific state).
 
 ## Architecture Decisions
 
@@ -25,12 +26,10 @@
 
 ## What Worked
 
-- Deriving the ADD spec from a real, mature project (dossierFYI) ensured the methodology reflects actual practice, not theory.
-- The 1-by-1 interview format with estimation ("~12 questions, ~10 minutes") was well-received during design. Prevents question fatigue.
+> Universal methodology insights promoted to Tier 1 (knowledge/global.md) on 2026-02-08.
+
 - The enterprise plugin's phased execution with audit (Phase 7) informed the quality gate system.
-- 2026-02-08: Dog-fooding across multiple projects (dossierFYI, others) caught the namespace issue quickly. Using the plugin as a consumer exposed what the developer perspective never would.
-- 2026-02-08: Parallel subagents for bulk file edits — dispatching 3 agents simultaneously (commands/, skills/, rules/) to namespace 30 files completed in ~4 minutes vs. sequential would have been 12+. Good pattern for coordinated bulk changes.
-- 2026-02-08: Separating "autonomous operations" from "boundaries" as explicit lists in away mode docs makes the rules unambiguous. Agents don't have to infer — they get a clear yes/no list.
+- 2026-02-08: Dog-fooding across multiple projects (dossierFYI, others) caught the namespace issue quickly in this project specifically.
 
 ## Architecture Decisions (continued)
 

@@ -820,6 +820,11 @@ CROSS-PROJECT:
   ✓ ~/.claude/add/projects/{name}.json — project index entry
   ✓ ~/.claude/add/library.md          — cross-project knowledge
 
+KNOWLEDGE SOURCES (3-tier cascade — agents read all before starting work):
+  Tier 1: Plugin-global  — knowledge/global.md (ships with ADD, universal best practices)
+  Tier 2: User-local     — ~/.claude/add/library.md (your cross-project wisdom)
+  Tier 3: Project        — .add/learnings.md (this project's discoveries, auto-populates)
+
 Your project is configured as:
   Stack: {languages, frameworks, versions}
   Infrastructure: {git_host} → {cicd} → {cloud_provider}

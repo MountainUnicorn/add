@@ -67,6 +67,17 @@ These MUST be committed (agents on other devices need them):
 - `tests/screenshots/{feature}/` — passing visual evidence
 - `.claude/settings.json` — Claude Code permissions
 
+## Plugin-Global Knowledge (Tier 1)
+
+ADD ships with a `knowledge/` directory containing curated best practices:
+
+```
+${CLAUDE_PLUGIN_ROOT}/knowledge/
+└── global.md          # Tier 1: Universal ADD best practices for all users
+```
+
+This directory is **read-only in consumer projects**. Only updated by ADD maintainers. Agents read `knowledge/global.md` as the first tier in the 3-tier knowledge cascade (see `learning.md` rule).
+
 ## Cross-Project Persistence
 
 Knowledge that transcends any single project lives at the user level:
