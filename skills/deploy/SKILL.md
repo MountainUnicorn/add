@@ -27,7 +27,7 @@ Deployment flows:
 ## Pre-Flight Checks
 
 1. **Verify code quality**
-   - Run /verify --level deploy (unless --skip-verify)
+   - Run /add:verify --level deploy (unless --skip-verify)
    - Halt if quality gates fail
    - Ensure all tests passing
 
@@ -509,7 +509,7 @@ Upon successful deployment, output:
 - Report which gates fail
 - Do NOT proceed with deployment
 - Ask user to fix issues
-- Run /verify to see detailed failures
+- Run /add:verify to see detailed failures
 
 **Uncommitted changes detected**
 - List uncommitted changes
@@ -546,8 +546,8 @@ Upon successful deployment, output:
 
 ## Integration with Other Skills
 
-- Called after /tdd-cycle and /verify succeed
-- Triggers /verify --level smoke after deployment
+- Called after /add:tdd-cycle and /add:verify succeed
+- Triggers /add:verify --level smoke after deployment
 - Final step in development workflow
 - Completes the cycle: Spec → Plan → Code → Deploy
 

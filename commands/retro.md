@@ -26,7 +26,7 @@ Both modes update `.add/learnings.md` and optionally `~/.claude/add/profile.md`.
    - Git log (commits, branches merged, PRs)
    - Specs completed (specs/ with status: Complete)
    - Plans executed (docs/plans/ with status: Complete)
-   - Quality gate results from recent `/verify` runs
+   - Quality gate results from recent `/add:verify` runs
    - Away-mode sessions from `.add/away-logs/`
    - Agent checkpoint entries from `.add/learnings.md`
 
@@ -201,7 +201,7 @@ SUGGESTED CHANGES:
   2. {suggestion with rationale}
 
 These are observations only — no changes applied.
-Run /retro for a full interactive retrospective.
+Run /add:retro for a full interactive retrospective.
 ```
 
 ---
@@ -213,7 +213,7 @@ Display this during the first retro to set expectations:
 ```
 RECOMMENDED RETRO CADENCE:
   - Agent auto-checkpoints: Continuous (after each verify, spike, away session)
-  - Agent summary (/retro --agent-summary): Weekly or before planning
-  - Full interactive retro (/retro): After each feature/sprint completion,
+  - Agent summary (/add:retro --agent-summary): Weekly or before planning
+  - Full interactive retro (/add:retro): After each feature/sprint completion,
     or every 2 weeks — whichever comes first
 ```

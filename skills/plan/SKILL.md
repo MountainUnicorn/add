@@ -472,7 +472,7 @@ docs/plans/{feature}-plan.md
 2. Assign team members to phases
 3. Begin Phase 0: Preparation
 4. Schedule daily standup
-5. Run /tdd-cycle to execute plan
+5. Run /add:tdd-cycle to execute plan
 ```
 
 ## Error Handling
@@ -495,7 +495,7 @@ docs/plans/{feature}-plan.md
 ## Integration with Other Skills
 
 - Spec (input) comes from specs/{feature}.md
-- Plan (output) guides /tdd-cycle execution
+- Plan (output) guides /add:tdd-cycle execution
 - Effort estimates inform scheduling
 - Risk assessment informs quality gate thresholds
 - Task breakdown guides parallel work dispatch

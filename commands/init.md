@@ -122,7 +122,7 @@ WHAT ADD WOULD ADD (non-destructive):
   ✚ .add/learnings.md — agent knowledge base (auto-checkpoints)
   ✚ ADD-specific rules — human collaboration, source control, environment awareness
   ✚ Quality gate system — 5-level verification gates
-  ✚ /retro command — retrospectives and learning promotion
+  ✚ /add:retro command — retrospectives and learning promotion
   ✚ Cross-project persistence — ~/.claude/add/ for preferences and history
 
 WHAT ADD WOULD PRESERVE (untouched):
@@ -195,7 +195,7 @@ For each ADD rule, check for equivalent coverage in `.claude/rules/`:
 
 ### Handling Existing Skills
 
-For each ADD skill (e.g., `/spec`, `/plan`, `/away`, `/back`, `/retro`):
+For each ADD skill (e.g., `/add:spec`, `/add:plan`, `/add:away`, `/add:back`, `/add:retro`):
 
 - **If project has equivalent skill:** Ask:
   ```
@@ -222,8 +222,8 @@ This project follows Agent Driven Development (ADD) for structured code generati
 
 **Configuration:** `.add/config.json`
 **Knowledge Base:** `.add/learnings.md` (auto-populated during development)
-**Quality Gates:** Enforced via `/verify` command
-**Workflow:** `/spec` → `/plan` → `/tdd-cycle` → `/retro`
+**Quality Gates:** Enforced via `/add:verify` command
+**Workflow:** `/add:spec` → `/add:plan` → `/add:tdd-cycle` → `/add:retro`
 
 See `.add/config.json` for detailed settings.
 ```
@@ -347,8 +347,8 @@ Next steps:
   1. Review .add/config.json and adjust if needed
   2. Review .add/learnings.md and add any missing patterns
   3. Continue using your existing /commands and /skills
-  4. Try /spec to create ADD-formatted specs alongside your existing ones
-  5. Run /retro to checkpoint learnings and refine methodology
+  4. Try /add:spec to create ADD-formatted specs alongside your existing ones
+  5. Run /add:retro to checkpoint learnings and refine methodology
 ```
 
 ## Phase 1: The Interview
@@ -569,7 +569,7 @@ Use AskUserQuestion with options:
 → Captures: maturity level (cascades into all ADD behavior via maturity-lifecycle rule)
 
 If POC selected, inform user:
-"Great — POC maturity means relaxed process. Specs are optional, TDD is encouraged but not enforced, and we'll use informal cycle planning. You can promote to Alpha anytime with /cycle --promote."
+"Great — POC maturity means relaxed process. Specs are optional, TDD is encouraged but not enforced, and we'll use informal cycle planning. You can promote to Alpha anytime with /add:cycle --promote."
 
 **Q15:** "How much autonomy should I have?"
 Use AskUserQuestion with options:
@@ -760,7 +760,7 @@ Read ${CLAUDE_PLUGIN_ROOT}/templates/learnings.md.template and fill in the proje
 If `~/.claude/add/profile.md` does NOT exist and the user agreed to create one:
 Read ${CLAUDE_PLUGIN_ROOT}/templates/profile.md.template, fill in preferences from the interview, and write to `~/.claude/add/profile.md`.
 
-If profile already exists, do NOT modify it — profile updates only happen during `/retro`.
+If profile already exists, do NOT modify it — profile updates only happen during `/add:retro`.
 
 ### Step 4.2: Project Index Entry
 
@@ -779,13 +779,13 @@ Write a snapshot to `~/.claude/add/projects/{project-name}.json`:
 }
 ```
 
-This lets future `/init` calls on new projects reference your history:
+This lets future `/add:init` calls on new projects reference your history:
 "I see you worked on {project} with {stack}. Similar setup here?"
 
 ### Step 4.3: Cross-Project Library
 
 If `~/.claude/add/library.md` does NOT exist, create it from ${CLAUDE_PLUGIN_ROOT}/templates/library.md.template.
-If it exists, leave it alone — it's updated during `/retro`.
+If it exists, leave it alone — it's updated during `/add:retro`.
 
 ## Phase 5: Summary
 
@@ -835,11 +835,11 @@ WHAT'S COMMITTED (ports between devices via git):
 
 WHAT'S LOCAL (stays on this machine):
   ~/.claude/add/ (profile, library, project index)
-  Run /init --import on a new device to rebuild from committed state.
+  Run /add:init --import on a new device to rebuild from committed state.
 
 Next steps:
   1. Review docs/prd.md and refine if needed
-  2. Run /spec to create your first feature specification
-  3. Run /plan to create an implementation plan from a spec
-  4. Start building with /tdd-cycle
+  2. Run /add:spec to create your first feature specification
+  3. Run /add:plan to create an implementation plan from a spec
+  4. Start building with /add:tdd-cycle
 ```

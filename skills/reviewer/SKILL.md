@@ -403,7 +403,7 @@ Code quality score: {N}/10
 ## Next Steps
 
 1. [Fix critical issues if any]
-2. Run /tdd-cycle REFACTOR phase to address findings
+2. Run /add:tdd-cycle REFACTOR phase to address findings
 3. Re-review after fixes
 4. Proceed to staging deployment
 ```
@@ -421,7 +421,7 @@ Code quality score: {N}/10
 **Tests are not passing**
 - Halt review
 - Report which tests fail
-- Ask user to run /tdd-cycle GREEN phase first
+- Ask user to run /add:tdd-cycle GREEN phase first
 
 **Spec file is incomplete**
 - Halt review
@@ -440,7 +440,7 @@ Code quality score: {N}/10
 
 ## Integration with TDD Cycle
 
-- This skill is invoked during REFACTOR phase of /tdd-cycle
+- This skill is invoked during REFACTOR phase of /add:tdd-cycle
 - Input: Implementation files and passing tests
 - Output: Review report (conversation output only)
 - No file modifications

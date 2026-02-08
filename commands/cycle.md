@@ -297,7 +297,7 @@ Display:
 - **What's in progress:** Features making progress, ETA
 - **What's blocked:** Features not advancing, reason
 - **Overall cycle progress:** % of validation criteria met
-- **Suggestion:** If all criteria met, suggest `/cycle --complete`
+- **Suggestion:** If all criteria met, suggest `/add:cycle --complete`
 
 Example report:
 ```
@@ -410,7 +410,7 @@ Write to `.add/learnings.md`:
 
 After completing a cycle:
 
-1. **If milestone is incomplete:** Offer to plan the next cycle (`/cycle --plan`)
+1. **If milestone is incomplete:** Offer to plan the next cycle (`/add:cycle --plan`)
 2. **If milestone is complete:** Offer to close the milestone (`/milestone --close` or similar)
 3. **If promotion is ready:** Highlight maturity promotion path
 
@@ -427,8 +427,8 @@ Recommendation: Complete milestone M8, then assess maturity promotion (Alpha →
 
 Options:
   /milestone --close M8
-  /retro M8 (write retrospective, assess promotion)
-  /cycle --plan M9 (plan next milestone's first cycle)
+  /add:retro M8 (write retrospective, assess promotion)
+  /add:cycle --plan M9 (plan next milestone's first cycle)
 ```
 
 ---
@@ -489,7 +489,7 @@ If cycle plan exceeds limits, **split into smaller cycles.** Smaller is better f
 
 ## Catch-Up Spike: Adoption Mode
 
-When `/cycle` is called on a project newly adopting ADD (no existing structure):
+When `/add:cycle` is called on a project newly adopting ADD (no existing structure):
 
 ### Detection
 Check:
@@ -543,7 +543,7 @@ Features in catch-up cycle:
 
 ### Step 3: Plan Catch-Up Cycle-1
 
-Run `/cycle --plan M0` and execute the catch-up work in 1-2 intensive cycles.
+Run `/add:cycle --plan M0` and execute the catch-up work in 1-2 intensive cycles.
 
 ### Step 4: Resume Normal Cycles
 
@@ -553,7 +553,7 @@ Once catch-up cycle completes, the project is "ADD ready":
 - Test coverage acceptable
 - Milestone structure in place
 
-Then resume normal `/cycle --plan` for M1+.
+Then resume normal `/add:cycle --plan` for M1+.
 
 ---
 
@@ -561,10 +561,10 @@ Then resume normal `/cycle --plan` for M1+.
 
 | Command | Purpose | Output |
 |---------|---------|--------|
-| `/cycle --plan` | Plan next cycle (interactive) | `.add/cycles/cycle-{N}.md` |
-| `/cycle --status` | Check cycle progress | Report + updated hill chart |
-| `/cycle --complete` | Close cycle + update milestone | Archived cycle + learnings checkpoint |
-| `/cycle --plan M0` | Catch-up spike (new projects) | Catch-up milestone + cycle plan |
+| `/add:cycle --plan` | Plan next cycle (interactive) | `.add/cycles/cycle-{N}.md` |
+| `/add:cycle --status` | Check cycle progress | Report + updated hill chart |
+| `/add:cycle --complete` | Close cycle + update milestone | Archived cycle + learnings checkpoint |
+| `/add:cycle --plan M0` | Catch-up spike (new projects) | Catch-up milestone + cycle plan |
 
 **Key principles:**
 - **Maturity drives behavior.** POC cycles are fast & simple. GA cycles are detailed & checkpointed.

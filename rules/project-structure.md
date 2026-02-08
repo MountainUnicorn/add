@@ -8,7 +8,7 @@ Every ADD project follows a standard directory layout. Consistency across projec
 
 ## Standard Project Layout
 
-`/init` creates this structure. Skills and rules assume it exists.
+`/add:init` creates this structure. Skills and rules assume it exists.
 
 ```
 {project-root}/
@@ -51,7 +51,7 @@ Every ADD project follows a standard directory layout. Consistency across projec
 Everything in the project directory is committable EXCEPT:
 
 ```gitignore
-# ADD to .gitignore during /init
+# ADD to .gitignore during /add:init
 .add/away-logs/          # Ephemeral, not worth tracking
 tests/screenshots/errors/ # Failure screenshots are debugging artifacts
 ```
@@ -88,8 +88,8 @@ Your developer DNA. Carries preferences across projects:
 - Style preferences (naming, formatting, UX patterns)
 - Cross-project lessons learned
 
-Read by `/init` to pre-populate interview answers.
-Updated during `/retro` when cross-project patterns are confirmed.
+Read by `/add:init` to pre-populate interview answers.
+Updated during `/add:retro` when cross-project patterns are confirmed.
 
 ### Library (`~/.claude/add/library.md`)
 
@@ -104,7 +104,7 @@ Read by agents before starting work (alongside project-level learnings).
 
 ### Project Index (`~/.claude/add/projects/{name}.json`)
 
-Lightweight snapshot created during `/init` and updated during `/retro`:
+Lightweight snapshot created during `/add:init` and updated during `/add:retro`:
 
 ```json
 {
@@ -121,7 +121,7 @@ Lightweight snapshot created during `/init` and updated during `/retro`:
 }
 ```
 
-This lets `/init` on a new project say: "I see you worked on dossierfyi with FastAPI + React. Similar stack here?"
+This lets `/add:init` on a new project say: "I see you worked on dossierfyi with FastAPI + React. Similar stack here?"
 
 ## Portability Between Devices
 
@@ -138,7 +138,7 @@ This lets `/init` on a new project say: "I see you worked on dossierfyi with Fas
 - `~/.claude/add/library.md` — cross-project knowledge
 
 **Rebuilding machine-local state:**
-Run `/init --import` on the new device. This reads `.add/config.json` and
+Run `/add:init --import` on the new device. This reads `.add/config.json` and
 `.add/learnings.md` from the committed project files and uses them to:
 1. Recreate `~/.claude/add/profile.md` (asks for confirmation)
 2. Recreate `~/.claude/add/projects/{name}.json`
@@ -146,16 +146,16 @@ Run `/init --import` on the new device. This reads `.add/config.json` and
 
 ## Directory Creation Rules
 
-- `/init` creates the full standard layout on first run
+- `/add:init` creates the full standard layout on first run
 - Skills MUST NOT create directories ad-hoc — they use the established structure
-- If a skill needs a directory that doesn't exist, it's a bug in `/init`
+- If a skill needs a directory that doesn't exist, it's a bug in `/add:init`
 - The only exception: feature-specific subdirectories under `tests/screenshots/`
   are created by the test-writer when the first test for that feature is written
 
 ## Stack-Dependent Source Directories
 
 The standard layout above covers ADD methodology directories. Application source
-directories depend on the stack and are documented in CLAUDE.md during `/init`:
+directories depend on the stack and are documented in CLAUDE.md during `/add:init`:
 
 ### Python Backend
 ```
@@ -194,5 +194,5 @@ src/                 # Application code
 tests/               # All tests
 ```
 
-The stack detection in `/init` determines which pattern to suggest.
+The stack detection in `/add:init` determines which pattern to suggest.
 The human can override during the interview.

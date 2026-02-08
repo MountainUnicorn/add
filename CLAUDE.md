@@ -18,8 +18,8 @@ The core principles:
 
 ```
 add/
-├── commands/          # Slash commands (/init, /spec, /away, /back, /retro, /cycle)
-├── skills/            # Workflow skills (/tdd-cycle, /verify, /plan, etc.)
+├── commands/          # Slash commands (/add:init, /add:spec, /add:away, /add:back, /add:retro, /add:cycle)
+├── skills/            # Workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
 ├── rules/             # Auto-loading behavioral rules (10 files)
 ├── hooks/             # PostToolUse automation
 └── templates/         # Document scaffolding (PRD, spec, plan, config, learnings, profile)
@@ -41,31 +41,31 @@ Roadmap (docs/prd.md milestones section)
 ## Getting Started
 
 1. Install: `claude plugin install add`
-2. Initialize: `/init` (runs structured interview)
-3. Create specs: `/spec` (per feature)
-4. Plan: `/plan specs/{feature}.md`
-5. Build: `/tdd-cycle specs/{feature}.md`
-6. Verify: `/verify`
-7. Deploy: `/deploy`
+2. Initialize: `/add:init` (runs structured interview)
+3. Create specs: `/add:spec` (per feature)
+4. Plan: `/add:plan specs/{feature}.md`
+5. Build: `/add:tdd-cycle specs/{feature}.md`
+6. Verify: `/add:verify`
+7. Deploy: `/add:deploy`
 
 ## Key Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/init` | Bootstrap ADD in a new project (PRD interview) |
-| `/spec` | Create a feature spec (feature interview) |
-| `/plan` | Generate implementation plan from spec |
-| `/tdd-cycle` | Execute full TDD cycle against spec |
-| `/test-writer` | RED phase only — write failing tests |
-| `/implementer` | GREEN phase only — make tests pass |
-| `/reviewer` | Code review for spec compliance |
-| `/verify` | Run quality gates |
-| `/optimize` | Performance optimization pass |
-| `/deploy` | Environment-aware deployment |
-| `/away` | Human stepping away — autonomous work plan |
-| `/back` | Human returning — get briefing |
-| `/retro` | Retrospective — human-initiated or agent summary |
-| `/cycle` | Plan, track, and complete work cycles within milestones |
+| `/add:init` | Bootstrap ADD in a new project (PRD interview) |
+| `/add:spec` | Create a feature spec (feature interview) |
+| `/add:plan` | Generate implementation plan from spec |
+| `/add:tdd-cycle` | Execute full TDD cycle against spec |
+| `/add:test-writer` | RED phase only — write failing tests |
+| `/add:implementer` | GREEN phase only — make tests pass |
+| `/add:reviewer` | Code review for spec compliance |
+| `/add:verify` | Run quality gates |
+| `/add:optimize` | Performance optimization pass |
+| `/add:deploy` | Environment-aware deployment |
+| `/add:away` | Human stepping away — autonomous work plan |
+| `/add:back` | Human returning — get briefing |
+| `/add:retro` | Retrospective — human-initiated or agent summary |
+| `/add:cycle` | Plan, track, and complete work cycles within milestones |
 
 ## Rules (auto-loaded)
 
@@ -105,7 +105,7 @@ Cross-project persistence at `~/.claude/add/` (profile, library, project index).
 ## Learning System
 
 Agents accumulate knowledge automatically through checkpoint triggers:
-- After every `/verify`, TDD cycle, deployment, and away session
+- After every `/add:verify`, TDD cycle, deployment, and away session
 - Stored in `.add/learnings.md` (project-level)
 - Cross-project preferences in `~/.claude/add/profile.md` (user-level)
-- Reviewed and promoted during `/retro`
+- Reviewed and promoted during `/add:retro`

@@ -32,14 +32,14 @@ Document hierarchy: PRD → Spec → Plan → User Test Cases → Automated Test
 
 ### ADD Workflow
 ```
-/init                            # Initialize ADD (already done)
-/spec {feature}                  # Create feature specification
-/plan specs/{feature}.md         # Create implementation plan
-/tdd-cycle specs/{feature}.md    # Execute TDD cycle
-/verify                          # Run quality gates
-/deploy                          # Commit and deploy
-/away {duration}                 # Human stepping away
-/back                            # Human returning
+/add:init                            # Initialize ADD (already done)
+/add:spec {feature}                  # Create feature specification
+/add:plan specs/{feature}.md         # Create implementation plan
+/add:tdd-cycle specs/{feature}.md    # Execute TDD cycle
+/add:verify                          # Run quality gates
+/add:deploy                          # Commit and deploy
+/add:away {duration}                 # Human stepping away
+/add:back                            # Human returning
 ```
 
 ## Architecture
@@ -61,7 +61,7 @@ Document hierarchy: PRD → Spec → Plan → User Test Cases → Automated Test
 - **Type checking:** {BLOCKING/NON_BLOCKING}
 - **E2E required:** {YES/NO}
 
-All gates defined in `.add/config.json`. Run `/verify` to check.
+All gates defined in `.add/config.json`. Run `/add:verify` to check.
 
 ## Source Control
 

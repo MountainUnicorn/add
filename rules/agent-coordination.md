@@ -152,14 +152,14 @@ This is how the team gets smarter over time — past mistakes inform future disp
 
 Agents should run mini-retrospectives (write checkpoints to `.add/learnings.md`) automatically at these moments — NO human involvement needed:
 
-1. **After /verify completes** — Record pass/fail, what was fixed
+1. **After /add:verify completes** — Record pass/fail, what was fixed
 2. **After a TDD cycle completes** — Record velocity, spec quality, blockers
-3. **After /deploy completes** — Record environment, smoke test results
-4. **After /back processes an away session** — Record autonomous effectiveness
+3. **After /add:deploy completes** — Record environment, smoke test results
+4. **After /add:back processes an away session** — Record autonomous effectiveness
 5. **After a full spec implementation** — Record overall feature learnings
 6. **When a sub-agent error is caught** — Record the error and correction
 
-These checkpoints accumulate between human retrospectives. The human reviews them with `/retro --agent-summary` or during a full `/retro`.
+These checkpoints accumulate between human retrospectives. The human reviews them with `/add:retro --agent-summary` or during a full `/add:retro`.
 
 ## Swarm Coordination Protocol
 

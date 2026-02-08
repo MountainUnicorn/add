@@ -254,8 +254,8 @@ Upon successful GREEN phase completion, output:
 - {file-path}: {N} functions
 
 ## Next Steps
-1. Run /reviewer to check code quality
-2. Run /tdd-cycle REFACTOR phase to improve code
+1. Run /add:reviewer to check code quality
+2. Run /add:tdd-cycle REFACTOR phase to improve code
 3. Merge implementation
 
 ## Notes
@@ -300,10 +300,10 @@ Upon successful GREEN phase completion, output:
 
 ## Integration with TDD Cycle
 
-- This skill is invoked during the GREEN phase of /tdd-cycle
-- Input: Failing tests from /test-writer
+- This skill is invoked during the GREEN phase of /add:tdd-cycle
+- Input: Failing tests from /add:test-writer
 - Output: Implementation that passes all tests
-- Next: /reviewer for code quality check
+- Next: /add:reviewer for code quality check
 - Finally: /refactor phase for improvements
 
 ## Code Style & Conventions

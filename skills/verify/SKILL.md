@@ -385,8 +385,8 @@ Ready to proceed: ✓ YES
 - Safe to merge and deploy
 
 Next steps:
-1. [If all gates pass] Run /deploy to commit and push
-2. [If gates fail] Fix issues and re-run /verify
+1. [If all gates pass] Run /add:deploy to commit and push
+2. [If gates fail] Fix issues and re-run /add:verify
 
 Detailed gate results:
 - No critical issues
@@ -456,10 +456,10 @@ When --fix is provided:
 
 ## Integration with Other Skills
 
-- Used by /tdd-cycle during VERIFY phase
+- Used by /add:tdd-cycle during VERIFY phase
 - Can be run standalone to check code quality
-- Output informs /deploy decision
-- Feeds back to /implementer or /reviewer if gates fail
+- Output informs /add:deploy decision
+- Feeds back to /add:implementer or /add:reviewer if gates fail
 
 ## Configuration in .add/config.json
 

@@ -68,7 +68,7 @@ That's it. No runtime dependencies. No build step. ADD is pure markdown and JSON
 ### 1. Initialize your project
 
 ```bash
-/init
+/add:init
 ```
 
 ADD interviews you about your project (product vision, tech stack, team size, deployment model) and scaffolds the project structure. Takes about 5 minutes.
@@ -92,7 +92,7 @@ your-project/
 ### 2. Create a feature specification
 
 ```bash
-/spec "user authentication"
+/add:spec "user authentication"
 ```
 
 ADD runs a structured interview (6-10 questions, ~5 min) and generates a complete feature specification with acceptance criteria, test cases, data models, and edge cases.
@@ -100,7 +100,7 @@ ADD runs a structured interview (6-10 questions, ~5 min) and generates a complet
 ### 3. Plan the implementation
 
 ```bash
-/plan specs/user-authentication.md
+/add:plan specs/user-authentication.md
 ```
 
 Transforms the spec into an actionable implementation plan with task breakdown, effort estimation, dependency mapping, and risk assessment.
@@ -108,7 +108,7 @@ Transforms the spec into an actionable implementation plan with task breakdown, 
 ### 4. Build with TDD
 
 ```bash
-/tdd-cycle specs/user-authentication.md
+/add:tdd-cycle specs/user-authentication.md
 ```
 
 Executes the full TDD cycle: writes failing tests from the spec (RED), implements minimal code to pass them (GREEN), refactors for quality, then independently verifies everything.
@@ -116,7 +116,7 @@ Executes the full TDD cycle: writes failing tests from the spec (RED), implement
 ### 5. Verify quality gates
 
 ```bash
-/verify
+/add:verify
 ```
 
 Runs up to 5 levels of quality checks: lint, type checking, unit tests, coverage, and spec compliance.
@@ -124,7 +124,7 @@ Runs up to 5 levels of quality checks: lint, type checking, unit tests, coverage
 ### 6. Deploy
 
 ```bash
-/deploy
+/add:deploy
 ```
 
 Environment-aware deployment with pre-deploy verification and post-deploy smoke tests.
@@ -142,14 +142,14 @@ Environment-aware deployment with pre-deploy verification and post-deploy smoke 
          ┌─────────────────────────┼─────────────────────────┐
          ▼                         ▼                         ▼
    ┌───────────┐           ┌─────────────┐           ┌────────────┐
-   │   /init   │           │   /spec     │           │  /cycle    │
+   │   /add:init   │           │   /add:spec     │           │  /add:cycle    │
    │ Interview │──────────▶│  Interview  │──────────▶│   Plan     │
    │ + Setup   │           │  + Spec     │           │  + Track   │
    └───────────┘           └──────┬──────┘           └─────┬──────┘
                                   │                        │
                                   ▼                        ▼
                            ┌─────────────┐          ┌────────────┐
-                           │   /plan     │          │ /tdd-cycle │
+                           │   /add:plan     │          │ /add:tdd-cycle │
                            │ Impl. Plan  │─────────▶│  RED       │
                            └─────────────┘          │  GREEN     │
                                                     │  REFACTOR  │
@@ -157,13 +157,13 @@ Environment-aware deployment with pre-deploy verification and post-deploy smoke 
                                                           │
                                                           ▼
                                                    ┌────────────┐
-                                                   │  /verify   │
+                                                   │  /add:verify   │
                                                    │  5 Gates   │
                                                    └─────┬──────┘
                                                          │
                                                          ▼
                                                    ┌────────────┐
-                                                   │  /deploy   │
+                                                   │  /add:deploy   │
                                                    │  Env-Aware │
                                                    └────────────┘
 ```
@@ -223,10 +223,10 @@ ADD defines three engagement modes. You choose how much autonomy agents get.
 | **Balanced** _(default)_ | Agents execute TDD cycles freely within spec boundaries. Pause at ambiguity or architecture forks. Structured interviews for decisions. | Alpha/Beta, established patterns |
 | **Autonomous** | Human defines scope and boundaries, then walks away. Agents execute full TDD cycles, commit, verify. Return to a full briefing. | GA maturity, well-specified features |
 
-The `/away` and `/back` commands power autonomous mode:
+The `/add:away` and `/add:back` commands power autonomous mode:
 
 ```
-Define scope ──▶ /away ──▶ Agent executes autonomously ──▶ /back ──▶ Full briefing
+Define scope ──▶ /add:away ──▶ Agent executes autonomously ──▶ /add:back ──▶ Full briefing
                  (work     (TDD cycles, commits, verify    (what shipped,
                   plan)     — all decisions logged)          what's blocked)
 ```
@@ -252,11 +252,11 @@ ROADMAP  (Now / Next / Later — no fake dates)
 
 ### Spec-Driven Development
 
-No code without a spec. ADD enforces a document hierarchy — PRD → Spec → Plan → Tests → Code — so every line of implementation traces back to an approved requirement. The `/spec` command interviews you about the feature and generates acceptance criteria, test cases, data models, API contracts, and edge cases.
+No code without a spec. ADD enforces a document hierarchy — PRD → Spec → Plan → Tests → Code — so every line of implementation traces back to an approved requirement. The `/add:spec` command interviews you about the feature and generates acceptance criteria, test cases, data models, API contracts, and edge cases.
 
 ### Strict TDD Enforcement
 
-ADD enforces the TDD cycle at every level. The `/tdd-cycle` skill orchestrates sub-agents: one writes failing tests (RED), another writes minimal code to pass them (GREEN), a reviewer identifies refactoring opportunities, and a verifier independently confirms everything works. Commits follow the pattern: `test:` → `feat:` → `refactor:`.
+ADD enforces the TDD cycle at every level. The `/add:tdd-cycle` skill orchestrates sub-agents: one writes failing tests (RED), another writes minimal code to pass them (GREEN), a reviewer identifies refactoring opportunities, and a verifier independently confirms everything works. Commits follow the pattern: `test:` → `feat:` → `refactor:`.
 
 ### Human-AI Collaboration Protocol
 
@@ -277,13 +277,13 @@ Interviews follow a structured protocol: questions are estimated upfront ("I hav
 Going to lunch? Stepping into a meeting? Tell the agent:
 
 ```bash
-/away "back in 2 hours"
+/add:away "back in 2 hours"
 ```
 
 ADD assesses available work, presents an autonomous work plan for your approval, and gets to work. When you return:
 
 ```bash
-/back
+/add:back
 ```
 
 You get a briefing: what was completed, what's in progress, what needs your decision. The agent won't deploy to staging/production or start features without specs while you're gone.
@@ -328,9 +328,9 @@ At Beta/GA maturity, ADD coordinates multiple agents working in parallel:
 ADD uses cycles (not sprints) — scope-boxed batches of work that end when validation criteria are met, not when a timer expires.
 
 ```bash
-/cycle --plan      # Plan the next batch of work
-/cycle --status    # Check progress, update hill chart
-/cycle --complete  # Close cycle, capture learnings
+/add:cycle --plan      # Plan the next batch of work
+/add:cycle --status    # Check progress, update hill chart
+/add:cycle --complete  # Close cycle, capture learnings
 ```
 
 Features in a cycle progress through positions: SHAPED → SPECCED → PLANNED → IN_PROGRESS → VERIFIED → DONE. Hill charts visualize whether work is still being figured out (uphill) or being executed (downhill).
@@ -367,7 +367,7 @@ This is what makes ADD compound over time. Agents don't start from zero on each 
 ```
 Project A: discovers "UUID columns must be type uuid, not text"
   → Stored in .add/learnings.md (project-level)
-  → Promoted to ~/.claude/add/library.md during /retro (cross-project)
+  → Promoted to ~/.claude/add/library.md during /add:retro (cross-project)
 
 Project B: agent searches library before implementing database schema
   → Finds UUID pattern, applies it automatically
@@ -378,16 +378,16 @@ Project B: agent searches library before implementing database schema
 
 Knowledge is captured automatically — no human effort required:
 
-- After every `/verify` — what passed, what failed, why
+- After every `/add:verify` — what passed, what failed, why
 - After every TDD cycle — patterns in test writing and implementation
 - After every deployment — environment-specific discoveries
 - After every away session — what the agent learned working autonomously
-- During `/retro` — human + agent reflect, promote learnings to cross-project library
+- During `/add:retro` — human + agent reflect, promote learnings to cross-project library
 
 ### Retrospectives
 
 ```bash
-/retro
+/add:retro
 ```
 
 Two modes:
@@ -402,25 +402,25 @@ Retrospectives update `.add/learnings.md`, promote patterns to `~/.claude/add/li
 
 | Command | Purpose | Output |
 |---------|---------|--------|
-| `/init` | Bootstrap ADD in your project via structured interview | `.add/` directory, config, PRD, CLAUDE.md |
-| `/spec` | Create a feature specification through interview | `specs/{feature}.md` |
-| `/cycle` | Plan, track, and complete work cycles | `.add/cycles/cycle-{N}.md` |
-| `/away` | Declare absence — get autonomous work plan | Away log + work plan |
-| `/back` | Return from absence — get briefing | Status report + decision queue |
-| `/retro` | Run a retrospective — capture and promote learnings | Updated learnings + archive |
+| `/add:init` | Bootstrap ADD in your project via structured interview | `.add/` directory, config, PRD, CLAUDE.md |
+| `/add:spec` | Create a feature specification through interview | `specs/{feature}.md` |
+| `/add:cycle` | Plan, track, and complete work cycles | `.add/cycles/cycle-{N}.md` |
+| `/add:away` | Declare absence — get autonomous work plan | Away log + work plan |
+| `/add:back` | Return from absence — get briefing | Status report + decision queue |
+| `/add:retro` | Run a retrospective — capture and promote learnings | Updated learnings + archive |
 
 ## Skills
 
 | Skill | Purpose | Phase |
 |-------|---------|-------|
-| `/tdd-cycle` | Complete RED → GREEN → REFACTOR → VERIFY cycle | Full TDD |
-| `/test-writer` | Write failing tests from spec acceptance criteria | RED |
-| `/implementer` | Write minimal code to pass tests | GREEN |
-| `/reviewer` | Code review for spec compliance (read-only) | REFACTOR |
-| `/verify` | Run quality gates (lint, types, tests, coverage, spec compliance) | VERIFY |
-| `/plan` | Create implementation plan from spec | Planning |
-| `/optimize` | Performance optimization pass | Optimization |
-| `/deploy` | Environment-aware deployment with verification | Deployment |
+| `/add:tdd-cycle` | Complete RED → GREEN → REFACTOR → VERIFY cycle | Full TDD |
+| `/add:test-writer` | Write failing tests from spec acceptance criteria | RED |
+| `/add:implementer` | Write minimal code to pass tests | GREEN |
+| `/add:reviewer` | Code review for spec compliance (read-only) | REFACTOR |
+| `/add:verify` | Run quality gates (lint, types, tests, coverage, spec compliance) | VERIFY |
+| `/add:plan` | Create implementation plan from spec | Planning |
+| `/add:optimize` | Performance optimization pass | Optimization |
+| `/add:deploy` | Environment-aware deployment with verification | Deployment |
 
 ## Rules (Auto-loaded)
 
@@ -443,7 +443,7 @@ ADD ships with 10 behavioral rules that auto-load into every conversation:
 
 ## Non-Greenfield Adoption
 
-ADD works on existing projects, not just new ones. When you run `/init` on an existing codebase:
+ADD works on existing projects, not just new ones. When you run `/add:init` on an existing codebase:
 
 1. **Discovery** — ADD scans your project structure, detects test frameworks, linters, and conventions
 2. **Non-destructive setup** — Adds `.add/` alongside your existing structure, never replaces
@@ -485,7 +485,7 @@ The entire plugin is ~44 files of markdown, JSON, and templates. It runs entirel
 
 ## Project Structure Reference
 
-After `/init`, your project gets this structure:
+After `/add:init`, your project gets this structure:
 
 ```
 your-project/
@@ -521,7 +521,7 @@ Cross-project persistence (machine-local, not committed):
 | Version | Status | Focus |
 |---------|--------|-------|
 | **v0.1.0** | Complete | Core infrastructure — 6 commands, 8 skills, 10 rules, 10 templates |
-| **v0.2.0** | Next | Adoption & polish — `/init --adopt`, enhanced interviews, cross-project sync |
+| **v0.2.0** | Next | Adoption & polish — `/add:init --adopt`, enhanced interviews, cross-project sync |
 | **v1.0.0** | Planned | Marketplace ready — CI/CD hooks, advanced learnings, team profiles |
 
 ---

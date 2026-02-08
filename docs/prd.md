@@ -53,7 +53,7 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 | **Time-to-first-value** | ≤5 min setup for new project | User interviews |
 | **Quality gates efficacy** | 90%+ of gate violations caught pre-deploy | Project retrospectives |
 | **Knowledge persistence** | ≥70% learned patterns reapplied cross-project | Learnings library analysis |
-| **Adoption gradient** | 50% adoption on legacy projects (via /init --adopt) | Tracked adoptions |
+| **Adoption gradient** | 50% adoption on legacy projects (via /add:init --adopt) | Tracked adoptions |
 
 ---
 
@@ -63,7 +63,7 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 
 **Core infrastructure for spec-driven development:**
 
-- ✓ 6 commands: `/init`, `/spec`, `/away`, `/back`, `/retro`, `/cycle`
+- ✓ 6 commands: `/add:init`, `/add:spec`, `/add:away`, `/add:back`, `/add:retro`, `/add:cycle`
 - ✓ 8 skills: tdd-cycle, test-writer, implementer, reviewer, verify, plan, optimize, deploy
 - ✓ 10 rules: spec-driven, tdd-enforcement, human-collaboration, agent-coordination, source-control, environment-awareness, quality-gates, learning, project-structure, maturity-lifecycle
 - ✓ 10 templates: PRD, spec, plan, config, settings, CLAUDE.md, learnings, profile, library, milestone
@@ -80,7 +80,7 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 - Rich interactive CLI (beyond markdown/JSON)
 - CI/CD integration (lint on commit, auto-test)
 - Sync between user-level and project-level learnings
-- Adoption wizard for legacy projects (`/init --adopt` logic)
+- Adoption wizard for legacy projects (`/add:init --adopt` logic)
 
 ---
 
@@ -89,7 +89,7 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 **Goal**: Make ADD easy to adopt on existing projects; refine v0.1.0 based on dogfooding.
 
 **Features**:
-- `/init --adopt` command with legacy project detection
+- `/add:init --adopt` command with legacy project detection
 - Enhanced spec interview workflow (iterative refinement)
 - Better away/back mode context preservation
 - Integration with dossierFYI dogfooding project
@@ -97,7 +97,7 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 - Retro template automation (extract lessons from project)
 - Learning library cross-project search
 
-**Success**: 10+ projects using ADD via `/init --adopt`
+**Success**: 10+ projects using ADD via `/add:init --adopt`
 
 ---
 
@@ -167,10 +167,10 @@ Lives in `docs/prd.md` milestones section. Uses Now/Next/Later framing (no fake 
 Lives in `docs/milestones/M{N}-{name}.md`. Defines appetite (effort budget, not estimate), features, and a hill chart. Features progress: SHAPED → SPECCED → PLANNED → IN_PROGRESS → VERIFIED → DONE. Uphill work (figuring out) vs downhill work (executing).
 
 **Level 3: Cycle** — What's the next batch of work?
-Lives in `.add/cycles/cycle-{N}.md`. A scope-boxed selection of features from the current milestone. Planned via `/cycle` command. Includes dependency assessment, parallel strategy, and validation criteria. Not time-boxed — cycles end when validation criteria are met or the human checkpoints.
+Lives in `.add/cycles/cycle-{N}.md`. A scope-boxed selection of features from the current milestone. Planned via `/add:cycle` command. Includes dependency assessment, parallel strategy, and validation criteria. Not time-boxed — cycles end when validation criteria are met or the human checkpoints.
 
 **Level 4: Execution** — Doing the work.
-Existing ADD layer: `/tdd-cycle`, `/verify`, `/deploy`. Individual feature work against specs.
+Existing ADD layer: `/add:tdd-cycle`, `/add:verify`, `/add:deploy`. Individual feature work against specs.
 
 **Maturity Cascade**: The maturity level (poc → alpha → beta → ga) governs how much rigor each level requires. A POC has 1 informal milestone and no cycle planning. A GA project has full milestones with hill charts, structured cycle plans with parallel strategy, and WIP limits.
 
@@ -185,7 +185,7 @@ Existing ADD layer: `/tdd-cycle`, `/verify`, `/deploy`. Individual feature work 
 **Description**: Every feature begins with a PRD-→-Spec-→-Plan document hierarchy before code is written.
 
 **Components**:
-- `/spec` command: Interactive PRD/Spec generator
+- `/add:spec` command: Interactive PRD/Spec generator
 - PRD template: Structured product requirements (9 sections)
 - Spec template: Detailed feature specification with test cases
 - Plan template: Implementation roadmap with estimation
@@ -194,7 +194,7 @@ Existing ADD layer: `/tdd-cycle`, `/verify`, `/deploy`. Individual feature work 
 
 **Example workflow**:
 ```
-1. Product manager: Create PRD using /spec command
+1. Product manager: Create PRD using /add:spec command
 2. Human review: Q&A in "spec interview" engagement mode
 3. Agent accepts: Generates detailed Spec from approved PRD
 4. Engineer reviews: Provides estimation and sign-off
@@ -210,7 +210,7 @@ Existing ADD layer: `/tdd-cycle`, `/verify`, `/deploy`. Individual feature work 
 **Description**: Tests are written before code; quality gates ensure all code is tested.
 
 **Components**:
-- `/tdd-cycle` skill: Orchestrates test-write → implement → verify loop
+- `/add:tdd-cycle` skill: Orchestrates test-write → implement → verify loop
 - `test-writer` skill: Generates unit/integration tests from spec
 - `implementer` skill: Writes code that passes tests
 - `verify` skill: Semantic testing + regression detection
@@ -243,9 +243,9 @@ Existing ADD layer: `/tdd-cycle`, `/verify`, `/deploy`. Individual feature work 
 - **Status pulse**: Regular checkins on project health
 
 **Commands**:
-- `/away`: Agent pauses; human takes over (can modify files freely)
-- `/back`: Agent resumes; catches up on changes human made
-- `/retro`: Retrospective meeting; team + agent reflect on learning
+- `/add:away`: Agent pauses; human takes over (can modify files freely)
+- `/add:back`: Agent resumes; catches up on changes human made
+- `/add:retro`: Retrospective meeting; team + agent reflect on learning
 
 **Why it matters**: Prevents agent hallucination. Ensures human judgment on high-stakes decisions.
 
@@ -255,9 +255,9 @@ Existing ADD layer: `/tdd-cycle`, `/verify`, `/deploy`. Individual feature work 
 2. /decision-point: Agent asks human for architectural guidance
 3. Human provides decision (async, via message)
 4. Agent implements decision
-5. /away: Human needs to focus; agent pauses
+5. /add:away: Human needs to focus; agent pauses
 6. Human modifies code, docs, configs
-7. /back: Agent re-reads changes, identifies learnings
+7. /add:back: Agent re-reads changes, identifies learnings
 8. Agent resumes with updated context
 ```
 
@@ -289,7 +289,7 @@ Production: Full test suite + approval gates
 
 #### **Feature: Structured Project Initialization**
 
-**Description**: `/init` command sets up project structure, rules, and conventions.
+**Description**: `/add:init` command sets up project structure, rules, and conventions.
 
 **Components**:
 - `.add/config.json`: Project metadata (name, tier, rules, team)
@@ -301,7 +301,7 @@ Production: Full test suite + approval gates
 
 **Example**:
 ```
-$ /init
+$ /add:init
 ? Project name: dossierFYI
 ? Environment tier: Tier 1 (local only)
 ? Rules to enable: [all defaults]
@@ -320,7 +320,7 @@ $ /init
 **Description**: Agents automatically checkpoint learnings during development; humans reflect during retros. Learnings persist across projects.
 
 **Components**:
-- Agent auto-checkpoints: During /away/back, /retro, on spec approval
+- Agent auto-checkpoints: During /add:away//add:back, /add:retro, on spec approval
 - Learnings template: Structured format (decision, rationale, context, pattern, reusability)
 - Learnings library: Project-level + user-level (machine-local)
 - Cross-project search: Find similar patterns across projects
@@ -369,7 +369,7 @@ Later, on project X:
 
 ---
 
-#### **Feature: Non-Greenfield Adoption (/init --adopt)**
+#### **Feature: Non-Greenfield Adoption (/add:init --adopt)**
 
 **Description**: Make ADD accessible to existing projects via gradual adoption.
 
@@ -383,7 +383,7 @@ Later, on project X:
 
 **Example**:
 ```
-$ /init --adopt
+$ /add:init --adopt
 ? Detected test framework: pytest ✓
 ? Detected linter: black ✓
 ? Adopt spec-driven rule? (Recommended for new features) [Y/n]
@@ -399,12 +399,12 @@ $ /init --adopt
 
 | Command | Aliases | Purpose | Output |
 |---------|---------|---------|--------|
-| `/init` | `/setup` | Initialize project with ADD infrastructure | `.add/` directory + config files |
-| `/spec` | `/spec-interview`, `/spec-write` | Start spec-driven development workflow | PRD template → Spec template |
-| `/away` | `/pause`, `/hands-off` | Pause agent; human takes control | Saves context checkpoint |
-| `/back` | `/resume`, `/hands-on` | Resume agent; catch up on changes | Loads context, identifies deltas |
-| `/retro` | `/retrospective`, `/learnings` | Team retrospective + learning capture | Learnings template + library update |
-| `/cycle` | `/sprint`, `/plan-cycle` | Plan and execute a work cycle | `.add/cycles/cycle-{N}.md` |
+| `/add:init` | `/setup` | Initialize project with ADD infrastructure | `.add/` directory + config files |
+| `/add:spec` | `/spec-interview`, `/spec-write` | Start spec-driven development workflow | PRD template → Spec template |
+| `/add:away` | `/pause`, `/hands-off` | Pause agent; human takes control | Saves context checkpoint |
+| `/add:back` | `/resume`, `/hands-on` | Resume agent; catch up on changes | Loads context, identifies deltas |
+| `/add:retro` | `/retrospective`, `/learnings` | Team retrospective + learning capture | Learnings template + library update |
+| `/add:cycle` | `/sprint`, `/plan-cycle` | Plan and execute a work cycle | `.add/cycles/cycle-{N}.md` |
 
 ---
 
@@ -412,12 +412,12 @@ $ /init --adopt
 
 | Skill | Triggers | Input | Output | Integration |
 |-------|----------|-------|--------|-------------|
-| `tdd-cycle` | Manual + `/spec` approval | Spec | Tests → Code → Verified | spec-driven, tdd-enforcement |
+| `tdd-cycle` | Manual + `/add:spec` approval | Spec | Tests → Code → Verified | spec-driven, tdd-enforcement |
 | `test-writer` | tdd-cycle, manual | Spec → Test framework | Test file with full coverage | tdd-enforcement, quality-gates |
 | `implementer` | tdd-cycle, manual | Tests + Spec | Implementation code | tdd-enforcement, source-control |
 | `reviewer` | Manual + pre-push gate | Code + Spec | Review checklist + feedback | human-collaboration, quality-gates |
 | `verify` | Pre-commit, pre-push, CI, pre-deploy, post-deploy | Code + Tests | Pass/fail + coverage report | quality-gates, tdd-enforcement |
-| `plan` | `/spec`, manual | Spec | Implementation plan + estimation | human-collaboration, learning |
+| `plan` | `/add:spec`, manual | Spec | Implementation plan + estimation | human-collaboration, learning |
 | `optimize` | Manual + post-retro | Code + Learnings | Optimized code + rationale | learning, source-control |
 | `deploy` | Manual | Code + Environment | Deploy to env + smoke tests | environment-awareness, quality-gates |
 
@@ -430,11 +430,11 @@ $ /init --adopt
 | `spec-driven` | All code commits | Implementation must reference approved spec section | Yes (pre-commit) |
 | `tdd-enforcement` | All code commits | Tests must exist before code; 80%+ coverage required | Yes (pre-commit) |
 | `human-collaboration` | All decisions | Architectural/design decisions require human sign-off | Yes (manual) |
-| `agent-coordination` | All agent outputs | Agent actions logged; human can pause with /away | Yes (/away) |
+| `agent-coordination` | All agent outputs | Agent actions logged; human can pause with /add:away | Yes (/add:away) |
 | `source-control` | Project init + commits | `.add/` directory always committed; clean commit messages | Yes (pre-push) |
 | `environment-awareness` | Deployment | Code built/tested for target environment | Yes (pre-deploy) |
 | `quality-gates` | All commits + deploys | 5-gate enforcement (pre-commit → post-deploy) | Yes (all gates) |
-| `learning` | Specs, /away, /back, /retro | Decisions logged; patterns captured; learnings persist | No (auto-logging) |
+| `learning` | Specs, /add:away, /add:back, /add:retro | Decisions logged; patterns captured; learnings persist | No (auto-logging) |
 | `project-structure` | Project init | Consistent `.add/` layout; templates valid | Yes (init) |
 | `maturity-lifecycle` | All ADD behavior | Cascades maturity level into process rigor, quality gates, parallelism | Yes (all rules) |
 
@@ -494,7 +494,7 @@ $ /init --adopt
 
 ### 7.6 Usability
 
-- **Onboarding**: First spec written in < 5 minutes (guided /spec command)
+- **Onboarding**: First spec written in < 5 minutes (guided /add:spec command)
 - **Commands**: ≤ 5 top-level commands; all have aliases
 - **Error messages**: Clear, actionable (e.g., "spec-driven rule: Implementation must reference spec section; missing reference to spec.md#3.2")
 
@@ -511,7 +511,7 @@ ADD projects declare a maturity level that governs all process rigor:
 | **beta** | Full template | Required | Enforced | Pre-commit + CI + pre-deploy | 2-4 | Full plan |
 | **ga** | Full + architecture | Required + acceptance criteria | Strict | All 5 levels | 3-5 (worktrees) | Full + risk assessment |
 
-Maturity promotion is deliberate — triggered via `/cycle --complete` or `/retro` with gap analysis showing readiness for the next level.
+Maturity promotion is deliberate — triggered via `/add:cycle --complete` or `/add:retro` with gap analysis showing readiness for the next level.
 
 ---
 
@@ -522,9 +522,9 @@ Maturity promotion is deliberate — triggered via `/cycle --complete` or `/retr
 | Should learnings auto-sync between user-level (~/.claude/add/) and project-level (.add/)? Or manual sync via command? | System design | v0.2.0 | abrooke |
 | What's the minimum viable CI/CD integration? (GitHub Actions lint only? Full test suite?) | v1.0.0 scope | v1.0.0 | abrooke |
 | Should quality gates support "override" with human approval (e.g., skip test for urgent hotfix)? | Security/agility tradeoff | Decision pending | abrooke |
-| How to make /init --adopt work for truly alien project structures (e.g., monorepos, multilang)? | Adoption complexity | v0.2.0+ | abrooke |
+| How to make /add:init --adopt work for truly alien project structures (e.g., monorepos, multilang)? | Adoption complexity | v0.2.0+ | abrooke |
 | Should profiles be versioned? (e.g., "use Profile v2.0 on this project") | Long-term maintainability | v1.0.0 | abrooke |
-| Multi-agent coordination: How do agents coordinate across multiple concurrent specs/plans? | Future roadmap | **Addressed in v0.1.0** — swarm coordination protocol in agent-coordination rule + /cycle command | abrooke |
+| Multi-agent coordination: How do agents coordinate across multiple concurrent specs/plans? | Future roadmap | **Addressed in v0.1.0** — swarm coordination protocol in agent-coordination rule + /add:cycle command | abrooke |
 | Context window optimization: 10 autoloaded rules consume ~14K tokens (7% of 200K). Should heavy rules (agent-coordination, maturity-lifecycle) use conditional loading or progressive disclosure? | Performance | v0.2.0 — dog-food first, optimize based on real usage patterns | abrooke |
 | Cowork vs Claude Code interplay: How should ADD bridge Cowork (human decisions, reviews) and Claude Code (agent execution, TDD)? Shared state via .add/ directory? | Architecture | v0.2.0 | abrooke |
 
@@ -535,7 +535,7 @@ Maturity promotion is deliberate — triggered via `/cycle --complete` or `/retr
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 0.1 | 2026-02-07 | abrooke | Initial PRD; describes v0.1.0 (complete) + v0.2.0 + v1.0.0 roadmap |
-| 0.2 | 2026-02-07 | abrooke | Added maturity lifecycle, work hierarchy (roadmap→milestone→cycle→execution), swarm coordination, /cycle command |
+| 0.2 | 2026-02-07 | abrooke | Added maturity lifecycle, work hierarchy (roadmap→milestone→cycle→execution), swarm coordination, /add:cycle command |
 
 ---
 
@@ -546,9 +546,9 @@ This PRD was created *using* ADD methodology:
 1. **Spec-driven**: This document is the PRD for the ADD plugin. It's the single source of truth for requirements.
 2. **Test-before-impl**: Test cases (e.g., "v0.1.0 should have 5 commands") are embedded in scope section; implementations verified against them.
 3. **Trust but verify**: Human (abrooke) approved problem statement; agent (Claude) refined architecture/features; human reviewed final PRD.
-4. **Structured collaboration**: PRD created via /spec workflow (hypothetically, once plugin is live).
+4. **Structured collaboration**: PRD created via /add:spec workflow (hypothetically, once plugin is live).
 5. **Environment awareness**: Tier 1 environment appropriate (plugin = markdown/JSON, no backend).
-6. **Continuous learning**: Learnings from building ADD will be captured in `/retro` and applied to v0.2.0.
+6. **Continuous learning**: Learnings from building ADD will be captured in `/add:retro` and applied to v0.2.0.
 
 ---
 

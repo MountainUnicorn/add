@@ -8,7 +8,7 @@ Agents accumulate knowledge through structured checkpoints. This knowledge persi
 
 ## Read Before Work
 
-Before starting ANY skill or command (except /init), check if `.add/learnings.md` exists.
+Before starting ANY skill or command (except /add:init), check if `.add/learnings.md` exists.
 If it does, read it. Previous learnings may affect how you approach the current task.
 
 For example:
@@ -21,7 +21,7 @@ For example:
 Agents automatically write checkpoint entries to `.add/learnings.md` at these moments.
 No human involvement needed — this is the agent learning autonomously.
 
-### After Verification (/verify completes)
+### After Verification (/add:verify completes)
 
 If any quality gate failed and was fixed, record what went wrong:
 
@@ -57,7 +57,7 @@ Record velocity and quality observations:
 
 ### After Away-Mode Session
 
-When the human returns and `/back` runs:
+When the human returns and `/add:back` runs:
 
 ```markdown
 ## Checkpoint: Post-Away — {date}
@@ -88,7 +88,7 @@ When all acceptance criteria for a spec have passing tests and code:
 
 ### After Deployment
 
-When `/deploy` completes (any environment):
+When `/add:deploy` completes (any environment):
 
 ```markdown
 ## Checkpoint: Post-Deploy — {date} — {environment}
@@ -130,7 +130,7 @@ This is the trust-but-verify learning moment:
 <!-- Patterns, approaches, tools that caused problems -->
 
 ## Agent Checkpoints
-<!-- Automatic entries from triggers above — processed during /retro -->
+<!-- Automatic entries from triggers above — processed during /add:retro -->
 ```
 
 ## Checkpoint Format Rules
@@ -155,11 +155,11 @@ Some learnings are project-specific. Others reveal cross-project preferences.
 - "User prefers toast notifications over alert dialogs"
 - "User prefers Alpine-based Docker images"
 
-Cross-project patterns should only be promoted to the profile during a `/retro`
+Cross-project patterns should only be promoted to the profile during a `/add:retro`
 with human confirmation. Agents flag candidates but don't auto-update the profile.
 
 ```markdown
 ## Profile Update Candidates
-<!-- Flagged during checkpoints, promoted during /retro -->
+<!-- Flagged during checkpoints, promoted during /add:retro -->
 - {date}: User chose Redis again (3rd time). Promote to profile?
 ```

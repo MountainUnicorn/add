@@ -405,7 +405,7 @@ Upon completion, output:
 
 ## Next Steps
 1. Review profile and optimization decisions
-2. Run full quality gates: /verify --level deploy
+2. Run full quality gates: /add:verify --level deploy
 3. Deploy to staging and monitor
 4. If all good, deploy to production
 
@@ -444,9 +444,9 @@ Upon completion, output:
 
 ## Integration with Other Skills
 
-- Used after /tdd-cycle completes (code is stable)
-- Used before /deploy to ensure performance requirements met
-- /verify validates that optimization doesn't break tests
+- Used after /add:tdd-cycle completes (code is stable)
+- Used before /add:deploy to ensure performance requirements met
+- /add:verify validates that optimization doesn't break tests
 - Performance tests become part of permanent test suite
 
 ## Configuration in .add/config.json

@@ -57,13 +57,13 @@ These run after deployment. Failures trigger rollback discussion.
 
 ## Quality Gate Commands
 
-The `/verify` skill runs the appropriate gates based on context:
+The `/add:verify` skill runs the appropriate gates based on context:
 
 ```
-/verify          — Run Gate 1 + Gate 2 (local verification)
-/verify --ci     — Run Gate 1 through Gate 3 (CI-level)
-/verify --deploy — Run Gate 1 through Gate 4 (pre-deploy)
-/verify --smoke  — Run Gate 5 only (post-deploy)
+/add:verify          — Run Gate 1 + Gate 2 (local verification)
+/add:verify --ci     — Run Gate 1 through Gate 3 (CI-level)
+/add:verify --deploy — Run Gate 1 through Gate 4 (pre-deploy)
+/add:verify --smoke  — Run Gate 5 only (post-deploy)
 ```
 
 ## Spec Compliance Verification

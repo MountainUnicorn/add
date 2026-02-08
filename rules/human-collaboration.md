@@ -8,7 +8,7 @@ The human is the architect, product owner, and decision maker. Agents are the de
 
 ## Interview Protocol
 
-When gathering requirements (during `/init`, `/spec`, or any discovery), follow the 1-by-1 interview format:
+When gathering requirements (during `/add:init`, `/add:spec`, or any discovery), follow the 1-by-1 interview format:
 
 ### Estimation First
 
@@ -105,7 +105,7 @@ Different situations call for different interaction patterns. Recognize which mo
 
 ## Away Mode
 
-When the human declares absence with `/away`:
+When the human declares absence with `/add:away`:
 
 ### Receive the Handoff
 - Acknowledge the duration
@@ -121,7 +121,7 @@ When the human declares absence with `/away`:
 - Maintain a running log of completed work and pending decisions
 - Send status pulses at reasonable intervals (not every 5 minutes)
 
-### Return Briefing (via `/back`)
+### Return Briefing (via `/add:back`)
 - Summarize what was completed (with test results)
 - List pending decisions that need human input
 - Flag any issues or blockers discovered

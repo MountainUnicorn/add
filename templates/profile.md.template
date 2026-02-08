@@ -1,8 +1,8 @@
 # ADD User Profile — {USERNAME}
 
 > This file lives at `~/.claude/add/profile.md` and carries your preferences across ALL projects.
-> Updated during retrospectives (/retro) when cross-project patterns are confirmed.
-> Read by /init to pre-populate project setup.
+> Updated during retrospectives (/add:retro) when cross-project patterns are confirmed.
+> Read by /add:init to pre-populate project setup.
 
 ## Tech Preferences
 
@@ -35,4 +35,4 @@
 <!-- Format: - {date}: {lesson}. Source: {project name}. -->
 
 ## Last Updated
-<!-- {date} — from /retro on {project_name} -->
+<!-- {date} — from /add:retro on {project_name} -->

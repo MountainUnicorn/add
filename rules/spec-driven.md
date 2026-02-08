@@ -29,7 +29,7 @@ Before any feature work begins, `docs/prd.md` must exist and contain:
 4. **Technical Constraints** — Stack, environments, deployment targets
 5. **Environment Strategy** — Which environments exist and their purpose
 
-If no PRD exists when a feature spec is requested, stop and run the `/init` interview first.
+If no PRD exists when a feature spec is requested, stop and run the `/add:init` interview first.
 
 ## Spec Requirements
 

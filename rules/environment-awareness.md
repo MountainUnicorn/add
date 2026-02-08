@@ -4,7 +4,7 @@ autoload: true
 
 # ADD Rule: Environment Awareness
 
-Every project has an environment strategy defined during `/init`. All skills and commands must respect it.
+Every project has an environment strategy defined during `/add:init`. All skills and commands must respect it.
 
 ## Environment Tiers
 
@@ -55,7 +55,7 @@ local → dev → staging → production
 
 ## Test-Per-Environment Matrix
 
-Skills like `/verify` and `/deploy` must check which tests to run based on the current environment:
+Skills like `/add:verify` and `/add:deploy` must check which tests to run based on the current environment:
 
 | Test Type | Local | Dev/CI | Staging | Production |
 |-----------|-------|--------|---------|------------|

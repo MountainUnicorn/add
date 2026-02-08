@@ -34,14 +34,14 @@ Before beginning, validate:
    - Quality gate thresholds
    - Parallelization preference
 4. Verify plan exists at docs/plans/{feature}-plan.md
-   - If not, generate one using /plan skill before proceeding
+   - If not, generate one using /add:plan skill before proceeding
 5. Identify target implementation paths from the spec
 
 ## Execution Phases
 
 ### Phase 1: RED — Test Writing
 
-Invoke the /test-writer skill with the spec reference:
+Invoke the /add:test-writer skill with the spec reference:
 - Pass argument: `specs/{feature}.md [--ac AC-001,AC-002]`
 - This generates failing tests covering all acceptance criteria
 - Tests must be named using convention: `test_AC_NNN_description` for traceability
@@ -55,7 +55,7 @@ Verify tests actually fail:
 
 ### Phase 2: GREEN — Implementation
 
-Once RED phase is complete, invoke the /implementer skill:
+Once RED phase is complete, invoke the /add:implementer skill:
 - Pass argument: `specs/{feature}.md [--ac AC-001,AC-002]`
 - Implementer writes minimal code to pass each test
 - Target: Every test should pass with as little code as possible
@@ -70,7 +70,7 @@ After implementation:
 ### Phase 3: REFACTOR — Code Quality
 
 With all tests green, refactor for quality:
-1. Run the /reviewer skill to identify issues:
+1. Run the /add:reviewer skill to identify issues:
    - Pass argument: `specs/{feature}.md --scope full`
    - Reviewer produces READ-ONLY report on code quality and spec compliance
 2. Address reviewer findings:
@@ -86,7 +86,7 @@ With all tests green, refactor for quality:
 
 ### Phase 4: VERIFY — Quality Gates
 
-Run the full verification suite using /verify skill:
+Run the full verification suite using /add:verify skill:
 - Pass argument: `--level deploy` (all gates for production readiness)
 - Verify produces a structured report:
   - Gate 1: Lint and formatting (must pass)
@@ -143,16 +143,16 @@ Upon successful completion, output:
 
 **Tests still failing after GREEN phase**
 - Implementer may have missed test requirements
-- Run `/implementer` again with specific AC range
+- Run `/add:implementer` again with specific AC range
 - Check test output for assertion details
 
 **Quality gate failures**
-- Lint errors: Run with `--fix` flag on /verify
+- Lint errors: Run with `--fix` flag on /add:verify
 - Coverage below threshold: Write additional tests or increase coverage in refactor phase
 - Spec compliance: Verify every AC has a mapped test; update test mapping if needed
 
 **Performance issues detected**
-- Dispatch /optimize skill to identify bottlenecks
+- Dispatch /add:optimize skill to identify bottlenecks
 - Apply optimizations and re-run verify
 
 ## Integration with Other Skills

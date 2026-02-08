@@ -255,7 +255,7 @@ Upon completion, output:
 - Ready for GREEN phase (implementation)
 
 ## Next Steps
-1. Run /implementer to write minimal code to pass tests
+1. Run /add:implementer to write minimal code to pass tests
 2. Verify all tests pass
 3. Proceed to REFACTOR phase
 ```
@@ -290,6 +290,6 @@ Upon completion, output:
 
 ## Integration with TDD Cycle
 
-- This skill is invoked during the RED phase of /tdd-cycle
-- Output becomes input to /implementer (GREEN phase)
-- Test mapping is used by /reviewer to verify spec compliance
+- This skill is invoked during the RED phase of /add:tdd-cycle
+- Output becomes input to /add:implementer (GREEN phase)
+- Test mapping is used by /add:reviewer to verify spec compliance

@@ -108,4 +108,4 @@ Human-readable test scenarios. Each maps to an automated E2E test.
 
 | Date | Version | Author | Changes |
 |------|---------|--------|---------|
-| {DATE} | 0.1.0 | {AUTHOR} | Initial spec from /spec interview |
+| {DATE} | 0.1.0 | {AUTHOR} | Initial spec from /add:spec interview |

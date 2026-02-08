@@ -4,7 +4,7 @@
 > (after verify, TDD cycles, deployments, away sessions) and reviewed during retrospectives.
 >
 > **Agents:** Read this file before starting any task. Previous learnings may affect your approach.
-> **Humans:** Review with `/retro --agent-summary` or during full `/retro`.
+> **Humans:** Review with `/add:retro --agent-summary` or during full `/add:retro`.
 
 ## Technical Discoveries
 
@@ -17,7 +17,7 @@
 
 - 2026-02-07: Chose `~/.claude/add/` (directory) over `~/.claude/add-profile.md` (single file) for cross-project persistence. Directory allows profile, library, and project index as separate concerns.
 - 2026-02-07: Project-level learnings in `.add/learnings.md` are committed to git. Cross-project knowledge in `~/.claude/add/` is machine-local. This separates device-portable (git) from personal (local).
-- 2026-02-07: Adopted the convention that /init auto-detects existing projects and switches to adoption mode. No explicit --adopt flag needed (though supported). Reduces friction for existing projects.
+- 2026-02-07: Adopted the convention that /add:init auto-detects existing projects and switches to adoption mode. No explicit --adopt flag needed (though supported). Reduces friction for existing projects.
 - 2026-02-07: Existing project rules and skills are preserved, not replaced. ADD adds alongside. Naming uses `add-` prefix only when there's a conflict.
 
 ## What Worked
@@ -51,7 +51,7 @@
 ### Checkpoint: Maturity + Chunking + Swarm — 2026-02-07
 - Added maturity lifecycle rule (master cascade for all ADD behavior)
 - Added work hierarchy: Roadmap → Milestones → Cycles → Features → Tasks
-- Added /cycle command for planning and tracking work batches
+- Added /add:cycle command for planning and tracking work batches
 - Added swarm coordination protocol to agent-coordination rule
 - Added milestone template with hill chart tracking
 - Updated PRD with work hierarchy section (5.4), maturity lifecycle (6.6)

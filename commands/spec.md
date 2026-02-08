@@ -10,7 +10,7 @@ Create a feature specification through a structured interview. The spec becomes 
 
 ## Pre-Flight
 
-1. Verify `docs/prd.md` exists. If not, tell the user to run `/init` first.
+1. Verify `docs/prd.md` exists. If not, tell the user to run `/add:init` first.
 2. Read `docs/prd.md` to understand the project context
 3. Read `.add/config.json` to understand environment and quality settings
 4. If `--from-prd-section` is provided, pre-populate answers from that PRD section
@@ -83,6 +83,6 @@ API Endpoints: {N}
 
 Next steps:
   1. Review the spec and refine if needed
-  2. Run /plan specs/{feature-slug}.md to create an implementation plan
-  3. Or jump straight into /tdd-cycle specs/{feature-slug}.md
+  2. Run /add:plan specs/{feature-slug}.md to create an implementation plan
+  3. Or jump straight into /add:tdd-cycle specs/{feature-slug}.md
 ```

@@ -4,7 +4,7 @@
 > (after verify, TDD cycles, deployments, away sessions) and reviewed during retrospectives.
 >
 > **Agents:** Read this file before starting any task. Previous learnings may affect your approach.
-> **Humans:** Review with `/retro --agent-summary` or during full `/retro`.
+> **Humans:** Review with `/add:retro --agent-summary` or during full `/add:retro`.
 
 ## Technical Discoveries
 <!-- Things learned about the tech stack, libraries, APIs, infrastructure -->
@@ -22,8 +22,8 @@
 
 ## Agent Checkpoints
 <!-- Automatic entries from verification, TDD cycles, deploys, away sessions -->
-<!-- These are processed and archived during /retro -->
+<!-- These are processed and archived during /add:retro -->
 
 ## Profile Update Candidates
 <!-- Cross-project patterns flagged for promotion to ~/.claude/add/profile.md -->
-<!-- Only promoted during /retro with human confirmation -->
+<!-- Only promoted during /add:retro with human confirmation -->
