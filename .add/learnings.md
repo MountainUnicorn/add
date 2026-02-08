@@ -12,6 +12,9 @@
 - 2026-02-07: Claude Code plugin format uses `.claude-plugin/plugin.json` as the manifest. `marketplace.json` is a sibling for marketplace distribution.
 - 2026-02-07: Rules with `autoload: true` in YAML frontmatter load automatically when Claude enters the project. This is the primary enforcement mechanism.
 - 2026-02-07: Skills use `allowed-tools` in frontmatter to restrict what a skill can do. This enables agent isolation (test-writer can't deploy, reviewer can't edit).
+- 2026-02-08: Claude Code plugins namespace commands and skills automatically as `pluginname:commandname` (e.g., `add:spec`). But Claude reproduces whatever naming pattern it sees in file content — so if command files reference `/spec`, Claude will suggest `/spec` to users instead of `/add:spec`. All internal references must use the full namespaced form.
+- 2026-02-08: GitHub Pages can only serve from root `/` or `/docs` on a branch — not arbitrary directories like `website/`. Use a GitHub Actions workflow with `actions/upload-pages-artifact` to deploy from any directory. Set `build_type: workflow` via `gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow`.
+- 2026-02-08: GitHub README strips all `<style>` and `<script>` tags. SVG is the only vehicle for rich visuals in a README. For full styled content, serve via GitHub Pages.
 
 ## Architecture Decisions
 
@@ -25,6 +28,9 @@
 - Deriving the ADD spec from a real, mature project (dossierFYI) ensured the methodology reflects actual practice, not theory.
 - The 1-by-1 interview format with estimation ("~12 questions, ~10 minutes") was well-received during design. Prevents question fatigue.
 - The enterprise plugin's phased execution with audit (Phase 7) informed the quality gate system.
+- 2026-02-08: Dog-fooding across multiple projects (dossierFYI, others) caught the namespace issue quickly. Using the plugin as a consumer exposed what the developer perspective never would.
+- 2026-02-08: Parallel subagents for bulk file edits — dispatching 3 agents simultaneously (commands/, skills/, rules/) to namespace 30 files completed in ~4 minutes vs. sequential would have been 12+. Good pattern for coordinated bulk changes.
+- 2026-02-08: Separating "autonomous operations" from "boundaries" as explicit lists in away mode docs makes the rules unambiguous. Agents don't have to infer — they get a clear yes/no list.
 
 ## Architecture Decisions (continued)
 
@@ -38,7 +44,9 @@
 
 ## What Didn't Work
 
-- (No entries yet — will populate during dog-fooding)
+- 2026-02-08: Bare command names (`/spec`) in plugin files caused Claude CLI to recommend `/spec` instead of `/add:spec` when the plugin was used in other projects. Every command, skill, rule, and template file contained bare references that Claude mimicked. Root cause: Claude reads these files as instructions and reproduces the patterns it sees. Fix: namespace all 205 references across 30 files to `/add:spec` format.
+- 2026-02-08: Away mode was too restrictive — agents kept asking for permission to commit and push during autonomous sessions. The away command and human-collaboration rule didn't explicitly grant git autonomy, so agents fell back to default "ask the human" behavior for routine development tasks. Fix: added explicit "autonomous operations" list (commit, push, create PRs, fix quality gates) and "boundaries" list (no production deploy, no merging to main) to both files.
+- 2026-02-08: Away mode asked for duration when none provided, which is an unnecessary question when the human is trying to leave. Fix: default to 2 hours.
 
 ## Agent Checkpoints
 
@@ -77,3 +85,14 @@
 - 2026-02-07: Author uses GCP (Cloud Run) for production deployment. Promote to profile?
 - 2026-02-07: Author uses Docker Compose for local development on multi-service projects. Promote to profile?
 - 2026-02-07: Author prefers conventional commits (feat:, fix:, docs:, etc.). Promote to profile?
+
+### Checkpoint: Documentation & Namespace Fix — 2026-02-08
+- Created comprehensive README.md, SVG infographic (docs/infographic.svg), and HTML overview report (reports/add-overview.html) following enterprise plugin's design system patterns
+- Website (website/index.html) built as full SPA with raspberry palette (#b00149), dark/light toggle, agent swarm visualization, autonomy spectrum, work hierarchy with hill charts
+- Initial SVG used wrong palette (purple #6366f1) and wrong messaging — had to rewrite to match website's raspberry theme and "Coordinated agent teams that ship verified software" headline
+- GitHub Pages deployed via Actions workflow (.github/workflows/pages.yml) serving website/ directory — live at mountainunicorn.github.io/add/
+- **Critical fix:** Namespaced all 205 bare command references across 30 files (`/spec` → `/add:spec`). This was causing Claude to recommend bare `/spec` in consumer projects instead of `/add:spec`. Plugin files are Claude's instructions — whatever naming pattern is in the files, Claude reproduces it.
+- **Away mode improvements:** Default 2-hour duration (don't ask), explicit autonomous git operations (commit/push/PR without asking), PRD re-reading for alignment. Discovered during dog-fooding that agents blocked on routine commits during away sessions.
+- Local marketplace cache must be synced manually after changes: rsync from source to `~/.claude/plugins/cache/add-marketplace/add/0.1.0/`
+- GitHub README renders SVG inline but strips all CSS/JS — the SVG infographic is the only way to get rich visuals in a README. GitHub Pages is the solution for the full website experience.
+- Distribution plan created (docs/distribution-plan.md) covering Phase 1-4 launch strategy: domain, GitHub, plugin registries, community announcements, awesome lists, AI directories, content series, SEO targets.
