@@ -10,16 +10,17 @@ The human is stepping away. Establish what work can proceed autonomously and wha
 
 ## Phase 1: Understand the Absence
 
-Parse the duration from $ARGUMENTS. If not provided, ask:
-"How long will you be away? (e.g., '2 hours', 'rest of the day', 'until tomorrow')"
+Parse the duration from $ARGUMENTS. If not provided, default to **2 hours**. Do not ask — just acknowledge the default:
+"No duration specified — I'll plan for a 2-hour session. Say `/add:away 4 hours` next time to adjust."
 
 ## Phase 2: Assess Available Work
 
 1. Read `.add/config.json` for autonomy level and environment tier
-2. Scan `specs/` for specs with status "Approved" or "Implementing"
-3. Scan `docs/plans/` for plans with status "Approved" or "In Progress"
-4. Check current git status for in-progress work
-5. Run TodoWrite to see current task list
+2. **Re-read `docs/prd.md`** to ground yourself in the project's objectives and scope — this keeps autonomous work aligned with the product vision
+3. Scan `specs/` for specs with status "Approved" or "Implementing"
+4. Scan `docs/plans/` for plans with status "Approved" or "In Progress"
+5. Check current git status for in-progress work
+6. Run TodoWrite to see current task list
 
 ### Categorize Work
 
@@ -87,11 +88,31 @@ Update this log as work progresses.
 
 ## During Away Mode
 
-Follow these rules strictly:
+Away mode grants **elevated autonomy**. The human is not available — do not wait for input on routine development tasks.
+
+### Autonomous Operations (do NOT ask for permission)
+- **Commit to feature branches** — follow conventional commit format, commit after each TDD phase
+- **Push to feature branches** — push regularly so work is not lost
+- **Create PRs** — open PRs when a feature branch is ready for review
+- **Run and fix quality gates** — lint, types, formatting errors are fixed without asking
+- **Read specs, plans, and PRD** — re-read `docs/prd.md` whenever you need to validate a decision against the product vision
+- **Run tests** — execute test suites freely to verify your work
+- **Install dev dependencies** — if tests or builds need a missing dev dependency, install it
+
+### Boundaries (do NOT cross without human)
+- Do NOT deploy to staging or production
+- Do NOT merge PRs to main/production branches
+- Do NOT start new features that lack a spec — if you finish all planned work, write documentation, improve test coverage, or refactor within existing specs
+- Do NOT make irreversible changes (drop tables, delete branches, force push)
+- Do NOT make architecture decisions with multiple valid approaches — log the decision point and move on
+
+### Staying Aligned
+- Before starting each task, re-read the relevant spec and plan
+- If a task feels ambiguous, check the PRD (`docs/prd.md`) for guidance
+- If still ambiguous after reading the PRD, **log the question and skip to the next task** — do not guess on product direction
+
+### Work Discipline
 - ONLY work on tasks from the approved plan
 - Log every completed task in `.add/away-log.md`
 - If a blocker is hit, log it and move to the next task
-- Do NOT deploy to staging or production
-- Do NOT start new features without specs
-- Do NOT make irreversible changes
 - Send brief status pulses in the conversation at reasonable intervals

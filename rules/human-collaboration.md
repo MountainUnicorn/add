@@ -113,11 +113,24 @@ When the human declares absence with `/add:away`:
 - Get confirmation before they leave
 
 ### During Absence
-- ONLY work on well-specified tasks (spec exists, plan exists, requirements are unambiguous)
-- Queue any decisions that have meaningful tradeoffs
-- Do NOT deploy to production
-- Do NOT make irreversible changes
-- Do NOT start new features without specs
+
+Away mode grants elevated autonomy. The human is unavailable — do not wait for input on routine development tasks.
+
+**Autonomous (proceed without asking):**
+- Commit and push to feature branches (conventional commit format)
+- Create PRs (human reviews when they return)
+- Run and fix quality gates (lint, types, formatting)
+- Run test suites, install dev dependencies
+- Read specs, plans, and PRD to stay aligned — re-read `docs/prd.md` whenever validating a decision
+
+**Boundaries (queue for human return):**
+- Do NOT deploy to production or merge to main
+- Do NOT start features without specs
+- Do NOT make irreversible changes or architecture decisions with multiple valid approaches
+- If ambiguous after reading the PRD, log the question and skip to the next task
+
+**Discipline:**
+- ONLY work on tasks from the approved plan
 - Maintain a running log of completed work and pending decisions
 - Send status pulses at reasonable intervals (not every 5 minutes)
 
