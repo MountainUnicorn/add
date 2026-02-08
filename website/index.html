@@ -1262,25 +1262,25 @@
         <div class="step-num purple">1</div>
         <h4>Spec</h4>
         <p>Structured interview defines the feature. Acceptance criteria, test cases, edge cases — all documented before any code.</p>
-        <p style="margin-top: 8px;"><code>/spec</code> <code>/plan</code></p>
+        <p style="margin-top: 8px;"><code>/add:spec</code> <code>/add:plan</code></p>
       </div>
       <div class="workflow-step">
         <div class="step-num purple">2</div>
         <h4>Test</h4>
         <p>Agent writes failing tests first. Every acceptance criterion maps to a test. RED phase — nothing passes yet.</p>
-        <p style="margin-top: 8px;"><code>/test-writer</code></p>
+        <p style="margin-top: 8px;"><code>/add:test-writer</code></p>
       </div>
       <div class="workflow-step">
         <div class="step-num purple">3</div>
         <h4>Build</h4>
         <p>Agent implements minimal code to pass tests. Refactors for quality. Independent verifier confirms everything works.</p>
-        <p style="margin-top: 8px;"><code>/tdd-cycle</code></p>
+        <p style="margin-top: 8px;"><code>/add:tdd-cycle</code></p>
       </div>
       <div class="workflow-step">
         <div class="step-num green">4</div>
         <h4>Ship</h4>
         <p>5 quality gates verified. Environment-aware deployment. Post-deploy smoke tests. Learnings captured automatically.</p>
-        <p style="margin-top: 8px;"><code>/verify</code> <code>/deploy</code></p>
+        <p style="margin-top: 8px;"><code>/add:verify</code> <code>/add:deploy</code></p>
       </div>
     </div>
   </section>
@@ -1338,7 +1338,7 @@
       </div>
       <div class="away-flow-step">
         <div class="flow-icon">&#x1F6EB;</div>
-        <h5><code>/away</code></h5>
+        <h5><code>/add:away</code></h5>
         <p>Agent generates work plan and starts executing</p>
       </div>
       <div class="away-flow-step">
@@ -1348,7 +1348,7 @@
       </div>
       <div class="away-flow-step">
         <div class="flow-icon">&#x1F6EC;</div>
-        <h5><code>/back</code></h5>
+        <h5><code>/add:back</code></h5>
         <p>Full briefing: what shipped, what's blocked, decisions needed</p>
       </div>
     </div>
@@ -1546,7 +1546,7 @@
       <div class="learning-triggers">
         <div class="trigger-card">
           <div class="trigger-icon">✅</div>
-          <div class="trigger-label">After /verify</div>
+          <div class="trigger-label">After /add:verify</div>
         </div>
         <div class="trigger-card">
           <div class="trigger-icon">🔄</div>
@@ -1562,7 +1562,7 @@
         </div>
         <div class="trigger-card">
           <div class="trigger-icon">🔍</div>
-          <div class="trigger-label">During /retro</div>
+          <div class="trigger-label">During /add:retro</div>
         </div>
       </div>
 
@@ -1571,7 +1571,7 @@
         <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
           <strong>Project A</strong>: Agent discovers "UUID columns must be type <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">uuid</code>, not <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">text</code>"<br>
           → Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> (project-level)<br>
-          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/retro</code><br><br>
+          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/add:retro</code><br><br>
           <strong>Project B</strong>: Agent searches library before implementing database schema<br>
           → Finds UUID pattern, applies it automatically<br>
           → No one repeats the mistake
@@ -1592,12 +1592,12 @@
         <tr><th>Command</th><th>Purpose</th><th>Output</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>/init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
-        <tr><td><code>/spec</code></td><td>Create feature specification through interview</td><td>specs/{feature}.md</td></tr>
-        <tr><td><code>/cycle</code></td><td>Plan, track, and complete work cycles</td><td>.add/cycles/cycle-{N}.md</td></tr>
-        <tr><td><code>/away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
-        <tr><td><code>/back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
-        <tr><td><code>/retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
+        <tr><td><code>/add:init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
+        <tr><td><code>/add:spec</code></td><td>Create feature specification through interview</td><td>specs/{feature}.md</td></tr>
+        <tr><td><code>/add:cycle</code></td><td>Plan, track, and complete work cycles</td><td>.add/cycles/cycle-{N}.md</td></tr>
+        <tr><td><code>/add:away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
+        <tr><td><code>/add:back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
+        <tr><td><code>/add:retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
       </tbody>
     </table>
 
@@ -1607,14 +1607,14 @@
         <tr><th>Skill</th><th>Purpose</th><th>Phase</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>/tdd-cycle</code></td><td>Complete RED → GREEN → REFACTOR → VERIFY</td><td>Full TDD</td></tr>
-        <tr><td><code>/test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
-        <tr><td><code>/implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
-        <tr><td><code>/reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
-        <tr><td><code>/verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
-        <tr><td><code>/plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
-        <tr><td><code>/optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
-        <tr><td><code>/deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
+        <tr><td><code>/add:tdd-cycle</code></td><td>Complete RED → GREEN → REFACTOR → VERIFY</td><td>Full TDD</td></tr>
+        <tr><td><code>/add:test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
+        <tr><td><code>/add:implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
+        <tr><td><code>/add:reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
+        <tr><td><code>/add:verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
+        <tr><td><code>/add:plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
+        <tr><td><code>/add:optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
+        <tr><td><code>/add:deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
       </tbody>
     </table>
     </div>
@@ -1667,11 +1667,11 @@
       </div>
       <div class="terminal-body">
         <div><span class="prompt">$</span> <span class="arg">claude plugin install add</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/init</span>     <span class="comment"># 5-minute interview → full project setup</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/spec</span>     <span class="comment"># feature interview → specs/{feature}.md</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/tdd-cycle</span> <span class="comment"># RED → GREEN → REFACTOR → VERIFY</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/verify</span>   <span class="comment"># 5 quality gates</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/deploy</span>   <span class="comment"># environment-aware, verified</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:init</span>      <span class="comment"># 5-minute interview → full project setup</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>      <span class="comment"># feature interview → specs/{feature}.md</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="comment"># RED → GREEN → REFACTOR → VERIFY</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>    <span class="comment"># 5 quality gates</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>    <span class="comment"># environment-aware, verified</span></div>
       </div>
     </div>
   </section>
