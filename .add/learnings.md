@@ -34,6 +34,7 @@
 
 ## Architecture Decisions (continued)
 
+- 2026-02-08: Environment promotion ladder — agents autonomously climb `local → dev → staging` when verification passes at each level, with automatic rollback on failure. Production always requires human. Per-environment `autoPromote` flag in config.json controls the ceiling. Solves the problem of agents blocking on "can I push to staging?" during away mode when e2e already passed in dev. Two rollback strategies: `revert-commit` (lighter, for dev) and `redeploy-previous-tag` (safer, for staging/production). The ladder stops on first failure — no retries, log and move on.
 - 2026-02-07: Chose "cycle" over "sprint" for work batching. Sprints imply fixed calendar time; cycles are scope-boxed and end when validation criteria are met. Better fit for AI-agent pace.
 - 2026-02-07: Maturity levels (poc/alpha/beta/ga) as a single `maturity.level` field in config.json. This is the master dial — every rule checks it. Avoids having 14 separate toggles.
 - 2026-02-07: Hill chart concept from Shape Up (uphill = figuring out, downhill = executing) maps perfectly to ADD feature positions: SHAPED → SPECCED → PLANNED → IN_PROGRESS → VERIFIED → DONE.
@@ -47,6 +48,7 @@
 - 2026-02-08: Bare command names (`/spec`) in plugin files caused Claude CLI to recommend `/spec` instead of `/add:spec` when the plugin was used in other projects. Every command, skill, rule, and template file contained bare references that Claude mimicked. Root cause: Claude reads these files as instructions and reproduces the patterns it sees. Fix: namespace all 205 references across 30 files to `/add:spec` format.
 - 2026-02-08: Away mode was too restrictive — agents kept asking for permission to commit and push during autonomous sessions. The away command and human-collaboration rule didn't explicitly grant git autonomy, so agents fell back to default "ask the human" behavior for routine development tasks. Fix: added explicit "autonomous operations" list (commit, push, create PRs, fix quality gates) and "boundaries" list (no production deploy, no merging to main) to both files.
 - 2026-02-08: Away mode asked for duration when none provided, which is an unnecessary question when the human is trying to leave. Fix: default to 2 hours.
+- 2026-02-08: Multi-environment projects had agents stuck at environment boundaries during away mode. Original rule said "agents must NOT deploy to staging" — too blunt for Tier 2/3 projects where the whole point is verifying through environments. The real boundary is production, not staging. Fix: promotion ladder with `autoPromote` per-env config, automatic rollback on verification failure.
 
 ## Agent Checkpoints
 
@@ -96,3 +98,4 @@
 - Local marketplace cache must be synced manually after changes: rsync from source to `~/.claude/plugins/cache/add-marketplace/add/0.1.0/`
 - GitHub README renders SVG inline but strips all CSS/JS — the SVG infographic is the only way to get rich visuals in a README. GitHub Pages is the solution for the full website experience.
 - Distribution plan created (docs/distribution-plan.md) covering Phase 1-4 launch strategy: domain, GitHub, plugin registries, community announcements, awesome lists, AI directories, content series, SEO targets.
+- **Environment promotion ladder:** Added `autoPromote` per-env config, automatic rollback on verification failure, `--promote` flag on deploy skill. Updated environment-awareness rule, away command, deploy skill, and human-collaboration rule. Key design choice: ladder stops on first failure (no retries) and rolls back to last known good — safer than letting agents debug deployment issues autonomously.
