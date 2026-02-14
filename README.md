@@ -5,12 +5,12 @@
 <h1 align="center">ADD — Agent Driven Development</h1>
 
 <p align="center">
-  <strong>ADD something to your development.</strong>
+  <strong>AI agents write code fast. Without structure, they ship chaos.</strong>
   <br>
-  Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms — test-writers, implementers, reviewers, deployers — collaborate as a coordinated enterprise class development team. Co-author and ship software that simply works. Your ADD teams will execute, verify, and self-learn with every project.
+  ADD is coordinated agent swarms — test-writers, implementers, reviewers, deployers — that ship verified software as a team. Spec-driven. Test-first. Independently verified. Human-validated.
   <br>
   <br>
-  <a href="https://getadd.dev">Website</a> · <a href="#install">Install</a> · <a href="#quick-start">Quick Start</a> · <a href="#coordinated-agent-teams">Agent Teams</a> · <a href="#human-in-the-loop">Human-in-the-Loop</a> · <a href="#work-hierarchy">Work Hierarchy</a> · <a href="#cross-project-learning">Learning</a>
+  <a href="https://getadd.dev">Website</a> · <a href="#install">Install</a> · <a href="#quick-start">Quick Start</a> · <a href="#coordinated-agent-teams">Agent Teams</a> · <a href="#human-in-the-loop">Human-in-the-Loop</a> · <a href="#for-product-managers">For PMs</a> · <a href="#cross-project-learning">Learning</a>
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
@@ -20,13 +20,17 @@
 
 ---
 
+## The Problem
+
+AI code generation has changed how software gets built, but development practices haven't kept up. Developers and agents operate without structure, leading to specification drift, unpredictable quality, lost knowledge, and unclear handoffs.
+
+**ADD brings discipline to AI-native development the same way TDD brought discipline to testing.**
+
 ## What is Agent Driven Development?
 
-**TDD** gave us tests before code. **BDD** gave us behavior before tests. **ADD** gives us *agents before everything*.
+**TDD** gave us tests before code. **BDD** gave us behavior before tests. **ADD** gives us *coordinated agent teams before everything*.
 
-Agent Driven Development is a methodology for teams where AI agents do the development work — writing tests, implementing features, reviewing code, deploying — while humans architect, decide, and verify. It's not a tool. It's a way of working.
-
-The problem it solves: AI code generation has changed how software gets built, but development practices haven't kept up. Developers and agents operate without structure, leading to specification drift, unpredictable quality, lost knowledge, and unclear handoffs. ADD brings discipline to AI-native development the same way TDD brought discipline to testing.
+ADD is a structured SDLC methodology where AI agents do the development work — writing tests, implementing features, reviewing code, deploying — while humans architect, decide, and verify the user experience. It's not a tool. It's a way of working.
 
 **The six principles:**
 
@@ -38,18 +42,6 @@ The problem it solves: AI code generation has changed how software gets built, b
 | 4 | **Structured collaboration** | Interviews, away mode, decision points — humans and agents have clear protocols. |
 | 5 | **Environment awareness** | Skills adapt to where you're deploying: local, staging, or production. |
 | 6 | **Continuous learning** | Agents accumulate knowledge. Retrospectives propagate lessons across projects. |
-
----
-
-## Who is ADD for?
-
-**Solo developers** using Claude Code for daily work who want structure without overhead. ADD scales down — a POC project gets lightweight specs and optional TDD. You get the benefits of methodology without the ceremony.
-
-**Small teams (2-10 engineers)** looking to standardize how they work with AI agents. ADD gives your team a shared language: specs, plans, quality gates, and a maturity model that grows with your project.
-
-**Larger teams and enterprises** scaling AI agents across multiple projects. ADD's cross-project learning system means agents get smarter over time. Patterns discovered on Project A automatically inform Project B. The maturity lifecycle gives leadership visibility into project rigor.
-
-**Open source maintainers** who want contributors (human or AI) to follow consistent practices. ADD's spec-driven approach means every PR traces back to a specification.
 
 ---
 
@@ -113,13 +105,13 @@ Transforms the spec into an actionable implementation plan with task breakdown, 
 
 Executes the full TDD cycle: writes failing tests from the spec (RED), implements minimal code to pass them (GREEN), refactors for quality, then independently verifies everything.
 
-### 5. Verify quality gates
+### 5. Verify and validate
 
 ```bash
 /add:verify
 ```
 
-Runs up to 5 levels of quality checks: lint, type checking, unit tests, coverage, and spec compliance.
+Runs up to 5 levels of quality checks: lint, type checking, unit tests, coverage, and spec compliance. For UI projects, humans validate the user experience via screenshot review.
 
 ### 6. Deploy
 
@@ -128,57 +120,6 @@ Runs up to 5 levels of quality checks: lint, type checking, unit tests, coverage
 ```
 
 Environment-aware deployment with pre-deploy verification and post-deploy smoke tests.
-
----
-
-## The ADD Workflow
-
-```
-                    ┌─────────────────────────────────────────┐
-                    │           HUMAN DECISIONS                │
-                    │  Architect · Interview · Approve · Verify│
-                    └──────────────┬──────────────────────────┘
-                                   │
-         ┌─────────────────────────┼─────────────────────────┐
-         ▼                         ▼                         ▼
-   ┌───────────┐           ┌─────────────┐           ┌────────────┐
-   │   /add:init   │           │   /add:spec     │           │  /add:cycle    │
-   │ Interview │──────────▶│  Interview  │──────────▶│   Plan     │
-   │ + Setup   │           │  + Spec     │           │  + Track   │
-   └───────────┘           └──────┬──────┘           └─────┬──────┘
-                                  │                        │
-                                  ▼                        ▼
-                           ┌─────────────┐          ┌────────────┐
-                           │   /add:plan     │          │ /add:tdd-cycle │
-                           │ Impl. Plan  │─────────▶│  RED       │
-                           └─────────────┘          │  GREEN     │
-                                                    │  REFACTOR  │
-                                                    └─────┬──────┘
-                                                          │
-                                                          ▼
-                                                   ┌────────────┐
-                                                   │  /add:verify   │
-                                                   │  5 Gates   │
-                                                   └─────┬──────┘
-                                                         │
-                                                         ▼
-                                                   ┌────────────┐
-                                                   │  /add:deploy   │
-                                                   │  Env-Aware │
-                                                   └────────────┘
-```
-
-**Document hierarchy** — every artifact traces to a parent:
-
-```
-Roadmap (docs/prd.md)
- └── Milestones (docs/milestones/M1-core.md)
-      └── Cycles (.add/cycles/cycle-1.md)
-           └── Feature Specs (specs/user-auth.md)
-                └── Implementation Plans (docs/plans/user-auth-plan.md)
-                     └── Tests (RED phase)
-                          └── Implementation (GREEN phase)
-```
 
 ---
 
@@ -205,7 +146,8 @@ ADD doesn't use a single agent. It dispatches **specialized sub-agents** — eac
   ┌────▼──────────▼──────────▼──────────▼───────┐
   │          INDEPENDENT VERIFICATION            │
   │  Different agent · Fresh context · No shared │
-  │  state. If it disagrees, the cycle restarts. │
+  │  state. Humans validate UX via screenshots.  │
+  │  If anything disagrees, the cycle restarts.  │
   └──────────────────────────────────────────────┘
 ```
 
@@ -223,6 +165,8 @@ ADD defines three engagement modes. You choose how much autonomy agents get.
 | **Balanced** _(default)_ | Agents execute TDD cycles freely within spec boundaries. Pause at ambiguity or architecture forks. Structured interviews for decisions. | Alpha/Beta, established patterns |
 | **Autonomous** | Human defines scope and boundaries, then walks away. Agents execute full TDD cycles, commit, verify. Return to a full briefing. | GA maturity, well-specified features |
 
+**Screenshot validation** is part of every mode. After agents build, humans review the actual user experience. Claude Code reads images natively — no Playwright or browser automation required.
+
 The `/add:away` and `/add:back` commands power autonomous mode:
 
 ```
@@ -230,6 +174,21 @@ Define scope ──▶ /add:away ──▶ Agent executes autonomously ──▶
                  (work     (TDD cycles, commits, verify    (what shipped,
                   plan)     — all decisions logged)          what's blocked)
 ```
+
+---
+
+## For Product Managers
+
+AI agents are writing your team's code. ADD gives you the governance, traceability, and progress visibility you need — without slowing anyone down.
+
+| Capability | What You Get |
+|------------|-------------|
+| **Progress visibility** | Hill charts show where every feature stands — still being figured out or actively executing. |
+| **Full traceability** | Every line of code traces back through tests, to a spec, to a PRD requirement. |
+| **One dial for rigor** | The maturity lifecycle (POC → GA) governs all process. No process debates — just turn the dial. |
+| **Quality gates** | 5 automated gates at every stage. Agents can't skip verification. |
+| **Human at the right moments** | Agents handle execution. Humans handle judgment — architecture, scope, production approvals. |
+| **Compounding intelligence** | Every project makes the next one faster via cross-project knowledge. |
 
 ---
 
@@ -248,6 +207,21 @@ ROADMAP  (Now / Next / Later — no fake dates)
 
 ---
 
+## The Maturity Dial
+
+Every ADD project declares a maturity level that governs *all* process rigor. This is the master control:
+
+| Level | PRD | Specs | TDD | Quality Gates | Parallel Agents | WIP Limit |
+|-------|-----|-------|-----|---------------|-----------------|-----------|
+| **POC** | A paragraph | Optional | Optional | Pre-commit only | 1 (serial) | 1 |
+| **Alpha** | 1-pager | Critical paths | Critical paths | + CI | 1-2 | 2 |
+| **Beta** | Full template | Required | Enforced | + Pre-deploy | 2-4 | 4 |
+| **GA** | Full + architecture | + Acceptance criteria | Strict | All 5 levels | 3-5 (worktrees) | 5 |
+
+A POC project gets almost no ceremony. A GA project gets exhaustive verification with multiple reviewers. Promotion happens deliberately — triggered by cycle completion or retrospectives when gap analysis shows readiness.
+
+---
+
 ## Key Features
 
 ### Spec-Driven Development
@@ -257,6 +231,10 @@ No code without a spec. ADD enforces a document hierarchy — PRD → Spec → P
 ### Strict TDD Enforcement
 
 ADD enforces the TDD cycle at every level. The `/add:tdd-cycle` skill orchestrates sub-agents: one writes failing tests (RED), another writes minimal code to pass them (GREEN), a reviewer identifies refactoring opportunities, and a verifier independently confirms everything works. Commits follow the pattern: `test:` → `feat:` → `refactor:`.
+
+### Screenshot Validation
+
+For projects with a UI, humans validate the actual user experience by reviewing screenshots. Claude Code reads images natively — no Playwright, Puppeteer, or browser automation required. The human takes screenshots in their browser and shares them for agent review. This is a core part of ADD's trust-but-verify loop.
 
 ### Human-AI Collaboration Protocol
 
@@ -287,19 +265,6 @@ ADD assesses available work, presents an autonomous work plan for your approval,
 ```
 
 You get a briefing: what was completed, what's in progress, what needs your decision. The agent won't deploy to staging/production or start features without specs while you're gone.
-
-### The Maturity Dial
-
-Every ADD project declares a maturity level that governs *all* process rigor. This is the master control:
-
-| Level | PRD | Specs | TDD | Quality Gates | Parallel Agents | WIP Limit |
-|-------|-----|-------|-----|---------------|-----------------|-----------|
-| **POC** | A paragraph | Optional | Optional | Pre-commit only | 1 (serial) | 1 |
-| **Alpha** | 1-pager | Critical paths | Critical paths | + CI | 1-2 | 2 |
-| **Beta** | Full template | Required | Enforced | + Pre-deploy | 2-4 | 4 |
-| **GA** | Full + architecture | + Acceptance criteria | Strict | All 5 levels | 3-5 (worktrees) | 5 |
-
-A POC project gets almost no ceremony. A GA project gets exhaustive verification with multiple reviewers. Promotion happens deliberately — triggered by cycle completion or retrospectives when gap analysis shows readiness.
 
 ### Quality Gates
 
@@ -412,6 +377,73 @@ Retrospectives update `.add/learnings.md`, promote patterns to `~/.claude/add/li
 
 ---
 
+## Architecture
+
+ADD is intentionally simple:
+
+- **No runtime dependencies** — Pure markdown and JSON files
+- **No build step** — Install and use immediately
+- **No backend** — Everything lives in your git repo (`.add/`) or locally (`~/.claude/add/`)
+- **No vendor lock-in** — Standard markdown specs and plans work with any tool
+- **Plugin format** — Claude Code `.claude-plugin/plugin.json` manifest
+
+The entire plugin is ~60 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
+
+### Optional Capabilities
+
+ADD's core is zero-dependency, but some features benefit from optional tools:
+
+| Capability | Used By | Requires | Fallback |
+|------------|---------|----------|----------|
+| **Screenshot validation** | `/add:verify`, human review | Claude Code's built-in image reading | Agents describe UI state in text |
+| **Image generation** | `/add:infographic`, `/add:brand-update` | Image generation MCP tool (e.g., Vertex AI Imagen) | SVG generation (no raster images) |
+
+**Screenshot validation** is a core part of ADD's trust-but-verify loop for projects with a UI. After agents build, humans review screenshots of the actual user experience. Claude Code reads images natively — no Playwright, Puppeteer, or browser automation required. The human takes screenshots in their browser and shares them for review.
+
+**Image generation** enhances branding and documentation workflows. ADD auto-detects whether an image generation MCP tool is available and adapts accordingly. Without it, `/add:infographic` produces SVG infographics instead of raster images. No functionality is lost — just a different output format.
+
+---
+
+## Who is ADD for?
+
+**Solo developers** using Claude Code for daily work who want structure without overhead. ADD scales down — a POC project gets lightweight specs and optional TDD. You get the benefits of methodology without the ceremony.
+
+**Small teams (2-10 engineers)** looking to standardize how they work with AI agents. ADD gives your team a shared language: specs, plans, quality gates, and a maturity model that grows with your project.
+
+**Larger teams and enterprises** scaling AI agents across multiple projects. ADD's cross-project learning system means agents get smarter over time. Patterns discovered on Project A automatically inform Project B. The maturity lifecycle gives leadership visibility into project rigor.
+
+**Open source maintainers** who want contributors (human or AI) to follow consistent practices. ADD's spec-driven approach means every PR traces back to a specification.
+
+---
+
+## Non-Greenfield Adoption
+
+ADD works on existing projects, not just new ones. When you run `/add:init` on an existing codebase:
+
+1. **Discovery** — ADD scans your project structure, detects test frameworks, linters, and conventions
+2. **Non-destructive setup** — Adds `.add/` alongside your existing structure, never replaces
+3. **Maturity assessment** — Suggests a starting maturity level based on existing rigor
+4. **Catch-up spike** — Identifies gaps and creates a remediation cycle
+5. **Retroactive specs** — Seeds learnings from git history
+
+Existing conventions are respected. ADD layers on top of what you already have.
+
+---
+
+## Environment Tiers
+
+ADD adapts to your deployment reality:
+
+| Tier | Scope | Example |
+|------|-------|---------|
+| **Tier 1** | Local development only | Personal projects, plugins, CLIs |
+| **Tier 2** | Local + production | SaaS apps, APIs with a prod server |
+| **Tier 3** | Full pipeline (dev → staging → prod) | Enterprise applications, team projects |
+
+Quality gates, deployment skills, and test matrices all adjust based on your tier. A Tier 1 project doesn't waste time on staging smoke tests. A Tier 3 project doesn't skip them.
+
+---
+
 ## Commands
 
 | Command | Purpose | Output |
@@ -457,61 +489,6 @@ ADD ships with 11 behavioral rules that auto-load into every conversation:
 | `project-structure` | Standard `.add/` layout, cross-project persistence paths. |
 | `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level. |
 | `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals. |
-
----
-
-## Non-Greenfield Adoption
-
-ADD works on existing projects, not just new ones. When you run `/add:init` on an existing codebase:
-
-1. **Discovery** — ADD scans your project structure, detects test frameworks, linters, and conventions
-2. **Non-destructive setup** — Adds `.add/` alongside your existing structure, never replaces
-3. **Maturity assessment** — Suggests a starting maturity level based on existing rigor
-4. **Catch-up spike** — Identifies gaps and creates a remediation cycle
-5. **Retroactive specs** — Seeds learnings from git history
-
-Existing conventions are respected. ADD layers on top of what you already have.
-
----
-
-## Environment Tiers
-
-ADD adapts to your deployment reality:
-
-| Tier | Scope | Example |
-|------|-------|---------|
-| **Tier 1** | Local development only | Personal projects, plugins, CLIs |
-| **Tier 2** | Local + production | SaaS apps, APIs with a prod server |
-| **Tier 3** | Full pipeline (dev → staging → prod) | Enterprise applications, team projects |
-
-Quality gates, deployment skills, and test matrices all adjust based on your tier. A Tier 1 project doesn't waste time on staging smoke tests. A Tier 3 project doesn't skip them.
-
----
-
-## Architecture
-
-ADD is intentionally simple:
-
-- **No runtime dependencies** — Pure markdown and JSON files
-- **No build step** — Install and use immediately
-- **No backend** — Everything lives in your git repo (`.add/`) or locally (`~/.claude/add/`)
-- **No vendor lock-in** — Standard markdown specs and plans work with any tool
-- **Plugin format** — Claude Code `.claude-plugin/plugin.json` manifest
-
-The entire plugin is ~60 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
-
-### Optional Capabilities
-
-ADD's core is zero-dependency, but some features benefit from optional tools:
-
-| Capability | Used By | Requires | Fallback |
-|------------|---------|----------|----------|
-| **Screenshot validation** | `/add:verify`, human review | Claude Code's built-in image reading | Agents describe UI state in text |
-| **Image generation** | `/add:infographic`, `/add:brand-update` | Image generation MCP tool (e.g., Vertex AI Imagen) | SVG generation (no raster images) |
-
-**Screenshot validation** is a core part of ADD's trust-but-verify loop for projects with a UI. After agents build, humans review screenshots of the actual user experience. Claude Code reads images natively — no Playwright, Puppeteer, or browser automation required. The human takes screenshots in their browser and shares them for review.
-
-**Image generation** enhances branding and documentation workflows. ADD auto-detects whether an image generation MCP tool is available and adapts accordingly. Without it, `/add:infographic` produces SVG infographics instead of raster images. No functionality is lost — just a different output format.
 
 ---
 

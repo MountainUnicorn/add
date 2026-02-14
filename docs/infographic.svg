@@ -1,410 +1,573 @@
-<!-- ADD Plugin v0.1.0 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-02-07 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2100">
+<!-- ADD Plugin v0.2.0 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-02-14 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2200">
   <defs>
     <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a1a2e"/>
-      <stop offset="50%" style="stop-color:#16213e"/>
-      <stop offset="100%" style="stop-color:#0f0f23"/>
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f0f23"/>
     </linearGradient>
-
     <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#b00149"/>
-      <stop offset="50%" style="stop-color:#d4326d"/>
-      <stop offset="100%" style="stop-color:#ff6b9d"/>
+      <stop offset="0%" stop-color="#b00149"/>
+      <stop offset="50%" stop-color="#d4326d"/>
+      <stop offset="100%" stop-color="#ff6b9d"/>
     </linearGradient>
-
-    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#b00149;stop-opacity:0.4"/>
-      <stop offset="100%" style="stop-color:#ff6b9d;stop-opacity:0"/>
+    <linearGradient id="accentGradV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b00149"/>
+      <stop offset="100%" stop-color="#d4326d"/>
     </linearGradient>
-
-    <linearGradient id="glowGrad2" x1="100%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#d4326d;stop-opacity:0.3"/>
-      <stop offset="100%" style="stop-color:#b00149;stop-opacity:0"/>
-    </linearGradient>
-
     <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.08"/>
-      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.02"/>
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
     </linearGradient>
-
-    <linearGradient id="metricGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#22c55e"/>
-      <stop offset="100%" style="stop-color:#10b981"/>
+    <linearGradient id="cardGradH" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
     </linearGradient>
-
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
     <linearGradient id="termBg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#0d1117"/>
-      <stop offset="100%" style="stop-color:#161b22"/>
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
     </linearGradient>
-
-    <linearGradient id="pillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#b00149;stop-opacity:0.3"/>
-      <stop offset="100%" style="stop-color:#d4326d;stop-opacity:0.3"/>
+    <linearGradient id="glowOrb1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#b00149" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#b00149" stop-opacity="0"/>
     </linearGradient>
-
-    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#b00149;stop-opacity:0.6"/>
-      <stop offset="100%" style="stop-color:#d4326d;stop-opacity:0.6"/>
+    <linearGradient id="glowOrb2" cx="50%" cy="50%" r="50%" fx="50%" fy="50%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#d4326d" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#d4326d" stop-opacity="0"/>
     </linearGradient>
-
-    <filter id="glass" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
-      <feOffset in="blur" dx="0" dy="4" result="offsetBlur"/>
-      <feFlood flood-color="#000" flood-opacity="0.3"/>
-      <feComposite in2="offsetBlur" operator="in"/>
-      <feMerge>
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <radialGradient id="orbGlow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b00149" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#b00149" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbGlow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4326d" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#d4326d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbGlow3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eab308" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#eab308" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="raspGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b00149" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#b00149" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="greenCardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="pocGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="alphaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="betaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d4326d" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#d4326d" stop-opacity="0.03"/>
+    </linearGradient>
+    <linearGradient id="gaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b00149" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#b00149" stop-opacity="0.06"/>
+    </linearGradient>
+    <filter id="glass">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/>
     </filter>
   </defs>
 
-  <!-- Dark background -->
-  <rect width="1200" height="2100" fill="url(#heroGrad)"/>
-
+  <!-- ============ BACKGROUND ============ -->
+  <rect width="1200" height="2200" fill="#0f0f23"/>
   <!-- Gradient orbs for depth -->
-  <ellipse cx="100" cy="200" rx="350" ry="350" fill="url(#glowGrad)" opacity="0.5"/>
-  <ellipse cx="1100" cy="500" rx="300" ry="300" fill="url(#glowGrad2)" opacity="0.4"/>
-  <ellipse cx="200" cy="1200" rx="250" ry="250" fill="url(#glowGrad)" opacity="0.3"/>
-  <ellipse cx="1000" cy="1600" rx="300" ry="300" fill="url(#glowGrad2)" opacity="0.3"/>
+  <ellipse cx="200" cy="300" rx="350" ry="300" fill="url(#orbGlow1)"/>
+  <ellipse cx="1000" cy="800" rx="400" ry="350" fill="url(#orbGlow2)"/>
+  <ellipse cx="400" cy="1400" rx="300" ry="250" fill="url(#orbGlow2)"/>
+  <ellipse cx="900" cy="1800" rx="350" ry="300" fill="url(#orbGlow1)"/>
+  <ellipse cx="600" cy="600" rx="200" ry="200" fill="url(#orbGlow3)"/>
 
-  <!-- Grid pattern -->
-  <g opacity="0.03" stroke="#fff" stroke-width="1">
-    <line x1="0" y1="100" x2="1200" y2="100"/><line x1="0" y1="200" x2="1200" y2="200"/>
-    <line x1="0" y1="300" x2="1200" y2="300"/><line x1="0" y1="400" x2="1200" y2="400"/>
-    <line x1="0" y1="500" x2="1200" y2="500"/><line x1="0" y1="600" x2="1200" y2="600"/>
-    <line x1="0" y1="700" x2="1200" y2="700"/><line x1="0" y1="800" x2="1200" y2="800"/>
-    <line x1="0" y1="900" x2="1200" y2="900"/><line x1="0" y1="1000" x2="1200" y2="1000"/>
-    <line x1="0" y1="1100" x2="1200" y2="1100"/><line x1="0" y1="1200" x2="1200" y2="1200"/>
-    <line x1="0" y1="1300" x2="1200" y2="1300"/><line x1="0" y1="1400" x2="1200" y2="1400"/>
-    <line x1="0" y1="1500" x2="1200" y2="1500"/><line x1="0" y1="1600" x2="1200" y2="1600"/>
-    <line x1="0" y1="1700" x2="1200" y2="1700"/>
-    <line x1="0" y1="1800" x2="1200" y2="1800"/><line x1="0" y1="1900" x2="1200" y2="1900"/>
-    <line x1="0" y1="2000" x2="1200" y2="2000"/>
-    <line x1="100" y1="0" x2="100" y2="2100"/><line x1="200" y1="0" x2="200" y2="2100"/>
-    <line x1="300" y1="0" x2="300" y2="2100"/><line x1="400" y1="0" x2="400" y2="2100"/>
-    <line x1="500" y1="0" x2="500" y2="2100"/><line x1="600" y1="0" x2="600" y2="2100"/>
-    <line x1="700" y1="0" x2="700" y2="2100"/><line x1="800" y1="0" x2="800" y2="2100"/>
-    <line x1="900" y1="0" x2="900" y2="2100"/><line x1="1000" y1="0" x2="1000" y2="2100"/>
-    <line x1="1100" y1="0" x2="1100" y2="2100"/>
-  </g>
+  <!-- Corner accents -->
+  <line x1="30" y1="30" x2="70" y2="30" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="30" x2="30" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="30" x2="1130" y2="30" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="30" x2="1170" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="2170" x2="70" y2="2170" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="2170" x2="30" y2="2130" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="2170" x2="1130" y2="2170" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="2170" x2="1170" y2="2130" stroke="#b00149" stroke-width="1" opacity="0.3"/>
 
-  <!-- ========== SECTION 1: HEADER BAR ========== -->
+  <!-- ============ SECTION 1: HEADER BAR (y=0-60) ============ -->
   <g transform="translate(0, 0)">
-    <rect x="0" y="0" width="1200" height="60" fill="#ffffff" fill-opacity="0.03"/>
-    <line x1="0" y1="60" x2="1200" y2="60" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
-    <rect x="48" y="16" width="28" height="28" rx="6" fill="url(#accentGrad)" opacity="0.9"/>
-    <text x="62" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">A</text>
-    <text x="88" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#ffffff" fill-opacity="0.9">ADD</text>
-    <text x="125" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="400" fill="#ffffff" fill-opacity="0.5">Agent Driven Development</text>
-    <rect x="1060" y="18" width="90" height="24" rx="12" fill="url(#pillGrad)" stroke="#b00149" stroke-opacity="0.3" stroke-width="1"/>
-    <text x="1105" y="35" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500" fill="#d4326d" text-anchor="middle">v0.1.0</text>
+    <rect x="0" y="0" width="1200" height="60" fill="#ffffff" opacity="0.03"/>
+    <!-- Logo: raspberry square with "A" -->
+    <rect x="50" y="12" width="36" height="36" rx="6" fill="#b00149"/>
+    <text x="68" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="800">A</text>
+    <!-- ADD text -->
+    <text x="100" y="38" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" letter-spacing="2">ADD</text>
+    <text x="162" y="38" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="300" opacity="0.5" letter-spacing="1">Agent Driven Development</text>
+    <!-- Version badge -->
+    <rect x="1060" y="18" width="80" height="24" rx="12" fill="#b00149" opacity="0.2" stroke="#b00149" stroke-width="1"/>
+    <text x="1100" y="35" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500">v0.2.0</text>
   </g>
 
-  <!-- ========== SECTION 2: HERO ========== -->
-  <g transform="translate(60, 110)">
-    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#d4326d" letter-spacing="2">FREE &amp; OPEN SOURCE CLAUDE CODE PLUGIN</text>
-    <text x="0" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="#ffffff" letter-spacing="-2">Coordinated agent teams</text>
-    <text x="0" y="120" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="url(#accentGrad)" letter-spacing="-2">that ship verified software.</text>
-    <text x="0" y="170" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="400" fill="#ffffff" fill-opacity="0.6">Agent Driven Development (ADD) is a SDLC methodology where orchestrated</text>
-    <text x="0" y="195" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="400" fill="#ffffff" fill-opacity="0.6">agent swarms collaborate as a coordinated enterprise class development team.</text>
-    <text x="0" y="245" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="500" fill="#d4326d" fill-opacity="0.8" font-style="italic">You've done TDD and BDD. Now ADD something to your development.</text>
+  <!-- ============ SECTION 2: HERO (y=70-380) ============ -->
+  <g transform="translate(600, 70)">
+    <!-- Eyebrow -->
+    <text x="0" y="40" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" letter-spacing="3">FREE &amp; OPEN SOURCE CLAUDE CODE PLUGIN</text>
+    <!-- Headline line 1 -->
+    <text x="0" y="110" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="800">AI agents write code fast.</text>
+    <!-- Headline line 2 - gradient text -->
+    <text x="0" y="170" text-anchor="middle" fill="url(#accentGrad)" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="800">Without structure, they ship chaos.</text>
+    <!-- Sub-copy -->
+    <text x="0" y="220" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="300" opacity="0.7">ADD is coordinated agent swarms -- test-writers, implementers, reviewers, deployers --</text>
+    <text x="0" y="244" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="300" opacity="0.7">that ship verified software as a team. Spec-driven. Test-first. Independently verified.</text>
+    <!-- Tagline -->
+    <text x="0" y="290" text-anchor="middle" fill="#d4326d" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="400" font-style="italic" opacity="0.9">You've done TDD and BDD. Now ADD something to your development.</text>
   </g>
 
-  <!-- ========== SECTION 3: METRICS BAR ========== -->
-  <g transform="translate(40, 410)">
-    <rect x="0" y="0" width="1120" height="90" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-    <g transform="translate(80, 20)">
-      <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#22c55e">6</text>
-      <text x="0" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#ffffff" fill-opacity="0.5">Commands</text>
+  <!-- ============ SECTION 3: METRICS BAR (y=390-480) ============ -->
+  <g transform="translate(60, 390)">
+    <rect x="0" y="0" width="1080" height="90" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+    <!-- Metric 1: Commands -->
+    <g transform="translate(108, 45)">
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">9</text>
+      <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Commands</text>
     </g>
-    <line x1="220" y1="20" x2="220" y2="70" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
-    <g transform="translate(300, 20)">
-      <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#22c55e">8</text>
-      <text x="0" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#ffffff" fill-opacity="0.5">Skills</text>
+    <!-- Metric 2: Skills -->
+    <g transform="translate(324, 45)">
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">9</text>
+      <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Skills</text>
     </g>
-    <line x1="420" y1="20" x2="420" y2="70" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
-    <g transform="translate(500, 20)">
-      <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#22c55e">10</text>
-      <text x="0" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#ffffff" fill-opacity="0.5">Rules</text>
+    <!-- Metric 3: Rules -->
+    <g transform="translate(540, 45)">
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">11</text>
+      <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Rules</text>
     </g>
-    <line x1="640" y1="20" x2="640" y2="70" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
-    <g transform="translate(720, 20)">
-      <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#22c55e">10</text>
-      <text x="0" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#ffffff" fill-opacity="0.5">Templates</text>
+    <!-- Metric 4: Templates -->
+    <g transform="translate(756, 45)">
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">13</text>
+      <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Templates</text>
     </g>
-    <line x1="870" y1="20" x2="870" y2="70" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
-    <g transform="translate(940, 20)">
-      <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#22c55e">0</text>
-      <text x="0" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#ffffff" fill-opacity="0.5">Dependencies</text>
+    <!-- Metric 5: Dependencies -->
+    <g transform="translate(972, 45)">
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">0</text>
+      <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Dependencies</text>
     </g>
+    <!-- Separator lines -->
+    <line x1="216" y1="15" x2="216" y2="75" stroke="#ffffff" stroke-width="1" opacity="0.06"/>
+    <line x1="432" y1="15" x2="432" y2="75" stroke="#ffffff" stroke-width="1" opacity="0.06"/>
+    <line x1="648" y1="15" x2="648" y2="75" stroke="#ffffff" stroke-width="1" opacity="0.06"/>
+    <line x1="864" y1="15" x2="864" y2="75" stroke="#ffffff" stroke-width="1" opacity="0.06"/>
   </g>
 
-  <!-- ========== SECTION 4: AGENT SWARM ========== -->
-  <g transform="translate(40, 550)">
-    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">COORDINATED AGENT TEAMS</text>
-    <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Orchestrated swarms, not solo agents</text>
+  <!-- ============ SECTION 4: AGENT SWARM (y=500-900) ============ -->
+  <g transform="translate(60, 500)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">COORDINATED AGENT TEAMS</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">Orchestrated swarms, not solo agents</text>
 
     <!-- Orchestrator bar -->
-    <g transform="translate(0, 55)">
-      <rect x="0" y="0" width="1120" height="56" rx="12" fill="url(#accentGrad)"/>
-      <text x="24" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#ffffff">Orchestrator Agent</text>
-      <text x="560" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.85" text-anchor="middle">Reads spec · Builds plan · Dispatches sub-agents · Independently verifies</text>
-      <rect x="1010" y="14" width="90" height="28" rx="8" fill="#ffffff" fill-opacity="0.2"/>
-      <text x="1055" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#ffffff" text-anchor="middle" letter-spacing="1">COORDINATES</text>
+    <rect x="0" y="80" width="1080" height="50" rx="10" fill="url(#accentGrad)" opacity="0.9"/>
+    <text x="540" y="112" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700" letter-spacing="2">ORCHESTRATOR</text>
+
+    <!-- Connector lines from orchestrator to sub-agents -->
+    <line x1="160" y1="130" x2="160" y2="155" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+    <line x1="430" y1="130" x2="430" y2="155" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+    <line x1="700" y1="130" x2="700" y2="155" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+    <line x1="940" y1="130" x2="940" y2="155" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+
+    <!-- Sub-agent 1: Test Writer -->
+    <g transform="translate(30, 155)">
+      <rect x="0" y="0" width="240" height="160" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <!-- Corner accents -->
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Flask icon -->
+      <g transform="translate(120, 40)">
+        <path d="M-6,-16 L-6,-6 L-14,10 Q-15,14 -12,16 L12,16 Q15,14 14,10 L6,-6 L6,-16 Z" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="-8" y1="-16" x2="8" y2="-16" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="-10" y1="6" x2="10" y2="6" stroke="#ff6b9d" stroke-width="1" opacity="0.4"/>
+      </g>
+      <text x="120" y="78" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Test Writer</text>
+      <text x="120" y="96" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Writes failing tests from</text>
+      <text x="120" y="112" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">spec acceptance criteria</text>
+      <!-- Tags -->
+      <rect x="40" y="125" width="70" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="75" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">read-only</text>
+      <rect x="118" y="125" width="85" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="160" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">tests only</text>
     </g>
 
-    <!-- Dispatch arrows -->
-    <g transform="translate(0, 116)" opacity="0.4">
-      <text x="160" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#d4326d" text-anchor="middle">dispatch</text>
-      <text x="440" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#d4326d" text-anchor="middle">dispatch</text>
-      <text x="720" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#d4326d" text-anchor="middle">dispatch</text>
-      <text x="990" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#d4326d" text-anchor="middle">dispatch</text>
+    <!-- Sub-agent 2: Implementer -->
+    <g transform="translate(290, 155)">
+      <rect x="0" y="0" width="240" height="160" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Hammer icon -->
+      <g transform="translate(120, 40)">
+        <path d="M-4,16 L-4,-2 L-12,-2 L-12,-12 L12,-12 L12,-2 L4,-2 L4,16 Z" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="-8" y1="-12" x2="-8" y2="-18" stroke="#ff6b9d" stroke-width="1.5"/>
+      </g>
+      <text x="120" y="78" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Implementer</text>
+      <text x="120" y="96" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Writes minimal code to</text>
+      <text x="120" y="112" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">make tests pass</text>
+      <!-- Tags -->
+      <rect x="30" y="125" width="85" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="72" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">src only</text>
+      <rect x="123" y="125" width="90" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="168" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">no tests</text>
     </g>
 
-    <!-- Sub-agent cards -->
-    <g transform="translate(0, 135)">
-      <!-- Test Writer -->
-      <rect x="0" y="0" width="260" height="110" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="24" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="20">🧪</text>
-      <text x="52" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Test Writer</text>
-      <text x="24" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5">Failing tests from spec. RED phase.</text>
-      <rect x="24" y="72" width="38" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="43" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Read</text>
-      <rect x="68" y="72" width="42" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="89" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Write</text>
-      <rect x="116" y="72" width="40" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="136" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Bash</text>
+    <!-- Sub-agent 3: Reviewer -->
+    <g transform="translate(550, 155)">
+      <rect x="0" y="0" width="240" height="160" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Magnifying glass icon -->
+      <g transform="translate(120, 36)">
+        <circle cx="0" cy="-4" r="10" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="7" y1="3" x2="14" y2="12" stroke="#ff6b9d" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <text x="120" y="78" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Reviewer</text>
+      <text x="120" y="96" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Reviews code against spec</text>
+      <text x="120" y="112" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">compliance requirements</text>
+      <!-- Tags -->
+      <rect x="30" y="125" width="85" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="72" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">read-only</text>
+      <rect x="123" y="125" width="90" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="168" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">audit log</text>
+    </g>
 
-      <!-- Implementer -->
-      <rect x="285" y="0" width="260" height="110" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="309" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="20">🔨</text>
-      <text x="337" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Implementer</text>
-      <text x="309" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5">Minimal code to pass. GREEN phase.</text>
-      <rect x="309" y="72" width="38" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="328" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Read</text>
-      <rect x="353" y="72" width="42" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="374" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Write</text>
-      <rect x="401" y="72" width="36" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="419" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Edit</text>
-
-      <!-- Reviewer -->
-      <rect x="570" y="0" width="260" height="110" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="594" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="20">🔍</text>
-      <text x="622" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Reviewer</text>
-      <text x="594" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5">Spec compliance. Read-only.</text>
-      <rect x="594" y="72" width="38" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="613" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Read</text>
-      <rect x="638" y="72" width="38" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="657" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Glob</text>
-      <rect x="682" y="72" width="40" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="702" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Grep</text>
-
-      <!-- Deployer -->
-      <rect x="855" y="0" width="265" height="110" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="879" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="20">🚀</text>
-      <text x="907" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Deployer</text>
-      <text x="879" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5">Env-aware deploy + smoke tests.</text>
-      <rect x="879" y="72" width="40" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="899" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Bash</text>
-      <rect x="925" y="72" width="38" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="944" y="86" font-family="SF Mono, Monaco, monospace" font-size="10" fill="#d4326d" text-anchor="middle">Read</text>
+    <!-- Sub-agent 4: Deployer -->
+    <g transform="translate(810, 155)">
+      <rect x="0" y="0" width="240" height="160" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Rocket icon -->
+      <g transform="translate(120, 36)">
+        <path d="M0,-16 Q-8,-4 -8,6 L-4,12 L0,8 L4,12 L8,6 Q8,-4 0,-16 Z" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <circle cx="0" cy="-2" r="3" fill="none" stroke="#ff6b9d" stroke-width="1"/>
+        <path d="M-8,6 L-14,10 L-8,8" fill="none" stroke="#ff6b9d" stroke-width="1"/>
+        <path d="M8,6 L14,10 L8,8" fill="none" stroke="#ff6b9d" stroke-width="1"/>
+      </g>
+      <text x="120" y="78" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Deployer</text>
+      <text x="120" y="96" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Environment-aware deploy</text>
+      <text x="120" y="112" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">with rollback strategies</text>
+      <!-- Tags -->
+      <rect x="25" y="125" width="95" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="72" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">env-config</text>
+      <rect x="128" y="125" width="85" height="20" rx="10" fill="#b00149" opacity="0.15"/>
+      <text x="170" y="139" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">promote</text>
     </g>
 
     <!-- Verification bar -->
-    <g transform="translate(0, 260)">
-      <rect x="0" y="0" width="1120" height="44" rx="10" fill="#22c55e" fill-opacity="0.06" stroke="#22c55e" stroke-opacity="0.2" stroke-width="2" stroke-dasharray="6,4"/>
-      <text x="560" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#22c55e" text-anchor="middle">Independent Verification</text>
-      <text x="560" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#22c55e" fill-opacity="0.6" text-anchor="middle">Different agent · Fresh context · No shared state</text>
+    <rect x="0" y="335" width="1080" height="45" rx="10" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="1" stroke-opacity="0.2"/>
+    <!-- Checkmark icon -->
+    <g transform="translate(30, 357)">
+      <circle cx="0" cy="0" r="8" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+      <path d="M-4,0 L-1,3 L4,-3" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+    <text x="50" y="363" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600">Independent Verification</text>
+    <text x="240" y="363" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.5">Different agent  /  Fresh context  /  Humans validate UX via screenshots</text>
+  </g>
+
+  <!-- ============ SECTION 5: TRUST BUT VERIFY (y=920-1100) ============ -->
+  <g transform="translate(60, 920)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">TRUST BUT VERIFY</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">Three layers of confidence</text>
+
+    <!-- Card 1: Agent Verification -->
+    <g transform="translate(0, 80)">
+      <rect x="0" y="0" width="340" height="100" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+      <!-- Shield check icon -->
+      <g transform="translate(30, 35)">
+        <path d="M0,-12 L-10,-6 L-10,2 Q-10,10 0,16 Q10,10 10,2 L10,-6 Z" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+        <path d="M-4,2 L-1,5 L5,-2" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Agent Verification</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Independent agent checks all sub-agent</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">output. Fresh context, no shared state.</text>
+    </g>
+
+    <!-- Card 2: Screenshot Validation -->
+    <g transform="translate(370, 80)">
+      <rect x="0" y="0" width="340" height="100" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+      <!-- Screen/camera icon -->
+      <g transform="translate(30, 35)">
+        <rect x="-12" y="-9" width="24" height="16" rx="2" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+        <line x1="-6" y1="7" x2="6" y2="7" stroke="#22c55e" stroke-width="1.5"/>
+        <circle cx="0" cy="-1" r="4" fill="none" stroke="#22c55e" stroke-width="1"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Screenshot Validation</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Humans validate user experience by</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">reviewing screenshots. No Playwright required.</text>
+    </g>
+
+    <!-- Card 3: Quality Gates -->
+    <g transform="translate(740, 80)">
+      <rect x="0" y="0" width="340" height="100" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+      <!-- Gate/barrier icon -->
+      <g transform="translate(30, 35)">
+        <line x1="-10" y1="10" x2="-10" y2="-10" stroke="#22c55e" stroke-width="1.5"/>
+        <line x1="10" y1="10" x2="10" y2="-10" stroke="#22c55e" stroke-width="1.5"/>
+        <line x1="-10" y1="-4" x2="10" y2="-4" stroke="#22c55e" stroke-width="2"/>
+        <line x1="-10" y1="4" x2="10" y2="4" stroke="#22c55e" stroke-width="2"/>
+        <text x="0" y="-1" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700">5</text>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Quality Gates</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">5 automated gates: pre-commit, pre-push,</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">CI, pre-deploy, post-deploy.</text>
     </g>
   </g>
 
-  <!-- ========== SECTION 5: VALUE CARDS ========== -->
-  <g transform="translate(40, 890)">
-    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">KEY OUTCOMES</text>
-    <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Outcomes, not just features</text>
+  <!-- ============ SECTION 6: MATURITY DIAL (y=1120-1340) ============ -->
+  <g transform="translate(60, 1120)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">THE MASTER DIAL</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">One control governs all rigor</text>
 
-    <!-- Card 1 -->
-    <g transform="translate(0, 60)">
-      <rect x="0" y="0" width="540" height="110" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="24" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="24">📋</text>
-      <text x="60" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#ffffff">Zero specification drift</text>
-      <text x="24" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">PRD → Spec → Plan → Tests → Code. Every line traces to</text>
-      <text x="24" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">an approved requirement. No more "not what I asked for."</text>
+    <!-- Progress arrow background -->
+    <rect x="0" y="75" width="1080" height="6" rx="3" fill="#ffffff" opacity="0.05"/>
+    <rect x="0" y="75" width="1080" height="6" rx="3" fill="url(#accentGrad)" opacity="0.3"/>
+    <!-- Arrow head -->
+    <polygon points="1080,78 1090,78 1085,72" fill="#ff6b9d" opacity="0.4"/>
+    <polygon points="1080,78 1090,78 1085,84" fill="#ff6b9d" opacity="0.4"/>
+
+    <!-- POC Column -->
+    <g transform="translate(0, 95)">
+      <rect x="0" y="0" width="250" height="125" rx="12" fill="url(#pocGrad)" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+      <text x="125" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="500" opacity="0.4">POC</text>
+      <text x="125" y="52" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.3">PRD: Minimal</text>
+      <text x="125" y="68" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.3">TDD: Optional</text>
+      <text x="125" y="84" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.3">Parallel: 1 agent</text>
+      <text x="125" y="100" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.3">WIP: Unlimited</text>
     </g>
 
-    <!-- Card 2 -->
-    <g transform="translate(580, 60)">
-      <rect x="0" y="0" width="540" height="110" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="24" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="24">🧪</text>
-      <text x="60" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#ffffff">Tests before every line of code</text>
-      <text x="24" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">Strict TDD with independent verification. Sub-agents write</text>
-      <text x="24" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">tests, implement, refactor. Orchestrators verify independently.</text>
+    <!-- Alpha Column -->
+    <g transform="translate(275, 95)">
+      <rect x="0" y="0" width="250" height="125" rx="12" fill="url(#alphaGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+      <text x="125" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="500" opacity="0.55">Alpha</text>
+      <text x="125" y="52" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.4">PRD: Basic sections</text>
+      <text x="125" y="68" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.4">TDD: Encouraged</text>
+      <text x="125" y="84" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.4">Parallel: 2 agents</text>
+      <text x="125" y="100" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.4">WIP: 5 items</text>
     </g>
 
-    <!-- Card 3 -->
-    <g transform="translate(0, 190)">
-      <rect x="0" y="0" width="540" height="110" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="24" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="24">🧠</text>
-      <text x="60" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#ffffff">Agents that get smarter over time</text>
-      <text x="24" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">Knowledge persists across projects. Patterns from Project A</text>
-      <text x="24" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">inform Project B automatically. No repeated mistakes.</text>
+    <!-- Beta Column -->
+    <g transform="translate(550, 95)">
+      <rect x="0" y="0" width="250" height="125" rx="12" fill="url(#betaGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <text x="125" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" opacity="0.7">Beta</text>
+      <text x="125" y="52" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.55">PRD: Detailed</text>
+      <text x="125" y="68" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.55">TDD: Required</text>
+      <text x="125" y="84" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.55">Parallel: 3 agents</text>
+      <text x="125" y="100" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.55">WIP: 3 items</text>
     </g>
 
-    <!-- Card 4 -->
-    <g transform="translate(580, 190)">
-      <rect x="0" y="0" width="540" height="110" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="24" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="24">🎛️</text>
-      <text x="60" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#ffffff">Right rigor for every stage</text>
-      <text x="24" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">Maturity dial (POC → Alpha → Beta → GA) governs all ADD</text>
-      <text x="24" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.5">behavior. From "just hack" to "exhaustive verification."</text>
-    </g>
-  </g>
-
-  <!-- ========== SECTION 6: HUMAN IN THE LOOP ========== -->
-  <g transform="translate(40, 1210)">
-    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">HUMAN-AGENT COLLABORATION</text>
-    <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#ffffff">You set the boundaries. Agents work within them.</text>
-
-    <!-- Three autonomy modes -->
-    <g transform="translate(0, 55)">
-      <!-- Guided -->
-      <rect x="0" y="0" width="355" height="80" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <rect x="16" y="14" width="60" height="20" rx="4" fill="#eab308" fill-opacity="0.15"/>
-      <text x="46" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ca8a04" text-anchor="middle" letter-spacing="0.5">GUIDED</text>
-      <text x="16" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Human approves each step</text>
-      <text x="16" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">POC maturity, unfamiliar codebases</text>
-
-      <!-- Balanced -->
-      <rect x="380" y="0" width="355" height="80" rx="12" fill="url(#cardGrad)" stroke="#d4326d" stroke-opacity="0.4" stroke-width="1.5" filter="url(#glass)"/>
-      <rect x="396" y="14" width="74" height="20" rx="4" fill="#b00149" fill-opacity="0.15"/>
-      <text x="433" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#d4326d" text-anchor="middle" letter-spacing="0.5">BALANCED</text>
-      <text x="396" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Human at decision points (default)</text>
-      <text x="396" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">Alpha/Beta, established patterns</text>
-
-      <!-- Autonomous -->
-      <rect x="760" y="0" width="360" height="80" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <rect x="776" y="14" width="90" height="20" rx="4" fill="#22c55e" fill-opacity="0.15"/>
-      <text x="821" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#22c55e" text-anchor="middle" letter-spacing="0.5">AUTONOMOUS</text>
-      <text x="776" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Human sets boundaries, walks away</text>
-      <text x="776" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">GA maturity, well-specified features</text>
-    </g>
-
-    <!-- Away flow -->
-    <g transform="translate(0, 155)">
-      <rect x="0" y="0" width="1120" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
-      <text x="70" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.7" text-anchor="middle">📋 Define scope</text>
-      <text x="220" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
-      <text x="330" y="30" font-family="SF Mono, Monaco, monospace" font-size="12" fill="#d4326d" text-anchor="middle">/add:away</text>
-      <text x="440" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
-      <text x="600" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#22c55e" fill-opacity="0.7" text-anchor="middle">🤖 Agent works autonomously</text>
-      <text x="780" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
-      <text x="870" y="30" font-family="SF Mono, Monaco, monospace" font-size="12" fill="#d4326d" text-anchor="middle">/add:back</text>
-      <text x="980" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#d4326d" fill-opacity="0.5">→</text>
-      <text x="1070" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.7" text-anchor="middle">📊 Briefing</text>
+    <!-- GA Column -->
+    <g transform="translate(825, 95)">
+      <rect x="0" y="0" width="255" height="125" rx="12" fill="url(#gaGrad)" stroke="#b00149" stroke-opacity="0.3" stroke-width="1.5"/>
+      <text x="127" y="28" text-anchor="middle" fill="#ff6b9d" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="800">GA</text>
+      <text x="127" y="52" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.7">PRD: Comprehensive</text>
+      <text x="127" y="68" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.7">TDD: Strict + coverage</text>
+      <text x="127" y="84" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.7">Parallel: 4+ agents</text>
+      <text x="127" y="100" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.7">WIP: 2 items</text>
     </g>
   </g>
 
-  <!-- ========== SECTION 6B: PROMOTION LADDER ========== -->
-  <g transform="translate(40, 1440)">
-    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">ENVIRONMENT PROMOTION</text>
-    <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Verify at each level. Promote automatically.</text>
+  <!-- ============ SECTION 7: HUMAN IN THE LOOP (y=1360-1520) ============ -->
+  <g transform="translate(60, 1360)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">HUMAN-AGENT COLLABORATION</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">You set the boundaries. Agents work within them.</text>
 
-    <!-- Ladder boxes -->
-    <g transform="translate(0, 60)">
-      <!-- Local -->
-      <rect x="0" y="0" width="220" height="70" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="110" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff" fill-opacity="0.5" text-anchor="middle" letter-spacing="1">LOCAL</text>
-      <text x="110" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Commit only</text>
-
-      <!-- Arrow 1 -->
-      <text x="240" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#22c55e" fill-opacity="0.6" text-anchor="middle">→</text>
-
-      <!-- Dev -->
-      <rect x="270" y="0" width="220" height="70" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="380" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#22c55e" text-anchor="middle" letter-spacing="1">DEV</text>
-      <text x="380" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Auto-promote</text>
-
-      <!-- Arrow 2 -->
-      <text x="510" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#22c55e" fill-opacity="0.6" text-anchor="middle">→</text>
-
-      <!-- Staging -->
-      <rect x="540" y="0" width="220" height="70" rx="12" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" filter="url(#glass)"/>
-      <text x="650" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#eab308" text-anchor="middle" letter-spacing="1">STAGING</text>
-      <text x="650" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Auto-promote</text>
-
-      <!-- Arrow 3 -->
-      <text x="780" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#d4326d" fill-opacity="0.6" text-anchor="middle">→</text>
-
-      <!-- Production -->
-      <rect x="810" y="0" width="310" height="70" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.4" stroke-width="1.5" filter="url(#glass)"/>
-      <text x="965" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#d4326d" text-anchor="middle" letter-spacing="1">PRODUCTION</text>
-      <text x="965" y="50" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Human approval required</text>
+    <!-- Mode 1: Guided (yellow) -->
+    <g transform="translate(0, 75)">
+      <rect x="0" y="0" width="340" height="70" rx="12" fill="url(#yellowGrad)" stroke="#eab308" stroke-opacity="0.25" stroke-width="1"/>
+      <!-- Circle icon -->
+      <circle cx="35" cy="35" r="12" fill="none" stroke="#eab308" stroke-width="1.5"/>
+      <circle cx="35" cy="35" r="4" fill="#eab308" opacity="0.5"/>
+      <text x="60" y="30" fill="#eab308" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Guided</text>
+      <text x="60" y="48" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Human confirms each step</text>
     </g>
 
-    <!-- Feature labels -->
-    <g transform="translate(0, 150)">
-      <rect x="0" y="0" width="350" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
-      <text x="20" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="16">✅</text>
-      <text x="44" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Verify at each level</text>
-      <text x="44" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">Integration in dev, e2e + perf in staging</text>
-
-      <rect x="385" y="0" width="350" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
-      <text x="405" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="16">↩️</text>
-      <text x="429" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Automatic rollback on failure</text>
-      <text x="429" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">revert-commit or redeploy-previous-tag</text>
-
-      <rect x="770" y="0" width="350" height="50" rx="10" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
-      <text x="790" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="16">🛑</text>
-      <text x="814" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity="0.8">Human gate at production</text>
-      <text x="814" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#ffffff" fill-opacity="0.4">Agents stop, queue for approval</text>
+    <!-- Mode 2: Balanced (raspberry, highlighted) -->
+    <g transform="translate(370, 75)">
+      <rect x="0" y="0" width="340" height="70" rx="12" fill="url(#raspGrad)" stroke="#b00149" stroke-opacity="0.4" stroke-width="1.5"/>
+      <!-- Diamond icon -->
+      <polygon points="35,20 48,35 35,50 22,35" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+      <polygon points="35,27 42,35 35,43 28,35" fill="#b00149" opacity="0.3"/>
+      <text x="60" y="30" fill="#ff6b9d" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Balanced</text>
+      <text x="60" y="48" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.6">Decide + verify key points</text>
+      <!-- Default badge -->
+      <rect x="252" y="5" width="60" height="18" rx="9" fill="#b00149" opacity="0.3"/>
+      <text x="282" y="17" text-anchor="middle" fill="#ff6b9d" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">DEFAULT</text>
     </g>
-  </g>
 
-  <!-- ========== SECTION 7: TERMINAL ========== -->
-  <g transform="translate(40, 1780)">
-    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#d4326d" letter-spacing="2">GET STARTED</text>
-
-    <g transform="translate(0, 20)">
-      <rect x="0" y="0" width="1120" height="200" rx="12" fill="url(#termBg)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
-      <rect x="0" y="0" width="1120" height="36" rx="12" fill="#ffffff" fill-opacity="0.03"/>
-      <rect x="0" y="24" width="1120" height="12" fill="#ffffff" fill-opacity="0.03"/>
-      <circle cx="20" cy="18" r="6" fill="#ff5f57"/>
-      <circle cx="40" cy="18" r="6" fill="#febc2e"/>
-      <circle cx="60" cy="18" r="6" fill="#28c840"/>
-      <text x="560" y="22" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">Terminal</text>
-
-      <text x="24" y="68" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="68" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.9"> claude plugin install add</text>
-      <text x="24" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:init</text>
-      <text x="130" y="98" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3">  # 5-minute interview → full project setup</text>
-      <text x="24" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:spec</text>
-      <text x="130" y="128" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3"> # feature interview → specs/{feature}.md</text>
-      <text x="24" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:tdd-cycle</text>
-      <text x="175" y="158" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3"> # RED → GREEN → REFACTOR → VERIFY</text>
-      <text x="24" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#22c55e">$</text>
-      <text x="40" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#d4326d"> /add:deploy</text>
-      <text x="150" y="188" font-family="SF Mono, Monaco, monospace" font-size="14" fill="#ffffff" fill-opacity="0.3"> # environment-aware, verified</text>
+    <!-- Mode 3: Autonomous (green) -->
+    <g transform="translate(740, 75)">
+      <rect x="0" y="0" width="340" height="70" rx="12" fill="url(#greenCardGrad)" stroke="#22c55e" stroke-opacity="0.25" stroke-width="1"/>
+      <!-- Concentric circles icon -->
+      <circle cx="35" cy="35" r="12" fill="none" stroke="#22c55e" stroke-width="1"/>
+      <circle cx="35" cy="35" r="7" fill="none" stroke="#22c55e" stroke-width="1"/>
+      <circle cx="35" cy="35" r="3" fill="#22c55e" opacity="0.5"/>
+      <text x="60" y="30" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Autonomous</text>
+      <text x="60" y="48" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Agents work within boundaries</text>
     </g>
+
+    <!-- Away/Back flow strip -->
+    <rect x="0" y="160" width="1080" height="40" rx="8" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    <text x="80" y="185" text-anchor="middle" fill="#b00149" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="600">/add:away</text>
+    <!-- Arrow -->
+    <line x1="150" y1="180" x2="420" y2="180" stroke="#ffffff" stroke-width="1" opacity="0.15" stroke-dasharray="4,4"/>
+    <polygon points="420,177 430,180 420,183" fill="#ffffff" opacity="0.2"/>
+    <text x="290" y="176" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.35">autonomous work session (2h default)</text>
+    <!-- Agent working indicator -->
+    <g transform="translate(530, 180)">
+      <circle cx="0" cy="0" r="4" fill="#22c55e" opacity="0.5"/>
+      <circle cx="14" cy="0" r="4" fill="#22c55e" opacity="0.35"/>
+      <circle cx="28" cy="0" r="4" fill="#22c55e" opacity="0.2"/>
+    </g>
+    <!-- Arrow -->
+    <line x1="580" y1="180" x2="850" y2="180" stroke="#ffffff" stroke-width="1" opacity="0.15" stroke-dasharray="4,4"/>
+    <polygon points="850,177 860,180 850,183" fill="#ffffff" opacity="0.2"/>
+    <text x="715" y="176" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.35">structured briefing on return</text>
+    <text x="970" y="185" text-anchor="middle" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="600">/add:back</text>
   </g>
 
-  <!-- ========== SECTION 8: FOOTER ========== -->
-  <g transform="translate(0, 2040)">
-    <line x1="40" y1="0" x2="1160" y2="0" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
-    <text x="60" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#ffffff" fill-opacity="0.3">ADD v0.1.0 — Agent Driven Development</text>
-    <text x="600" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#ffffff" fill-opacity="0.3" text-anchor="middle">MIT License — Free &amp; Open Source</text>
-    <text x="1140" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#ffffff" fill-opacity="0.3" text-anchor="end">getADD.dev</text>
+  <!-- ============ SECTION 8: LEARNING SYSTEM (y=1540-1700) ============ -->
+  <g transform="translate(60, 1540)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">CROSS-PROJECT LEARNING</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">Agents that compound intelligence</text>
+
+    <!-- 3-tier diagram -->
+    <!-- Tier 1: Plugin-Global -->
+    <g transform="translate(60, 80)">
+      <rect x="0" y="0" width="280" height="80" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <text x="140" y="30" text-anchor="middle" fill="#ff6b9d" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Tier 1: Plugin-Global</text>
+      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">knowledge/global.md</text>
+      <text x="140" y="66" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">Universal best practices for all users</text>
+    </g>
+
+    <!-- Tier 2: User-Local -->
+    <g transform="translate(380, 80)">
+      <rect x="0" y="0" width="280" height="80" rx="12" fill="url(#cardGrad)" stroke="#d4326d" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#d4326d" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#d4326d" stroke-width="1" opacity="0.3"/>
+      <text x="140" y="30" text-anchor="middle" fill="#d4326d" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Tier 2: User-Local</text>
+      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">~/.claude/add/library.md</text>
+      <text x="140" y="66" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">Cross-project wisdom per user</text>
+    </g>
+
+    <!-- Tier 3: Project-Specific -->
+    <g transform="translate(700, 80)">
+      <rect x="0" y="0" width="280" height="80" rx="12" fill="url(#cardGrad)" stroke="#ff6b9d" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#ff6b9d" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#ff6b9d" stroke-width="1" opacity="0.3"/>
+      <text x="140" y="30" text-anchor="middle" fill="#ff6b9d" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Tier 3: Project-Specific</text>
+      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">.add/learnings.md</text>
+      <text x="140" y="66" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">Discoveries for this project</text>
+    </g>
+
+    <!-- Arrows showing knowledge flows upward -->
+    <g transform="translate(0, 80)">
+      <!-- Arrow: Tier 3 -> Tier 2 -->
+      <line x1="700" y1="40" x2="665" y2="40" stroke="#ff6b9d" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+      <polygon points="668,37 660,40 668,43" fill="#ff6b9d" opacity="0.4"/>
+      <!-- Arrow: Tier 2 -> Tier 1 -->
+      <line x1="380" y1="40" x2="345" y2="40" stroke="#d4326d" stroke-width="1" opacity="0.4" stroke-dasharray="4,3"/>
+      <polygon points="348,37 340,40 348,43" fill="#d4326d" opacity="0.4"/>
+    </g>
+
+    <!-- "Knowledge flows upward" label -->
+    <text x="540" y="178" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.3" letter-spacing="1">KNOWLEDGE FLOWS UPWARD DURING RETROS</text>
+
+    <!-- Checkpoint triggers -->
+    <rect x="140" y="195" width="800" height="35" rx="8" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    <text x="180" y="218" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" opacity="0.35">CHECKPOINTS:</text>
+    <!-- Trigger pills -->
+    <rect x="270" y="203" width="90" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="315" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after verify</text>
+    <rect x="375" y="203" width="80" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="415" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after TDD</text>
+    <rect x="470" y="203" width="95" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="517" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after deploy</text>
+    <rect x="580" y="203" width="90" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="625" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after away</text>
+    <rect x="685" y="203" width="100" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="735" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">during retro</text>
   </g>
+
+  <!-- ============ SECTION 9: GET STARTED TERMINAL (y=1720-1940) ============ -->
+  <g transform="translate(120, 1720)">
+    <!-- Eyebrow -->
+    <text x="480" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">GET STARTED</text>
+
+    <!-- Terminal window -->
+    <rect x="0" y="40" width="960" height="195" rx="12" fill="url(#termBg)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <!-- Title bar -->
+    <rect x="0" y="40" width="960" height="32" rx="12" fill="#ffffff" opacity="0.03"/>
+    <rect x="0" y="60" width="960" height="12" fill="#ffffff" opacity="0.03"/>
+    <!-- macOS dots -->
+    <circle cx="22" cy="56" r="5" fill="#ff5f57"/>
+    <circle cx="40" cy="56" r="5" fill="#febc2e"/>
+    <circle cx="58" cy="56" r="5" fill="#28c840"/>
+    <!-- Terminal title -->
+    <text x="480" y="61" text-anchor="middle" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="11" font-weight="400" opacity="0.3">Terminal</text>
+
+    <!-- Command lines -->
+    <text x="30" y="100" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="100" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">claude plugin install add</text>
+
+    <text x="30" y="126" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="126" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:init</text>
+    <text x="320" y="126" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># 5-minute interview  -&gt;  full project setup</text>
+
+    <text x="30" y="152" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="152" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:spec</text>
+    <text x="320" y="152" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># feature interview  -&gt;  specs/{feature}.md</text>
+
+    <text x="30" y="178" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="178" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:tdd-cycle</text>
+    <text x="320" y="178" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># RED  -&gt;  GREEN  -&gt;  REFACTOR  -&gt;  VERIFY</text>
+
+    <text x="30" y="204" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="204" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:verify</text>
+    <text x="320" y="204" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># 5 quality gates + screenshot validation</text>
+
+    <text x="30" y="230" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:deploy</text>
+    <text x="320" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># environment-aware, verified</text>
+  </g>
+
+  <!-- ============ SECTION 10: FOOTER (y=1960-2000) ============ -->
+  <g transform="translate(600, 1970)">
+    <!-- Divider line -->
+    <line x1="-500" y1="-10" x2="500" y2="-10" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
+    <text x="0" y="15" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" opacity="0.4">ADD v0.2.0 -- Agent Driven Development</text>
+    <text x="0" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.25">MIT License -- Free &amp; Open Source</text>
+    <text x="0" y="58" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" opacity="0.6">getADD.dev</text>
+  </g>
+
 </svg>
