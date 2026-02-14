@@ -80,6 +80,24 @@
 - `specs/spike/` directory pattern (dossierFYI stores specs in a subdirectory) validates our decision to make specs_directory configurable in config.json
 - Context window analysis: CLAUDE.md (111 lines, ~800 tokens) is fine. The real cost is 10 autoloaded rules at ~14K tokens (7% of 200K). Heavy rules: agent-coordination (~3K tokens with swarm), maturity-lifecycle (~2K tokens). For v0.2.0 consider: conditional autoload based on maturity level, progressive disclosure (core principle autoloaded + detail in linked file read on-demand), or YAML `paths` filtering so rules only activate for relevant file paths. For now, 14K is reasonable — optimize when dog-fooding reveals actual context pressure.
 
+### Checkpoint: Version Consistency Audit — 2026-02-14
+- After bumping to v0.2.0, found version references scattered across 20+ files in inconsistent states.
+- **Version bump checklist** (all must be updated together):
+  1. `.claude-plugin/plugin.json` — canonical version
+  2. `.claude-plugin/marketplace.json` — marketplace metadata
+  3. `.add/config.json` — project config `version` field
+  4. `README.md` — badge
+  5. All command files (`commands/*.md`) — `[ADD v{X}]` in description + `# ADD {Name} Command v{X}` heading
+  6. All skill files (`skills/*/SKILL.md`) — `[ADD v{X}]` in description + `# ADD {Name} Skill v{X}` heading
+  7. `reports/add-overview.html` — HTML comment, meta tag, and footer
+  8. Website footer references (`website/**/*.html`)
+- **Heading conventions** (enforce on new files):
+  - Commands: `# ADD {Name} Command v{X}`
+  - Skills: `# ADD {Name} Skill v{X}`
+  - Rules: `# ADD Rule: {Name}` (no version — rules are structural, not versioned)
+- **Grep audit command**: `grep -r 'v0\.\d\+\.\d\+' --include='*.md' --include='*.json' --include='*.html'` to find all version refs
+- Historical/contextual references to past versions (PRD milestones, learnings, specs) should NOT be bumped — they refer to the version at time of writing.
+
 ## Profile Update Candidates
 
 - 2026-02-07: Author consistently uses GitHub for git hosting across all projects. Promote to profile?
