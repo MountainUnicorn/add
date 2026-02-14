@@ -1,11 +1,26 @@
 {
   "name": "add",
   "version": "0.2.0",
-  "description": "Agent Driven Development (ADD) — A methodology where AI agents are first-class development team members. Specs drive agents, humans architect and decide, trust-but-verify ensures quality. Includes structured human-AI collaboration protocols, environment-aware workflows, and multi-agent orchestration.",
+  "description": "Agent Driven Development (ADD) — Coordinated AI agent teams that ship verified software. Spec-driven TDD, trust-but-verify orchestration, human-AI collaboration protocols, environment-aware deployment, and cross-project learning.",
   "author": {
-    "name": "abrooke"
+    "name": "abrooke",
+    "url": "https://github.com/MountainUnicorn"
   },
+  "homepage": "https://getadd.dev",
   "repository": "https://github.com/MountainUnicorn/add",
-  "keywords": ["add", "agent-driven-development", "sdlc", "tdd", "spec-driven", "multi-agent", "orchestration", "claude-code"],
+  "keywords": [
+    "add",
+    "agent-driven-development",
+    "sdlc",
+    "tdd",
+    "spec-driven",
+    "multi-agent",
+    "orchestration",
+    "claude-code",
+    "methodology",
+    "trust-but-verify",
+    "quality-gates",
+    "away-mode"
+  ],
   "license": "MIT"
 }
