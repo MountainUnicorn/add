@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Skill Reference — ADD (Agent Driven Development)</title>
+  <meta name="description" content="Complete reference for all 9 ADD skills: TDD cycle, test-writer, implementer, reviewer, verify, plan, optimize, deploy, and infographic. Phase badges, allowed tools, arguments, and usage details.">
+  <meta name="keywords" content="ADD skills, agent driven development, TDD cycle, test-writer, implementer, reviewer, verify, plan, optimize, deploy, infographic, Claude Code plugin">
+  <meta name="author" content="MountainUnicorn">
+  <link rel="canonical" href="https://getadd.dev/docs/skills">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getadd.dev/docs/skills">
+  <meta property="og:title" content="Skill Reference — ADD (Agent Driven Development)">
+  <meta property="og:description" content="Complete reference for all 9 ADD skills. TDD cycle orchestration, test writing, implementation, code review, quality gates, planning, optimization, deployment, and infographic generation.">
+  <meta property="og:site_name" content="getADD.dev">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Skill Reference — ADD (Agent Driven Development)">
+  <meta name="twitter:description" content="Complete reference for all 9 ADD skills. TDD cycle orchestration, test writing, implementation, code review, quality gates, planning, optimization, deployment, and infographic generation.">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+
+  <!-- ===== SITE NAV ===== -->
+  <nav class="site-nav">
+    <a href="/" class="site-nav-brand">ADD</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <div class="site-nav-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills" class="active">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/guides/best-practices">Best Practices</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <button class="nav-theme-toggle" onclick="toggleTheme()">&#x1F313;</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO MINI ===== -->
+  <header class="hero-mini">
+    <div class="hero-mini-inner">
+      <div class="hero-eyebrow">Reference</div>
+      <h1>Skill Reference</h1>
+      <p>All 9 ADD skills — specialized execution agents with scoped permissions, phase-specific tooling, and independent verification. Each skill is a focused sub-agent within the TDD workflow.</p>
+    </div>
+  </header>
+
+  <!-- ===== DOC LAYOUT ===== -->
+  <div class="doc-layout">
+
+    <!-- Sidebar -->
+    <aside class="doc-sidebar">
+      <nav>
+        <h4>TDD Cycle</h4>
+        <a href="#tdd-cycle">/add:tdd-cycle</a>
+        <a href="#test-writer">/add:test-writer</a>
+        <a href="#implementer">/add:implementer</a>
+        <a href="#reviewer">/add:reviewer</a>
+        <a href="#verify">/add:verify</a>
+        <h4>Workflow</h4>
+        <a href="#plan">/add:plan</a>
+        <a href="#optimize">/add:optimize</a>
+        <a href="#deploy">/add:deploy</a>
+        <a href="#infographic">/add:infographic</a>
+        <h4>Reference</h4>
+        <a href="#summary-table">Summary Table</a>
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <main class="doc-content">
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">ADD</a>
+        <span>/</span>
+        <a href="/docs/">Docs</a>
+        <span>/</span>
+        <span>Skills</span>
+      </div>
+
+      <h2 id="tdd-skills">TDD Cycle Skills</h2>
+      <p>The core TDD loop: an orchestrator dispatches specialized sub-agents for each phase. The full <code>/add:tdd-cycle</code> skill coordinates all four phases. Individual phase skills can also be invoked standalone.</p>
+
+      <!-- /add:tdd-cycle -->
+      <div class="ref-card" id="tdd-cycle">
+        <h3>
+          <code>/add:tdd-cycle</code>
+          <span class="phase-badge phase-full">Full TDD</span>
+          Full TDD Cycle
+        </h3>
+        <p class="ref-desc">Execute the complete RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY cycle against a feature specification. The orchestrator reads the spec, dispatches sub-agents for each phase, coordinates results, and independently verifies the final output. This is the primary skill for feature development in ADD.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Write, Edit, Glob, Grep, Bash, Task, TodoWrite</span>
+          <span><strong>Args:</strong> <code>specs/{feature}.md [--ac AC-001,AC-002] [--parallel]</code></span>
+          <span><strong>Related:</strong> test-writer, implementer, reviewer, verify, plan</span>
+        </div>
+        <p>The <code>--ac</code> flag targets specific acceptance criteria for a partial cycle. The <code>--parallel</code> flag enables concurrent sub-agent execution at Beta+ maturity using git worktrees for isolation. Without flags, all acceptance criteria are processed sequentially.</p>
+        <p>The orchestrator coordinates four sub-agents in order: test-writer (RED), implementer (GREEN), reviewer (REFACTOR), and verify (VERIFY). If any phase fails, the cycle halts and reports the failure point. After successful completion, a knowledge checkpoint is automatically captured.</p>
+      </div>
+
+      <!-- /add:test-writer -->
+      <div class="ref-card" id="test-writer">
+        <h3>
+          <code>/add:test-writer</code>
+          <span class="phase-badge phase-red">RED</span>
+          Write Failing Tests
+        </h3>
+        <p class="ref-desc">Parse the feature spec, extract acceptance criteria and test cases, generate test files, and verify that all tests fail with clear, descriptive messages. This is the RED phase — tests must exist and must fail before any implementation begins.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Write, Glob, Grep, Bash</span>
+          <span><strong>Args:</strong> <code>specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]</code></span>
+          <span><strong>Related:</strong> tdd-cycle, implementer</span>
+        </div>
+        <p>The test-writer reads the spec's acceptance criteria and generates test files that map one-to-one to each criterion. Every test must fail (RED state) before the phase is considered complete. The <code>--type</code> flag controls the test layer; when omitted, the skill generates tests at the layer implied by each acceptance criterion.</p>
+        <p>Test files follow the project's existing test conventions (naming, framework, directory structure). Each test includes a descriptive failure message that references the acceptance criterion ID (e.g., "AC-001: should reject empty email").</p>
+      </div>
+
+      <!-- /add:implementer -->
+      <div class="ref-card" id="implementer">
+        <h3>
+          <code>/add:implementer</code>
+          <span class="phase-badge phase-green">GREEN</span>
+          Make Tests Pass
+        </h3>
+        <p class="ref-desc">Verify that tests exist and currently fail, analyze the requirements from each failing test, and implement the minimal code necessary to achieve GREEN state. No gold-plating — write only what the tests require.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Write, Edit, Glob, Grep, Bash</span>
+          <span><strong>Args:</strong> <code>specs/{feature}.md [--ac AC-001,AC-002]</code></span>
+          <span><strong>Related:</strong> tdd-cycle, test-writer, reviewer</span>
+        </div>
+        <p>The implementer first confirms RED state by running the test suite and verifying failures. It then implements code incrementally — one acceptance criterion at a time — re-running tests after each change. The goal is minimal passing code: no premature abstractions, no features beyond what the tests specify.</p>
+        <p>If the implementer encounters a situation where a test seems incorrect or ambiguous, it halts and requests clarification rather than guessing. All implementations follow the project's existing code conventions and patterns.</p>
+      </div>
+
+      <!-- /add:reviewer -->
+      <div class="ref-card" id="reviewer">
+        <h3>
+          <code>/add:reviewer</code>
+          <span class="phase-badge phase-refactor">REFACTOR</span>
+          Code Review
+        </h3>
+        <p class="ref-desc">Read-only analysis of the implementation. Check spec compliance, code quality, test coverage, architecture consistency, and ADD methodology adherence. Produces a structured review report with actionable findings.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Glob, Grep, Bash</span>
+          <span><strong>Args:</strong> <code>specs/{feature}.md [--scope backend|frontend|full]</code></span>
+          <span><strong>Related:</strong> tdd-cycle, verify</span>
+        </div>
+        <p>The reviewer is a strictly read-only agent — it cannot modify files. It examines the implementation against the spec, checking that every acceptance criterion is satisfied, code follows project patterns, test coverage is adequate, and no spec drift has occurred.</p>
+        <p>The review report is structured with severity levels (critical, warning, suggestion) and includes specific file locations and remediation guidance. Critical findings block progression to the verify phase.</p>
+      </div>
+
+      <!-- /add:verify -->
+      <div class="ref-card" id="verify">
+        <h3>
+          <code>/add:verify</code>
+          <span class="phase-badge phase-verify">VERIFY</span>
+          Quality Gates
+        </h3>
+        <p class="ref-desc">Execute the 5-level quality gate system: Gate 1 (lint/format), Gate 2 (type checking), Gate 3 (tests and coverage), Gate 4 (spec compliance and integration), Gate 5 (smoke tests). Each gate must pass before the next runs.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Glob, Grep, Bash, TodoWrite</span>
+          <span><strong>Args:</strong> <code>[--level local|ci|deploy|smoke] [--fix]</code></span>
+          <span><strong>Related:</strong> tdd-cycle, deploy</span>
+        </div>
+        <p>The <code>--level</code> flag controls which gates are executed. <code>local</code> runs Gates 1-3, <code>ci</code> adds Gate 4, <code>deploy</code> includes all 5, and <code>smoke</code> runs only Gate 5 post-deployment. The <code>--fix</code> flag allows the verify agent to automatically remediate Gate 1 failures (formatting and lint issues).</p>
+        <p>Each gate produces a pass/fail result with details. A knowledge checkpoint is automatically captured after verification completes, recording any patterns or issues discovered during the process.</p>
+        <ul>
+          <li><strong>Gate 1:</strong> Lint and format — code style, import ordering, formatting rules</li>
+          <li><strong>Gate 2:</strong> Type checking — static type analysis, no implicit any</li>
+          <li><strong>Gate 3:</strong> Tests and coverage — all tests pass, coverage meets threshold</li>
+          <li><strong>Gate 4:</strong> Spec compliance — acceptance criteria satisfied, integration tests pass</li>
+          <li><strong>Gate 5:</strong> Smoke tests — end-to-end verification in target environment</li>
+        </ul>
+      </div>
+
+      <h2 id="workflow-skills">Workflow Skills</h2>
+      <p>Skills that support the broader development workflow: planning, optimization, deployment, and documentation. These skills complement the TDD cycle and are typically invoked at specific points in the development lifecycle.</p>
+
+      <!-- /add:plan -->
+      <div class="ref-card" id="plan">
+        <h3>
+          <code>/add:plan</code>
+          <span class="phase-badge phase-plan">Planning</span>
+          Implementation Planning
+        </h3>
+        <p class="ref-desc">Parse a feature spec and decompose it into an ordered task list with phases (Prep &rarr; Core &rarr; Testing &rarr; Polish). Identify parallelizable work streams, assess risks, and produce a structured implementation plan.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Write, Glob, Grep, Bash</span>
+          <span><strong>Args:</strong> <code>specs/{feature}.md</code></span>
+          <span><strong>Output:</strong> <code>docs/plans/{feature}-plan.md</code></span>
+          <span><strong>Related:</strong> tdd-cycle</span>
+        </div>
+        <p>The plan skill reads the spec and produces a phased implementation plan. Each phase contains ordered tasks with effort estimates, dependency mapping, and parallelism annotations. The plan also includes a risk assessment — what could go wrong, what's uncertain, and what needs research before implementation begins.</p>
+        <p>Plans are designed to be consumed by the <code>/add:tdd-cycle</code> skill. Tasks map directly to acceptance criteria. The plan document is committed to git as an audit trail of the implementation approach.</p>
+      </div>
+
+      <!-- /add:optimize -->
+      <div class="ref-card" id="optimize">
+        <h3>
+          <code>/add:optimize</code>
+          <span class="phase-badge phase-optimize">Optimization</span>
+          Performance Optimization
+        </h3>
+        <p class="ref-desc">Profile the codebase, identify performance bottlenecks, prioritize by ROI (impact vs. effort), and implement optimizations with TDD discipline — write a performance test first, then optimize to pass it.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Write, Edit, Glob, Grep, Bash, Task</span>
+          <span><strong>Args:</strong> <code>[--scope backend|frontend|full] [--profile-first]</code></span>
+          <span><strong>Related:</strong> tdd-cycle, verify</span>
+        </div>
+        <p>The <code>--profile-first</code> flag instructs the skill to run profiling tools and gather baseline metrics before proposing any changes. Without this flag, the skill analyzes code statically for known anti-patterns and bottlenecks.</p>
+        <p>Optimizations follow TDD discipline: for each improvement, a performance test is written first that asserts the target metric (e.g., response time under 200ms), then the optimization is implemented to pass the test. This prevents regression and documents the performance contract.</p>
+      </div>
+
+      <!-- /add:deploy -->
+      <div class="ref-card" id="deploy">
+        <h3>
+          <code>/add:deploy</code>
+          <span class="phase-badge phase-deploy">Deployment</span>
+          Environment-Aware Deployment
+        </h3>
+        <p class="ref-desc">Run quality gates, compose a conventional commit, push, monitor CI, and execute deployment per environment rules. Agents climb the promotion ladder autonomously — but production always requires human approval.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Glob, Grep, Bash, TodoWrite</span>
+          <span><strong>Args:</strong> <code>[--env local|dev|staging|production] [--skip-verify]</code></span>
+          <span><strong>Related:</strong> verify</span>
+        </div>
+        <p>Deployment behavior varies by environment:</p>
+        <ul>
+          <li><strong>Local:</strong> Commit only. Runs Gates 1-3 before committing.</li>
+          <li><strong>Dev:</strong> Commit + push. Runs Gates 1-3 locally, monitors CI for Gate 4.</li>
+          <li><strong>Staging:</strong> Commit + push + CI. Waits for full CI pipeline, runs Gate 5 smoke tests post-deploy.</li>
+          <li><strong>Production:</strong> Creates PR + awaits human approval. Never auto-deploys to production regardless of maturity level.</li>
+        </ul>
+        <p>The <code>--skip-verify</code> flag bypasses quality gates (use with caution). Rollback strategies are environment-specific: <code>revert-commit</code> for dev, <code>redeploy-previous-tag</code> for staging.</p>
+      </div>
+
+      <!-- /add:infographic -->
+      <div class="ref-card" id="infographic">
+        <h3>
+          <code>/add:infographic</code>
+          <span class="phase-badge phase-docs">Documentation</span>
+          Generate Infographic
+        </h3>
+        <p class="ref-desc">Generate an SVG infographic from the project PRD and configuration, applying project branding (colors, fonts, tone). Adapts content depth to the project's maturity level and supports image generation enhancement.</p>
+        <div class="ref-meta">
+          <span><strong>Tools:</strong> Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion</span>
+          <span><strong>Args:</strong> <code>[--update]</code></span>
+          <span><strong>Related:</strong> brand, brand-update</span>
+        </div>
+        <p>The infographic skill gathers content from the PRD, config, and project state to produce a visual SVG overview. It uses the branding system (colors, gradients, fonts) defined in <code>.add/config.json</code> to ensure visual consistency with other project artifacts.</p>
+        <p>The <code>--update</code> flag regenerates the infographic using existing content structure, updating only the data that has changed. Without it, the skill performs full content gathering and may ask the user clarifying questions via <code>AskUserQuestion</code>. The output SVG is GitHub-compatible (no <code>&lt;style&gt;</code> or <code>&lt;script&gt;</code> tags) for README embedding.</p>
+      </div>
+
+      <!-- ===== SUMMARY TABLE ===== -->
+      <h2 id="summary-table">Summary Table</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Phase</th>
+            <th>Read-Only</th>
+            <th>Auto-Fix</th>
+            <th>Key Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/add:tdd-cycle</code></td>
+            <td><span class="phase-badge phase-full">Full TDD</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Passing tests + verified implementation</td>
+          </tr>
+          <tr>
+            <td><code>/add:test-writer</code></td>
+            <td><span class="phase-badge phase-red">RED</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Failing test files</td>
+          </tr>
+          <tr>
+            <td><code>/add:implementer</code></td>
+            <td><span class="phase-badge phase-green">GREEN</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Minimal passing implementation</td>
+          </tr>
+          <tr>
+            <td><code>/add:reviewer</code></td>
+            <td><span class="phase-badge phase-refactor">REFACTOR</span></td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Structured review report</td>
+          </tr>
+          <tr>
+            <td><code>/add:verify</code></td>
+            <td><span class="phase-badge phase-verify">VERIFY</span></td>
+            <td>No</td>
+            <td>Yes (--fix)</td>
+            <td>Gate pass/fail results</td>
+          </tr>
+          <tr>
+            <td><code>/add:plan</code></td>
+            <td><span class="phase-badge phase-plan">Planning</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>docs/plans/{feature}-plan.md</td>
+          </tr>
+          <tr>
+            <td><code>/add:optimize</code></td>
+            <td><span class="phase-badge phase-optimize">Optimization</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Performance tests + optimized code</td>
+          </tr>
+          <tr>
+            <td><code>/add:deploy</code></td>
+            <td><span class="phase-badge phase-deploy">Deployment</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Commit, push, deploy per environment</td>
+          </tr>
+          <tr>
+            <td><code>/add:infographic</code></td>
+            <td><span class="phase-badge phase-docs">Documentation</span></td>
+            <td>No</td>
+            <td>No</td>
+            <td>SVG infographic</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-tagline">ADD something to your development.</div>
+    <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
+    <div class="footer-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE">MIT License</a>
+    </div>
+    <div class="footer-meta">
+      ADD v0.2.0 — Agent Driven Development | Free &amp; open source<br>
+      Built with ADD, using ADD. Dog-fooded from day one.
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

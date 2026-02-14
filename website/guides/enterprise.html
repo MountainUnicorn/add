@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Enterprise Guide — ADD | Agent Driven Development at Scale</title>
+  <meta name="description" content="Scale Agent Driven Development across enterprise teams. Multi-team configuration, shared knowledge architecture, maturity governance, compliance, and environment promotion at scale.">
+  <meta name="keywords" content="enterprise AI development, agent driven development, ADD enterprise, multi-team AI, AI governance, SDLC methodology, AI compliance, agent coordination">
+  <meta name="author" content="MountainUnicorn">
+  <link rel="canonical" href="https://getadd.dev/guides/enterprise">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://getadd.dev/guides/enterprise">
+  <meta property="og:title" content="Enterprise Guide — ADD at Scale">
+  <meta property="og:description" content="Scale Agent Driven Development across enterprise teams. Multi-team configuration, shared knowledge, maturity governance, compliance, and environment promotion.">
+  <meta property="og:site_name" content="getADD.dev">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Enterprise Guide — ADD at Scale">
+  <meta name="twitter:description" content="Scale Agent Driven Development across enterprise teams. Multi-team configuration, shared knowledge, maturity governance, and compliance.">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+
+  <!-- ===== SITE NAV ===== -->
+  <nav class="site-nav">
+    <a href="/" class="site-nav-brand">ADD</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <div class="site-nav-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise" class="active">Enterprise</a>
+      <a href="/guides/best-practices">Best Practices</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <button class="nav-theme-toggle" onclick="toggleTheme()">&#x1F313;</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO MINI ===== -->
+  <header class="hero-mini">
+    <div class="hero-mini-inner">
+      <div class="hero-eyebrow">Enterprise Guide</div>
+      <h1>ADD at Enterprise Scale</h1>
+      <p>Scaling agent-driven development across teams, projects, and environments — with governance that compounds knowledge instead of adding overhead.</p>
+    </div>
+  </header>
+
+  <!-- ===== DOC LAYOUT ===== -->
+  <div class="doc-layout">
+
+    <!-- Sidebar -->
+    <aside class="doc-sidebar">
+      <nav>
+        <h4>Overview</h4>
+        <a href="#why-enterprise">Why Enterprise ADD</a>
+        <a href="#key-benefits">Key Benefits</a>
+
+        <h4>Setup</h4>
+        <a href="#multi-team-config">Multi-Team Configuration</a>
+        <a href="#shared-knowledge">Shared Knowledge</a>
+        <a href="#governance">Governance</a>
+
+        <h4>Operations</h4>
+        <a href="#environment-promotion">Environment Promotion</a>
+        <a href="#agent-coordination">Agent Coordination</a>
+        <a href="#compliance">Compliance</a>
+
+        <h4>Adoption</h4>
+        <a href="#migration-path">Migration Path</a>
+        <a href="#roi-metrics">ROI Metrics</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="doc-content">
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">ADD</a>
+        <span>/</span>
+        <a href="/guides/">Guides</a>
+        <span>/</span>
+        <span>Enterprise</span>
+      </div>
+
+      <!-- ===== WHY ENTERPRISE ADD ===== -->
+      <h2 id="why-enterprise">Why Enterprise ADD</h2>
+
+      <p>Large organizations face a compounding problem with AI-assisted development. Individual developers use AI agents effectively, but without structure the result is inconsistent practices across teams, no shared learning, unclear compliance posture, and multi-environment deployment complexity that multiplies with every new project.</p>
+
+      <p>These are not hypothetical risks. They are the lived reality of enterprises adopting AI tooling without methodology. Teams reinvent patterns their colleagues already solved. Quality varies wildly between projects. Compliance teams cannot trace AI-generated code to requirements. Deployment pipelines designed for human developers break down when agents operate autonomously.</p>
+
+      <p>ADD addresses each of these systematically. The <strong>maturity lifecycle</strong> gives leadership a single control that governs process rigor across the entire portfolio. The <strong>3-tier knowledge cascade</strong> ensures that patterns discovered by any team propagate to all teams. The <strong>environment promotion ladder</strong> provides guardrails for autonomous deployment. And the <strong>spec-driven workflow</strong> creates the traceability that compliance requires.</p>
+
+      <div class="callout callout-accent">
+        <p><strong>The core insight:</strong> Enterprise AI development is not a tooling problem — it is a methodology problem. ADD provides the methodology. Teams that adopt it do not just use agents more effectively; they build an organizational capability that compounds with every project.</p>
+      </div>
+
+      <p>Unlike frameworks that impose heavyweight process, ADD scales its rigor dynamically. A hackathon team runs at POC maturity with lightweight specs and optional TDD. A production team runs at GA maturity with full specifications, strict TDD enforcement, and all five quality gates. The same methodology serves both, governed by a single configuration value.</p>
+
+      <!-- ===== KEY BENEFITS ===== -->
+      <h2 id="key-benefits">Key Benefits for Enterprise</h2>
+
+      <h3>Cross-team knowledge compounding</h3>
+      <p>The 3-tier knowledge system is where ADD's enterprise value becomes exponential rather than linear. When Team A discovers that UUID columns must use the <code>uuid</code> type rather than <code>text</code> for performance, that learning is captured in their project's <code>.add/learnings.md</code>. During their next retrospective, it gets promoted to the user's cross-project library at <code>~/.claude/add/library.md</code>. From there, every agent on every project that developer touches benefits automatically.</p>
+
+      <p>At the organizational level, platform teams can curate a shared Tier 1 knowledge base that ships universal best practices to every project. Database naming conventions, API design standards, security patterns — all encoded as agent-readable knowledge that applies automatically, without requiring developers to read a wiki page that was last updated eighteen months ago.</p>
+
+      <h3>Governance without overhead</h3>
+      <p>The maturity dial is the single most important concept for enterprise adoption. It is one configuration value — <code>poc</code>, <code>alpha</code>, <code>beta</code>, or <code>ga</code> — that controls everything: PRD depth requirements, whether specs are optional or mandatory, TDD enforcement level, which quality gates run, how many parallel agents can operate, and WIP limits.</p>
+
+      <p>This means leadership gets visibility into process rigor across the portfolio without micromanaging individual teams. A governance dashboard can show maturity levels across all projects, and leadership can set minimum maturity requirements by project type (e.g., all customer-facing services must be at least Beta).</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Maturity</th>
+            <th>PRD Depth</th>
+            <th>Specs</th>
+            <th>TDD</th>
+            <th>Quality Gates</th>
+            <th>Parallel Agents</th>
+            <th>WIP Limit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>POC</strong></td>
+            <td>A paragraph</td>
+            <td>Optional</td>
+            <td>Optional</td>
+            <td>Pre-commit only</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><strong>Alpha</strong></td>
+            <td>1-pager</td>
+            <td>Critical paths</td>
+            <td>Critical paths</td>
+            <td>+ CI</td>
+            <td>1-2</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><strong>Beta</strong></td>
+            <td>Full template</td>
+            <td>Required</td>
+            <td>Enforced</td>
+            <td>+ Pre-deploy</td>
+            <td>2-4</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td><strong>GA</strong></td>
+            <td>Full + architecture</td>
+            <td>+ Acceptance criteria</td>
+            <td>Strict</td>
+            <td>All 5 levels</td>
+            <td>3-5</td>
+            <td>5</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Audit trail built-in</h3>
+      <p>Every line of code in an ADD-managed project traces to a test. Every test traces to a specification. Every specification traces to a PRD. Every decision made during autonomous work is logged in the away log. Every retrospective is archived. This is not an afterthought bolted onto the process — it is the process itself.</p>
+
+      <p>For regulated industries, this traceability means compliance audits become documentation reviews rather than forensic investigations. The chain of evidence exists by default, committed to git, versioned, and immutable.</p>
+
+      <h3>Progressive autonomy</h3>
+      <p>Enterprise adoption does not require a leap of faith. ADD defines three engagement modes that let organizations gradually increase agent autonomy as trust builds:</p>
+
+      <ul>
+        <li><strong>Guided mode:</strong> Human approves every step. Best for initial adoption, unfamiliar codebases, and critical systems.</li>
+        <li><strong>Balanced mode:</strong> Agents execute freely within spec boundaries, pausing only at ambiguity or architecture decisions. The default for most enterprise teams.</li>
+        <li><strong>Autonomous mode:</strong> Human sets boundaries and walks away. Agents execute full TDD cycles, commit, push, and report results. Reserved for well-specified features on mature projects.</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <p><strong>Adoption pattern:</strong> Most enterprise teams start in Guided mode for their first two cycles, move to Balanced within a month, and begin using Autonomous mode for well-defined features within a quarter. The key is that the transition is gradual and reversible — you can always dial back.</p>
+      </div>
+
+      <!-- ===== MULTI-TEAM CONFIGURATION ===== -->
+      <h2 id="multi-team-config">Multi-Team Configuration</h2>
+
+      <p>Each team in an enterprise operates their own ADD-managed projects with independent configurations. The <code>.add/config.json</code> file in each project root defines that project's maturity level, environment setup, and agent behavior. There is no central server, no shared runtime, no coordination overhead between teams.</p>
+
+      <h3>Per-team maturity levels</h3>
+      <p>Different teams work at different maturity levels based on their project's stage and risk profile. The platform team can set organizational minimums, but individual teams can always exceed them.</p>
+
+      <pre><code>// Team A — shipping a new microservice (early stage)
+{
+  "maturity": "alpha",
+  "tdd": { "enforce": "critical-paths" },
+  "environments": ["local", "dev"]
+}
+
+// Team B — maintaining a core platform service
+{
+  "maturity": "ga",
+  "tdd": { "enforce": "strict" },
+  "environments": ["local", "dev", "staging", "production"]
+}</code></pre>
+
+      <h3>Standardized templates</h3>
+      <p>ADD ships with templates for PRDs, specifications, implementation plans, and configurations. In an enterprise context, organizations can customize these templates to include mandatory fields for their process — security review sections, data classification, regulatory requirements — while maintaining the standard ADD workflow.</p>
+
+      <p>Template customization happens at the plugin level. Teams that install the organization's fork of ADD get consistent templates across all projects without any per-project configuration.</p>
+
+      <h3>Team lead controls</h3>
+      <p>Team leads and engineering managers can enforce minimum maturity levels per project type. A simple organizational policy might look like:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Project Type</th>
+            <th>Minimum Maturity</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Internal tools</td>
+            <td>POC</td>
+            <td>Low risk, fast iteration</td>
+          </tr>
+          <tr>
+            <td>Internal services</td>
+            <td>Alpha</td>
+            <td>Moderate risk, some users depend on it</td>
+          </tr>
+          <tr>
+            <td>Customer-facing APIs</td>
+            <td>Beta</td>
+            <td>High risk, external contracts</td>
+          </tr>
+          <tr>
+            <td>Payment / PII systems</td>
+            <td>GA</td>
+            <td>Regulated, full auditability required</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ===== SHARED KNOWLEDGE ARCHITECTURE ===== -->
+      <h2 id="shared-knowledge">Shared Knowledge Architecture</h2>
+
+      <p>The 3-tier knowledge cascade is ADD's most powerful enterprise feature. It creates an organizational learning system where every agent, on every project, benefits from every discovery made anywhere in the organization.</p>
+
+      <h3>Tier 1: Plugin-Global (Organization-Wide)</h3>
+      <p>The top tier contains universal best practices curated by the platform or architecture team. In an enterprise deployment, this is your organization's fork of ADD's <code>knowledge/global.md</code> file. It ships with the plugin and is read-only in consumer projects.</p>
+
+      <p>This tier contains patterns that should apply everywhere: API design standards, database conventions, security requirements, logging formats, error handling patterns. Because agents read this tier before starting any task, these standards are applied automatically — not through code review comments after the fact.</p>
+
+      <h3>Tier 2: User-Local (Individual Developer)</h3>
+      <p>Each developer accumulates their own cross-project wisdom at <code>~/.claude/add/library.md</code>. This is machine-local and private. It captures the developer's preferences, patterns they have discovered across projects, and framework-specific knowledge they have built up over time.</p>
+
+      <p>In an enterprise context, Tier 2 creates natural specialization. A developer who works primarily on payment systems accumulates payment-specific knowledge. A developer who focuses on data pipelines accumulates data engineering patterns. When they move to a new project in their domain, they carry all that wisdom with them automatically.</p>
+
+      <h3>Tier 3: Project-Specific (Team Discoveries)</h3>
+      <p>Every project has its own <code>.add/learnings.md</code> file, committed to git, that captures project-specific discoveries. This is auto-populated at checkpoints: after every <code>/add:verify</code>, TDD cycle, deployment, and away session.</p>
+
+      <p>Because this file is committed to git, every team member's agents benefit from it. When one developer discovers a quirk in the project's ORM configuration, that learning is available to every agent working on the project from that point forward.</p>
+
+      <div class="callout callout-info">
+        <p><strong>Knowledge flows upward, precedence flows downward.</strong> Project discoveries can be promoted to the user's cross-project library during <code>/add:retro</code>. Cross-project insights can be promoted to plugin-global by the platform team. But when there is a conflict, project-specific knowledge overrides user-local, which overrides plugin-global. Local context always wins.</p>
+      </div>
+
+      <h3>Enterprise knowledge flow</h3>
+      <pre><code>Tier 1: Organization-Wide (knowledge/global.md)
+  Platform team curates universal standards
+  Ships with org's ADD fork, read-only in projects
+    |
+    v  (precedence flows down)
+Tier 2: Developer-Local (~/.claude/add/library.md)
+  Individual cross-project wisdom
+  Private, machine-local, auto-accumulated
+    |
+    v  (precedence flows down)
+Tier 3: Project-Specific (.add/learnings.md)
+  Team discoveries, git-committed
+  Auto-checkpoints + retrospective promotions
+    |
+    ^  (knowledge flows up via /add:retro)
+    |
+  Promotion: project -> user library -> org-wide</code></pre>
+
+      <!-- ===== MATURITY GOVERNANCE ===== -->
+      <h2 id="governance">Maturity Governance</h2>
+
+      <p>The maturity lifecycle is the enterprise governance model. Instead of complex policy documents and review boards, organizations govern AI-assisted development through a single dial per project. This dial controls everything agents do — from how detailed specifications must be to whether deployments are automatic or require human approval.</p>
+
+      <h3>POC — Hackathons and prototypes</h3>
+      <p>Minimal ceremony. A paragraph-long PRD is sufficient. Specs and TDD are optional. Only pre-commit quality gates run. Single agent, single WIP item. This level exists so that innovation is not strangled by process. Hackathon teams, proof-of-concept explorations, and throwaway prototypes all run at POC.</p>
+
+      <h3>Alpha — Early-stage products</h3>
+      <p>Critical paths get specs and TDD. A one-page PRD defines the product. CI quality gates join pre-commit checks. Up to two parallel agents with a WIP limit of two. This is the right level for products that have found initial product-market fit and need to start building with more discipline.</p>
+
+      <h3>Beta — Products approaching launch</h3>
+      <p>Full specifications required. TDD enforced on all features. Pre-deploy quality gates added. Two to four parallel agents with git worktree isolation. WIP limit of four. This is where most enterprise products should live — rigorous enough for reliability, flexible enough for velocity.</p>
+
+      <h3>GA — Production systems</h3>
+      <p>Maximum rigor. Full PRD with architecture documentation. Acceptance criteria required in every spec. Strict TDD with no exceptions. All five quality gate levels active. Three to five parallel agents, full isolation. WIP limit of five. This level is for systems where failure has material business impact.</p>
+
+      <div class="callout callout-accent">
+        <p><strong>Portfolio governance:</strong> A CISO or VP of Engineering can see the maturity distribution across all projects at a glance. If 60% of customer-facing services are at Alpha when the policy requires Beta, that is a clear, actionable metric — not a subjective assessment of "code quality."</p>
+      </div>
+
+      <!-- ===== ENVIRONMENT PROMOTION ===== -->
+      <h2 id="environment-promotion">Environment Promotion at Scale</h2>
+
+      <p>Enterprise deployments involve multiple environments with different testing requirements, approval workflows, and rollback strategies. ADD's environment promotion ladder maps directly to this reality.</p>
+
+      <h3>The promotion ladder</h3>
+      <p>Agents climb through environments autonomously when verification passes at each level. The ladder is configurable per project, and the <code>autoPromote</code> flag controls how far agents can go without human intervention.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Environment</th>
+            <th>Verification</th>
+            <th>Auto-Promote</th>
+            <th>Rollback Strategy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Local</strong></td>
+            <td>Unit + integration tests</td>
+            <td>Always</td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td><strong>Dev</strong></td>
+            <td>Integration + CI pipeline</td>
+            <td>Configurable</td>
+            <td><code>revert-commit</code></td>
+          </tr>
+          <tr>
+            <td><strong>Staging</strong></td>
+            <td>E2E + performance tests</td>
+            <td>Configurable</td>
+            <td><code>redeploy-previous-tag</code></td>
+          </tr>
+          <tr>
+            <td><strong>Production</strong></td>
+            <td>Smoke tests + monitoring</td>
+            <td>Never</td>
+            <td><code>redeploy-previous-tag</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-tip">
+        <p><strong>The production rule is absolute:</strong> Production deployment always requires human approval. No maturity level, no engagement mode, no configuration can override this. It is hardcoded into the methodology. This is the boundary that makes autonomous agent work safe at enterprise scale.</p>
+      </div>
+
+      <h3>Per-team environment configurations</h3>
+      <p>Different teams may have different environment topologies. A frontend team might deploy to a CDN with no staging environment. A backend team might have separate staging environments for each microservice. ADD's environment configuration is per-project, so each team defines exactly the ladder their project needs.</p>
+
+      <pre><code>// Frontend team — CDN deployment
+{
+  "environments": {
+    "local": { "autoPromote": true, "verify": "test:unit" },
+    "dev": { "autoPromote": true, "verify": "test:integration" },
+    "production": { "autoPromote": false, "verify": "test:smoke" }
+  }
+}
+
+// Backend team — full ladder
+{
+  "environments": {
+    "local": { "autoPromote": true, "verify": "test:unit" },
+    "dev": { "autoPromote": true, "verify": "test:integration" },
+    "staging": { "autoPromote": true, "verify": "test:e2e" },
+    "production": { "autoPromote": false, "verify": "test:smoke" }
+  }
+}</code></pre>
+
+      <h3>Rollback at scale</h3>
+      <p>When verification fails after deployment, agents roll back automatically. The rollback strategy is environment-specific: <code>revert-commit</code> for dev (fast, low-risk), <code>redeploy-previous-tag</code> for staging and production (safe, known-good state). Rollback events are logged and trigger a learning checkpoint, so the agent captures why the deployment failed and avoids the same mistake next time.</p>
+
+      <!-- ===== AGENT COORDINATION ===== -->
+      <h2 id="agent-coordination">Agent Coordination Patterns</h2>
+
+      <p>In enterprise contexts, agent coordination becomes critical. Multiple agents may be working on the same codebase, and their work must not conflict. ADD provides structured patterns for multi-agent coordination that scale with maturity.</p>
+
+      <h3>Orchestrator and sub-agent model</h3>
+      <p>The orchestrator agent is the coordinator. It reads the specification, builds the implementation plan, dispatches specialized sub-agents, coordinates their outputs, and independently verifies all results. Sub-agents are specialized and scoped:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Sub-Agent</th>
+            <th>Role</th>
+            <th>Permissions</th>
+            <th>Tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Test Writer</strong></td>
+            <td>Write failing tests from spec</td>
+            <td>Read + Write</td>
+            <td>Read, Write, Bash</td>
+          </tr>
+          <tr>
+            <td><strong>Implementer</strong></td>
+            <td>Minimal code to pass tests</td>
+            <td>Read + Write + Edit</td>
+            <td>Read, Write, Edit, Bash</td>
+          </tr>
+          <tr>
+            <td><strong>Reviewer</strong></td>
+            <td>Code review for spec compliance</td>
+            <td>Read-only</td>
+            <td>Read, Glob, Grep</td>
+          </tr>
+          <tr>
+            <td><strong>Deployer</strong></td>
+            <td>Environment-aware deployment</td>
+            <td>Read + Bash</td>
+            <td>Bash, Read</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Independent verification</h3>
+      <p>This is the "trust but verify" principle in practice. After sub-agents complete their work, the orchestrator runs its own verification in a fresh context with no shared state. It does not trust the sub-agent's report — it runs the tests itself, checks the code itself, and confirms spec compliance independently. If it disagrees with the sub-agent's assessment, the cycle restarts.</p>
+
+      <p>For enterprise teams, independent verification is what makes autonomous agent work trustworthy. It is the equivalent of a mandatory code review, except it is automated, consistent, and cannot be skipped.</p>
+
+      <h3>Scaling with maturity</h3>
+      <p>The number of parallel agents and WIP limits scale with maturity level. This prevents early-stage projects from introducing coordination complexity they are not ready for:</p>
+
+      <ul>
+        <li><strong>POC:</strong> 1 agent, WIP limit 1 — sequential work, no coordination needed</li>
+        <li><strong>Alpha:</strong> 1-2 agents, WIP limit 2 — light parallelism on independent features</li>
+        <li><strong>Beta:</strong> 2-4 agents, WIP limit 4 — git worktrees for full isolation</li>
+        <li><strong>GA:</strong> 3-5 agents, WIP limit 5 — full parallel execution with coordination</li>
+      </ul>
+
+      <h3>Git worktree isolation</h3>
+      <p>At Beta maturity and above, ADD uses git worktrees to give each agent a fully isolated working directory. This eliminates merge conflicts between concurrent agents and allows truly parallel execution. Each agent works on its own branch in its own worktree, and the orchestrator handles the merge when all work is verified.</p>
+
+      <!-- ===== COMPLIANCE ===== -->
+      <h2 id="compliance">Compliance and Auditability</h2>
+
+      <p>Regulated industries need more than good intentions — they need evidence. ADD generates that evidence as a natural byproduct of its workflow, not as an additional reporting burden.</p>
+
+      <h3>Complete traceability chain</h3>
+      <p>Every artifact in an ADD-managed project links to its parent:</p>
+
+      <pre><code>PRD (docs/prd.md)
+  -> Milestone (docs/milestones/M1-name.md)
+    -> Cycle (.add/cycles/cycle-1.md)
+      -> Feature Spec (specs/feature.md)
+        -> Implementation Plan (docs/plans/feature-plan.md)
+          -> Tests (RED phase — failing, traced to spec criteria)
+            -> Implementation (GREEN phase — minimal code to pass)
+              -> Verification (independent agent confirmation)
+                -> Deployment (environment-specific, logged)</code></pre>
+
+      <p>An auditor can start at any deployed feature and trace it backward through verified tests, to the specification that defined it, to the PRD requirement that justified it. Every link in this chain is a git-committed file with full version history.</p>
+
+      <h3>Decision logging</h3>
+      <p>During autonomous work (away mode), agents log every decision they make: which files they modified, why they chose one approach over another, what alternatives they considered, and what they deferred for human review. These decision logs are committed to the away log at <code>.add/away-log.md</code> and archived to <code>.add/away-logs/</code>.</p>
+
+      <p>For compliance purposes, decision logs answer the question "why did the AI make this choice?" — a question that regulators are increasingly asking.</p>
+
+      <h3>Retrospective archives</h3>
+      <p>Every <code>/add:retro</code> produces a timestamped record of what was learned, what went well, what should change, and what knowledge was promoted to higher tiers. These retrospectives create a historical record of the team's development practices and how they evolved over time.</p>
+
+      <h3>Conventional commits with spec references</h3>
+      <p>ADD enforces conventional commit messages that reference the specification being implemented. This means every commit in git history links to a formal requirement, creating an additional layer of traceability that integrates with existing git-based audit workflows.</p>
+
+      <div class="callout callout-info">
+        <p><strong>For SOC 2, HIPAA, and similar frameworks:</strong> ADD's traceability chain, decision logs, and quality gate reports provide evidence for change management controls, access controls (scoped agent permissions), testing requirements (TDD enforcement), and deployment approvals (production always requires human sign-off).</p>
+      </div>
+
+      <h3>Quality gate reports</h3>
+      <p>The five quality gate levels produce reports at every stage:</p>
+
+      <ol>
+        <li><strong>Pre-commit:</strong> Linting, formatting, type checking</li>
+        <li><strong>CI:</strong> Full test suite, coverage thresholds</li>
+        <li><strong>Pre-deploy:</strong> Integration tests, security scanning</li>
+        <li><strong>Post-deploy:</strong> Smoke tests, health checks</li>
+        <li><strong>Monitoring:</strong> Error rates, performance baselines</li>
+      </ol>
+
+      <p>Each gate produces a pass/fail result with details. Failed gates block promotion to the next environment. The gate configuration is committed to the project, so auditors can verify that the required checks were in place at the time of deployment.</p>
+
+      <!-- ===== MIGRATION PATH ===== -->
+      <h2 id="migration-path">Migration Path</h2>
+
+      <p>Enterprise adoption of ADD follows a deliberate, low-risk progression. The methodology is designed so that you can start small, prove value, and expand based on evidence rather than commitment.</p>
+
+      <h3>Phase 1: Pilot (Weeks 1-2)</h3>
+      <p>Select a single project with a willing team. Run <code>/add:init</code> at POC maturity. Complete two to three feature cycles — from spec to verified implementation — to build team familiarity with the workflow. The goal is not to transform how the team works overnight; it is to demonstrate the spec-to-code traceability and the learning system in a low-stakes environment.</p>
+
+      <h3>Phase 2: Stabilize (Weeks 3-6)</h3>
+      <p>Promote the pilot project to Alpha maturity as patterns stabilize. TDD enforcement begins on critical paths. The team starts accumulating meaningful project-specific knowledge. Run the first <code>/add:retro</code> to promote learnings to the developer's cross-project library. This is where the knowledge compounding effect becomes visible.</p>
+
+      <h3>Phase 3: Expand (Weeks 7-12)</h3>
+      <p>Introduce ADD to additional teams, starting each at POC maturity. Share learnings from the pilot team via Tier 1 (plugin-global) knowledge updates. Establish organizational conventions for template customization. Teams that adopt later benefit immediately from the accumulated knowledge of earlier adopters.</p>
+
+      <h3>Phase 4: Mature (Months 4-6)</h3>
+      <p>Graduate mature projects to Beta or GA maturity. Establish minimum maturity requirements by project type. The organizational knowledge library now contains enough cross-project wisdom to significantly accelerate new project bootstrapping. Begin using Autonomous mode for well-specified features on trusted projects.</p>
+
+      <h3>Phase 5: Scale (Months 6+)</h3>
+      <p>Full organizational adoption with per-team maturity governance. Portfolio-level visibility into process rigor. Cross-team knowledge flowing automatically. Environment promotion ladders configured per team's deployment topology. The methodology is now an organizational capability, not a team experiment.</p>
+
+      <div class="callout callout-tip">
+        <p><strong>Critical success factor:</strong> Start with a team that is already comfortable with AI-assisted development. ADD adds structure to an existing practice — it does not introduce AI to teams that are not ready for it. The pilot team should be enthusiastic, not conscripted.</p>
+      </div>
+
+      <!-- ===== ROI METRICS ===== -->
+      <h2 id="roi-metrics">ROI Metrics</h2>
+
+      <p>Measuring the return on ADD adoption requires metrics that capture both the direct efficiency gains and the compounding knowledge effects. The following metrics provide a balanced view of adoption impact.</p>
+
+      <h3>Specification drift</h3>
+      <p>Measure how often the final implementation diverges from the approved specification. In an ADD-managed project, this should approach zero because every test traces to a spec criterion and independent verification confirms compliance. Track this as a percentage: features that pass verification on the first cycle versus those that require rework.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Baseline (No ADD)</th>
+            <th>Target (With ADD)</th>
+            <th>How to Measure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Specification drift</td>
+            <td>30-50% of features</td>
+            <td>&lt; 5%</td>
+            <td>First-pass verification rate</td>
+          </tr>
+          <tr>
+            <td>Knowledge reuse</td>
+            <td>Near zero</td>
+            <td>Growing monthly</td>
+            <td>Tier 2/3 learning entries applied</td>
+          </tr>
+          <tr>
+            <td>Quality gate pass rate</td>
+            <td>60-70%</td>
+            <td>&gt; 95%</td>
+            <td>Gates passed on first run</td>
+          </tr>
+          <tr>
+            <td>Agent autonomy ratio</td>
+            <td>N/A</td>
+            <td>60-80% at Beta+</td>
+            <td>Work done without human intervention</td>
+          </tr>
+          <tr>
+            <td>Time to first verified feature</td>
+            <td>N/A</td>
+            <td>&lt; 1 day at POC</td>
+            <td><code>/add:init</code> to first <code>/add:verify</code> pass</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Knowledge reuse rate</h3>
+      <p>Track how often cross-project learnings are applied. Each time an agent reads a Tier 1 or Tier 2 learning and applies it to a new project, that is a knowledge reuse event. Over time, the rate of novel discoveries should decrease (the important patterns are already known) while the rate of applied knowledge increases (agents are getting smarter). This is the compounding effect in action.</p>
+
+      <h3>Quality gate trends</h3>
+      <p>Quality gate pass rates should improve over time as agents accumulate knowledge. A team that fails 30% of quality gates in their first month should see that drop to under 5% within a quarter. If pass rates are not improving, it indicates a problem in the knowledge capture or application process.</p>
+
+      <h3>Agent autonomy ratio</h3>
+      <p>The percentage of development work completed without human intervention. This metric naturally increases as teams move through engagement modes (Guided to Balanced to Autonomous) and as maturity levels increase. At GA maturity with well-specified features, autonomy ratios of 60-80% are achievable and sustainable.</p>
+
+      <h3>Time to first verified feature</h3>
+      <p>Measure the elapsed time from <code>/add:init</code> to the first successful <code>/add:verify</code> pass. This captures the total bootstrapping cost of ADD for a new project. At POC maturity, this should be achievable in under a day. As the organization's knowledge library grows, bootstrapping time decreases because new projects inherit accumulated wisdom from day one.</p>
+
+      <div class="callout callout-accent">
+        <p><strong>The meta-metric:</strong> The most important signal is whether the metrics themselves are improving over time. ADD is a compounding system — if the numbers are flat, the knowledge cascade is not working. If they are improving quarter over quarter, the methodology is delivering its core value proposition: organizational learning that makes every project better than the last.</p>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-tagline">ADD something to your development.</div>
+    <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
+    <div class="footer-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE">MIT License</a>
+    </div>
+    <div class="footer-meta">
+      ADD v0.2.0 — Agent Driven Development | Free &amp; open source<br>
+      Built with ADD, using ADD. Dog-fooded from day one.
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

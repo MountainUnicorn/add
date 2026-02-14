@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Getting Started with ADD — Agent Driven Development Documentation</title>
+  <meta name="description" content="Learn how to install and use ADD (Agent Driven Development), a free Claude Code plugin that brings structured SDLC methodology to AI-native development. Zero dependencies, pure markdown and JSON.">
+  <meta name="keywords" content="ADD documentation, agent driven development, getting started, claude code plugin, TDD, AI agents, SDLC methodology, installation guide">
+  <meta name="author" content="MountainUnicorn">
+  <link rel="canonical" href="https://getadd.dev/docs/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://getadd.dev/docs/">
+  <meta property="og:title" content="Getting Started with ADD — Agent Driven Development">
+  <meta property="og:description" content="Install ADD in one command. Learn how AI agents collaborate as a coordinated development team with specs, TDD cycles, quality gates, and cross-project learning.">
+  <meta property="og:site_name" content="getADD.dev">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Getting Started with ADD — Agent Driven Development">
+  <meta name="twitter:description" content="Install ADD in one command. Learn how AI agents collaborate as a coordinated development team with specs, TDD cycles, quality gates, and cross-project learning.">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+
+  <!-- ===== SITE NAV ===== -->
+  <nav class="site-nav">
+    <a href="/" class="site-nav-brand">ADD</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <div class="site-nav-links">
+      <a href="/docs/" class="active">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/guides/best-practices">Best Practices</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <button class="nav-theme-toggle" onclick="toggleTheme()">&#x1F313;</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO MINI ===== -->
+  <section class="hero-mini">
+    <div class="hero-mini-inner">
+      <div class="hero-eyebrow">Documentation</div>
+      <h1>Getting Started with ADD</h1>
+      <p>Everything you need to install, configure, and start building with Agent Driven Development. From first install to your first feature in under ten minutes.</p>
+    </div>
+  </section>
+
+  <!-- ===== DOC LAYOUT ===== -->
+  <div class="doc-layout">
+
+    <!-- Sidebar -->
+    <aside class="doc-sidebar">
+      <nav>
+        <h4>Getting Started</h4>
+        <a href="#overview" class="active">Overview</a>
+        <a href="#installation">Installation</a>
+        <a href="#quick-start">Quick Start</a>
+        <a href="#your-first-feature">Your First Feature</a>
+
+        <h4>Configuration</h4>
+        <a href="#config-reference">Config Reference</a>
+        <a href="#knowledge-system">Knowledge System</a>
+        <a href="#maturity-levels">Maturity Levels</a>
+
+        <h4>Reference</h4>
+        <a href="#document-hierarchy">Document Hierarchy</a>
+        <a href="#plugin-structure">Plugin Structure</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="doc-content">
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/docs/">Docs</a>
+        <span>/</span>
+        <span>Getting Started</span>
+      </div>
+
+      <!-- ===== OVERVIEW ===== -->
+      <h2 id="overview">Overview</h2>
+
+      <p>ADD (Agent Driven Development) is a structured SDLC methodology where AI agents are first-class development team members. It brings the same discipline to AI-native development that TDD brought to testing.</p>
+
+      <p>ADD is a free Claude Code plugin &mdash; pure markdown and JSON, zero dependencies. Install it in one command and start building with coordinated agent teams that write specs, run TDD cycles, verify quality, and deploy &mdash; all with structured human collaboration at every decision point.</p>
+
+      <div class="callout callout-tip">
+        <p><strong>Core insight:</strong> AI agents are not solo contributors &mdash; they are team members. ADD treats them as a coordinated team with roles, scoped permissions, independent verification, and accumulated knowledge that compounds across projects.</p>
+      </div>
+
+      <p>The six principles that govern everything ADD does:</p>
+
+      <ol>
+        <li><strong>Specs before code</strong> &mdash; Everything flows from specifications. No spec, no code.</li>
+        <li><strong>Tests before implementation</strong> &mdash; Strict TDD: RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY.</li>
+        <li><strong>Trust but verify</strong> &mdash; Sub-agents work. Orchestrators independently verify.</li>
+        <li><strong>Structured collaboration</strong> &mdash; Interviews, away mode, decision points, engagement modes.</li>
+        <li><strong>Environment awareness</strong> &mdash; Skills adapt to your deployment tier.</li>
+        <li><strong>Continuous learning</strong> &mdash; Agents accumulate knowledge through checkpoints and retrospectives.</li>
+      </ol>
+
+
+      <!-- ===== INSTALLATION ===== -->
+      <h2 id="installation">Installation</h2>
+
+      <p>ADD is installed through the Claude Code plugin system. One command, nothing else required.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="arg">claude plugin install add</span></div>
+        </div>
+      </div>
+
+      <p>That's it. No build step, no dependencies, no configuration files to create manually. The plugin installs commands, skills, rules, and templates into your Claude Code environment.</p>
+
+      <div class="callout callout-tip">
+        <p><strong>What gets installed:</strong> 9 commands for orchestration, 9 skills for execution, 11 behavioral rules that auto-load, and 13 document templates. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes.</p>
+      </div>
+
+      <h3>Prerequisites</h3>
+
+      <ul>
+        <li><strong>Claude Code</strong> &mdash; ADD is a Claude Code plugin. You need Claude Code installed and working.</li>
+        <li><strong>A git repository</strong> &mdash; ADD stores project state in <code>.add/</code> which should be committed to version control.</li>
+      </ul>
+
+      <h3>Verify Installation</h3>
+
+      <p>After installing, you can verify by running any ADD command. The simplest check:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:init</span></div>
+        </div>
+      </div>
+
+      <p>If ADD is installed correctly, this will begin the structured project interview.</p>
+
+
+      <!-- ===== QUICK START ===== -->
+      <h2 id="quick-start">Quick Start</h2>
+
+      <p>The ADD workflow follows a clear progression: initialize your project, create specs for features, plan the implementation, build with TDD, verify quality, and deploy. Here is the complete flow.</p>
+
+      <h3>1. Initialize your project</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:init</span>  <span class="comment"># 5-minute structured interview</span></div>
+        </div>
+      </div>
+
+      <p>The init command runs a structured interview that captures your project's purpose, tech stack, maturity level, and team preferences. It creates:</p>
+
+      <ul>
+        <li><code>.add/config.json</code> &mdash; central project configuration</li>
+        <li><code>docs/prd.md</code> &mdash; product requirements document</li>
+        <li><code>.add/learnings.md</code> &mdash; project knowledge file</li>
+        <li>Behavioral rules tailored to your maturity level</li>
+      </ul>
+
+      <h3>2. Create a feature spec</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>  <span class="comment"># feature interview &rarr; specs/{feature}.md</span></div>
+        </div>
+      </div>
+
+      <p>A guided interview captures everything agents need: description, acceptance criteria, test cases, edge cases, dependencies, and scope boundaries. The output is a structured specification file at <code>specs/{feature}.md</code>.</p>
+
+      <h3>3. Plan the implementation</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:plan</span> <span class="arg">specs/{feature}.md</span>  <span class="comment"># generates implementation plan</span></div>
+        </div>
+      </div>
+
+      <p>The plan skill reads the spec and generates a step-by-step implementation plan at <code>docs/plans/{feature}-plan.md</code>. It identifies file changes, dependencies, test strategy, and execution order.</p>
+
+      <h3>4. Build with TDD</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="arg">specs/{feature}.md</span>  <span class="comment"># RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</span></div>
+        </div>
+      </div>
+
+      <p>The full TDD cycle: agents write failing tests from the spec (RED), implement minimal code to pass (GREEN), refactor for quality (REFACTOR), and independently verify everything works (VERIFY).</p>
+
+      <h3>5. Verify quality</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>  <span class="comment"># runs 5 quality gates</span></div>
+        </div>
+      </div>
+
+      <p>The verify skill runs up to five quality gates depending on your maturity level: linting, type checking, tests, coverage, and spec compliance. All gates must pass before deployment.</p>
+
+      <h3>6. Deploy</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>  <span class="comment"># environment-aware deployment</span></div>
+        </div>
+      </div>
+
+      <p>Environment-aware deployment that promotes through your configured environments (local &rarr; dev &rarr; staging &rarr; production). Agents climb the promotion ladder autonomously until production, which always requires human approval.</p>
+
+
+      <!-- ===== YOUR FIRST FEATURE ===== -->
+      <h2 id="your-first-feature">Your First Feature</h2>
+
+      <p>Here is a concrete walkthrough of creating a feature end-to-end using ADD. This assumes you have already run <code>/add:init</code> to set up your project.</p>
+
+      <h3>Step 1: Create the spec</h3>
+
+      <p>Run <code>/add:spec</code> and answer the interview questions. The agent will ask about:</p>
+
+      <ul>
+        <li>What the feature does and why it exists</li>
+        <li>Acceptance criteria &mdash; the conditions that define "done"</li>
+        <li>Test cases &mdash; specific scenarios to verify</li>
+        <li>Edge cases &mdash; boundary conditions and error handling</li>
+        <li>Dependencies and scope boundaries</li>
+      </ul>
+
+      <p>The output is a structured specification at <code>specs/{your-feature}.md</code>. This file becomes the single source of truth for everything that follows.</p>
+
+      <h3>Step 2: Generate the plan</h3>
+
+      <p>Run <code>/add:plan specs/{your-feature}.md</code> to get an implementation plan. The plan breaks the spec into ordered steps, identifies which files need to be created or modified, and outlines the test strategy.</p>
+
+      <h3>Step 3: Execute the TDD cycle</h3>
+
+      <p>Run <code>/add:tdd-cycle specs/{your-feature}.md</code> and let the agents work. The cycle proceeds through four phases:</p>
+
+      <ol>
+        <li><strong>RED</strong> &mdash; The test-writer agent creates failing tests from your spec's acceptance criteria. Every criterion maps to at least one test.</li>
+        <li><strong>GREEN</strong> &mdash; The implementer agent writes the minimal code needed to make all tests pass. No gold-plating.</li>
+        <li><strong>REFACTOR</strong> &mdash; The reviewer agent examines the code for quality, patterns, and spec compliance.</li>
+        <li><strong>VERIFY</strong> &mdash; An independent agent (fresh context, no shared state) verifies everything works. If verification fails, the cycle restarts.</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <p><strong>Trust but verify:</strong> The independent verification step is what makes ADD different. A separate agent with no knowledge of the implementation decisions re-runs tests and checks spec compliance. This catches assumptions and blind spots that the implementing agent might miss.</p>
+      </div>
+
+      <h3>Step 4: Verify and ship</h3>
+
+      <p>Run <code>/add:verify</code> to confirm all quality gates pass. Once verified, run <code>/add:deploy</code> to deploy through your environment ladder. The agent handles promotion, smoke tests, and rollback automatically &mdash; pausing only at production for your approval.</p>
+
+
+      <!-- ===== CONFIG REFERENCE ===== -->
+      <h2 id="config-reference">Config Reference</h2>
+
+      <p><code>.add/config.json</code> is the central configuration file for your ADD project. It is created during <code>/add:init</code> and controls all agent behavior.</p>
+
+      <pre><code>{
+  "maturity": "alpha",
+  "autonomy": "balanced",
+  "techStack": {
+    "languages": ["typescript"],
+    "framework": "next.js",
+    "testRunner": "vitest",
+    "linter": "eslint",
+    "formatter": "prettier"
+  },
+  "environments": {
+    "local":      { "autoPromote": true,  "verify": "test:unit" },
+    "dev":        { "autoPromote": true,  "verify": "test:integration" },
+    "staging":    { "autoPromote": true,  "verify": "test:e2e" },
+    "production": { "autoPromote": false, "verify": "test:smoke" }
+  },
+  "branding": {
+    "accent": "#b00149",
+    "palette": "raspberry",
+    "fonts": { "heading": "Inter", "body": "Inter", "mono": "SF Mono" },
+    "tone": "professional"
+  }
+}</code></pre>
+
+      <h3>Key Fields</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Values</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>maturity</code></td>
+            <td><code>poc</code> | <code>alpha</code> | <code>beta</code> | <code>ga</code></td>
+            <td>The master dial that governs all process rigor &mdash; PRD depth, TDD enforcement, quality gates, parallelism, and WIP limits.</td>
+          </tr>
+          <tr>
+            <td><code>autonomy</code></td>
+            <td><code>guided</code> | <code>balanced</code> | <code>autonomous</code></td>
+            <td>How much freedom agents get. Guided requires human approval at each step. Autonomous allows full away-mode sessions.</td>
+          </tr>
+          <tr>
+            <td><code>techStack</code></td>
+            <td>Object</td>
+            <td>Languages, frameworks, test runner, linter, formatter, and other tooling. Agents use this to generate correct test files and configuration.</td>
+          </tr>
+          <tr>
+            <td><code>environments</code></td>
+            <td>Object</td>
+            <td>Per-environment promotion rules. <code>autoPromote</code> controls whether agents can deploy automatically. Production is always <code>false</code>.</td>
+          </tr>
+          <tr>
+            <td><code>branding</code></td>
+            <td>Object</td>
+            <td>Visual identity for generated artifacts (infographics, reports). Accent color, palette, fonts, and tone.</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <!-- ===== KNOWLEDGE SYSTEM ===== -->
+      <h2 id="knowledge-system">Knowledge System (3-Tier)</h2>
+
+      <p>ADD's knowledge system is what makes agents get smarter over time. Knowledge is organized in three tiers, each with different scope and persistence.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Location</th>
+            <th>Scope</th>
+            <th>Who Updates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Plugin-Global</strong></td>
+            <td><code>knowledge/global.md</code></td>
+            <td>Universal ADD best practices for all users</td>
+            <td>ADD maintainers only</td>
+          </tr>
+          <tr>
+            <td><strong>User-Local</strong></td>
+            <td><code>~/.claude/add/library.md</code></td>
+            <td>Cross-project wisdom accumulated by this user</td>
+            <td>Promoted during <code>/add:retro</code></td>
+          </tr>
+          <tr>
+            <td><strong>Project-Specific</strong></td>
+            <td><code>.add/learnings.md</code></td>
+            <td>Discoveries specific to this project</td>
+            <td>Auto-checkpoints + <code>/add:retro</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Knowledge flows <strong>upward</strong>: project discoveries can be promoted to the user library during retrospectives, and universal insights can be promoted to plugin-global. Precedence flows <strong>downward</strong>: project-specific overrides user-local, which overrides plugin-global.</p>
+
+      <h3>Automatic Checkpoint Triggers</h3>
+
+      <p>Agents automatically capture learnings at key moments, without requiring manual intervention:</p>
+
+      <ul>
+        <li>After every <code>/add:verify</code> run</li>
+        <li>After completing a TDD cycle</li>
+        <li>After each deployment</li>
+        <li>After an away-mode session</li>
+        <li>During <code>/add:retro</code> retrospectives</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <p><strong>Cross-project compounding:</strong> When an agent discovers that "UUID columns must be type <code>uuid</code>, not <code>text</code>" in Project A, that learning is stored in the project's <code>.add/learnings.md</code>. During <code>/add:retro</code>, it can be promoted to <code>~/.claude/add/library.md</code>. Now every future project benefits automatically &mdash; no one repeats the mistake.</p>
+      </div>
+
+
+      <!-- ===== MATURITY LEVELS ===== -->
+      <h2 id="maturity-levels">Maturity Levels</h2>
+
+      <p>The maturity dial is the master control that governs everything in ADD. It determines how much process rigor is applied at every level &mdash; from PRD depth to TDD enforcement to quality gates to agent parallelism.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>PRD</th>
+            <th>Specs</th>
+            <th>TDD</th>
+            <th>Quality Gates</th>
+            <th>Agents</th>
+            <th>WIP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>POC</strong></td>
+            <td>A paragraph</td>
+            <td>Optional</td>
+            <td>Optional</td>
+            <td>Pre-commit only</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><strong>Alpha</strong></td>
+            <td>1-pager</td>
+            <td>Critical paths</td>
+            <td>Critical paths</td>
+            <td>+ CI</td>
+            <td>1-2</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><strong>Beta</strong></td>
+            <td>Full template</td>
+            <td>Required</td>
+            <td>Enforced</td>
+            <td>+ Pre-deploy</td>
+            <td>2-4</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td><strong>GA</strong></td>
+            <td>Full + architecture</td>
+            <td>+ Acceptance criteria</td>
+            <td>Strict</td>
+            <td>All 5 levels</td>
+            <td>3-5</td>
+            <td>5</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Choose your maturity level during <code>/add:init</code>. You can change it at any time by updating <code>.add/config.json</code> &mdash; the maturity dial scales up and down as your project evolves.</p>
+
+      <div class="callout callout-tip">
+        <p><strong>Start low, scale up:</strong> Most projects should start at POC or Alpha. The overhead of GA-level rigor is unnecessary for early exploration. As the project solidifies and the team grows, move to Beta and then GA. The maturity level is a dial, not a one-way ratchet.</p>
+      </div>
+
+      <h3>What each level means in practice</h3>
+
+      <ul>
+        <li><strong>POC</strong> &mdash; Minimal overhead. Specs and TDD are optional. Single agent, WIP limit of 1. Move fast and explore. Pre-commit checks only.</li>
+        <li><strong>Alpha</strong> &mdash; Critical-path specs and TDD. You write specs for important features, skip them for utilities. 1-2 agents, WIP 2. CI checks added.</li>
+        <li><strong>Beta</strong> &mdash; Full specs are required. TDD is enforced for all features. Pre-deploy quality gates. 2-4 parallel agents with git worktree isolation. WIP 4.</li>
+        <li><strong>GA</strong> &mdash; Maximum rigor. Strict TDD with all 5 quality gates. Full acceptance criteria required. 3-5 parallel agents. WIP 5. Production-grade process.</li>
+      </ul>
+
+
+      <!-- ===== DOCUMENT HIERARCHY ===== -->
+      <h2 id="document-hierarchy">Document Hierarchy</h2>
+
+      <p>Every artifact in ADD traces to a parent. Every test traces to a spec. Every spec traces to a PRD. This traceability chain ensures nothing drifts from the original intent.</p>
+
+      <pre><code>Roadmap (docs/prd.md milestones section)
+ &rarr; Milestones (docs/milestones/M{N}-{name}.md)
+   &rarr; Cycles (.add/cycles/cycle-{N}.md)
+     &rarr; Feature Specs (specs/{feature}.md)
+       &rarr; Implementation Plans (docs/plans/{feature}-plan.md)
+         &rarr; User Test Cases (in spec)
+           &rarr; Automated Tests (RED phase)
+             &rarr; Implementation (GREEN phase)</code></pre>
+
+      <p>The hierarchy mirrors how work flows from strategy to execution:</p>
+
+      <ul>
+        <li><strong>Roadmap</strong> &mdash; Now / Next / Later horizons. No fake dates. Milestones live here.</li>
+        <li><strong>Milestones</strong> &mdash; Meaningful increments tracked on a hill chart. Features move uphill (figuring it out) then downhill (executing).</li>
+        <li><strong>Cycles</strong> &mdash; Scope-boxed batches of work. Not sprints &mdash; they end when validation passes, not when a timer expires.</li>
+        <li><strong>Feature Specs</strong> &mdash; The single source of truth for each feature. Acceptance criteria, test cases, edge cases.</li>
+        <li><strong>Implementation Plans</strong> &mdash; Step-by-step execution plans generated from specs.</li>
+        <li><strong>Tests and Code</strong> &mdash; The TDD cycle output: failing tests first, then implementation.</li>
+      </ul>
+
+
+      <!-- ===== PLUGIN STRUCTURE ===== -->
+      <h2 id="plugin-structure">Plugin Structure</h2>
+
+      <p>ADD is a Claude Code plugin composed entirely of markdown, JSON, and template files. No runtime dependencies, no build step, no backend.</p>
+
+      <pre><code>add/
+&#x251C;&#x2500;&#x2500; commands/     # 9 slash commands (/add:init, /add:spec, /add:away, etc.)
+&#x251C;&#x2500;&#x2500; skills/       # 9 workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
+&#x251C;&#x2500;&#x2500; rules/        # 11 auto-loading behavioral rules
+&#x251C;&#x2500;&#x2500; hooks/        # PostToolUse automation
+&#x251C;&#x2500;&#x2500; knowledge/    # Plugin-global best practices (Tier 1)
+&#x2514;&#x2500;&#x2500; templates/    # 13 document scaffolding templates</code></pre>
+
+      <h3>What lives where</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Directory</th>
+            <th>Count</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>commands/</code></td>
+            <td>9</td>
+            <td>Slash commands for project orchestration: init, spec, cycle, away, back, retro, brand, brand-update, changelog.</td>
+          </tr>
+          <tr>
+            <td><code>skills/</code></td>
+            <td>9</td>
+            <td>Execution skills: tdd-cycle, test-writer, implementer, reviewer, verify, plan, optimize, deploy, infographic.</td>
+          </tr>
+          <tr>
+            <td><code>rules/</code></td>
+            <td>11</td>
+            <td>Behavioral rules that auto-load: spec-driven, tdd-enforcement, human-collaboration, agent-coordination, source-control, environment-awareness, quality-gates, learning, project-structure, maturity-lifecycle, design-system.</td>
+          </tr>
+          <tr>
+            <td><code>hooks/</code></td>
+            <td>&mdash;</td>
+            <td>PostToolUse automation for detecting image generation, auto-changelog triggers, and other event-driven behaviors.</td>
+          </tr>
+          <tr>
+            <td><code>knowledge/</code></td>
+            <td>1</td>
+            <td>Plugin-global knowledge (Tier 1). Universal best practices that ship with ADD for all users.</td>
+          </tr>
+          <tr>
+            <td><code>templates/</code></td>
+            <td>13</td>
+            <td>Scaffolding templates for PRDs, specs, plans, configs, learnings, profiles, and other structured documents.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Project state</h3>
+
+      <p>When you run <code>/add:init</code>, ADD creates a <code>.add/</code> directory in your project root. This is where project-specific state lives:</p>
+
+      <pre><code>your-project/
+&#x251C;&#x2500;&#x2500; .add/
+&#x2502;   &#x251C;&#x2500;&#x2500; config.json       # Project configuration
+&#x2502;   &#x251C;&#x2500;&#x2500; learnings.md      # Project-specific knowledge (Tier 3)
+&#x2502;   &#x251C;&#x2500;&#x2500; cycles/           # Work cycle tracking
+&#x2502;   &#x2514;&#x2500;&#x2500; away-logs/        # Away session archives
+&#x251C;&#x2500;&#x2500; docs/
+&#x2502;   &#x251C;&#x2500;&#x2500; prd.md            # Product requirements document
+&#x2502;   &#x251C;&#x2500;&#x2500; plans/            # Implementation plans
+&#x2502;   &#x2514;&#x2500;&#x2500; milestones/       # Milestone tracking
+&#x2514;&#x2500;&#x2500; specs/                # Feature specifications</code></pre>
+
+      <p>Cross-project state lives locally at <code>~/.claude/add/</code> &mdash; your user profile, the cross-project learning library, and an index of all ADD-managed projects.</p>
+
+      <div class="callout callout-tip">
+        <p><strong>Next steps:</strong> Explore the <a href="/docs/commands">Commands Reference</a> for detailed documentation on each command, or the <a href="/docs/skills">Skills Reference</a> for execution workflows. For team adoption, see the <a href="/guides/enterprise">Enterprise Guide</a>.</p>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-tagline">ADD something to your development.</div>
+    <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
+    <div class="footer-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE">MIT License</a>
+    </div>
+    <div class="footer-meta">
+      ADD v0.2.0 — Agent Driven Development | Free &amp; open source<br>
+      Built with ADD, using ADD. Dog-fooded from day one.
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

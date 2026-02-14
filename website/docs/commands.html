@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Command Reference — ADD | Agent Driven Development</title>
+  <meta name="description" content="Complete reference for all 9 ADD commands: /add:init, /add:spec, /add:cycle, /add:away, /add:back, /add:retro, /add:brand, /add:brand-update, /add:changelog. Arguments, output, usage examples.">
+  <meta name="keywords" content="ADD commands, agent driven development, claude code plugin, /add:init, /add:spec, /add:cycle, /add:away, /add:back, /add:retro, /add:brand, /add:changelog">
+  <meta name="author" content="MountainUnicorn">
+  <link rel="canonical" href="https://getadd.dev/docs/commands">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getadd.dev/docs/commands">
+  <meta property="og:title" content="Command Reference — ADD">
+  <meta property="og:description" content="Complete reference for all 9 ADD commands. Arguments, output, related skills, and usage examples for every command in the ADD plugin.">
+  <meta property="og:site_name" content="getADD.dev">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Command Reference — ADD">
+  <meta name="twitter:description" content="Complete reference for all 9 ADD commands. Arguments, output, related skills, and usage examples.">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+
+  <!-- ===== SITE NAV ===== -->
+  <nav class="site-nav">
+    <a href="/" class="site-nav-brand">ADD</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <div class="site-nav-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands" class="active">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/guides/best-practices">Best Practices</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <button class="nav-theme-toggle" onclick="toggleTheme()">&#x1F313;</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO MINI ===== -->
+  <header class="hero-mini">
+    <div class="hero-mini-inner">
+      <div class="hero-eyebrow">Reference</div>
+      <h1>Command Reference</h1>
+      <p>Complete documentation for all 9 ADD commands &mdash; the orchestration layer that drives your agent teams through structured interviews, work cycles, collaboration, and tooling.</p>
+    </div>
+  </header>
+
+  <!-- ===== DOC LAYOUT ===== -->
+  <div class="doc-layout">
+
+    <!-- Sidebar -->
+    <aside class="doc-sidebar">
+      <nav>
+        <h4>Core</h4>
+        <a href="#init">/add:init</a>
+        <a href="#spec">/add:spec</a>
+        <a href="#cycle">/add:cycle</a>
+
+        <h4>Collaboration</h4>
+        <a href="#away">/add:away</a>
+        <a href="#back">/add:back</a>
+        <a href="#retro">/add:retro</a>
+
+        <h4>Tooling</h4>
+        <a href="#brand">/add:brand</a>
+        <a href="#brand-update">/add:brand-update</a>
+        <a href="#changelog">/add:changelog</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="doc-content">
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">ADD</a>
+        <span>/</span>
+        <a href="/docs/">Docs</a>
+        <span>/</span>
+        <span>Commands</span>
+      </div>
+
+      <!-- ===== CORE ===== -->
+      <h2 id="core">Core Commands</h2>
+      <p>The foundation of every ADD project. These commands bootstrap your project, create feature specifications, and manage work cycles.</p>
+
+      <!-- /add:init -->
+      <div class="ref-card" id="init">
+        <h3><code>/add:init</code> &mdash; Initialize ADD</h3>
+        <p class="ref-desc">Bootstrap ADD for a project through a 4-section structured interview: Product, Architecture, Branding, and Process. Supports adoption mode for existing projects, auto-detects maturity level, and sets up cross-project persistence at <code>~/.claude/add/</code>.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> <code>.add/config.json</code>, <code>docs/prd.md</code>, 10 rules, cross-project persistence</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>--reconfigure</code> to re-run interview</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="#spec">/add:spec</a>, <a href="/docs/skills#plan">/add:plan</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:init</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:init</span> <span style="color: rgba(255,255,255,0.5);">--reconfigure</span>
+        </div>
+      </div>
+
+      <!-- /add:spec -->
+      <div class="ref-card" id="spec">
+        <h3><code>/add:spec</code> &mdash; Create Feature Spec</h3>
+        <p class="ref-desc">Structured interview to create a feature specification. 6&ndash;10 questions covering: description, user story, acceptance criteria, happy path, error handling, data models, API contracts, and UI. Produces a complete spec ready for planning and TDD.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> <code>specs/{feature-slug}.md</code> with ACs, test cases, data models, API contracts</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>[feature-name]</code>, <code>--from-prd-section N</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="/docs/skills#plan">/add:plan</a>, <a href="/docs/skills#tdd-cycle">/add:tdd-cycle</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:spec</span> <span style="color: rgba(255,255,255,0.9);">auth-login</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:spec</span> <span style="color: rgba(255,255,255,0.5);">--from-prd-section 3</span>
+        </div>
+      </div>
+
+      <!-- /add:cycle -->
+      <div class="ref-card" id="cycle">
+        <h3><code>/add:cycle</code> &mdash; Work Cycle Management</h3>
+        <p class="ref-desc">Plan, track, and complete work cycles within milestones. Three modes: <code>--plan</code> for interactive cycle planning (default), <code>--status</code> for real-time progress check, and <code>--complete</code> to close a cycle and update milestone hill charts. Maturity cascade controls parallelism: POC=1 agent, Alpha=1&ndash;2, Beta=2&ndash;4 with file reservations, GA=3&ndash;5 strict.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> <code>.add/cycles/cycle-{N}.md</code>, updated milestone hill charts</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>--plan</code> (default), <code>--status</code>, <code>--complete</code>, <code>[milestone M{N}]</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="/docs/skills#plan">/add:plan</a>, <a href="/docs/skills#tdd-cycle">/add:tdd-cycle</a>, <a href="#retro">/add:retro</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:cycle</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:cycle</span> <span style="color: rgba(255,255,255,0.5);">--status</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:cycle</span> <span style="color: rgba(255,255,255,0.5);">--complete</span>
+        </div>
+      </div>
+
+      <!-- ===== COLLABORATION ===== -->
+      <h2 id="collaboration">Collaboration Commands</h2>
+      <p>Human-agent collaboration primitives. Declare absence, get briefed on return, and capture learnings through retrospectives.</p>
+
+      <!-- /add:away -->
+      <div class="ref-card" id="away">
+        <h3><code>/add:away</code> &mdash; Declare Absence</h3>
+        <p class="ref-desc">Set up an autonomous work plan for your absence. Default duration is 2 hours. Categorizes work as autonomous (clear specs, TDD, quality gates) vs. queued (ambiguous specs, architecture decisions). Enforced boundaries: no production deploy, no merge to main, no features without specs.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> <code>.add/away-log.md</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>[duration]</code> &mdash; e.g., &lsquo;4 hours&rsquo;, &lsquo;30 minutes&rsquo;, &lsquo;end of day&rsquo;</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="#back">/add:back</a>, <a href="#retro">/add:retro</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:away</span> <span style="color: rgba(255,255,255,0.9);">4 hours</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:away</span>
+        </div>
+      </div>
+
+      <!-- /add:back -->
+      <div class="ref-card" id="back">
+        <h3><code>/add:back</code> &mdash; Return Briefing</h3>
+        <p class="ref-desc">Concise briefing on what happened during autonomous away mode. Shows completed tasks, in-progress items, decisions queued for your approval, and overall project state. Archives the away log to <code>.add/away-logs/away-{date}.md</code>.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> Briefing report, archived away log at <code>.add/away-logs/away-{date}.md</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> none</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="#away">/add:away</a>, <a href="#retro">/add:retro</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:back</span>
+        </div>
+      </div>
+
+      <!-- /add:retro -->
+      <div class="ref-card" id="retro">
+        <h3><code>/add:retro</code> &mdash; Retrospective</h3>
+        <p class="ref-desc">Capture learnings from a session, feature, or sprint. Two modes: interactive retro (default) with human + agent perspectives that agree on actionable changes, and <code>--agent-summary</code> for non-interactive summaries. Promotes learnings to <code>~/.claude/add/library.md</code> for cross-project reuse and optionally to <code>knowledge/global.md</code>.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> <code>.add/retros/retro-{date}.md</code>, updated <code>.add/learnings.md</code>, optional cross-project promotion</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>--agent-summary</code>, <code>--since YYYY-MM-DD</code>, <code>--scope feature|sprint|session</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="#away">/add:away</a>, <a href="#back">/add:back</a>, <a href="#cycle">/add:cycle</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:retro</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:retro</span> <span style="color: rgba(255,255,255,0.5);">--agent-summary</span>
+        </div>
+      </div>
+
+      <!-- ===== TOOLING ===== -->
+      <h2 id="tooling">Tooling Commands</h2>
+      <p>Branding management, artifact auditing, and automated changelog generation.</p>
+
+      <!-- /add:brand -->
+      <div class="ref-card" id="brand">
+        <h3><code>/add:brand</code> &mdash; View Branding</h3>
+        <p class="ref-desc">Display the current branding configuration from <code>.add/config.json</code>, detect brand drift in project artifacts (HTML, SVG, CSS), and report image generation status.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> Branding display + drift report</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> none</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="#brand-update">/add:brand-update</a>, <a href="/docs/skills#infographic">/add:infographic</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:brand</span>
+        </div>
+      </div>
+
+      <!-- /add:brand-update -->
+      <div class="ref-card" id="brand-update">
+        <h3><code>/add:brand-update</code> &mdash; Update Branding</h3>
+        <p class="ref-desc">Update project colors, fonts, tone, and logo. Audits all artifacts for drift against the new configuration and optionally fixes or regenerates them to match.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> Updated <code>.add/config.json</code>, artifact audit, optional regeneration</span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>[hex color or preset name]</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> <a href="#brand">/add:brand</a>, <a href="/docs/skills#infographic">/add:infographic</a></span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:brand-update</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:brand-update</span> <span style="color: rgba(255,255,255,0.9);">#b00149</span>
+        </div>
+      </div>
+
+      <!-- /add:changelog -->
+      <div class="ref-card" id="changelog">
+        <h3><code>/add:changelog</code> &mdash; Generate Changelog</h3>
+        <p class="ref-desc">Generate or refresh <code>CHANGELOG.md</code> from conventional commit history. Maps commit types to sections: <code>feat</code> &rarr; Added, <code>fix</code> &rarr; Fixed, <code>docs</code> &rarr; Documentation, and so on. Use <code>--from-scratch</code> to regenerate the entire changelog from the first commit.</p>
+        <div class="ref-meta">
+          <span><strong>Output:</strong> Updated <code>CHANGELOG.md</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Arguments:</strong> <code>--from-scratch</code></span>
+        </div>
+        <div class="ref-meta">
+          <span><strong>Related:</strong> source control workflow</span>
+        </div>
+        <div class="ref-usage">
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:changelog</span><br>
+          <span style="color: #22c55e;">$</span> <span style="color: #d4326d;">/add:changelog</span> <span style="color: rgba(255,255,255,0.5);">--from-scratch</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-tagline">ADD something to your development.</div>
+    <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
+    <div class="footer-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE">MIT License</a>
+    </div>
+    <div class="footer-meta">
+      ADD v0.2.0 — Agent Driven Development | Free &amp; open source<br>
+      Built with ADD, using ADD. Dog-fooded from day one.
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

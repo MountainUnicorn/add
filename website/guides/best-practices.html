@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Best Practices — ADD | Agent Driven Development</title>
+  <meta name="description" content="Proven patterns and anti-patterns for Agent Driven Development. Writing specs, TDD discipline, human-agent collaboration, knowledge management, and common mistakes to avoid.">
+  <meta name="keywords" content="ADD best practices, agent driven development, TDD patterns, spec writing, human-agent collaboration, anti-patterns, knowledge management">
+  <meta name="author" content="MountainUnicorn">
+  <link rel="canonical" href="https://getadd.dev/guides/best-practices">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getadd.dev/guides/best-practices">
+  <meta property="og:title" content="Best Practices — ADD">
+  <meta property="og:description" content="Proven patterns and anti-patterns for Agent Driven Development. Specs, TDD, collaboration, knowledge management, and common mistakes to avoid.">
+  <meta property="og:site_name" content="getADD.dev">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Best Practices — ADD">
+  <meta name="twitter:description" content="Proven patterns and anti-patterns for Agent Driven Development. Specs, TDD, collaboration, knowledge management, and common mistakes to avoid.">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+
+  <!-- ===== SITE NAV ===== -->
+  <nav class="site-nav">
+    <a href="/" class="site-nav-brand">ADD</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <div class="site-nav-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/guides/best-practices" class="active">Best Practices</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <button class="nav-theme-toggle" onclick="toggleTheme()">&#x1F313;</button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO MINI ===== -->
+  <header class="hero-mini">
+    <div class="hero-mini-inner">
+      <div class="hero-eyebrow">Guide</div>
+      <h1>Best Practices</h1>
+      <p>Proven patterns and anti-patterns for Agent Driven Development &mdash; so your agents ship faster, your specs stay sharp, and your team avoids the most common pitfalls.</p>
+    </div>
+  </header>
+
+  <!-- ===== DOC LAYOUT ===== -->
+  <div class="doc-layout">
+
+    <!-- Sidebar -->
+    <aside class="doc-sidebar">
+      <nav>
+        <h4>Specs</h4>
+        <a href="#writing-good-specs">Writing Good Specs</a>
+        <a href="#acceptance-criteria">Acceptance Criteria</a>
+        <a href="#edge-cases">Edge Cases</a>
+
+        <h4>TDD</h4>
+        <a href="#tdd-discipline">TDD Discipline</a>
+        <a href="#test-strategy">Test Strategy</a>
+        <a href="#coverage">Coverage</a>
+
+        <h4>Collaboration</h4>
+        <a href="#human-agent-flow">Human-Agent Flow</a>
+        <a href="#away-mode">Away Mode</a>
+        <a href="#retros">Retros</a>
+
+        <h4>Knowledge</h4>
+        <a href="#learning-system">Learning System</a>
+        <a href="#knowledge-promotion">Knowledge Promotion</a>
+
+        <h4>Anti-Patterns</h4>
+        <a href="#common-mistakes">Common Mistakes</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="doc-content">
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="/">ADD</a>
+        <span>/</span>
+        <a href="/guides/">Guides</a>
+        <span>/</span>
+        <span>Best Practices</span>
+      </div>
+
+      <!-- ===== SPECS ===== -->
+      <h2 id="writing-good-specs">Writing Good Specs</h2>
+      <p>Specs are the contract between you and your agent team. A well-written spec produces well-written code; a vague spec produces chaos. Every minute spent on spec clarity saves ten minutes of rework.</p>
+
+      <ul>
+        <li><strong>Be specific about acceptance criteria</strong> &mdash; vague ACs lead to vague tests, which lead to implementations that &ldquo;work&rdquo; but don&rsquo;t meet expectations.</li>
+        <li><strong>Include happy path AND error cases</strong> &mdash; agents will only test what you specify. If you skip error handling in the spec, you skip it in the code.</li>
+        <li><strong>Define data models explicitly</strong> &mdash; field names, types, required vs. optional, constraints. Don&rsquo;t leave agents guessing your schema.</li>
+        <li><strong>Include API contracts if applicable</strong> &mdash; request/response shapes, status codes, headers. The spec should be enough to build a mock server.</li>
+        <li><strong>Reference related specs for cross-feature dependencies</strong> &mdash; if feature B depends on feature A&rsquo;s auth module, link to the auth spec explicitly.</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <strong>Tip:</strong> The best specs read like a contract. If an AC is ambiguous, the agent will ask during the <code>/add:spec</code> interview. Let the interview do its job &mdash; answer thoroughly, and the spec writes itself.
+      </div>
+
+      <!-- ===== ACCEPTANCE CRITERIA ===== -->
+      <h2 id="acceptance-criteria">Acceptance Criteria That Work</h2>
+      <p>Acceptance criteria are the atomic unit of verification. Each one becomes a test, and each test becomes a guarantee. Get these right and everything downstream improves.</p>
+
+      <ul>
+        <li><strong>Use numbered format:</strong> AC-001, AC-002, etc. &mdash; makes traceability from spec to test to implementation unambiguous.</li>
+        <li><strong>Each AC should be independently testable</strong> &mdash; if you can&rsquo;t write a single test for it, it&rsquo;s not a good AC.</li>
+        <li><strong>Avoid compound ACs</strong> &mdash; &ldquo;user can login AND see dashboard&rdquo; is two behaviors. Split them into AC-001 (login) and AC-002 (dashboard redirect).</li>
+        <li><strong>Include boundary conditions</strong> &mdash; what happens at limits? What about zero? What about maximum?</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <strong>Good AC:</strong> <em>&ldquo;AC-001: Given a valid email and password, when the user submits the login form, then they receive a JWT token and are redirected to /dashboard&rdquo;</em>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>Bad AC:</strong> <em>&ldquo;AC-001: Login works correctly&rdquo;</em> &mdash; What does &ldquo;correctly&rdquo; mean? What constitutes &ldquo;login&rdquo;? This AC is untestable because it specifies nothing.
+      </div>
+
+      <!-- ===== EDGE CASES ===== -->
+      <h2 id="edge-cases">Edge Cases</h2>
+      <p>The difference between a prototype and a production system is edge case handling. Always include these categories in your specs:</p>
+
+      <ul>
+        <li><strong>Input boundaries:</strong> empty inputs, maximum lengths, special characters, unicode, null vs. undefined</li>
+        <li><strong>Concurrency:</strong> simultaneous access, race conditions, duplicate submissions</li>
+        <li><strong>Network:</strong> timeouts, connection failures, partial responses, retries</li>
+        <li><strong>API-specific:</strong> malformed requests, missing authentication, expired tokens, rate limiting</li>
+        <li><strong>UI-specific:</strong> screen sizes, keyboard navigation, loading states, error states, empty states</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <strong>Tip:</strong> Use a mental checklist: &ldquo;What if it&rsquo;s empty? What if it&rsquo;s huge? What if two happen at once? What if the network dies?&rdquo; Cover those four and you handle most edge cases.
+      </div>
+
+      <!-- ===== TDD DISCIPLINE ===== -->
+      <h2 id="tdd-discipline">TDD Discipline</h2>
+      <p>ADD enforces a strict four-phase TDD cycle. Each phase has a purpose, and skipping any of them undermines the entire methodology.</p>
+
+      <ol>
+        <li><strong>RED phase:</strong> Write ALL failing tests before any implementation. Every acceptance criterion becomes at least one test. The test suite should be a complete expression of the spec.</li>
+        <li><strong>GREEN phase:</strong> Write MINIMAL code to pass &mdash; no gold-plating, no &ldquo;while I&rsquo;m here&rdquo; additions. The only goal is a green test suite.</li>
+        <li><strong>REFACTOR phase:</strong> Clean up with confidence. Your tests are the safety net. Improve naming, extract functions, reduce duplication &mdash; but change no behavior.</li>
+        <li><strong>VERIFY phase:</strong> An independent agent runs quality gates in a different context with no shared state. This catches assumptions the implementing agent baked in.</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <strong>Warning:</strong> Never skip phases. The discipline IS the value. RED without GREEN is just a wish list. GREEN without RED is untested code. REFACTOR without tests is hope-driven development. VERIFY without independence is self-grading homework.
+      </div>
+
+      <!-- ===== TEST STRATEGY ===== -->
+      <h2 id="test-strategy">Test Strategy</h2>
+      <p>Different test types serve different purposes. Match your test strategy to what you&rsquo;re verifying.</p>
+
+      <ul>
+        <li><strong>Unit tests</strong> for business logic &mdash; fast, isolated, high volume. These are your first line of defense.</li>
+        <li><strong>Integration tests</strong> for API boundaries &mdash; verify that modules talk to each other correctly. Test real interactions, not mocks of mocks.</li>
+        <li><strong>E2E tests</strong> for critical user paths (Beta+ maturity) &mdash; expensive to run but catch what unit and integration tests miss.</li>
+        <li><strong>Test naming:</strong> describe what behavior is being tested, not how. <code>should reject expired tokens</code> is better than <code>test checkTokenExpiry function</code>.</li>
+      </ul>
+
+      <!-- ===== COVERAGE ===== -->
+      <h2 id="coverage">Coverage Targets</h2>
+      <p>Coverage expectations scale with project maturity. Don&rsquo;t over-invest in coverage for a POC, and don&rsquo;t ship a GA product at 40%.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Maturity Level</th>
+            <th>Coverage Target</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>POC</strong></td>
+            <td>None required</td>
+            <td>Validate the idea first. Tests slow exploration.</td>
+          </tr>
+          <tr>
+            <td><strong>Alpha</strong></td>
+            <td>60%</td>
+            <td>Core paths tested. Gaps acceptable in experimental areas.</td>
+          </tr>
+          <tr>
+            <td><strong>Beta</strong></td>
+            <td>80%</td>
+            <td>Production-bound code needs real coverage. E2E tests added.</td>
+          </tr>
+          <tr>
+            <td><strong>GA</strong></td>
+            <td>90%</td>
+            <td>Ship with confidence. Remaining 10% is generated code or trivial getters.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ===== HUMAN-AGENT FLOW ===== -->
+      <h2 id="human-agent-flow">Human-Agent Collaboration</h2>
+      <p>ADD defines three engagement modes that control how much autonomy agents have. Choosing the right mode prevents both bottlenecks and runaway decisions.</p>
+
+      <ul>
+        <li><strong>Guided mode</strong> &mdash; Use when exploring unfamiliar codebases, onboarding to a new project, or making architectural decisions. The agent asks before acting.</li>
+        <li><strong>Balanced mode</strong> (default) &mdash; Use for established projects where specs exist and the agent understands the codebase. The agent acts on clear specs, asks on ambiguity.</li>
+        <li><strong>Autonomous mode</strong> &mdash; Use only for well-specified features at GA maturity. The agent executes full TDD cycles without interruption. Requires clear specs and established patterns.</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <strong>Tip:</strong> Always define clear boundaries before <code>/add:away</code>. Review the briefing from <code>/add:back</code> before continuing work &mdash; the agent may have queued decisions that need your input.
+      </div>
+
+      <!-- ===== AWAY MODE ===== -->
+      <h2 id="away-mode">Away Mode Best Practices</h2>
+      <p>Away mode lets your agent team work while you&rsquo;re gone. But autonomy without boundaries is a recipe for irreversible mistakes.</p>
+
+      <ul>
+        <li><strong>Define scope explicitly:</strong> &ldquo;Work on specs/auth-login.md only&rdquo; is clear. &ldquo;Make progress&rdquo; is not.</li>
+        <li><strong>Set boundaries:</strong> &ldquo;No database schema changes,&rdquo; &ldquo;No new dependencies,&rdquo; &ldquo;No merges to main.&rdquo;</li>
+        <li><strong>Set duration:</strong> Default is 2 hours. Adjust based on work scope &mdash; larger scope needs more time, but also more risk.</li>
+        <li><strong>Review the away log when you return</strong> &mdash; it contains every action taken, every decision made, and every item queued for your review.</li>
+        <li><strong>Run <code>/add:back</code> for a structured briefing</strong> &mdash; don&rsquo;t just read the log; let the agent summarize what matters.</li>
+      </ul>
+
+      <div class="callout callout-warning">
+        <strong>Warning:</strong> Agents in away mode will never deploy to production, merge to main, or implement features without specs &mdash; these are hard boundaries. But they CAN commit, push, and open PRs. Make sure your scope is intentional.
+      </div>
+
+      <!-- ===== RETROS ===== -->
+      <h2 id="retros">Running Effective Retros</h2>
+      <p>Retrospectives are how ADD gets smarter over time. Without them, agents repeat the same mistakes across cycles.</p>
+
+      <ul>
+        <li><strong>Run after every milestone or every 2 weeks</strong> &mdash; whichever comes first. Stale retros lose context.</li>
+        <li><strong>Agent auto-checkpoints capture data continuously</strong> &mdash; after every verify, TDD cycle, deploy, and away session. The data is there; retros organize it.</li>
+        <li><strong>Interactive retros (<code>/add:retro</code>) capture both perspectives</strong> &mdash; the human sees things the agent missed, and vice versa. Both viewpoints matter.</li>
+        <li><strong>Agree on 2&ndash;3 concrete changes</strong> &mdash; don&rsquo;t try to change everything at once. Small, specific improvements compound over time.</li>
+        <li><strong>Promote broadly useful learnings</strong> to your cross-project library &mdash; if it helped here, it will help there.</li>
+      </ul>
+
+      <!-- ===== LEARNING SYSTEM ===== -->
+      <h2 id="learning-system">Knowledge Management</h2>
+      <p>ADD&rsquo;s three-tier knowledge system prevents agents from starting every project from scratch. Let it work for you.</p>
+
+      <ul>
+        <li><strong>Let checkpoints accumulate naturally</strong> &mdash; they trigger automatically after verify, TDD cycle, deploy, and away sessions. Don&rsquo;t force them.</li>
+        <li><strong>Review <code>.add/learnings.md</code> periodically</strong> &mdash; prune outdated entries, merge duplicates, and clarify vague ones.</li>
+        <li><strong>During retros, promote universal patterns</strong> to <code>~/.claude/add/library.md</code> &mdash; cross-project wisdom that helps every future project.</li>
+        <li><strong>Project-specific quirks stay in Tier 3</strong> &mdash; &ldquo;this project uses Prisma for ORM&rdquo; is project-specific. &ldquo;Always validate foreign keys in integration tests&rdquo; is universal.</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <strong>Tip:</strong> Agents read all three tiers before starting any task. Well-maintained knowledge tiers mean agents start smarter on every feature.
+      </div>
+
+      <!-- ===== KNOWLEDGE PROMOTION ===== -->
+      <h2 id="knowledge-promotion">Knowledge Promotion</h2>
+      <p>Knowledge flows upward through the tiers: project discoveries can be promoted to your user library during retros, and truly universal insights can be promoted to plugin-global (in the ADD dev project only).</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Location</th>
+            <th>Scope</th>
+            <th>Promote When</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tier 3: Project</strong></td>
+            <td><code>.add/learnings.md</code></td>
+            <td>This project only</td>
+            <td>Auto-checkpoints; always active</td>
+          </tr>
+          <tr>
+            <td><strong>Tier 2: User</strong></td>
+            <td><code>~/.claude/add/library.md</code></td>
+            <td>All your projects</td>
+            <td>During <code>/add:retro</code> when a learning is universal</td>
+          </tr>
+          <tr>
+            <td><strong>Tier 1: Global</strong></td>
+            <td><code>knowledge/global.md</code></td>
+            <td>All ADD users</td>
+            <td>Rare; only for fundamental ADD insights</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warning">
+        <strong>Warning:</strong> Resist the urge to promote everything to Tier 2. A noisy knowledge library is worse than an empty one &mdash; agents waste time processing irrelevant context. Only promote patterns you&rsquo;d bet money will help your next project.
+      </div>
+
+      <!-- ===== ANTI-PATTERNS ===== -->
+      <h2 id="common-mistakes">Common Mistakes</h2>
+      <p>These are the mistakes we see most often. Every one of them has cost teams real time &mdash; learn from their pain.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Anti-Pattern</th>
+            <th>Why It&rsquo;s Bad</th>
+            <th>Do This Instead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Skipping specs</td>
+            <td>Implementation drifts, no traceability, agents guess at requirements</td>
+            <td>Always <code>/add:spec</code> before code</td>
+          </tr>
+          <tr>
+            <td>Writing tests after code</td>
+            <td>Tests validate implementation, not behavior &mdash; they pass by definition</td>
+            <td>Strict RED &rarr; GREEN order</td>
+          </tr>
+          <tr>
+            <td>Gold-plating in GREEN phase</td>
+            <td>Wastes time, tests may not cover extras, scope creep</td>
+            <td>Minimal code to pass tests, nothing more</td>
+          </tr>
+          <tr>
+            <td>Ignoring retros</td>
+            <td>Same mistakes repeated, no learning accumulation</td>
+            <td>Run retros every 2 weeks minimum</td>
+          </tr>
+          <tr>
+            <td>Autonomous mode too early</td>
+            <td>Agent makes wrong decisions without context, rework required</td>
+            <td>Start Guided, graduate to Balanced</td>
+          </tr>
+          <tr>
+            <td>Compound acceptance criteria</td>
+            <td>Can&rsquo;t test independently, unclear pass/fail</td>
+            <td>One behavior per AC</td>
+          </tr>
+          <tr>
+            <td>Skipping VERIFY phase</td>
+            <td>Quality issues slip through, self-grading homework</td>
+            <td>Always run <code>/add:verify</code></td>
+          </tr>
+          <tr>
+            <td>Not setting away boundaries</td>
+            <td>Agent makes irreversible changes outside intended scope</td>
+            <td>Define explicit scope and limits</td>
+          </tr>
+          <tr>
+            <td>Promoting everything to Tier 2</td>
+            <td>Knowledge library becomes noisy, agents waste context window</td>
+            <td>Only promote universal patterns</td>
+          </tr>
+          <tr>
+            <td>Starting at GA maturity</td>
+            <td>Overwhelming process for new projects, friction kills momentum</td>
+            <td>Start POC, promote as project matures</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </main>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-tagline">ADD something to your development.</div>
+    <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
+    <div class="footer-links">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/commands">Commands</a>
+      <a href="/docs/skills">Skills</a>
+      <a href="/guides/enterprise">Enterprise</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/MountainUnicorn/add">GitHub</a>
+      <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE">MIT License</a>
+    </div>
+    <div class="footer-meta">
+      ADD v0.2.0 — Agent Driven Development | Free &amp; open source<br>
+      Built with ADD, using ADD. Dog-fooded from day one.
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
