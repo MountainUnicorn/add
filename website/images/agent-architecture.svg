@@ -1,4 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <style>
+    @keyframes flowRight {
+      from { stroke-dashoffset: 16; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.04; }
+      50% { opacity: 0.08; }
+    }
+    @keyframes verifyPulse {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.2; }
+    }
+    @keyframes dotPulse {
+      0%, 100% { r: 16; opacity: 0.4; }
+      50% { r: 18; opacity: 0.6; }
+    }
+    .lane-bg { animation: pulseGlow 4s ease-in-out infinite; }
+    .lane-bg-b { animation: pulseGlow 4s ease-in-out 1.3s infinite; }
+    .lane-bg-c { animation: pulseGlow 4s ease-in-out 2.6s infinite; }
+    .flow-arrow { stroke-dasharray: 8,8; animation: flowRight 0.8s linear infinite; }
+    .verify-zone { animation: verifyPulse 3s ease-in-out infinite; }
+    .principle-ring { animation: dotPulse 3s ease-in-out infinite; }
+    .principle-ring-b { animation: dotPulse 3s ease-in-out 0.75s infinite; }
+    .principle-ring-c { animation: dotPulse 3s ease-in-out 1.5s infinite; }
+    .principle-ring-d { animation: dotPulse 3s ease-in-out 2.25s infinite; }
+  </style>
   <rect width="1200" height="800" fill="#0f0f23"/>
 
   <!-- Corner accents -->
@@ -47,7 +74,7 @@
   <!-- === Lane 1: Test Writer + Implementer (Feature A) === -->
   <g transform="translate(0, 0)">
     <!-- Lane background -->
-    <rect x="220" y="120" width="620" height="105" rx="8" fill="#ffffff" opacity="0.02"/>
+    <rect class="lane-bg" x="220" y="120" width="620" height="105" rx="8" fill="#ffffff" opacity="0.02"/>
     <!-- Lane label -->
     <text x="240" y="140" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" opacity="0.35" letter-spacing="1">WORKTREE A</text>
 
@@ -95,12 +122,12 @@
     <text x="680" y="192" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="400" opacity="0.8">REFACTOR</text>
 
     <!-- Arrow to merge zone -->
-    <line x1="730" y1="180" x2="830" y2="180" stroke="#ffffff" stroke-width="1" opacity="0.15" stroke-dasharray="4,4"/>
+    <line class="flow-arrow" x1="730" y1="180" x2="830" y2="180" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
   </g>
 
   <!-- === Lane 2: Test Writer + Implementer (Feature B) === -->
   <g transform="translate(0, 0)">
-    <rect x="220" y="240" width="620" height="105" rx="8" fill="#ffffff" opacity="0.02"/>
+    <rect class="lane-bg-b" x="220" y="240" width="620" height="105" rx="8" fill="#ffffff" opacity="0.02"/>
     <text x="240" y="260" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" opacity="0.35" letter-spacing="1">WORKTREE B</text>
 
     <line x1="170" y1="320" x2="250" y2="292" stroke="#b00149" stroke-width="1" opacity="0.3"/>
@@ -137,12 +164,12 @@
     </g>
     <text x="680" y="312" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="400" opacity="0.8">REFACTOR</text>
 
-    <line x1="730" y1="300" x2="830" y2="300" stroke="#ffffff" stroke-width="1" opacity="0.15" stroke-dasharray="4,4"/>
+    <line class="flow-arrow" x1="730" y1="300" x2="830" y2="300" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
   </g>
 
   <!-- === Lane 3: Test Writer + Implementer (Feature C) === -->
   <g transform="translate(0, 0)">
-    <rect x="220" y="360" width="620" height="105" rx="8" fill="#ffffff" opacity="0.02"/>
+    <rect class="lane-bg-c" x="220" y="360" width="620" height="105" rx="8" fill="#ffffff" opacity="0.02"/>
     <text x="240" y="380" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" opacity="0.35" letter-spacing="1">WORKTREE C</text>
 
     <line x1="170" y1="340" x2="250" y2="412" stroke="#b00149" stroke-width="1" opacity="0.3"/>
@@ -179,7 +206,7 @@
     </g>
     <text x="680" y="432" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="400" opacity="0.8">REFACTOR</text>
 
-    <line x1="730" y1="420" x2="830" y2="420" stroke="#ffffff" stroke-width="1" opacity="0.15" stroke-dasharray="4,4"/>
+    <line class="flow-arrow" x1="730" y1="420" x2="830" y2="420" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
   </g>
 
   <!-- === Lane 4: Reviewer (cross-cutting, spans all lanes) === -->
@@ -217,7 +244,7 @@
     </g>
     <text x="680" y="530" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">Deployer</text>
 
-    <line x1="730" y1="526" x2="830" y2="526" stroke="#ffffff" stroke-width="1" opacity="0.15" stroke-dasharray="4,4"/>
+    <line class="flow-arrow" x1="730" y1="526" x2="830" y2="526" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
   </g>
 
   <!-- === Cross-lane connections (lateral coordination) === -->
@@ -232,7 +259,7 @@
   <line x1="320" y1="333" x2="320" y2="213" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.1"/>
 
   <!-- ==================== MERGE + VERIFY ZONE ==================== -->
-  <rect x="840" y="130" width="150" height="430" rx="12" fill="#b00149" opacity="0.04" stroke="#b00149" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+  <rect class="verify-zone" x="840" y="130" width="150" height="430" rx="12" fill="#b00149" opacity="0.04" stroke="#b00149" stroke-width="1" stroke-dasharray="4,4"/>
   <text x="915" y="155" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" letter-spacing="2" opacity="0.7">MERGE + VERIFY</text>
 
   <!-- Merge convergence lines -->
@@ -267,14 +294,14 @@
   <line x1="100" y1="620" x2="1100" y2="620" stroke="#ffffff" stroke-width="0.5" opacity="0.08"/>
 
   <g transform="translate(200, 660)">
-    <circle cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+    <circle class="principle-ring" cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
     <text x="0" y="4" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700">||</text>
     <text x="0" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Parallel by Default</text>
     <text x="0" y="42" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.4">Isolated git worktrees</text>
   </g>
 
   <g transform="translate(450, 660)">
-    <circle cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+    <circle class="principle-ring-b" cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
     <path d="M-6,-4 L0,6 L6,-4" fill="none" stroke="#b00149" stroke-width="1.5" stroke-linejoin="round"/>
     <path d="M-6,-8 L0,-2 L6,-8" fill="none" stroke="#b00149" stroke-width="1" stroke-linejoin="round" opacity="0.4"/>
     <text x="0" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Outcomes, Not Tasks</text>
@@ -282,14 +309,14 @@
   </g>
 
   <g transform="translate(700, 660)">
-    <circle cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+    <circle class="principle-ring-c" cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
     <path d="M-6,-6 L6,-6 M-6,0 L6,0 M-6,6 L6,6" stroke="#b00149" stroke-width="1" stroke-linecap="round"/>
     <text x="0" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Maturity Scales It</text>
     <text x="0" y="42" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.4">POC: 1 agent — GA: 5 parallel</text>
   </g>
 
   <g transform="translate(950, 660)">
-    <circle cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+    <circle class="principle-ring-d" cx="0" cy="0" r="16" fill="none" stroke="#b00149" stroke-width="1" opacity="0.4"/>
     <path d="M0,-8 L-8,4 L8,4 Z" fill="none" stroke="#b00149" stroke-width="1.2"/>
     <line x1="0" y1="-2" x2="0" y2="2" stroke="#b00149" stroke-width="1.5"/>
     <circle cx="0" cy="4" r="0.8" fill="#b00149"/>

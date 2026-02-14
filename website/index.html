@@ -319,8 +319,50 @@
     </div>
   </section>
 
+  <!-- ===== FOR PRODUCT MANAGERS ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="for-pms">
+    <div class="section-inner">
+      <div class="section-eyebrow">For Product Managers</div>
+      <h2>Finally, visibility into AI-assisted development</h2>
+      <p class="section-desc">AI agents are writing your team's code. ADD gives you the governance, traceability, and progress visibility you need — without slowing anyone down.</p>
+
+      <div class="pm-grid">
+        <div class="pm-card">
+          <div class="pm-icon"><i class="ph ph-chart-line-up"></i></div>
+          <h4>Progress you can see</h4>
+          <p>Hill charts show where every feature stands — still being figured out or actively executing. No more "it's 80% done" for three weeks straight.</p>
+        </div>
+        <div class="pm-card">
+          <div class="pm-icon"><i class="ph ph-link"></i></div>
+          <h4>Full traceability</h4>
+          <p>Every line of code traces back through tests, to a spec, to a PRD requirement. When stakeholders ask "why was this built?" you have the answer in git.</p>
+        </div>
+        <div class="pm-card">
+          <div class="pm-icon"><i class="ph ph-gauge"></i></div>
+          <h4>One dial for rigor</h4>
+          <p>The maturity lifecycle (POC &rarr; GA) governs all process rigor. Start lightweight for prototypes, dial up for production. No process debates — just turn the dial.</p>
+        </div>
+        <div class="pm-card">
+          <div class="pm-icon"><i class="ph ph-shield-check"></i></div>
+          <h4>Quality gates, not hope</h4>
+          <p>5 automated quality gates run at every stage. Agents can't skip verification. Code quality, security, and spec compliance are enforced — not suggested.</p>
+        </div>
+        <div class="pm-card">
+          <div class="pm-icon"><i class="ph ph-users-three"></i></div>
+          <h4>Human at the right moments</h4>
+          <p>Agents handle the 90% that's execution. Humans handle the 10% that's judgment — architecture decisions, scope changes, production approvals.</p>
+        </div>
+        <div class="pm-card">
+          <div class="pm-icon"><i class="ph ph-trend-up"></i></div>
+          <h4>Compounding intelligence</h4>
+          <p>Every project makes the next one faster. Cross-project knowledge means agents learn your team's patterns, preferences, and past mistakes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== WORKFLOW ===== -->
-  <section class="section" style="background: var(--bg-secondary);" id="workflow">
+  <section class="section" id="workflow">
     <div class="section-eyebrow">How It Works</div>
     <h2>From interview to deployment in four steps</h2>
     <p class="section-desc">Every artifact traces to a parent. Every test traces to a spec. Every spec traces to a PRD.</p>
@@ -363,6 +405,8 @@
     <h2>You set the boundaries. Agents work within them.</h2>
     <p class="section-desc">ADD defines three engagement modes. You choose how much autonomy agents get — from approving every step to fully autonomous overnight sessions.</p>
 
+    <div id="engagement-toggle"></div>
+    <noscript>
     <div class="autonomy-grid">
       <div class="autonomy-card">
         <div class="autonomy-badge badge-guided">Guided</div>
@@ -400,6 +444,7 @@
         </ul>
       </div>
     </div>
+    </noscript>
 
     <!-- Away/Back flow -->
     <div class="away-flow">
@@ -592,7 +637,9 @@
       </div>
     </div>
 
-    <!-- Hill chart demo -->
+    <!-- Hill chart -->
+    <div id="hill-chart-container"></div>
+    <noscript>
     <div class="hill-chart-demo">
       <h5>Hill Chart — Feature Progress Through a Milestone</h5>
       <div class="hill-visual">
@@ -608,6 +655,7 @@
         <span>Executing &#x2193;</span>
       </div>
     </div>
+    </noscript>
   </section>
 
   <!-- ===== MATURITY DIAL ===== -->
@@ -838,5 +886,7 @@
   <script src="/js/main.js"></script>
   <script src="/js/boids.js"></script>
   <script src="/js/maturity-slider.js"></script>
+  <script src="/js/hill-chart.js"></script>
+  <script src="/js/human-toggle.js"></script>
 </body>
 </html>
