@@ -1,0 +1,125 @@
+{
+  "colorPresets": {
+    "raspberry": {
+      "name": "Raspberry (Default)",
+      "description": "Bold raspberry red with warm undertones",
+      "palette": {
+        "accent": "#b00149",
+        "accentLight": "#d4326d",
+        "accentDark": "#8a0038",
+        "accentMuted": "#c4607a",
+        "accentGlow": "rgba(176,1,73,0.4)",
+        "gradientStart": "#b00149",
+        "gradientMid": "#d4326d",
+        "gradientEnd": "#ff6b9d",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "info": "#0ea5e9"
+      }
+    },
+    "purple": {
+      "name": "AI Purple",
+      "description": "Classic AI/tech purple gradient",
+      "palette": {
+        "accent": "#6366f1",
+        "accentLight": "#818cf8",
+        "accentDark": "#4f46e5",
+        "accentMuted": "#a5b4fc",
+        "accentGlow": "rgba(99,102,241,0.4)",
+        "gradientStart": "#6366f1",
+        "gradientMid": "#8b5cf6",
+        "gradientEnd": "#d946ef",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "info": "#0ea5e9"
+      }
+    },
+    "ocean": {
+      "name": "Ocean",
+      "description": "Deep cyan blue, professional and calm",
+      "palette": {
+        "accent": "#0891b2",
+        "accentLight": "#22d3ee",
+        "accentDark": "#0e7490",
+        "accentMuted": "#67e8f9",
+        "accentGlow": "rgba(8,145,178,0.4)",
+        "gradientStart": "#0891b2",
+        "gradientMid": "#06b6d4",
+        "gradientEnd": "#22d3ee",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "info": "#0ea5e9"
+      }
+    },
+    "forest": {
+      "name": "Forest",
+      "description": "Rich emerald green, growth-focused",
+      "palette": {
+        "accent": "#059669",
+        "accentLight": "#10b981",
+        "accentDark": "#047857",
+        "accentMuted": "#6ee7b7",
+        "accentGlow": "rgba(5,150,105,0.4)",
+        "gradientStart": "#059669",
+        "gradientMid": "#10b981",
+        "gradientEnd": "#34d399",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "info": "#0ea5e9"
+      }
+    },
+    "sunset": {
+      "name": "Sunset",
+      "description": "Vibrant orange, energetic and bold",
+      "palette": {
+        "accent": "#ea580c",
+        "accentLight": "#f97316",
+        "accentDark": "#c2410c",
+        "accentMuted": "#fdba74",
+        "accentGlow": "rgba(234,88,12,0.4)",
+        "gradientStart": "#ea580c",
+        "gradientMid": "#f97316",
+        "gradientEnd": "#fb923c",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "info": "#0ea5e9"
+      }
+    },
+    "midnight": {
+      "name": "Midnight",
+      "description": "Deep indigo, sophisticated",
+      "palette": {
+        "accent": "#4f46e5",
+        "accentLight": "#6366f1",
+        "accentDark": "#4338ca",
+        "accentMuted": "#a5b4fc",
+        "accentGlow": "rgba(79,70,229,0.4)",
+        "gradientStart": "#4f46e5",
+        "gradientMid": "#6366f1",
+        "gradientEnd": "#818cf8",
+        "success": "#22c55e",
+        "warning": "#eab308",
+        "info": "#0ea5e9"
+      }
+    }
+  },
+  "paletteGenerationAlgorithm": {
+    "description": "Generate a full palette from any custom hex color using HSL transformations",
+    "steps": [
+      "1. Parse input hex to RGB, then convert to HSL",
+      "2. accentLight: H same, S same, L + 15% (capped at 90%)",
+      "3. accentDark: H same, S same, L - 20% (min 10%)",
+      "4. accentMuted: H same, S - 30% (min 20%), L + 20% (capped at 85%)",
+      "5. accentGlow: rgba(R, G, B, 0.4) from original accent",
+      "6. gradientStart: Same as accent",
+      "7. gradientMid: Same as accentLight",
+      "8. gradientEnd: H + 15 degrees, S same, L + 25% (capped at 90%)",
+      "9. success, warning, info: Fixed values for consistency"
+    ],
+    "fixedColors": {
+      "success": "#22c55e",
+      "warning": "#eab308",
+      "info": "#0ea5e9"
+    }
+  }
+}

@@ -110,6 +110,27 @@
     "pr_template": true,
     "protected_branches": ["main"]
   },
+  "branding": {
+    "accentColor": "#b00149",
+    "presetName": "raspberry",
+    "palette": {
+      "accent": "#b00149",
+      "accentLight": "#d4326d",
+      "accentDark": "#8a0038",
+      "accentMuted": "#c4607a",
+      "accentGlow": "rgba(176,1,73,0.4)",
+      "gradientStart": "#b00149",
+      "gradientMid": "#d4326d",
+      "gradientEnd": "#ff6b9d",
+      "success": "#22c55e",
+      "warning": "#eab308",
+      "info": "#0ea5e9"
+    },
+    "fonts": null,
+    "tone": null,
+    "logoPath": null,
+    "styleGuideSource": null
+  },
   "planning": {
     "current_milestone": "{M{N}-{NAME}_OR_NULL}",
     "current_cycle": "{cycle-{N}_OR_NULL}",

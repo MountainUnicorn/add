@@ -64,6 +64,8 @@ Roadmap (docs/prd.md milestones section)
 | `/add:verify` | Run quality gates |
 | `/add:optimize` | Performance optimization pass |
 | `/add:deploy` | Environment-aware deployment |
+| `/add:brand` | View project branding, drift detection, image gen status |
+| `/add:brand-update` | Update branding materials and audit artifacts |
 | `/add:away` | Human stepping away — autonomous work plan |
 | `/add:back` | Human returning — get briefing |
 | `/add:retro` | Retrospective — human-initiated or agent summary |

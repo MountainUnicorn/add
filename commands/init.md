@@ -360,12 +360,13 @@ Conduct a structured 1-by-1 interview following the human-collaboration rule. Al
 ```
 Welcome to Agent Driven Development (ADD).
 
-I'll interview you across 3 sections to understand your project:
+I'll interview you across 4 sections to understand your project:
   Section 1: Product (4 questions, ~3 min)
   Section 2: Architecture & Tech Stack (6-8 questions, adaptive, ~5 min)
+  Section 2.5: Branding (1-2 questions, ~1 min)
   Section 3: Process & Collaboration (5 questions, ~4 min)
 
-Total: approximately 15-17 questions, ~11 minutes.
+Total: approximately 16-19 questions, ~12 minutes.
 Some questions are adaptive — I'll skip what I can detect automatically.
 
 Your answers will generate:
@@ -557,6 +558,41 @@ Use AskUserQuestion:
 "Any other technical requirements? For example: specific auth provider, compliance requirements (HIPAA, SOC2), performance targets, or third-party integrations."
 (Default: "No specific constraints beyond standard best practices")
 → Captures: constraints, non-functional requirements
+
+### Section 2.5: Branding (1 question, ~1 min)
+
+**Q13.5:** "Do you have a brand or style guide for this project?"
+
+Use AskUserQuestion with options:
+  - "Yes — let me share it"
+  - "No — use ADD defaults (Recommended)"
+
+**IF "Yes — let me share it":**
+Ask a follow-up: "Share your brand details — any of: accent/primary color (hex), font preferences, tone/voice description, logo file path, or a link to your style guide."
+
+Parse the response for:
+- Hex color codes → store as `branding.accentColor`, generate palette using algorithm from `${CLAUDE_PLUGIN_ROOT}/templates/presets.json`
+- Font names → store in `branding.fonts` (heading, body, code)
+- Tone description → store in `branding.tone`
+- Logo path → store in `branding.logoPath`
+- URL/file path → store in `branding.styleGuideSource`
+
+**IF "No — use ADD defaults":**
+Use raspberry preset (#b00149) from `${CLAUDE_PLUGIN_ROOT}/templates/presets.json`. Store `presetName: "raspberry"` in config.
+
+Alternatively, offer preset selection:
+```
+Using ADD defaults. Want to pick an accent color?
+```
+Use AskUserQuestion with options:
+  - "Raspberry (#b00149) — bold and warm (Recommended)"
+  - "AI Purple (#6366f1) — classic tech"
+  - "Ocean (#0891b2) — professional and calm"
+  - "Custom hex color"
+
+→ Captures: branding configuration (accentColor, palette, fonts, tone, logoPath, styleGuideSource, presetName)
+
+Note: Branding can always be updated later with `/add:brand-update`.
 
 ### Section 3: Process & Collaboration (5 questions, ~4 min)
 
