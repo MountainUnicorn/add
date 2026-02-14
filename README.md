@@ -34,7 +34,7 @@ The problem it solves: AI code generation has changed how software gets built, b
 |---|-----------|--------------|
 | 1 | **Specs before code** | Every feature starts as a specification. No spec, no code. |
 | 2 | **Tests before implementation** | Strict TDD: RED (failing tests) → GREEN (make them pass) → REFACTOR → VERIFY |
-| 3 | **Trust but verify** | Sub-agents work autonomously. Orchestrators independently verify their output. |
+| 3 | **Trust but verify** | Sub-agents work autonomously. Orchestrators independently verify. Humans validate UX via screenshots. |
 | 4 | **Structured collaboration** | Interviews, away mode, decision points — humans and agents have clear protocols. |
 | 5 | **Environment awareness** | Skills adapt to where you're deploying: local, staging, or production. |
 | 6 | **Continuous learning** | Agents accumulate knowledge. Retrospectives propagate lessons across projects. |
@@ -499,6 +499,19 @@ ADD is intentionally simple:
 - **Plugin format** — Claude Code `.claude-plugin/plugin.json` manifest
 
 The entire plugin is ~60 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
+
+### Optional Capabilities
+
+ADD's core is zero-dependency, but some features benefit from optional tools:
+
+| Capability | Used By | Requires | Fallback |
+|------------|---------|----------|----------|
+| **Screenshot validation** | `/add:verify`, human review | Claude Code's built-in image reading | Agents describe UI state in text |
+| **Image generation** | `/add:infographic`, `/add:brand-update` | Image generation MCP tool (e.g., Vertex AI Imagen) | SVG generation (no raster images) |
+
+**Screenshot validation** is a core part of ADD's trust-but-verify loop for projects with a UI. After agents build, humans review screenshots of the actual user experience. Claude Code reads images natively — no Playwright, Puppeteer, or browser automation required. The human takes screenshots in their browser and shares them for review.
+
+**Image generation** enhances branding and documentation workflows. ADD auto-detects whether an image generation MCP tool is available and adapts accordingly. Without it, `/add:infographic` produces SVG infographics instead of raster images. No functionality is lost — just a different output format.
 
 ---
 
