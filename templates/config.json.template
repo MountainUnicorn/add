@@ -131,6 +131,17 @@
     "logoPath": null,
     "styleGuideSource": null
   },
+  "imageGeneration": {
+    "enabled": false,
+    "tool": null,
+    "plugin": null,
+    "nudged": false,
+    "lastDetected": null
+  },
+  "changelog": {
+    "lastProcessedCommit": null,
+    "lastVersionTag": null
+  },
   "planning": {
     "current_milestone": "{M{N}-{NAME}_OR_NULL}",
     "current_cycle": "{cycle-{N}_OR_NULL}",

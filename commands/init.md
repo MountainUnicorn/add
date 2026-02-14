@@ -666,6 +666,15 @@ mkdir -p tests/screenshots tests/screenshots/errors tests/e2e tests/unit tests/i
 mkdir -p .claude
 ```
 
+### Step 2.1.1: Scaffold CHANGELOG.md
+
+If `CHANGELOG.md` does not already exist in the project root, create it from the changelog template:
+
+1. Read `${CLAUDE_PLUGIN_ROOT}/templates/changelog.md.template`
+2. Write it to `CHANGELOG.md` in the project root
+
+This gives the project a Keep a Changelog-formatted changelog from day one. The `/add:changelog` command and the push hook will populate it automatically as development proceeds.
+
 ### Step 2.2: Create Cross-Project Directories (machine-local)
 
 ```bash

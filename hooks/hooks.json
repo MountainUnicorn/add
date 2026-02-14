@@ -18,6 +18,15 @@
             "command": "if [[ \"$TOOL_INPUT_FILE_PATH\" == *.py ]]; then ruff check --fix \"$TOOL_INPUT_FILE_PATH\" 2>/dev/null; elif [[ \"$TOOL_INPUT_FILE_PATH\" == *.ts ]] || [[ \"$TOOL_INPUT_FILE_PATH\" == *.tsx ]]; then npx eslint --fix \"$TOOL_INPUT_FILE_PATH\" 2>/dev/null; fi"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT_COMMAND\" | grep -q 'git push' && [ -f CHANGELOG.md ]; then echo '[ADD] Changelog: CHANGELOG.md exists. Run /add:changelog to update it with new commits.'; fi"
+          }
+        ]
       }
     ]
   }
