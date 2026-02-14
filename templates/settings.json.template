@@ -28,5 +28,9 @@
   },
   "enabledPlugins": {
     "add": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "cat > /dev/null; [ -f .add/config.json ] && printf '/\\033[38;2;176;1;73mADD\\033[0m:enabled'"
   }
 }

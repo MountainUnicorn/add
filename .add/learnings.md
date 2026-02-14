@@ -16,6 +16,7 @@
 
 - 2026-02-08: GitHub Pages deployment for this project uses Actions workflow at `.github/workflows/pages.yml` serving `website/` directory — live at `mountainunicorn.github.io/add/`. Set `build_type: workflow` via `gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow`.
 - 2026-02-08: Local marketplace cache must be synced manually after changes: rsync from source to `~/.claude/plugins/cache/add-marketplace/add/0.1.0/` (with excludes for project-specific state).
+- 2026-02-08: Claude Code `enabledPlugins` in `.claude/settings.json` must be a record (`{"add": true}`) not an array (`["add"]`). Array format causes "Settings Error: Expected record, but received array" on startup and the entire settings file is skipped.
 
 ## Architecture Decisions
 

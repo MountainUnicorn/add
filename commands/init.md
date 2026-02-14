@@ -736,6 +736,8 @@ Read ${CLAUDE_PLUGIN_ROOT}/templates/prd.md.template and fill in all placeholder
 
 Read ${CLAUDE_PLUGIN_ROOT}/templates/settings.json.template. Customize permissions based on the tech stack detected.
 
+The template includes a `statusLine` configuration that displays `/ADD:enabled` in the Claude Code status bar (with "ADD" in raspberry #b00149). This provides an at-a-glance indicator that the project is ADD-managed. If the user already has a custom `statusLine` in their settings, ask before overwriting it.
+
 ### Step 3.4: Generate CLAUDE.md (if it doesn't exist)
 
 Read ${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.md.template. Fill in project-specific information:
@@ -800,7 +802,7 @@ PROJECT STRUCTURE:
   ✓ .add/cycles/              — cycle plans and history
   ✓ docs/prd.md               — Product Requirements Document
   ✓ docs/milestones/          — milestone tracking (hill charts)
-  ✓ .claude/settings.json     — Claude Code settings
+  ✓ .claude/settings.json     — Claude Code settings (status line: /ADD:enabled)
   ✓ specs/                    — feature specifications
   ✓ docs/plans/               — implementation plans
   ✓ tests/screenshots/        — visual verification
