@@ -1,206 +1,186 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <!-- Radial glows for each tier -->
+    <radialGradient id="glowRaspberry" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#b00149" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#b00149" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowBlue" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowGreen" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Central ambient glow -->
+    <radialGradient id="ambientGlow" cx="50%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#b00149" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#0f0f23" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
   <rect width="1200" height="800" fill="#0f0f23"/>
+  <rect width="1200" height="800" fill="url(#ambientGlow)"/>
 
-  <!-- Title -->
-  <text x="600" y="52" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="1">ADD Learning System</text>
-  <text x="600" y="82" text-anchor="middle" fill="#888899" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" letter-spacing="0.5">Continuous knowledge accumulation across projects</text>
+  <!-- Corner accents -->
+  <line x1="20" y1="20" x2="70" y2="20" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="20" y1="20" x2="20" y2="70" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="1180" y1="20" x2="1130" y2="20" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="1180" y1="20" x2="1180" y2="70" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="20" y1="780" x2="70" y2="780" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="20" y1="780" x2="20" y2="730" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="1180" y1="780" x2="1130" y2="780" stroke="#b00149" stroke-width="2" opacity="0.4"/>
+  <line x1="1180" y1="780" x2="1180" y2="730" stroke="#b00149" stroke-width="2" opacity="0.4"/>
 
-  <!-- Divider line under title -->
-  <line x1="200" y1="100" x2="1000" y2="100" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+  <!-- ==================== TITLE ==================== -->
+  <text x="600" y="62" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="38" font-weight="800" letter-spacing="6">LEARNING SYSTEM</text>
+  <text x="600" y="95" text-anchor="middle" fill="#777788" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="1">Knowledge compounds across projects</text>
 
-  <!-- ===================== LEFT SIDE: Knowledge Tiers ===================== -->
+  <!-- Divider -->
+  <line x1="350" y1="118" x2="850" y2="118" stroke="#b00149" stroke-width="1.5" opacity="0.35"/>
 
-  <text x="340" y="140" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1" opacity="0.7">KNOWLEDGE TIERS</text>
+  <!-- ==================== TIER 1: PLUGIN-GLOBAL (Raspberry, widest) ==================== -->
+  <g transform="translate(600, 200)">
+    <!-- Glow behind bar -->
+    <ellipse cx="0" cy="0" rx="480" ry="60" fill="url(#glowRaspberry)"/>
+    <!-- Bar background -->
+    <rect x="-460" y="-50" width="920" height="100" rx="12" fill="#b00149" opacity="0.1"/>
+    <rect x="-460" y="-50" width="920" height="100" rx="12" fill="none" stroke="#b00149" stroke-width="2.5"/>
+    <!-- Large watermark number -->
+    <text x="-400" y="28" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="90" font-weight="900" opacity="0.12">1</text>
+    <!-- Tier label -->
+    <text x="-330" y="-12" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" letter-spacing="3">TIER 1</text>
+    <!-- Name -->
+    <text x="-330" y="18" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="26" font-weight="700">Plugin-Global</text>
+    <!-- Description -->
+    <text x="-330" y="42" fill="#999aab" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15">Universal best practices</text>
+    <!-- File path -->
+    <text x="380" y="8" text-anchor="end" fill="#666677" font-family="monospace, Courier" font-size="14">knowledge/global.md</text>
+  </g>
 
-  <!-- Tier 1: Plugin-Global (widest) -->
-  <rect x="60" y="170" width="560" height="80" rx="6" fill="#b00149" opacity="0.15"/>
-  <rect x="60" y="170" width="560" height="80" rx="6" fill="none" stroke="#b00149" stroke-width="2"/>
-  <text x="90" y="200" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1">TIER 1</text>
-  <text x="145" y="200" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600">Plugin-Global</text>
-  <text x="90" y="228" fill="#aaaabb" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Universal best practices for all users</text>
-  <!-- Location -->
-  <text x="400" y="214" fill="#777788" font-family="monospace" font-size="11">knowledge/global.md</text>
+  <!-- ==================== TIER 2: USER-LOCAL (Blue, medium) ==================== -->
+  <g transform="translate(600, 330)">
+    <!-- Glow behind bar -->
+    <ellipse cx="0" cy="0" rx="380" ry="55" fill="url(#glowBlue)"/>
+    <!-- Bar background -->
+    <rect x="-360" y="-50" width="720" height="100" rx="12" fill="#3b82f6" opacity="0.08"/>
+    <rect x="-360" y="-50" width="720" height="100" rx="12" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+    <!-- Large watermark number -->
+    <text x="-305" y="28" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="90" font-weight="900" opacity="0.1">2</text>
+    <!-- Tier label -->
+    <text x="-230" y="-12" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" letter-spacing="3">TIER 2</text>
+    <!-- Name -->
+    <text x="-230" y="18" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="26" font-weight="700">User-Local</text>
+    <!-- Description -->
+    <text x="-230" y="42" fill="#999aab" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15">Cross-project wisdom</text>
+    <!-- File path -->
+    <text x="290" y="8" text-anchor="end" fill="#666677" font-family="monospace, Courier" font-size="14">~/.claude/add/library.md</text>
+  </g>
 
-  <!-- Tier 2: User-Local (medium) -->
-  <rect x="110" y="290" width="460" height="80" rx="6" fill="#3b82f6" opacity="0.12"/>
-  <rect x="110" y="290" width="460" height="80" rx="6" fill="none" stroke="#3b82f6" stroke-width="2"/>
-  <text x="140" y="320" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1">TIER 2</text>
-  <text x="195" y="320" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600">User-Local</text>
-  <text x="140" y="348" fill="#aaaabb" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Cross-project wisdom</text>
-  <!-- Location -->
-  <text x="370" y="334" fill="#777788" font-family="monospace" font-size="11">~/.claude/add/library.md</text>
+  <!-- ==================== TIER 3: PROJECT-SPECIFIC (Green, narrowest) ==================== -->
+  <g transform="translate(600, 460)">
+    <!-- Glow behind bar -->
+    <ellipse cx="0" cy="0" rx="280" ry="55" fill="url(#glowGreen)"/>
+    <!-- Bar background -->
+    <rect x="-260" y="-50" width="520" height="100" rx="12" fill="#22c55e" opacity="0.08"/>
+    <rect x="-260" y="-50" width="520" height="100" rx="12" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+    <!-- Large watermark number -->
+    <text x="-210" y="28" fill="#22c55e" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="90" font-weight="900" opacity="0.1">3</text>
+    <!-- Tier label -->
+    <text x="-130" y="-12" fill="#22c55e" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" letter-spacing="3">TIER 3</text>
+    <!-- Name -->
+    <text x="-130" y="18" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="26" font-weight="700">Project-Specific</text>
+    <!-- Description -->
+    <text x="-130" y="42" fill="#999aab" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15">This project's discoveries</text>
+    <!-- File path -->
+    <text x="200" y="8" text-anchor="end" fill="#666677" font-family="monospace, Courier" font-size="14">.add/learnings.md</text>
+  </g>
 
-  <!-- Tier 3: Project-Specific (narrowest) -->
-  <rect x="160" y="410" width="360" height="80" rx="6" fill="#22c55e" opacity="0.12"/>
-  <rect x="160" y="410" width="360" height="80" rx="6" fill="none" stroke="#22c55e" stroke-width="2"/>
-  <text x="190" y="440" fill="#22c55e" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1">TIER 3</text>
-  <text x="245" y="440" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600">Project-Specific</text>
-  <text x="190" y="468" fill="#aaaabb" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Discoveries for this project</text>
-  <!-- Location -->
-  <text x="370" y="454" fill="#777788" font-family="monospace" font-size="11">.add/learnings.md</text>
+  <!-- ==================== LEFT ARROW: PROMOTE (UP) ==================== -->
+  <g transform="translate(80, 330)">
+    <!-- Arrow shaft -->
+    <line x1="0" y1="140" x2="0" y2="-130" stroke="#ffffff" stroke-width="2.5" opacity="0.25"/>
+    <!-- Arrowhead -->
+    <polygon points="0,-140 -10,-118 10,-118" fill="#ffffff" opacity="0.35"/>
+    <!-- Label -->
+    <text x="0" y="170" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="800" letter-spacing="4" opacity="0.5">PROMOTE</text>
+    <text x="0" y="192" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" opacity="0.3">knowledge flows up</text>
+    <text x="0" y="210" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" opacity="0.3">during retros</text>
+  </g>
 
-  <!-- UPWARD arrows (promote) — left side of tiers -->
-  <!-- Arrow from Tier 3 to Tier 2 -->
-  <line x1="130" y1="410" x2="130" y2="370" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <polygon points="130,370 125,380 135,380" fill="#22c55e"/>
-  <text x="105" y="395" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" transform="rotate(-90,105,395)">promote</text>
+  <!-- ==================== RIGHT ARROW: PRECEDENCE (DOWN) ==================== -->
+  <g transform="translate(1120, 330)">
+    <!-- Arrow shaft -->
+    <line x1="0" y1="-130" x2="0" y2="140" stroke="#ffffff" stroke-width="2.5" opacity="0.25"/>
+    <!-- Arrowhead -->
+    <polygon points="0,150 -10,128 10,128" fill="#ffffff" opacity="0.35"/>
+    <!-- Label -->
+    <text x="0" y="175" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="800" letter-spacing="3" opacity="0.5">PRECEDENCE</text>
+    <text x="0" y="197" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" opacity="0.3">project overrides</text>
+    <text x="0" y="215" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" opacity="0.3">user overrides global</text>
+  </g>
 
-  <!-- Arrow from Tier 2 to Tier 1 -->
-  <line x1="80" y1="290" x2="80" y2="250" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <polygon points="80,250 75,260 85,260" fill="#3b82f6"/>
-  <text x="55" y="275" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" transform="rotate(-90,55,275)">promote</text>
+  <!-- ==================== SEPARATOR ==================== -->
+  <line x1="140" y1="570" x2="1060" y2="570" stroke="#ffffff" stroke-width="1" opacity="0.08"/>
 
-  <!-- DOWNWARD arrow (precedence) — right side of tiers -->
-  <line x1="600" y1="215" x2="600" y2="440" stroke="#ffffff" stroke-width="1.5" opacity="0.3"/>
-  <polygon points="600,445 595,435 605,435" fill="#ffffff" opacity="0.5"/>
-  <!-- Precedence label -->
-  <text x="600" y="470" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" opacity="0.5">PRECEDENCE</text>
-  <text x="600" y="486" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" opacity="0.35">project overrides user overrides global</text>
+  <!-- ==================== BOTTOM: CHECKPOINT TRIGGERS ==================== -->
+  <text x="600" y="615" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="4" opacity="0.5">CHECKPOINT TRIGGERS</text>
+  <text x="600" y="638" text-anchor="middle" fill="#666677" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Auto-populate Tier 3</text>
 
-  <!-- ===================== RIGHT SIDE: Checkpoint Triggers ===================== -->
-
-  <text x="890" y="140" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1" opacity="0.7">CHECKPOINT TRIGGERS</text>
-  <text x="890" y="158" text-anchor="middle" fill="#666677" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Auto-populate Tier 3</text>
-
-  <!-- Trigger 1: After /add:verify — shield icon -->
-  <g transform="translate(700, 185)">
-    <rect width="380" height="60" rx="6" fill="#ffffff" opacity="0.04"/>
-    <rect width="380" height="60" rx="6" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1"/>
+  <!-- Trigger 1: After Verify (Shield) -->
+  <g transform="translate(165, 710)">
+    <!-- Circle background -->
+    <circle cx="0" cy="0" r="38" fill="#b00149" opacity="0.1" stroke="#b00149" stroke-width="1.5"/>
     <!-- Shield icon -->
-    <g transform="translate(25, 12)">
-      <path d="M18,4 L18,20 C18,28 10,34 10,34 C10,34 2,28 2,20 L2,4 L10,0 Z" fill="none" stroke="#b00149" stroke-width="1.8" transform="scale(0.9)"/>
-      <path d="M7,16 L10,20 L16,10" fill="none" stroke="#b00149" stroke-width="1.8" transform="scale(0.9)"/>
-    </g>
-    <text x="60" y="28" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">After /add:verify</text>
-    <text x="60" y="46" fill="#777788" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Quality gate results captured</text>
+    <path d="M0,-18 L14,-10 L14,6 C14,14 0,22 0,22 C0,22 -14,14 -14,6 L-14,-10 Z" fill="none" stroke="#b00149" stroke-width="2.2"/>
+    <path d="M-5,2 L-1,7 L7,-4" fill="none" stroke="#b00149" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Label -->
+    <text x="0" y="58" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">After Verify</text>
   </g>
 
-  <!-- Trigger 2: After TDD cycle — circular arrows -->
-  <g transform="translate(700, 260)">
-    <rect width="380" height="60" rx="6" fill="#ffffff" opacity="0.04"/>
-    <rect width="380" height="60" rx="6" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1"/>
-    <!-- Circular arrows icon -->
-    <g transform="translate(20, 10)">
-      <path d="M18,6 A10,10 0 0,1 24,20" fill="none" stroke="#3b82f6" stroke-width="1.8"/>
-      <polygon points="24,20 21,15 27,16" fill="#3b82f6"/>
-      <path d="M10,26 A10,10 0 0,1 4,12" fill="none" stroke="#3b82f6" stroke-width="1.8"/>
-      <polygon points="4,12 7,17 1,16" fill="#3b82f6"/>
-    </g>
-    <text x="60" y="28" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">After TDD Cycle</text>
-    <text x="60" y="46" fill="#777788" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">RED / GREEN / REFACTOR learnings</text>
+  <!-- Trigger 2: After TDD (Cycle arrows) -->
+  <g transform="translate(455, 710)">
+    <!-- Circle background -->
+    <circle cx="0" cy="0" r="38" fill="#3b82f6" opacity="0.1" stroke="#3b82f6" stroke-width="1.5"/>
+    <!-- Cycle icon -->
+    <path d="M10,-12 A16,16 0 0,1 12,12" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
+    <polygon points="12,12 16,4 7,6" fill="#3b82f6"/>
+    <path d="M-10,12 A16,16 0 0,1 -12,-12" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
+    <polygon points="-12,-12 -16,-4 -7,-6" fill="#3b82f6"/>
+    <!-- Label -->
+    <text x="0" y="58" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">After TDD</text>
   </g>
 
-  <!-- Trigger 3: After deployment — rocket icon -->
-  <g transform="translate(700, 335)">
-    <rect width="380" height="60" rx="6" fill="#ffffff" opacity="0.04"/>
-    <rect width="380" height="60" rx="6" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1"/>
+  <!-- Trigger 3: After Deploy (Rocket) -->
+  <g transform="translate(745, 710)">
+    <!-- Circle background -->
+    <circle cx="0" cy="0" r="38" fill="#22c55e" opacity="0.1" stroke="#22c55e" stroke-width="1.5"/>
     <!-- Rocket icon -->
-    <g transform="translate(22, 8)">
-      <path d="M14,2 C14,2 8,8 8,18 L12,22 L16,22 L20,18 C20,8 14,2 14,2 Z" fill="none" stroke="#22c55e" stroke-width="1.8" transform="scale(0.85)"/>
-      <circle cx="12" cy="11" r="2" fill="none" stroke="#22c55e" stroke-width="1.5" transform="scale(0.85)"/>
-      <path d="M8,20 L5,24 L10,22" fill="none" stroke="#22c55e" stroke-width="1.3" transform="scale(0.85)"/>
-      <path d="M20,20 L23,24 L18,22" fill="none" stroke="#22c55e" stroke-width="1.3" transform="scale(0.85)"/>
-    </g>
-    <text x="60" y="28" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">After Deployment</text>
-    <text x="60" y="46" fill="#777788" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Environment promotion outcomes</text>
+    <path d="M0,-18 C-4,-14 -8,-4 -8,4 L-4,10 L4,10 L8,4 C8,-4 4,-14 0,-18 Z" fill="none" stroke="#22c55e" stroke-width="2.2"/>
+    <circle cx="0" cy="-2" r="3" fill="none" stroke="#22c55e" stroke-width="1.8"/>
+    <path d="M-4,10 L-8,16" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4,10 L8,16" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0,10 L0,16" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+    <!-- Label -->
+    <text x="0" y="58" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">After Deploy</text>
   </g>
 
-  <!-- Trigger 4: After away session — clock icon -->
-  <g transform="translate(700, 410)">
-    <rect width="380" height="60" rx="6" fill="#ffffff" opacity="0.04"/>
-    <rect width="380" height="60" rx="6" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1"/>
+  <!-- Trigger 4: After Away (Clock) -->
+  <g transform="translate(1035, 710)">
+    <!-- Circle background -->
+    <circle cx="0" cy="0" r="38" fill="#eab308" opacity="0.1" stroke="#eab308" stroke-width="1.5"/>
     <!-- Clock icon -->
-    <g transform="translate(22, 10)">
-      <circle cx="14" cy="14" r="12" fill="none" stroke="#eab308" stroke-width="1.8" transform="scale(0.85)"/>
-      <line x1="12" y1="12" x2="12" y2="6" stroke="#eab308" stroke-width="1.8" transform="scale(0.85)"/>
-      <line x1="12" y1="12" x2="17" y2="14" stroke="#eab308" stroke-width="1.8" transform="scale(0.85)"/>
-    </g>
-    <text x="60" y="28" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">After Away Session</text>
-    <text x="60" y="46" fill="#777788" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Autonomous work summary</text>
+    <circle cx="0" cy="0" r="15" fill="none" stroke="#eab308" stroke-width="2.2"/>
+    <line x1="0" y1="0" x2="0" y2="-10" stroke="#eab308" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="8" y2="3" stroke="#eab308" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- Small tick marks at 12, 3, 6, 9 -->
+    <line x1="0" y1="-15" x2="0" y2="-12" stroke="#eab308" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+    <line x1="15" y1="0" x2="12" y2="0" stroke="#eab308" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+    <line x1="0" y1="15" x2="0" y2="12" stroke="#eab308" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+    <line x1="-15" y1="0" x2="-12" y2="0" stroke="#eab308" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+    <!-- Label -->
+    <text x="0" y="58" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700">After Away</text>
   </g>
-
-  <!-- Connecting line from triggers to Tier 3 -->
-  <line x1="700" y1="350" x2="520" y2="450" stroke="#22c55e" stroke-width="1" stroke-dasharray="6,4" opacity="0.4"/>
-  <text x="620" y="388" fill="#22c55e" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" opacity="0.6" transform="rotate(-20,620,388)">auto-populate</text>
-
-  <!-- ===================== BOTTOM: Retrospective Flow ===================== -->
-
-  <!-- Separator -->
-  <line x1="60" y1="540" x2="1140" y2="540" stroke="#ffffff" stroke-width="1" opacity="0.08"/>
-
-  <text x="600" y="575" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1" opacity="0.7">RETROSPECTIVE FLOW</text>
-
-  <!-- Flow boxes -->
-  <!-- Step 1: Agent Work -->
-  <g transform="translate(60, 600)">
-    <rect width="170" height="70" rx="6" fill="#b00149" opacity="0.15"/>
-    <rect width="170" height="70" rx="6" fill="none" stroke="#b00149" stroke-width="1.5"/>
-    <text x="85" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Agent Work</text>
-    <text x="85" y="50" text-anchor="middle" fill="#888899" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">TDD, deploy, verify</text>
-  </g>
-
-  <!-- Arrow 1 -->
-  <line x1="240" y1="635" x2="280" y2="635" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
-  <polygon points="282,635 274,630 274,640" fill="#ffffff" opacity="0.5"/>
-
-  <!-- Step 2: Auto-Checkpoint -->
-  <g transform="translate(290, 600)">
-    <rect width="170" height="70" rx="6" fill="#3b82f6" opacity="0.12"/>
-    <rect width="170" height="70" rx="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
-    <text x="85" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Auto-Checkpoint</text>
-    <text x="85" y="50" text-anchor="middle" fill="#888899" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Captures to Tier 3</text>
-  </g>
-
-  <!-- Arrow 2 -->
-  <line x1="470" y1="635" x2="510" y2="635" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
-  <polygon points="512,635 504,630 504,640" fill="#ffffff" opacity="0.5"/>
-
-  <!-- Step 3: /add:retro -->
-  <g transform="translate(520, 600)">
-    <rect width="170" height="70" rx="6" fill="#22c55e" opacity="0.12"/>
-    <rect width="170" height="70" rx="6" fill="none" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="85" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">/add:retro</text>
-    <text x="85" y="50" text-anchor="middle" fill="#888899" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Human reviews findings</text>
-  </g>
-
-  <!-- Arrow 3 -->
-  <line x1="700" y1="635" x2="740" y2="635" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
-  <polygon points="742,635 734,630 734,640" fill="#ffffff" opacity="0.5"/>
-
-  <!-- Step 4: Promote Learnings -->
-  <g transform="translate(750, 600)">
-    <rect width="170" height="70" rx="6" fill="#eab308" opacity="0.12"/>
-    <rect width="170" height="70" rx="6" fill="none" stroke="#eab308" stroke-width="1.5"/>
-    <text x="85" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Promote Learnings</text>
-    <text x="85" y="50" text-anchor="middle" fill="#888899" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Tier 3 -> 2 -> 1</text>
-  </g>
-
-  <!-- Arrow 4 -->
-  <line x1="930" y1="635" x2="970" y2="635" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
-  <polygon points="972,635 964,630 964,640" fill="#ffffff" opacity="0.5"/>
-
-  <!-- Step 5: Knowledge Tiers -->
-  <g transform="translate(980, 600)">
-    <rect width="170" height="70" rx="6" fill="#b00149" opacity="0.15"/>
-    <rect width="170" height="70" rx="6" fill="none" stroke="#b00149" stroke-width="1.5"/>
-    <text x="85" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Knowledge Tiers</text>
-    <text x="85" y="50" text-anchor="middle" fill="#888899" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Enriched for next cycle</text>
-  </g>
-
-  <!-- Cycle-back arrow from Knowledge Tiers back to Agent Work -->
-  <path d="M1065,670 L1065,740 Q1065,755 1050,755 L145,755 Q130,755 130,740 L130,670" fill="none" stroke="#b00149" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.35"/>
-  <polygon points="130,670 125,680 135,680" fill="#b00149" opacity="0.5"/>
-  <text x="600" y="750" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" opacity="0.5">agents read all tiers before next task</text>
-
-  <!-- ===================== Decorative elements ===================== -->
-
-  <!-- Subtle corner accents -->
-  <line x1="20" y1="20" x2="60" y2="20" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="20" y1="20" x2="20" y2="60" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="1180" y1="20" x2="1140" y2="20" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="1180" y1="20" x2="1180" y2="60" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="20" y1="780" x2="60" y2="780" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="20" y1="780" x2="20" y2="740" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="1180" y1="780" x2="1140" y2="780" stroke="#b00149" stroke-width="2" opacity="0.3"/>
-  <line x1="1180" y1="780" x2="1180" y2="740" stroke="#b00149" stroke-width="2" opacity="0.3"/>
 </svg>
