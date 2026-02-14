@@ -260,6 +260,20 @@ Upon completion, output:
 3. Proceed to REFACTOR phase
 ```
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Parse spec | Reading spec and acceptance criteria | Reading spec and acceptance criteria... |
+| Analyze framework | Analyzing test framework configuration | Analyzing test framework configuration... |
+| Write tests | Writing failing tests | Writing failing tests... |
+| Verify RED | Confirming tests fail as expected | Verifying tests fail (RED confirmed)... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Spec parsing fails**

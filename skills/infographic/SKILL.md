@@ -308,6 +308,20 @@ Generates a professional SVG infographic from the project's PRD and config. The 
   - If yes, proceed with regeneration
 - If not exists, proceed without asking
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Gather | Reading PRD and config | Reading PRD and config... |
+| Layout | Designing infographic layout | Designing layout... |
+| Generate | Generating SVG content | Generating SVG... |
+| Write | Writing output file | Writing output file... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Config missing:**

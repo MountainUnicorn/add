@@ -577,6 +577,24 @@ Score: {N}/10
 4. **Actionable**: Provide specific recommendations
 5. **Evidence-based**: Cite line numbers, file paths, test results
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Load | Loading spec and config | Loading spec and config... |
+| Spec compliance | Checking spec compliance | Checking spec compliance... |
+| Code quality | Reviewing code quality | Reviewing code quality... |
+| Test coverage | Analyzing test coverage | Analyzing test coverage... |
+| Architecture | Reviewing architecture | Reviewing architecture... |
+| Security | Running security review | Running security review... |
+| Performance | Running performance review | Running performance review... |
+| Report | Generating review report | Generating review report... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Tests are not passing**

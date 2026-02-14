@@ -264,6 +264,20 @@ Upon successful GREEN phase completion, output:
 - No over-engineering; minimal viable implementation
 ```
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Read tests | Reading failing tests | Reading failing tests... |
+| Analyze | Analyzing requirements | Analyzing requirements... |
+| Implement | Writing implementation code | Writing implementation code... |
+| Verify GREEN | Confirming all tests pass | Verifying tests pass (GREEN confirmed)... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Tests still failing after implementation**

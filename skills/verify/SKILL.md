@@ -465,6 +465,24 @@ Detailed gate results:
 - ci.gates: [lint, types, tests, spec-compliance]
 ```
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Pre-flight | Running pre-flight checks | Running pre-flight checks... |
+| Gate 1 | Lint and formatting | Checking lint and formatting... |
+| Gate 2 | Type checking | Running type checks... |
+| Gate 3 | Tests and coverage | Running tests and checking coverage... |
+| Gate 4 | Spec compliance | Verifying spec compliance... |
+| Gate 5 | Smoke tests | Running smoke tests... |
+| Maturity | Maturity-scaled checks | Running maturity-scaled checks... |
+| Report | Generating verification report | Generating verification report... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Gate fails**

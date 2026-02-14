@@ -133,6 +133,21 @@ Upon successful completion, output:
 - Plan: docs/plans/{feature}-plan.md
 ```
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Pre-flight | Loading spec and config | Loading spec and config... |
+| RED | Writing failing tests | Writing failing tests... |
+| GREEN | Implementing code | Implementing code to pass tests... |
+| REFACTOR | Refactoring for quality | Refactoring for code quality... |
+| VERIFY | Running verification gates | Running verification gates... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Tests won't compile/run**

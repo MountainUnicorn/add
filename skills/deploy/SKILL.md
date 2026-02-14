@@ -503,6 +503,20 @@ Upon successful deployment, output:
 4. Consider follow-up optimizations
 ```
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Pre-deploy | Running pre-deploy checks | Running pre-deploy checks... |
+| Prepare | Preparing deployment artifacts | Preparing deployment... |
+| Deploy | Executing deployment | Executing deployment... |
+| Smoke tests | Running post-deploy smoke tests | Running smoke tests... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Quality gates fail (--skip-verify not set)**

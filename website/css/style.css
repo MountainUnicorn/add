@@ -168,6 +168,12 @@ body {
   color: var(--accent-light);
   margin-bottom: 16px;
 }
+.hero-problem {
+  font-size: 18px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
 .hero h1 {
   font-size: clamp(36px, 5vw, 56px);
   font-weight: 700;
@@ -674,6 +680,11 @@ footer .footer-sub {
   font-size: 14px;
   color: var(--text-secondary);
   margin-bottom: 20px;
+}
+footer .footer-built-by {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
 }
 footer .footer-meta {
   font-size: 12px;

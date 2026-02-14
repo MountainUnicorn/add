@@ -416,6 +416,20 @@ Upon completion, output:
 - test_memory_usage: PASS (45MB)
 ```
 
+## Progress Tracking
+
+Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+
+**Tasks to create:**
+| Phase | Subject | activeForm |
+|-------|---------|------------|
+| Profile | Profiling performance baseline | Profiling performance... |
+| Bottlenecks | Identifying bottlenecks | Identifying bottlenecks... |
+| Optimize | Applying optimizations | Applying optimizations... |
+| Verify | Verifying performance improvements | Verifying improvements... |
+
+Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+
 ## Error Handling
 
 **Performance test not passing after optimization**
