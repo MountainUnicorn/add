@@ -36,16 +36,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Highlight active nav link
+  // Highlight active nav link (most specific match wins)
   var path = window.location.pathname;
+  var bestLink = null;
+  var bestLen = 0;
   document.querySelectorAll('.site-nav-links a').forEach(function (a) {
     var href = a.getAttribute('href');
     if (!href || href.indexOf('github') !== -1) return;
-    // Exact match or starts-with for section pages
     if (path === href || (href !== '/' && path.indexOf(href) === 0)) {
-      a.classList.add('active');
+      if (href.length > bestLen) {
+        bestLen = href.length;
+        bestLink = a;
+      }
     }
   });
+  if (bestLink) bestLink.classList.add('active');
 
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
