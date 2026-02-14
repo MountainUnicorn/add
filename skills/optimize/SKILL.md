@@ -4,7 +4,7 @@ argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
 ---
 
-# Optimize Skill
+# ADD Optimize Skill v0.2.0
 
 Identify and fix performance bottlenecks. This skill profiles code to find slow operations, suggests optimizations, and implements them with test-driven discipline.
 

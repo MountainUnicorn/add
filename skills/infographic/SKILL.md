@@ -4,7 +4,7 @@ argument-hint: "[--update]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
 ---
 
-# /add:infographic
+# ADD Infographic Skill v0.2.0
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 

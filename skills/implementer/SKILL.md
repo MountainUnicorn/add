@@ -4,7 +4,7 @@ argument-hint: "specs/{feature}.md [--ac AC-001,AC-002]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
-# Implementer Skill
+# ADD Implementer Skill v0.2.0
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 

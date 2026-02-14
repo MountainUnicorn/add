@@ -4,7 +4,7 @@ argument-hint: "specs/{feature}.md"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---
 
-# Plan Skill
+# ADD Plan Skill v0.2.0
 
 Create a detailed implementation plan from a feature specification. This skill analyzes acceptance criteria, breaks down work into manageable tasks, identifies parallelizable work, and estimates effort.
 

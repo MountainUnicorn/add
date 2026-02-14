@@ -4,7 +4,7 @@ argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 ---
 
-# Verify Skill
+# ADD Verify Skill v0.2.0
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 

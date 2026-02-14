@@ -4,7 +4,7 @@ argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 ---
 
-# Deploy Skill
+# ADD Deploy Skill v0.2.0
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 

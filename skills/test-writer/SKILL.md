@@ -4,7 +4,7 @@ argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---
 
-# Test Writer Skill
+# ADD Test Writer Skill v0.2.0
 
 Generate comprehensive failing tests from a feature specification. This is the RED phase of TDD — write tests before implementation.
 
