@@ -9,23 +9,31 @@ Goal: Establish ADD (Agent Driven Development) as THE authoritative methodology 
 ## Phase 1: Foundation (Do Now)
 
 ### Domain & Hosting
-- [ ] Register **getADD.dev** (Cloudflare Registrar recommended — at-cost ~$12/year, free WHOIS privacy, DNSSEC)
-- [ ] Deploy website/index.html to Cloudflare Pages (free tier, auto-deploy from GitHub)
-- [ ] Set up DNS: getADD.dev → Cloudflare Pages
+- [ ] Configure DNS for **getADD.dev** → GitHub Pages:
+  - A records: @ → 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
+  - CNAME: www → mountainunicorn.github.io
+- [ ] Set custom domain in GitHub repo settings (Settings → Pages → Custom domain → getadd.dev)
+- [ ] Add `website/CNAME` file containing `getadd.dev`
+- [ ] Verify domain in GitHub account settings (prevent takeover)
+- [ ] Enable "Enforce HTTPS" once DNS propagates
+- [ ] Verify site loads at https://getadd.dev
 
 ### GitHub Repository
 - [ ] Push MountainUnicorn/add to GitHub (public)
 - [ ] Set repo description: "ADD — Agent Driven Development. Coordinated AI agent teams that ship verified software. Free Claude Code plugin."
 - [ ] Add topics: `claude-code`, `plugin`, `agent-driven-development`, `ai-agents`, `tdd`, `sdlc`, `methodology`
 - [ ] Set website URL to https://getadd.dev
-- [ ] Add MIT LICENSE file
+- [x] Add MIT LICENSE file (done in v0.2.0)
 - [ ] Create CONTRIBUTING.md
-- [ ] Create initial GitHub Release (v0.1.0) with changelog
+- [ ] Create initial GitHub Release (v0.2.0) with release notes
 
 ### Plugin Registries
-- [ ] Submit to **Anthropic's official plugin registry**: PR to [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
+- [ ] Submit to **Anthropic's official plugin directory** via submission form: https://clau.de/plugin-directory-submission (NOT via PR — use the form)
 - [ ] Register on **claude-plugins.dev** (community registry)
-- [ ] Verify `claude plugin install add` works from the marketplace
+- [ ] Submit to **claudemarketplaces.com** (plugin discovery site)
+- [ ] Verify self-hosted marketplace install works: `/plugin marketplace add MountainUnicorn/add` → `/plugin install add@add-marketplace`
+
+**Note:** Claude Code plugins do NOT use npm for distribution. They use git repositories. The npm distribution item in Phase 4 should be removed.
 
 ---
 
@@ -79,15 +87,13 @@ Goal: Establish ADD (Agent Driven Development) as THE authoritative methodology 
 
 ## Phase 4: Growth (Month 2+)
 
-### npm Distribution
-- [ ] Publish to npm as `claude-plugin-add` with keywords
-- [ ] Create package.json with proper metadata
-- [ ] Set up automated releases via GitHub Actions
-
 ### Community Building
+- [ ] Enable GitHub Discussions with categories: Q&A, Ideas, Announcements, Show and Tell
 - [ ] Create "good first issue" labels for community PRs
+- [ ] Create `.github/CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`
+- [ ] Create issue templates (bug_report.md, feature_request.md)
+- [ ] Create pull request template
 - [ ] Monthly contributor spotlights
-- [ ] Discord or GitHub Discussions for community support
 - [ ] Engage consistently on r/ClaudeAI answering agent-related questions
 
 ### Authority Signals
