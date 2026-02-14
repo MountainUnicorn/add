@@ -12,6 +12,7 @@
   <meta property="og:description" content="The page you're looking for doesn't exist.">
   <meta property="og:site_name" content="getADD.dev">
 
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/docs.css">
 </head>
@@ -33,9 +34,31 @@
   </nav>
 
   <div class="four-oh-four">
-    <h1>404</h1>
-    <p>This page doesn't exist. Maybe the spec hasn't been written yet.</p>
-    <a href="/">Back to Home</a>
+    <div class="four-oh-four-inner">
+      <div class="four-oh-four-code">404</div>
+      <h1>Spec not found</h1>
+      <p>This page doesn't exist yet. In ADD terms, the spec hasn't been written &mdash; so there's nothing to build.</p>
+
+      <div class="four-oh-four-terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-title">zsh</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">$</span> <span class="cmd">curl</span> <span class="arg" id="current-path">/unknown</span><br>
+          <span class="comment"># ERROR 404: No spec, no plan, no code.</span><br>
+          <span class="prompt">$</span> <span class="cmd">/add:spec</span> <span class="arg">this-page</span> <span class="comment"># let's fix that</span>
+        </div>
+      </div>
+
+      <div class="four-oh-four-links">
+        <a href="/" class="btn-primary">Back to Home</a>
+        <a href="/docs/" class="btn-secondary">Read the Docs</a>
+        <a href="https://github.com/MountainUnicorn/add" class="btn-secondary">View on GitHub</a>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -53,11 +76,17 @@
       <a href="/terms">Terms</a>
     </div>
     <div class="footer-meta">
-      ADD v0.2.0 — Agent Driven Development | Free &amp; open source<br>
+      ADD v0.2.0 &mdash; Agent Driven Development | Free &amp; open source<br>
       Built with ADD, using ADD. Dog-fooded from day one.
     </div>
   </footer>
 
   <script src="/js/main.js"></script>
+  <script>
+    var pathEl = document.getElementById('current-path');
+    if (pathEl && window.location.pathname !== '/') {
+      pathEl.textContent = window.location.pathname;
+    }
+  </script>
 </body>
 </html>
