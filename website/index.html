@@ -77,19 +77,16 @@
 
   <!-- ===== HERO ===== -->
   <header class="hero">
+    <canvas id="boids-canvas"></canvas>
     <div class="hero-inner">
       <div class="hero-eyebrow">Free &amp; Open Source Claude Code Plugin</div>
-      <p class="hero-problem">AI agents write code fast. Without structure, they ship chaos.</p>
-      <h1>Coordinated agent teams<br><span class="gradient-text">that ship verified software.</span></h1>
-      <p class="hero-sub">Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms — test-writers, implementers, reviewers, deployers — collaborate as a coordinated enterprise class development team. Co-author and ship software that simply works. Your ADD teams will execute, verify, and self-learn with every project.</p>
+      <h1 class="hero-pain">AI agents write code fast.<br><span class="gradient-text">Without structure, they ship chaos.</span></h1>
+      <p class="hero-sub">ADD is coordinated agent swarms — test-writers, implementers, reviewers, deployers — that ship verified software as a team. Spec-driven. Test-first. Independently verified.</p>
       <p class="hero-tagline">You've done TDD and BDD. Now ADD something to your development.</p>
       <div class="hero-nav">
         <a href="#get-started" class="btn-primary">Get Started</a>
         <a href="#concept" class="btn-secondary">What is ADD?</a>
         <a href="#agent-teams" class="btn-secondary">Agent Teams</a>
-        <a href="#human-loop" class="btn-secondary">Human in the Loop</a>
-        <a href="#promotion-ladder" class="btn-secondary">Promotion Ladder</a>
-        <a href="#hierarchy" class="btn-secondary">Work Hierarchy</a>
         <a href="/docs/" class="btn-secondary">Documentation</a>
       </div>
     </div>
@@ -186,7 +183,7 @@
 
   <!-- ===== AGENT TEAMS ===== -->
   <section class="section" style="background: var(--bg-secondary);" id="agent-teams">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
       <div class="section-eyebrow">Coordinated Agent Teams</div>
       <h2>Orchestrated swarms, not solo agents</h2>
       <p class="section-desc">ADD doesn't just use one agent. It dispatches specialized sub-agents — each with scoped permissions — then independently verifies their work. Trust but verify.</p>
@@ -269,8 +266,8 @@
       </div>
 
       <!-- Architecture diagram -->
-      <div style="margin: 3rem auto 2rem; max-width: 900px;">
-        <img src="/images/agent-architecture.svg" alt="ADD Coordinated Agent Swarms — parallel worktrees with Test Writer, Implementer, Reviewer, and Deployer teams converging on verified outcomes" style="width: 100%; border-radius: 12px;">
+      <div class="infographic-wrap">
+        <img src="/images/agent-architecture.svg" alt="ADD Coordinated Agent Swarms — parallel worktrees with Test Writer, Implementer, Reviewer, and Deployer teams converging on verified outcomes">
       </div>
 
       <!-- Swarm stats -->
@@ -293,7 +290,7 @@
 
   <!-- ===== WHO IS IT FOR ===== -->
   <section class="section">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
       <div class="section-eyebrow">Who It's For</div>
       <h2>Built for every team size</h2>
       <p class="section-desc">ADD scales from solo developers to enterprise teams. The maturity dial adjusts process rigor to match your project's stage.</p>
@@ -355,8 +352,8 @@
     </div>
 
     <!-- TDD cycle diagram -->
-    <div style="margin: 3rem auto 0; max-width: 900px;">
-      <img src="/images/tdd-cycle.svg" alt="ADD TDD Workflow — RED (write failing tests), GREEN (make tests pass), REFACTOR (clean up), VERIFY (independent quality gates)" style="width: 100%; border-radius: 12px;">
+    <div class="infographic-wrap">
+      <img src="/images/tdd-cycle.svg" alt="ADD TDD Workflow — RED (write failing tests), GREEN (make tests pass), REFACTOR (clean up), VERIFY (independent quality gates)">
     </div>
   </section>
 
@@ -431,7 +428,7 @@
 
   <!-- ===== PROMOTION LADDER ===== -->
   <section class="section" style="background: var(--bg-secondary);" id="promotion-ladder">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
       <div class="section-eyebrow">Environment Promotion</div>
       <h2>Verify, promote, or rollback — automatically</h2>
       <p class="section-desc">Multi-environment projects need agents that can climb through environments autonomously. Pass verification at one level, promote to the next. Fail, and rollback to last known good.</p>
@@ -517,7 +514,7 @@
 
   <!-- ===== VALUE CARDS ===== -->
   <section class="section">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
       <div class="section-eyebrow">Key Features</div>
       <h2>Outcomes, not just features</h2>
       <div class="value-grid">
@@ -615,65 +612,28 @@
 
   <!-- ===== MATURITY DIAL ===== -->
   <section class="section" style="background: var(--bg-secondary);">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
     <div class="section-eyebrow">The Master Dial</div>
     <h2>Maturity lifecycle</h2>
     <p class="section-desc">Every ADD project declares a maturity level. This single control governs all process rigor — PRD depth, TDD enforcement, quality gates, parallelism, and WIP limits.</p>
+    <div id="maturity-slider"></div>
+    <noscript>
     <table class="maturity-table">
       <thead>
-        <tr>
-          <th>Level</th>
-          <th>PRD</th>
-          <th>Specs</th>
-          <th>TDD</th>
-          <th>Quality Gates</th>
-          <th>Agents</th>
-          <th>WIP</th>
-        </tr>
+        <tr><th>Level</th><th>PRD</th><th>Specs</th><th>TDD</th><th>Quality Gates</th><th>Agents</th><th>WIP</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="maturity-level level-poc">POC</span></td>
-          <td>A paragraph</td>
-          <td>Optional</td>
-          <td>Optional</td>
-          <td>Pre-commit only</td>
-          <td>1</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td><span class="maturity-level level-alpha">Alpha</span></td>
-          <td>1-pager</td>
-          <td>Critical paths</td>
-          <td>Critical paths</td>
-          <td>+ CI</td>
-          <td>1-2</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td><span class="maturity-level level-beta">Beta</span></td>
-          <td>Full template</td>
-          <td>Required</td>
-          <td>Enforced</td>
-          <td>+ Pre-deploy</td>
-          <td>2-4</td>
-          <td>4</td>
-        </tr>
-        <tr>
-          <td><span class="maturity-level level-ga">GA</span></td>
-          <td>Full + architecture</td>
-          <td>+ Acceptance criteria</td>
-          <td>Strict</td>
-          <td>All 5 levels</td>
-          <td>3-5</td>
-          <td>5</td>
-        </tr>
+        <tr><td><span class="maturity-level level-poc">POC</span></td><td>A paragraph</td><td>Optional</td><td>Optional</td><td>Pre-commit only</td><td>1</td><td>1</td></tr>
+        <tr><td><span class="maturity-level level-alpha">Alpha</span></td><td>1-pager</td><td>Critical paths</td><td>Critical paths</td><td>+ CI</td><td>1-2</td><td>2</td></tr>
+        <tr><td><span class="maturity-level level-beta">Beta</span></td><td>Full template</td><td>Required</td><td>Enforced</td><td>+ Pre-deploy</td><td>2-4</td><td>4</td></tr>
+        <tr><td><span class="maturity-level level-ga">GA</span></td><td>Full + architecture</td><td>+ Acceptance criteria</td><td>Strict</td><td>All 5 levels</td><td>3-5</td><td>5</td></tr>
       </tbody>
     </table>
+    </noscript>
 
     <!-- Maturity ladder diagram -->
-    <div style="margin: 3rem auto 0; max-width: 900px;">
-      <img src="/images/maturity-ladder.svg" alt="ADD Maturity Lifecycle — POC to Alpha to Beta to GA with progressive rigor across 18 dimensions" style="width: 100%; border-radius: 12px;">
+    <div class="infographic-wrap">
+      <img src="/images/maturity-ladder.svg" alt="ADD Maturity Lifecycle — POC to Alpha to Beta to GA with progressive rigor across 18 dimensions">
     </div>
     </div>
   </section>
@@ -745,14 +705,14 @@
       </div>
 
       <!-- Learning cycles diagram -->
-      <div style="margin: 3rem auto 0; max-width: 900px;">
-        <img src="/images/learning-cycles.svg" alt="ADD Learning System — 3-tier knowledge cascade with automatic checkpoints and retrospective-driven promotion" style="width: 100%; border-radius: 12px;">
+      <div class="infographic-wrap">
+        <img src="/images/learning-cycles.svg" alt="ADD Learning System — 3-tier knowledge cascade with automatic checkpoints and retrospective-driven promotion">
       </div>
   </section>
 
   <!-- ===== COMMANDS & SKILLS ===== -->
   <section class="section" style="background: var(--bg-secondary);" id="commands">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto;">
     <div class="section-eyebrow">Reference</div>
     <h2>Commands &amp; Skills</h2>
     <p class="section-desc">9 commands for orchestration. 9 skills for execution. 11 rules for behavior. <a href="/docs/commands" style="color: var(--accent);">Full reference &rarr;</a></p>
@@ -876,5 +836,7 @@
   </footer>
 
   <script src="/js/main.js"></script>
+  <script src="/js/boids.js"></script>
+  <script src="/js/maturity-slider.js"></script>
 </body>
 </html>

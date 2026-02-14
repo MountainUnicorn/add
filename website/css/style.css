@@ -134,9 +134,21 @@ body {
 .hero {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
   color: #ffffff;
-  padding: 80px 40px 60px;
+  padding: 100px 40px 80px;
   position: relative;
   overflow: hidden;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+#boids-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 .hero::before {
   content: '';
@@ -145,6 +157,7 @@ body {
   width: 500px; height: 500px;
   background: radial-gradient(circle, rgba(176,1,73,0.3) 0%, transparent 70%);
   border-radius: 50%;
+  z-index: 0;
 }
 .hero::after {
   content: '';
@@ -153,9 +166,11 @@ body {
   width: 400px; height: 400px;
   background: radial-gradient(circle, rgba(212,50,109,0.2) 0%, transparent 70%);
   border-radius: 50%;
+  z-index: 0;
 }
 .hero-inner {
-  max-width: 1100px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -166,13 +181,20 @@ body {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--accent-light);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
-.hero-problem {
-  font-size: 18px;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 12px;
-  font-weight: 400;
+.hero-pain {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.hero-pain .gradient-text {
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .hero h1 {
   font-size: clamp(36px, 5vw, 56px);
@@ -189,9 +211,10 @@ body {
 }
 .hero-sub {
   font-size: 18px;
-  color: rgba(255,255,255,0.6);
-  max-width: 600px;
-  margin-bottom: 12px;
+  color: rgba(255,255,255,0.65);
+  max-width: 640px;
+  margin-bottom: 16px;
+  line-height: 1.7;
 }
 .hero-tagline {
   font-size: 16px;
@@ -243,9 +266,9 @@ body {
 
 /* ===== METRICS BAR ===== */
 .metrics-bar {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: -30px auto 0;
-  padding: 0 40px;
+  padding: 0 clamp(20px, 4vw, 40px);
   position: relative;
   z-index: 2;
 }
@@ -277,9 +300,9 @@ body {
 
 /* ===== SECTIONS ===== */
 .section {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 40px;
+  padding: 80px clamp(20px, 4vw, 40px);
 }
 .section-eyebrow {
   font-size: 12px;
@@ -588,6 +611,7 @@ body {
   border-radius: 12px;
   overflow: hidden;
   margin-top: 40px;
+  position: relative;
 }
 .terminal-bar {
   background: rgba(255,255,255,0.03);
@@ -1013,9 +1037,53 @@ footer a:hover { text-decoration: underline; }
 .hill-divider span:first-child { color: var(--accent-muted); font-style: italic; }
 .hill-divider span:last-child { color: var(--success); font-style: italic; }
 
+/* ===== TERMINAL COPY BUTTON ===== */
+.terminal-body {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.terminal-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: system-ui, sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  z-index: 2;
+}
+.terminal-copy:hover {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+}
+.terminal-copy.copied {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+  border-color: rgba(34,197,94,0.3);
+}
+
+/* ===== INFOGRAPHIC IMAGES ===== */
+.infographic-wrap {
+  margin: 3rem auto 2rem;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.infographic-wrap img {
+  width: 100%;
+  min-width: 600px;
+  border-radius: 12px;
+  display: block;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-  .site-nav { padding: 0 24px; }
+  .site-nav { padding: 0 20px; }
   .site-nav-links {
     display: none;
     position: absolute;
@@ -1025,7 +1093,7 @@ footer a:hover { text-decoration: underline; }
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border);
     flex-direction: column;
-    padding: 12px 24px;
+    padding: 12px 20px;
     gap: 0;
   }
   [data-theme="dark"] .site-nav-links {
@@ -1036,6 +1104,9 @@ footer a:hover { text-decoration: underline; }
   .site-nav-links a[href*="github"] { margin-left: 0; }
   .nav-theme-toggle { margin: 8px 12px; }
   .nav-toggle { display: block; }
+
+  .hero { min-height: 60vh; padding: 80px 24px 60px; }
+  .hero-pain { font-size: clamp(28px, 5vw, 40px); }
 
   .concept-grid,
   .learning-flow { grid-template-columns: 1fr; }
@@ -1055,12 +1126,26 @@ footer a:hover { text-decoration: underline; }
   .hierarchy-level:nth-child(2) { margin-left: 16px; }
   .hierarchy-level:nth-child(3) { margin-left: 32px; }
   .hierarchy-level:nth-child(4) { margin-left: 48px; }
+
+  .maturity-table { font-size: 12px; }
+  .maturity-table th,
+  .maturity-table td { padding: 10px 8px; }
+
+  .infographic-wrap img { min-width: 500px; }
+
+  .section h2 { font-size: 26px; }
 }
 @media (max-width: 600px) {
-  .hero { padding: 60px 24px 40px; }
-  .section { padding: 60px 24px; }
-  .metrics-bar { padding: 0 24px; }
+  .hero { padding: 60px 16px 40px; min-height: 50vh; }
+  .hero-pain { font-size: clamp(24px, 6vw, 32px); letter-spacing: -1px; }
+  .hero-sub { font-size: 15px; }
+  .hero-nav { gap: 8px; }
+  .hero-nav a { padding: 8px 14px; font-size: 13px; }
+
   .metrics-inner { grid-template-columns: repeat(2, 1fr); }
+  .metric { padding: 16px 12px; }
+  .metric-value { font-size: 22px; }
+
   .workflow-steps { grid-template-columns: 1fr; }
   .audience-grid { grid-template-columns: 1fr; }
   .learning-triggers { grid-template-columns: repeat(2, 1fr); }
@@ -1069,6 +1154,14 @@ footer a:hover { text-decoration: underline; }
   .hierarchy-level:nth-child(2) { margin-left: 12px; }
   .hierarchy-level:nth-child(3) { margin-left: 24px; }
   .hierarchy-level:nth-child(4) { margin-left: 36px; }
+
+  .infographic-wrap img { min-width: 400px; }
+
+  .section h2 { font-size: 22px; }
+  .section-desc { font-size: 14px; }
+
+  footer { padding: 30px 16px; }
+  .footer-links a { margin: 0 6px; font-size: 13px; }
 }
 
 /* ===== 404 PAGE ===== */

@@ -57,4 +57,25 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Terminal copy buttons
+  document.querySelectorAll('.terminal').forEach(function (terminal) {
+    var body = terminal.querySelector('.terminal-body');
+    if (!body) return;
+    var btn = document.createElement('button');
+    btn.className = 'terminal-copy';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', function () {
+      var text = body.textContent.replace(/^\$\s*/gm, '').trim();
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+    terminal.insertBefore(btn, terminal.firstChild);
+  });
 });
