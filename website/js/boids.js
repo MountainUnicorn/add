@@ -24,14 +24,14 @@
   var BOID_COLOR = 'rgba(176, 1, 73, 0.4)';
   var LINE_COLOR = 'rgba(176, 1, 73, 0.08)';
   var TRAIL_COLOR = 'rgba(15, 15, 35, 0.15)';
-  var CONNECTION_DISTANCE = 80;
+  var CONNECTION_DISTANCE = 55;
   var MAX_SPEED = 1.8;
   var MIN_SPEED = 0.6;
 
   // Boid rule weights
   var SEPARATION_RADIUS = 28;
-  var ALIGNMENT_RADIUS = 60;
-  var COHESION_RADIUS = 80;
+  var ALIGNMENT_RADIUS = 40;
+  var COHESION_RADIUS = 53;
   var SEPARATION_WEIGHT = 0.05;
   var ALIGNMENT_WEIGHT = 0.04;
   var COHESION_WEIGHT = 0.008;

@@ -35,6 +35,7 @@
   </nav>
 
   <div class="four-oh-four">
+    <canvas id="boids-canvas"></canvas>
     <div class="four-oh-four-inner">
       <div class="four-oh-four-code">404</div>
       <h1>Spec not found</h1>
@@ -83,6 +84,7 @@
   </footer>
 
   <script src="/js/main.js"></script>
+  <script src="/js/boids.js"></script>
   <script>
     var pathEl = document.getElementById('current-path');
     if (pathEl && window.location.pathname !== '/') {
