@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f0f23"/>
+
+  <!-- Corner geometric decorations -->
+  <!-- Top-left corner lines -->
+  <line x1="0" y1="40" x2="40" y2="0" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+  <line x1="0" y1="70" x2="70" y2="0" stroke="#b00149" stroke-width="1" opacity="0.25"/>
+  <line x1="0" y1="100" x2="100" y2="0" stroke="#b00149" stroke-width="0.75" opacity="0.15"/>
+
+  <!-- Top-right corner lines -->
+  <line x1="1160" y1="0" x2="1200" y2="40" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+  <line x1="1130" y1="0" x2="1200" y2="70" stroke="#b00149" stroke-width="1" opacity="0.25"/>
+  <line x1="1100" y1="0" x2="1200" y2="100" stroke="#b00149" stroke-width="0.75" opacity="0.15"/>
+
+  <!-- Bottom-left corner lines -->
+  <line x1="0" y1="590" x2="40" y2="630" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+  <line x1="0" y1="560" x2="70" y2="630" stroke="#b00149" stroke-width="1" opacity="0.25"/>
+  <line x1="0" y1="530" x2="100" y2="630" stroke="#b00149" stroke-width="0.75" opacity="0.15"/>
+
+  <!-- Bottom-right corner lines -->
+  <line x1="1160" y1="630" x2="1200" y2="590" stroke="#b00149" stroke-width="1" opacity="0.4"/>
+  <line x1="1130" y1="630" x2="1200" y2="560" stroke="#b00149" stroke-width="1" opacity="0.25"/>
+  <line x1="1100" y1="630" x2="1200" y2="530" stroke="#b00149" stroke-width="0.75" opacity="0.15"/>
+
+  <!-- Small diamond accents -->
+  <!-- Top-left diamond -->
+  <polygon points="60,50 65,45 70,50 65,55" fill="#b00149" opacity="0.3"/>
+  <!-- Top-right diamond -->
+  <polygon points="1130,55 1135,50 1140,55 1135,60" fill="#b00149" opacity="0.3"/>
+  <!-- Bottom-left diamond -->
+  <polygon points="65,575 70,570 75,575 70,580" fill="#b00149" opacity="0.3"/>
+  <!-- Bottom-right diamond -->
+  <polygon points="1135,570 1140,565 1145,570 1140,575" fill="#b00149" opacity="0.3"/>
+
+  <!-- Subtle border lines along edges -->
+  <line x1="0" y1="0" x2="180" y2="0" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+  <line x1="1020" y1="0" x2="1200" y2="0" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+  <line x1="0" y1="630" x2="180" y2="630" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+  <line x1="1020" y1="630" x2="1200" y2="630" stroke="#b00149" stroke-width="2" opacity="0.5"/>
+
+  <!-- Mountain peak / unicorn silhouette icon -->
+  <!-- Simple mountain with a unicorn horn — minimal geometric style -->
+  <g transform="translate(600, 130)" opacity="0.9">
+    <!-- Mountain body -->
+    <polygon points="0,-55 -35,5 -12,5 -20,5 35,5 12,5 20,5" fill="#b00149"/>
+    <!-- Cleaner mountain shape -->
+    <polygon points="0,-55 -38,8 -14,-8 0,-20 14,-8 38,8" fill="#b00149"/>
+    <!-- Horn extending from peak -->
+    <line x1="0" y1="-55" x2="0" y2="-80" stroke="#b00149" stroke-width="3" stroke-linecap="round"/>
+    <!-- Small star at horn tip -->
+    <polygon points="0,-84 2,-80 6,-80 3,-77 4,-73 0,-75 -4,-73 -3,-77 -6,-80 -2,-80" fill="#b00149" opacity="0.7"/>
+  </g>
+
+  <!-- ADD — main title -->
+  <text x="600" y="235" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="120" font-weight="900" letter-spacing="18">ADD</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="290" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="36" font-weight="300" letter-spacing="4">Agent Driven Development</text>
+
+  <!-- Tagline -->
+  <text x="600" y="340" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="400" letter-spacing="1">You've done TDD and BDD. Now it's time to ADD.</text>
+
+  <!-- Horizontal separator line -->
+  <line x1="400" y1="380" x2="800" y2="380" stroke="#b00149" stroke-width="2" opacity="0.7"/>
+  <!-- Small diamonds on separator ends -->
+  <polygon points="396,380 400,376 404,380 400,384" fill="#b00149" opacity="0.7"/>
+  <polygon points="796,380 800,376 804,380 800,384" fill="#b00149" opacity="0.7"/>
+
+  <!-- Stats line -->
+  <text x="600" y="430" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" letter-spacing="2" opacity="0.9">6 Commands · 8 Skills · 10 Rules · 0 Dependencies</text>
+
+  <!-- Methodology descriptor -->
+  <text x="600" y="468" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="300" letter-spacing="3" opacity="0.6">A CLAUDE CODE PLUGIN</text>
+
+  <!-- Hexagon accents flanking the stats -->
+  <!-- Left hexagon -->
+  <g transform="translate(310, 425)" opacity="0.2">
+    <polygon points="0,-8 7,-4 7,4 0,8 -7,4 -7,-4" fill="none" stroke="#b00149" stroke-width="1"/>
+  </g>
+  <!-- Right hexagon -->
+  <g transform="translate(890, 425)" opacity="0.2">
+    <polygon points="0,-8 7,-4 7,4 0,8 -7,4 -7,-4" fill="none" stroke="#b00149" stroke-width="1"/>
+  </g>
+
+  <!-- Domain / URL -->
+  <text x="600" y="560" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="500" letter-spacing="3" opacity="0.85">getadd.dev</text>
+
+  <!-- Thin bottom accent bar -->
+  <rect x="540" y="575" width="120" height="1" fill="#b00149" opacity="0.3"/>
+</svg>

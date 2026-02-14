@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#0f0f23" rx="0"/>
+
+  <!-- Title -->
+  <text x="600" y="60" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="36" font-weight="700" letter-spacing="1">ADD Maturity Lifecycle</text>
+  <text x="600" y="92" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="400">Progressive rigor &#x2014; the right process at the right time</text>
+
+  <!-- Thin horizontal rule under title -->
+  <line x1="400" y1="110" x2="800" y2="110" stroke="#b00149" stroke-width="1" opacity="0.5"/>
+
+  <!-- ============================================================ -->
+  <!-- STEP 1: POC (bottom-left) -->
+  <!-- ============================================================ -->
+  <g transform="translate(80, 560)">
+    <!-- Platform -->
+    <rect width="220" height="130" rx="6" fill="#1a1a2e" stroke="#6b7280" stroke-width="2"/>
+    <!-- Top accent bar -->
+    <rect width="220" height="4" rx="2" fill="#6b7280"/>
+    <!-- Level badge -->
+    <text x="110" y="40" text-anchor="middle" fill="#6b7280" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="3">LEVEL 1</text>
+    <!-- Name -->
+    <text x="110" y="70" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">POC</text>
+    <!-- Label -->
+    <text x="110" y="92" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500">Proof of Concept</text>
+    <!-- Subtitle -->
+    <text x="110" y="115" text-anchor="middle" fill="#6b7280" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400">Explore freely, minimal process</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- TRANSITION ARROW: POC -> Alpha -->
+  <!-- ============================================================ -->
+  <g transform="translate(310, 505)">
+    <!-- Diagonal arrow line -->
+    <line x1="0" y1="55" x2="60" y2="15" stroke="#f59e0b" stroke-width="2" opacity="0.6"/>
+    <!-- Arrowhead -->
+    <polygon points="60,15 50,15 56,25" fill="#f59e0b" opacity="0.6"/>
+    <!-- Transition label -->
+    <text x="30" y="8" text-anchor="middle" fill="#f59e0b" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.9">Add specs</text>
+    <text x="30" y="20" text-anchor="middle" fill="#f59e0b" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.9">&amp; structure</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- STEP 2: Alpha -->
+  <!-- ============================================================ -->
+  <g transform="translate(370, 430)">
+    <!-- Platform -->
+    <rect width="220" height="130" rx="6" fill="#1a1a2e" stroke="#f59e0b" stroke-width="2"/>
+    <!-- Top accent bar -->
+    <rect width="220" height="4" rx="2" fill="#f59e0b"/>
+    <!-- Level badge -->
+    <text x="110" y="40" text-anchor="middle" fill="#f59e0b" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="3">LEVEL 2</text>
+    <!-- Name -->
+    <text x="110" y="70" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">Alpha</text>
+    <!-- Label -->
+    <text x="110" y="92" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500">Alpha</text>
+    <!-- Subtitle -->
+    <text x="110" y="115" text-anchor="middle" fill="#f59e0b" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400">Specs required, TDD starts</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- TRANSITION ARROW: Alpha -> Beta -->
+  <!-- ============================================================ -->
+  <g transform="translate(600, 375)">
+    <!-- Diagonal arrow line -->
+    <line x1="0" y1="55" x2="60" y2="15" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+    <!-- Arrowhead -->
+    <polygon points="60,15 50,15 56,25" fill="#3b82f6" opacity="0.6"/>
+    <!-- Transition label -->
+    <text x="30" y="8" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.9">Systematic testing</text>
+    <text x="30" y="20" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.9">&amp; review</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- STEP 3: Beta -->
+  <!-- ============================================================ -->
+  <g transform="translate(660, 300)">
+    <!-- Platform -->
+    <rect width="220" height="130" rx="6" fill="#1a1a2e" stroke="#3b82f6" stroke-width="2"/>
+    <!-- Top accent bar -->
+    <rect width="220" height="4" rx="2" fill="#3b82f6"/>
+    <!-- Level badge -->
+    <text x="110" y="40" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="3">LEVEL 3</text>
+    <!-- Name -->
+    <text x="110" y="70" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">Beta</text>
+    <!-- Label -->
+    <text x="110" y="92" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500">Beta</text>
+    <!-- Subtitle -->
+    <text x="110" y="115" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400">Full TDD, quality gates advisory</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- TRANSITION ARROW: Beta -> GA -->
+  <!-- ============================================================ -->
+  <g transform="translate(890, 245)">
+    <!-- Diagonal arrow line -->
+    <line x1="0" y1="55" x2="60" y2="15" stroke="#b00149" stroke-width="2" opacity="0.6"/>
+    <!-- Arrowhead -->
+    <polygon points="60,15 50,15 56,25" fill="#b00149" opacity="0.6"/>
+    <!-- Transition label -->
+    <text x="30" y="8" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.9">All checks</text>
+    <text x="30" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.9">blocking</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- STEP 4: GA (top-right) -->
+  <!-- ============================================================ -->
+  <g transform="translate(950, 170)">
+    <!-- Platform -->
+    <rect width="220" height="130" rx="6" fill="#1a1a2e" stroke="#b00149" stroke-width="2"/>
+    <!-- Top accent bar -->
+    <rect width="220" height="4" rx="2" fill="#b00149"/>
+    <!-- Level badge -->
+    <text x="110" y="40" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="3">LEVEL 4</text>
+    <!-- Name -->
+    <text x="110" y="70" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700">GA</text>
+    <!-- Label -->
+    <text x="110" y="92" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500">General Availability</text>
+    <!-- Subtitle -->
+    <text x="110" y="115" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="400">All gates blocking, production-ready</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- Staircase visual connector (background steps) -->
+  <!-- ============================================================ -->
+  <!-- Step risers connecting platforms -->
+  <line x1="190" y1="690" x2="190" y2="710" stroke="#6b7280" stroke-width="1" opacity="0.3"/>
+  <line x1="190" y1="710" x2="480" y2="710" stroke="#6b7280" stroke-width="1" opacity="0.2"/>
+
+  <!-- Dotted path connecting all steps -->
+  <path d="M 300,625 L 370,495 M 590,495 L 660,365 M 880,365 L 950,235"
+        stroke="#ffffff" stroke-width="1" stroke-dasharray="4,6" opacity="0.15" fill="none"/>
+
+  <!-- ============================================================ -->
+  <!-- Rigor indicator bars along left side -->
+  <!-- ============================================================ -->
+  <g transform="translate(30, 170)">
+    <text x="0" y="0" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" opacity="0.4" transform="rotate(-90, 0, 0)" text-anchor="middle" letter-spacing="3">RIGOR</text>
+    <!-- Arrow pointing up -->
+    <line x1="0" y1="-50" x2="0" y2="260" stroke="#ffffff" stroke-width="1" opacity="0.15"/>
+    <polygon points="0,-55 -4,-45 4,-45" fill="#ffffff" opacity="0.25"/>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- Dimension icons row for each level -->
+  <!-- ============================================================ -->
+
+  <!-- POC dimensions: few dots lit -->
+  <g transform="translate(105, 680)">
+    <circle cx="0" cy="0" r="3" fill="#6b7280" opacity="0.6"/>
+    <circle cx="12" cy="0" r="3" fill="#6b7280" opacity="0.6"/>
+    <circle cx="24" cy="0" r="3" fill="#1a1a2e" stroke="#6b7280" stroke-width="1" opacity="0.3"/>
+    <circle cx="36" cy="0" r="3" fill="#1a1a2e" stroke="#6b7280" stroke-width="1" opacity="0.3"/>
+    <circle cx="48" cy="0" r="3" fill="#1a1a2e" stroke="#6b7280" stroke-width="1" opacity="0.3"/>
+    <text x="70" y="4" fill="#6b7280" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="9" opacity="0.7">2/18 dims</text>
+  </g>
+
+  <!-- Alpha dimensions -->
+  <g transform="translate(395, 550)">
+    <circle cx="0" cy="0" r="3" fill="#f59e0b" opacity="0.6"/>
+    <circle cx="12" cy="0" r="3" fill="#f59e0b" opacity="0.6"/>
+    <circle cx="24" cy="0" r="3" fill="#f59e0b" opacity="0.6"/>
+    <circle cx="36" cy="0" r="3" fill="#1a1a2e" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+    <circle cx="48" cy="0" r="3" fill="#1a1a2e" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+    <text x="70" y="4" fill="#f59e0b" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="9" opacity="0.7">8/18 dims</text>
+  </g>
+
+  <!-- Beta dimensions -->
+  <g transform="translate(685, 420)">
+    <circle cx="0" cy="0" r="3" fill="#3b82f6" opacity="0.6"/>
+    <circle cx="12" cy="0" r="3" fill="#3b82f6" opacity="0.6"/>
+    <circle cx="24" cy="0" r="3" fill="#3b82f6" opacity="0.6"/>
+    <circle cx="36" cy="0" r="3" fill="#3b82f6" opacity="0.6"/>
+    <circle cx="48" cy="0" r="3" fill="#1a1a2e" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+    <text x="70" y="4" fill="#3b82f6" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="9" opacity="0.7">14/18 dims</text>
+  </g>
+
+  <!-- GA dimensions -->
+  <g transform="translate(975, 290)">
+    <circle cx="0" cy="0" r="3" fill="#b00149" opacity="0.6"/>
+    <circle cx="12" cy="0" r="3" fill="#b00149" opacity="0.6"/>
+    <circle cx="24" cy="0" r="3" fill="#b00149" opacity="0.6"/>
+    <circle cx="36" cy="0" r="3" fill="#b00149" opacity="0.6"/>
+    <circle cx="48" cy="0" r="3" fill="#b00149" opacity="0.6"/>
+    <text x="70" y="4" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="9" opacity="0.7">18/18 dims</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- Footer -->
+  <!-- ============================================================ -->
+  <line x1="100" y1="745" x2="1100" y2="745" stroke="#ffffff" stroke-width="0.5" opacity="0.1"/>
+  <text x="600" y="770" text-anchor="middle" fill="#9ca3af" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" opacity="0.6">Maturity level governs process rigor across all 18 dimensions</text>
+  <text x="600" y="790" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="500" opacity="0.5">ADD &#x2014; Agent Driven Development</text>
+</svg>

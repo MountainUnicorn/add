@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#0f0f23" rx="0"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="300" letter-spacing="4" opacity="0.7">ADD AGENT ARCHITECTURE</text>
+
+  <!-- Orchestrator Agent Node -->
+  <rect x="400" y="100" width="400" height="100" rx="16" fill="none" stroke="#b00149" stroke-width="3"/>
+  <rect x="400" y="100" width="400" height="100" rx="16" fill="#b00149" opacity="0.1"/>
+  <!-- Orchestrator icon: connected nodes -->
+  <circle cx="540" cy="150" r="8" fill="none" stroke="#b00149" stroke-width="2"/>
+  <circle cx="560" cy="135" r="5" fill="#b00149" opacity="0.6"/>
+  <circle cx="560" cy="165" r="5" fill="#b00149" opacity="0.6"/>
+  <line x1="548" y1="145" x2="556" y2="138" stroke="#b00149" stroke-width="1.5" opacity="0.6"/>
+  <line x1="548" y1="155" x2="556" y2="162" stroke="#b00149" stroke-width="1.5" opacity="0.6"/>
+  <text x="620" y="145" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600">Orchestrator Agent</text>
+  <text x="620" y="170" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.5">COORDINATES ALL SUB-AGENTS</text>
+
+  <!-- Connection lines: Dispatch arrows (down, raspberry) -->
+  <!-- To Test Writer -->
+  <line x1="500" y1="200" x2="200" y2="340" stroke="#b00149" stroke-width="1.5" opacity="0.6"/>
+  <polygon points="200,340 208,330 196,328" fill="#b00149" opacity="0.8"/>
+  <text x="330" y="260" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.8" transform="rotate(-30, 330, 260)">dispatch</text>
+
+  <!-- To Implementer -->
+  <line x1="540" y1="200" x2="460" y2="340" stroke="#b00149" stroke-width="1.5" opacity="0.6"/>
+  <polygon points="460,340 466,328 454,328" fill="#b00149" opacity="0.8"/>
+  <text x="490" y="272" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.8" transform="rotate(-15, 490, 272)">dispatch</text>
+
+  <!-- To Reviewer -->
+  <line x1="660" y1="200" x2="740" y2="340" stroke="#b00149" stroke-width="1.5" opacity="0.6"/>
+  <polygon points="740,340 746,328 734,328" fill="#b00149" opacity="0.8"/>
+  <text x="710" y="272" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.8" transform="rotate(15, 710, 272)">dispatch</text>
+
+  <!-- To Deployer -->
+  <line x1="700" y1="200" x2="1000" y2="340" stroke="#b00149" stroke-width="1.5" opacity="0.6"/>
+  <polygon points="1000,340 1004,328 992,330" fill="#b00149" opacity="0.8"/>
+  <text x="870" y="260" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.8" transform="rotate(30, 870, 260)">dispatch</text>
+
+  <!-- Verify arrows (up, white/gray) -->
+  <!-- From Test Writer -->
+  <line x1="220" y1="340" x2="510" y2="200" stroke="#ffffff" stroke-width="1" opacity="0.25" stroke-dasharray="4,4"/>
+  <polygon points="510,200 500,206 504,214" fill="#ffffff" opacity="0.35"/>
+  <text x="345" y="282" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.4" transform="rotate(-30, 345, 282)">verify</text>
+
+  <!-- From Implementer -->
+  <line x1="475" y1="340" x2="550" y2="200" stroke="#ffffff" stroke-width="1" opacity="0.25" stroke-dasharray="4,4"/>
+  <polygon points="550,200 544,212 556,212" fill="#ffffff" opacity="0.35"/>
+  <text x="505" y="278" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.4" transform="rotate(-15, 505, 278)">verify</text>
+
+  <!-- From Reviewer -->
+  <line x1="755" y1="340" x2="670" y2="200" stroke="#ffffff" stroke-width="1" opacity="0.25" stroke-dasharray="4,4"/>
+  <polygon points="670,200 664,212 676,212" fill="#ffffff" opacity="0.35"/>
+  <text x="720" y="278" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.4" transform="rotate(15, 720, 278)">verify</text>
+
+  <!-- From Deployer -->
+  <line x1="980" y1="340" x2="690" y2="200" stroke="#ffffff" stroke-width="1" opacity="0.25" stroke-dasharray="4,4"/>
+  <polygon points="690,200 686,212 698,210" fill="#ffffff" opacity="0.35"/>
+  <text x="855" y="282" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.4" transform="rotate(30, 855, 282)">verify</text>
+
+  <!-- Sub-Agent 1: Test Writer -->
+  <rect x="100" y="340" width="220" height="130" rx="12" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
+  <rect x="100" y="340" width="220" height="130" rx="12" fill="#ffffff" opacity="0.03"/>
+  <!-- Flask/Beaker icon -->
+  <g transform="translate(210, 385)">
+    <path d="M-8,-20 L-8,-8 L-18,12 Q-20,16 -16,18 L16,18 Q20,16 18,12 L8,-8 L8,-20 Z" fill="none" stroke="#b00149" stroke-width="1.8" stroke-linejoin="round"/>
+    <line x1="-10" y1="-20" x2="10" y2="-20" stroke="#b00149" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="-4" cy="6" r="2.5" fill="#b00149" opacity="0.5"/>
+    <circle cx="5" cy="10" r="2" fill="#b00149" opacity="0.4"/>
+  </g>
+  <text x="210" y="425" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600">Test Writer</text>
+  <text x="210" y="445" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.45">RED PHASE</text>
+  <text x="210" y="460" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.3">Write failing tests from spec</text>
+
+  <!-- Sub-Agent 2: Implementer -->
+  <rect x="360" y="340" width="220" height="130" rx="12" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
+  <rect x="360" y="340" width="220" height="130" rx="12" fill="#ffffff" opacity="0.03"/>
+  <!-- Hammer icon -->
+  <g transform="translate(470, 385)">
+    <path d="M-4,18 L4,18 L6,-2 L10,-6 L14,-4 L18,-10 L12,-14 L8,-10 L-6,-2 Z" fill="none" stroke="#b00149" stroke-width="1.8" stroke-linejoin="round"/>
+    <rect x="-2" y="8" width="8" height="12" rx="1" fill="none" stroke="#b00149" stroke-width="1.5" transform="rotate(-5, 2, 14)"/>
+    <path d="M-4,-4 L-10,-16 Q-8,-20 -2,-18 L10,-14 Q14,-12 12,-8 L6,-4" fill="none" stroke="#b00149" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+  <text x="470" y="425" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600">Implementer</text>
+  <text x="470" y="445" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.45">GREEN PHASE</text>
+  <text x="470" y="460" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.3">Make tests pass, nothing more</text>
+
+  <!-- Sub-Agent 3: Reviewer -->
+  <rect x="620" y="340" width="220" height="130" rx="12" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
+  <rect x="620" y="340" width="220" height="130" rx="12" fill="#ffffff" opacity="0.03"/>
+  <!-- Magnifying glass icon -->
+  <g transform="translate(730, 385)">
+    <circle cx="-2" cy="-4" r="12" fill="none" stroke="#b00149" stroke-width="1.8"/>
+    <line x1="6" y1="4" x2="16" y2="16" stroke="#b00149" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="-2" cy="-4" r="6" fill="none" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  </g>
+  <text x="730" y="425" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600">Reviewer</text>
+  <text x="730" y="445" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.45">SPEC COMPLIANCE</text>
+  <text x="730" y="460" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.3">Audit against requirements</text>
+
+  <!-- Sub-Agent 4: Deployer -->
+  <rect x="880" y="340" width="220" height="130" rx="12" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4"/>
+  <rect x="880" y="340" width="220" height="130" rx="12" fill="#ffffff" opacity="0.03"/>
+  <!-- Rocket icon -->
+  <g transform="translate(990, 385)">
+    <path d="M0,-20 Q-6,-10 -6,0 L-4,6 L4,6 L6,0 Q6,-10 0,-20 Z" fill="none" stroke="#b00149" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M-6,0 L-14,6 L-6,4" fill="none" stroke="#b00149" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M6,0 L14,6 L6,4" fill="none" stroke="#b00149" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M-3,6 L-5,14 L0,10 L5,14 L3,6" fill="none" stroke="#b00149" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="0" cy="-6" r="3" fill="none" stroke="#b00149" stroke-width="1.2" opacity="0.6"/>
+  </g>
+  <text x="990" y="425" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600">Deployer</text>
+  <text x="990" y="445" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.45">ENVIRONMENT-AWARE</text>
+  <text x="990" y="460" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="300" opacity="0.3">Promote through tiers</text>
+
+  <!-- Down arrows from sub-agents to verification bar -->
+  <line x1="210" y1="470" x2="210" y2="555" stroke="#ffffff" stroke-width="1" opacity="0.15"/>
+  <line x1="470" y1="470" x2="470" y2="555" stroke="#ffffff" stroke-width="1" opacity="0.15"/>
+  <line x1="730" y1="470" x2="730" y2="555" stroke="#ffffff" stroke-width="1" opacity="0.15"/>
+  <line x1="990" y1="470" x2="990" y2="555" stroke="#ffffff" stroke-width="1" opacity="0.15"/>
+  <!-- Small downward chevrons -->
+  <polygon points="210,555 206,547 214,547" fill="#ffffff" opacity="0.25"/>
+  <polygon points="470,555 466,547 474,547" fill="#ffffff" opacity="0.25"/>
+  <polygon points="730,555 726,547 734,547" fill="#ffffff" opacity="0.25"/>
+  <polygon points="990,555 986,547 994,547" fill="#ffffff" opacity="0.25"/>
+
+  <!-- Independent Verification Bar -->
+  <rect x="80" y="560" width="1040" height="80" rx="12" fill="none" stroke="#b00149" stroke-width="2" opacity="0.6"/>
+  <rect x="80" y="560" width="1040" height="80" rx="12" fill="#b00149" opacity="0.06"/>
+  <!-- Checkmark icon -->
+  <g transform="translate(480, 600)">
+    <circle cx="0" cy="0" r="14" fill="none" stroke="#b00149" stroke-width="2" opacity="0.7"/>
+    <path d="M-7,0 L-2,6 L8,-6" fill="none" stroke="#b00149" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="520" y="596" text-anchor="start" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600">Independent Verification</text>
+  <text x="520" y="618" text-anchor="start" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.45">Trust but verify -- orchestrator independently validates all sub-agent work</text>
+
+  <!-- Bottom annotation -->
+  <text x="600" y="700" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.25">Agent Driven Development -- mountainunicorn.github.io/add</text>
+
+  <!-- Decorative corner accents -->
+  <line x1="30" y1="30" x2="70" y2="30" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="30" x2="30" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="30" x2="1130" y2="30" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="30" x2="1170" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="770" x2="70" y2="770" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="770" x2="30" y2="730" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="770" x2="1130" y2="770" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="770" x2="1170" y2="730" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+
+  <!-- Subtle grid dots for tech aesthetic -->
+  <g opacity="0.06" fill="#ffffff">
+    <circle cx="100" cy="100" r="1.5"/>
+    <circle cx="200" cy="100" r="1.5"/>
+    <circle cx="300" cy="100" r="1.5"/>
+    <circle cx="400" cy="100" r="1.5"/>
+    <circle cx="500" cy="100" r="1.5"/>
+    <circle cx="600" cy="100" r="1.5"/>
+    <circle cx="700" cy="100" r="1.5"/>
+    <circle cx="800" cy="100" r="1.5"/>
+    <circle cx="900" cy="100" r="1.5"/>
+    <circle cx="1000" cy="100" r="1.5"/>
+    <circle cx="1100" cy="100" r="1.5"/>
+    <circle cx="100" cy="700" r="1.5"/>
+    <circle cx="200" cy="700" r="1.5"/>
+    <circle cx="300" cy="700" r="1.5"/>
+    <circle cx="400" cy="700" r="1.5"/>
+    <circle cx="500" cy="700" r="1.5"/>
+    <circle cx="600" cy="700" r="1.5"/>
+    <circle cx="700" cy="700" r="1.5"/>
+    <circle cx="800" cy="700" r="1.5"/>
+    <circle cx="900" cy="700" r="1.5"/>
+    <circle cx="1000" cy="700" r="1.5"/>
+    <circle cx="1100" cy="700" r="1.5"/>
+  </g>
+</svg>
