@@ -3,7 +3,7 @@ autoload: true
 description: "Master rule governing all ADD behavior based on project maturity level"
 ---
 
-# Maturity Lifecycle: The Master Rule
+# ADD Rule: Maturity Lifecycle
 
 This rule defines how ADD adapts to your project's stage of development. **It takes precedence over all other rules.** When maturity-lifecycle conflicts with another rule, maturity wins.
 

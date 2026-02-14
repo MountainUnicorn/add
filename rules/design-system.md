@@ -3,7 +3,7 @@ description: "Design system for visual artifacts — Silicon Valley Unicorn aest
 globs: ["docs/infographic.svg", "reports/*.html"]
 ---
 
-# Design System Rule
+# ADD Rule: Design System
 
 ## Core Philosophy
 
