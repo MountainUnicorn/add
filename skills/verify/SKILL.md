@@ -1,5 +1,5 @@
 ---
-description: "Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v0.2.0] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 ---

@@ -1,5 +1,5 @@
 ---
-description: "Write failing tests from spec (TDD RED phase)"
+description: "[ADD v0.2.0] Write failing tests from spec (TDD RED phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---

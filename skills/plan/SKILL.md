@@ -1,5 +1,5 @@
 ---
-description: "Create implementation plan from a feature spec"
+description: "[ADD v0.2.0] Create implementation plan from a feature spec"
 argument-hint: "specs/{feature}.md"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---

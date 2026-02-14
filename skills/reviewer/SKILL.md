@@ -1,5 +1,5 @@
 ---
-description: "Review code for spec compliance and quality — produces review report"
+description: "[ADD v0.2.0] Review code for spec compliance and quality — produces review report"
 argument-hint: "specs/{feature}.md [--scope backend|frontend|full]"
 allowed-tools: [Read, Glob, Grep, Bash]
 ---

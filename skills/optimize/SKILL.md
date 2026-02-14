@@ -1,5 +1,5 @@
 ---
-description: "Performance optimization pass — identify and fix bottlenecks"
+description: "[ADD v0.2.0] Performance optimization pass — identify and fix bottlenecks"
 argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
 ---
