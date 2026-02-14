@@ -40,6 +40,11 @@ Production-grade, long-term support expected. High stability demands. Change vel
 | **Cycle Planning** | Informal (ad-hoc batching) | Brief cycle doc (work items + priorities) | Full cycle plan (features, dependencies, parallelism, validation) | Full plan + risk assessment + parallel agent coordination + WIP limits |
 | **Features Per Cycle** | 1-2 (rapid iteration) | 2-4 (bounded scope) | 3-6 (balanced execution) | 3-6 with strict WIP limits (ensures quality focus) |
 | **Parallel Agents** | 1 serial (one agent at a time) | 1-2 agents (minimal serialization) | 2-4 agents (worktree isolation, file reservations) | 3-5 agents (strict worktree isolation, merge coordination, merge sequence docs) |
+| **Code Quality Checks** | Lint only | Lint errors blocking | + complexity >15, duplication >10 lines, file >500, function >80 — advisory | Tighter thresholds (10/6/300/50), all blocking |
+| **Security & Vulnerability** | Not checked | Secrets scan blocking, OWASP spot-check advisory | + dependency audit, full OWASP, auth patterns, PII handling — advisory | All blocking, CVEs blocking, rate limiting + secure headers required |
+| **Readability & Documentation** | Not checked | Naming consistency advisory | + nesting <5, docstrings on exports, complex logic comments, magic numbers — advisory | All blocking, module READMEs, glossary, nesting <4 |
+| **Performance Checks** | Not checked | Not checked | N+1 detection, blocking async, bundle size, memory patterns — advisory | All blocking, perf tests required, response time baselines |
+| **Repo Hygiene** | Not checked | Branch naming advisory, .gitignore exists | + stale branches, LICENSE, CHANGELOG, dependency freshness, README, PR template — advisory | All blocking, 14-day stale limit, comprehensive README |
 
 ---
 

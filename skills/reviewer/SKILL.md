@@ -228,6 +228,127 @@ Examine code for quality across dimensions:
    - Are there unused code paths?
    - Is there premature optimization?
 
+### Step 6: Security Review
+
+Depth scales with maturity level (read from `.add/config.json`):
+- **Alpha**: Spot-check — scan for obvious issues only
+- **Beta**: Systematic — full review, findings are advisory
+- **GA**: Comprehensive — full review, findings are blocking
+
+**Checks:**
+
+1. **Injection scanning**
+   - Search for unsanitized user input in SQL queries, shell commands, template literals, HTML output
+   - Use Grep to find patterns: `exec(`, `eval(`, raw SQL string concatenation, `innerHTML =`, `dangerouslySetInnerHTML`
+   - Check for parameterized queries / prepared statements
+
+2. **Auth pattern review** (Beta+)
+   - Verify authentication checks on protected routes/endpoints
+   - Check for constant-time password/token comparison
+   - Verify session management (expiry, rotation, invalidation)
+   - Check JWT validation (signature, expiry, audience)
+
+3. **Data handling** (Beta+)
+   - Scan for PII logged to console or files (emails, passwords, tokens, SSNs)
+   - Verify sensitive data encrypted at rest and in transit
+   - Check for hardcoded credentials, API keys, connection strings
+   - Verify input validation on all external-facing boundaries
+
+4. **Dependency review** (Beta+)
+   - Check for known CVEs in dependencies (`npm audit` / `pip audit` / `cargo audit`)
+   - Flag outdated packages with known security patches
+   - Review new dependency additions for trustworthiness
+
+5. **Infrastructure** (GA)
+   - Verify rate limiting on public endpoints
+   - Check for secure headers (CORS, CSP, HSTS, X-Frame-Options)
+   - Verify HTTPS enforcement
+   - Check error responses don't leak internal details
+
+**Score**: X/10 based on findings count and severity
+
+```
+## 6. SECURITY REVIEW ({maturity} depth)
+
+Score: 8/10
+
+### Injection Scanning
+- ✓ No raw SQL concatenation found
+- ✓ All user input sanitized before template usage
+- ⚠ src/api.ts:34 — input used in template literal without escaping
+
+### Auth Patterns (Beta+)
+- ✓ Protected routes have auth middleware
+- ✓ JWT validated with signature + expiry check
+- ⚠ src/auth.ts:89 — password comparison not constant-time
+
+### Data Handling (Beta+)
+- ✓ No PII in log statements
+- ✓ No hardcoded credentials
+- ✓ Input validation on all API endpoints
+
+### Dependencies (Beta+)
+- ✓ No known CVEs (npm audit clean)
+- ✓ All dependencies on latest patch versions
+```
+
+### Step 7: Performance Review
+
+Only executed at **Beta and above**. At Alpha, this step is skipped entirely.
+- **Beta**: All checks advisory
+- **GA**: All checks blocking, performance tests and response time baselines required
+
+**Checks:**
+
+1. **N+1 query detection**
+   - Search for database queries inside loops (e.g., `for` / `forEach` / `map` containing query calls)
+   - Use Grep to find patterns: ORM calls (`.find(`, `.query(`, `.get(`) inside loop bodies
+   - Flag any query-per-iteration patterns
+
+2. **Blocking async detection**
+   - Search for synchronous I/O in async contexts (`readFileSync`, `execSync`, blocking HTTP calls)
+   - Check for `await` inside loops where `Promise.all` could be used
+   - Flag CPU-intensive operations on the main thread / event loop
+
+3. **Memory patterns**
+   - Check for unbounded caches or collections (growing arrays/maps without eviction)
+   - Flag event listeners added without cleanup (missing `removeEventListener` / `unsubscribe`)
+   - Check for closures holding large objects unnecessarily
+
+4. **Bundle size** (if applicable)
+   - Run `npm run build` or equivalent and check output size
+   - Flag unusually large bundles or missing tree-shaking
+   - Check for large dependencies that could be replaced with lighter alternatives
+
+5. **Performance tests** (GA only)
+   - Verify performance test suite exists
+   - Check for response time baseline definitions
+   - Verify benchmarks run and pass within thresholds
+
+**Score**: X/10 based on findings count and severity
+
+```
+## 7. PERFORMANCE REVIEW (Beta+ only)
+
+Score: 9/10
+
+### N+1 Detection
+- ✓ No queries inside loops found
+- ✓ Batch loading used for related entities
+
+### Async Patterns
+- ✓ No synchronous I/O in async contexts
+- ⚠ src/batch.ts:45 — sequential await in loop, consider Promise.all
+
+### Memory Patterns
+- ✓ Event listeners cleaned up in teardown
+- ✓ No unbounded collections detected
+
+### Bundle Size
+- ✓ Build output: 142KB gzipped (threshold: 500KB)
+- ✓ Tree-shaking active, no dead code detected
+```
+
 ## Review Report Format
 
 Generate a comprehensive structured report:
@@ -246,6 +367,8 @@ Overall quality: {Excellent / Good / Fair / Needs Work}
 Spec compliance: {percentage}%
 Test coverage: {percentage}%
 Code quality score: {N}/10
+Security score: {N}/10
+Performance score: {N}/10 (Beta+ only)
 
 ---
 
@@ -353,6 +476,42 @@ Code quality score: {N}/10
 
 ---
 
+## 6. SECURITY REVIEW ({maturity} depth)
+
+Score: {N}/10
+
+### Injection Scanning
+- {findings}
+
+### Auth Patterns (Beta+)
+- {findings}
+
+### Data Handling (Beta+)
+- {findings}
+
+### Dependencies (Beta+)
+- {findings}
+
+---
+
+## 7. PERFORMANCE REVIEW (Beta+ only)
+
+Score: {N}/10
+
+### N+1 Detection
+- {findings}
+
+### Async Patterns
+- {findings}
+
+### Memory Patterns
+- {findings}
+
+### Bundle Size
+- {findings}
+
+---
+
 ## 5. ADD METHODOLOGY
 
 ### Test Naming & Traceability
@@ -396,6 +555,8 @@ Code quality score: {N}/10
 - [✓] Spec Compliance: All ACs implemented and tested
 - [✓] Test Coverage: Above minimum threshold
 - [✓] Code Quality: Acceptable for production
+- [✓] Security Review: No blocking findings
+- [✓] Performance Review: No blocking findings (Beta+ only)
 - [⚠] Ready for Production: [Yes / Needs Fixes]
 
 ---

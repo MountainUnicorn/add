@@ -287,6 +287,69 @@ Endpoints verified:
   ✓ Cache layer
 ```
 
+### Maturity-Scaled Checks (All Gates)
+
+After each gate's core checks, run maturity-scaled checks from the quality-gates rule. These checks progressively tighten with project maturity.
+
+**Execution Pattern** (repeat for each gate):
+
+1. **Read maturity level** from `.add/config.json` (default: alpha)
+2. **Load maturity-scaled checklist** from `rules/quality-gates.md` → Maturity-Scaled Checks section
+3. **Filter checks for this gate** using the Gate Distribution mapping:
+   - **Gate 1:** Code quality (complexity, duplication, file/function length), secrets scan, readability (naming, nesting), branch naming
+   - **Gate 2:** Dependency audit, OWASP review, docstrings on exports, N+1/blocking async detection, CHANGELOG/LICENSE
+   - **Gate 3:** Bundle size, PR template, README completeness, dependency freshness
+   - **Gate 4:** Auth pattern review, PII/data handling, response time baselines, stale branch cleanup
+   - **Gate 5:** Response times vs baselines, secure headers verification
+4. **Execute checks** using agent tools:
+   - Use Grep to scan for patterns (secrets, magic numbers, N+1 queries, blocking async calls)
+   - Use Read to inspect files (function length, nesting depth, docstrings, README content)
+   - Use Bash to run tools (dependency audit, bundle size, lint with complexity rules)
+   - Use Glob to find files (LICENSE, CHANGELOG, PR template, .gitignore, stale branches)
+5. **Classify findings** as blocking or advisory per maturity level
+   - Load override thresholds from `.add/config.json` `qualityChecks` if present
+   - Apply enforcement level: blocking findings fail the gate, advisory findings are warnings
+6. **Include in gate report** — append maturity-scaled results to the gate's report section
+
+**Report Section** (added to each gate's output):
+
+```
+Maturity-Scaled Checks ({maturity level}):
+  Code Quality: ✓ PASS (complexity max: 12, threshold: 15)
+  Security: ✓ PASS (no secrets, OWASP clean)
+  Readability: ⚠ ADVISORY (2 functions missing docstrings)
+  Performance: ⊘ SKIPPED (not checked at alpha)
+  Repo Hygiene: ✓ PASS (branch naming ok, .gitignore exists)
+
+Advisory findings (non-blocking):
+  - src/utils.ts:45 — function missing docstring on export
+  - src/api.ts:12 — function missing docstring on export
+```
+
+### Maturity-Scaled Summary (Overall Report)
+
+Add this section to the overall verification report, after the gate summary table:
+
+```
+## Maturity-Scaled Checks Summary
+Maturity Level: {level} (from .add/config.json)
+
+| Category | Status | Blocking | Advisory | Details |
+|----------|--------|----------|----------|---------|
+| Code Quality | ✓ PASS | 0 | 0 | All metrics within thresholds |
+| Security | ✓ PASS | 0 | 2 | OWASP spot-check: 2 minor findings |
+| Readability | ⚠ WARN | 0 | 3 | 3 exports missing docstrings |
+| Performance | ⊘ SKIP | — | — | Not checked at alpha maturity |
+| Repo Hygiene | ✓ PASS | 0 | 0 | All hygiene checks pass |
+
+Advisory Findings (non-blocking):
+1. [Security] src/api.ts:34 — input not sanitized before template literal
+2. [Security] src/auth.ts:89 — password comparison not constant-time
+3. [Readability] src/utils.ts:45 — exported function missing docstring
+4. [Readability] src/api.ts:12 — exported function missing docstring
+5. [Readability] src/form.ts:78 — magic number 86400 (use named constant)
+```
+
 ## Execution by Level
 
 ### Level: local (development)
