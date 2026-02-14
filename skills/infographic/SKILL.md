@@ -1,5 +1,5 @@
 ---
-description: "[ADD v0.1.0] Generate project infographic — SVG from PRD + config with branding"
+description: "[ADD v0.2.0] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
 ---
