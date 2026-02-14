@@ -14,7 +14,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.1.0-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.2.0-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -419,6 +419,9 @@ Retrospectives update `.add/learnings.md`, promote patterns to `~/.claude/add/li
 | `/add:init` | Bootstrap ADD in your project via structured interview | `.add/` directory, config, PRD, CLAUDE.md |
 | `/add:spec` | Create a feature specification through interview | `specs/{feature}.md` |
 | `/add:cycle` | Plan, track, and complete work cycles | `.add/cycles/cycle-{N}.md` |
+| `/add:brand` | View project branding — accent color, palette, drift detection | Branding config + audit report |
+| `/add:brand-update` | Update branding materials and audit artifacts for consistency | Updated config + fix report |
+| `/add:changelog` | Generate/update CHANGELOG.md from conventional commits | `CHANGELOG.md` |
 | `/add:away` | Declare absence — get autonomous work plan | Away log + work plan |
 | `/add:back` | Return from absence — get briefing | Status report + decision queue |
 | `/add:retro` | Run a retrospective — capture and promote learnings | Updated learnings + archive |
@@ -435,10 +438,11 @@ Retrospectives update `.add/learnings.md`, promote patterns to `~/.claude/add/li
 | `/add:plan` | Create implementation plan from spec | Planning |
 | `/add:optimize` | Performance optimization pass | Optimization |
 | `/add:deploy` | Environment-aware deployment with verification | Deployment |
+| `/add:infographic` | Generate project infographic SVG from PRD + config | Documentation |
 
 ## Rules (Auto-loaded)
 
-ADD ships with 10 behavioral rules that auto-load into every conversation:
+ADD ships with 11 behavioral rules that auto-load into every conversation:
 
 | Rule | What it enforces |
 |------|-----------------|
@@ -452,6 +456,7 @@ ADD ships with 10 behavioral rules that auto-load into every conversation:
 | `learning` | Automatic checkpoints, knowledge persistence, retro integration. |
 | `project-structure` | Standard `.add/` layout, cross-project persistence paths. |
 | `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level. |
+| `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals. |
 
 ---
 
@@ -493,7 +498,7 @@ ADD is intentionally simple:
 - **No vendor lock-in** — Standard markdown specs and plans work with any tool
 - **Plugin format** — Claude Code `.claude-plugin/plugin.json` manifest
 
-The entire plugin is ~45 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
+The entire plugin is ~60 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
 
 ---
 
@@ -509,8 +514,10 @@ your-project/
 │   └── cycles/                     # Work cycle tracking
 ├── .claude/
 │   └── settings.json               # Claude Code permissions
+├── CHANGELOG.md                     # Auto-generated changelog
 ├── docs/
 │   ├── prd.md                      # Product Requirements Document
+│   ├── infographic.svg              # Project infographic (generated)
 │   ├── plans/                      # Implementation plans
 │   └── milestones/                 # Milestone tracking with hill charts
 ├── specs/                          # Feature specifications
@@ -535,7 +542,8 @@ Cross-project persistence (machine-local, not committed):
 | Version | Status | Focus |
 |---------|--------|-------|
 | **v0.1.0** | Complete | Core infrastructure — 6 commands, 8 skills, 10 rules, 10 templates |
-| **v0.2.0** | Next | Adoption & polish — `/add:init --adopt`, enhanced interviews, cross-project sync |
+| **v0.2.0** | Complete | Branding system, image gen detection, auto-changelog, infographic generation |
+| **v0.3.0** | Next | Adoption & polish — `/add:init --adopt`, enhanced interviews, cross-project sync |
 | **v1.0.0** | Planned | Marketplace ready — CI/CD hooks, advanced learnings, team profiles |
 
 ---

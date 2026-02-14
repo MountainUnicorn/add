@@ -9,7 +9,7 @@
     {
       "name": "add",
       "description": "Agent Driven Development (ADD) — Structured methodology for AI agent teams. PRD interviews, spec-driven TDD, human-AI collaboration protocols, environment-aware deployment, and multi-agent orchestration with trust-but-verify.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "abrooke"
       },
