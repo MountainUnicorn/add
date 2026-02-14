@@ -432,6 +432,7 @@ body {
 .value-icon {
   font-size: 28px;
   margin-bottom: 12px;
+  color: var(--accent);
 }
 .value-card h4 {
   font-size: 17px;
@@ -542,7 +543,7 @@ body {
   text-align: center;
   box-shadow: var(--card-shadow);
 }
-.trigger-card .trigger-icon { font-size: 20px; margin-bottom: 6px; }
+.trigger-card .trigger-icon { font-size: 20px; margin-bottom: 6px; color: var(--accent); }
 .trigger-card .trigger-label { font-size: 12px; color: var(--text-secondary); }
 
 /* ===== COMMANDS TABLE ===== */
@@ -637,7 +638,7 @@ body {
   box-shadow: var(--card-shadow-hover);
   transform: translateY(-2px);
 }
-.audience-card .audience-icon { font-size: 28px; margin-bottom: 12px; }
+.audience-card .audience-icon { font-size: 28px; margin-bottom: 12px; color: var(--accent); }
 .audience-card h4 { font-size: 15px; margin-bottom: 8px; }
 .audience-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
@@ -756,7 +757,7 @@ footer a:hover { text-decoration: underline; }
   box-shadow: var(--card-shadow-hover);
   transform: translateY(-2px);
 }
-.sub-agent-icon { font-size: 28px; margin-bottom: 10px; }
+.sub-agent-icon { font-size: 28px; margin-bottom: 10px; color: var(--accent); }
 .sub-agent-card h5 { font-size: 14px; margin-bottom: 4px; }
 .sub-agent-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
 .sub-agent-tools {
@@ -897,7 +898,7 @@ footer a:hover { text-decoration: underline; }
   justify-content: center;
 }
 .away-flow-step:last-child { border-right: none; }
-.away-flow-step .flow-icon { font-size: 22px; margin-bottom: 6px; }
+.away-flow-step .flow-icon { font-size: 22px; margin-bottom: 6px; color: var(--accent); }
 .away-flow-step h5 { font-size: 13px; margin-bottom: 4px; }
 .away-flow-step p { font-size: 12px; color: var(--text-secondary); }
 .away-flow-step code {

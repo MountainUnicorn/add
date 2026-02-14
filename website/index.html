@@ -50,6 +50,7 @@
   </script>
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -66,7 +67,7 @@
       <a href="/guides/best-practices">Best Practices</a>
       <a href="/blog/">Blog</a>
       <a href="https://github.com/MountainUnicorn/add">GitHub</a>
-      <button class="nav-theme-toggle" onclick="toggleTheme()">&#x1F313;</button>
+      <button class="nav-theme-toggle" onclick="toggleTheme()"><i class="ph ph-moon"></i></button>
     </div>
   </nav>
 
@@ -207,7 +208,7 @@
         <!-- Sub-agents -->
         <div class="sub-agents-grid">
           <div class="sub-agent-card">
-            <div class="sub-agent-icon">&#x1F9EA;</div>
+            <div class="sub-agent-icon"><i class="ph ph-flask"></i></div>
             <h5>Test Writer</h5>
             <p>Writes failing tests from spec acceptance criteria. RED phase.</p>
             <div class="sub-agent-tools">
@@ -217,7 +218,7 @@
             </div>
           </div>
           <div class="sub-agent-card">
-            <div class="sub-agent-icon">&#x1F528;</div>
+            <div class="sub-agent-icon"><i class="ph ph-hammer"></i></div>
             <h5>Implementer</h5>
             <p>Minimal code to make tests pass. No gold-plating. GREEN phase.</p>
             <div class="sub-agent-tools">
@@ -228,7 +229,7 @@
             </div>
           </div>
           <div class="sub-agent-card">
-            <div class="sub-agent-icon">&#x1F50D;</div>
+            <div class="sub-agent-icon"><i class="ph ph-magnifying-glass"></i></div>
             <h5>Reviewer</h5>
             <p>Code review for spec compliance, patterns, and quality. Read-only.</p>
             <div class="sub-agent-tools">
@@ -238,7 +239,7 @@
             </div>
           </div>
           <div class="sub-agent-card">
-            <div class="sub-agent-icon">&#x1F680;</div>
+            <div class="sub-agent-icon"><i class="ph ph-rocket-launch"></i></div>
             <h5>Deployer</h5>
             <p>Environment-aware deployment with smoke tests and rollback.</p>
             <div class="sub-agent-tools">
@@ -258,7 +259,7 @@
 
         <!-- Independent verification -->
         <div class="verify-card">
-          <h5>&#x2705; Independent Verification</h5>
+          <h5><i class="ph ph-check-circle"></i> Independent Verification</h5>
           <p>Orchestrator runs its own verification — different agent, fresh context, no shared state. If it disagrees, the cycle restarts.</p>
         </div>
       </div>
@@ -289,22 +290,22 @@
       <p class="section-desc">ADD scales from solo developers to enterprise teams. The maturity dial adjusts process rigor to match your project's stage.</p>
       <div class="audience-grid">
         <div class="audience-card">
-          <div class="audience-icon">&#x1F464;</div>
+          <div class="audience-icon"><i class="ph ph-user"></i></div>
           <h4>Solo Developers</h4>
           <p>Structure without overhead. POC maturity means lightweight specs and optional TDD. Benefits without ceremony.</p>
         </div>
         <div class="audience-card">
-          <div class="audience-icon">&#x1F465;</div>
+          <div class="audience-icon"><i class="ph ph-users-three"></i></div>
           <h4>Small Teams</h4>
           <p>Shared language for AI collaboration. Specs, plans, quality gates, and a maturity model that grows with your project.</p>
         </div>
         <div class="audience-card">
-          <div class="audience-icon">&#x1F3E2;</div>
+          <div class="audience-icon"><i class="ph ph-buildings"></i></div>
           <h4>Enterprises</h4>
           <p>Cross-project learning at scale. Agents get smarter over time. Maturity lifecycle gives leadership visibility.</p>
         </div>
         <div class="audience-card">
-          <div class="audience-icon">&#x1F310;</div>
+          <div class="audience-icon"><i class="ph ph-globe-hemisphere-west"></i></div>
           <h4>Open Source</h4>
           <p>Consistent practices for human and AI contributors. Every PR traces back to a specification.</p>
         </div>
@@ -392,22 +393,22 @@
     <!-- Away/Back flow -->
     <div class="away-flow">
       <div class="away-flow-step">
-        <div class="flow-icon">&#x1F4CB;</div>
+        <div class="flow-icon"><i class="ph ph-clipboard-text"></i></div>
         <h5>Define Scope</h5>
         <p>"Work on auth spec, no DB changes"</p>
       </div>
       <div class="away-flow-step">
-        <div class="flow-icon">&#x1F6EB;</div>
+        <div class="flow-icon"><i class="ph ph-airplane-takeoff"></i></div>
         <h5><code>/add:away</code></h5>
         <p>Agent generates work plan and starts executing</p>
       </div>
       <div class="away-flow-step">
-        <div class="flow-icon">&#x1F916;</div>
+        <div class="flow-icon"><i class="ph ph-robot"></i></div>
         <h5>Autonomous Work</h5>
         <p>TDD cycles, commits, verification — all logged</p>
       </div>
       <div class="away-flow-step">
-        <div class="flow-icon">&#x1F6EC;</div>
+        <div class="flow-icon"><i class="ph ph-airplane-landing"></i></div>
         <h5><code>/add:back</code></h5>
         <p>Full briefing: what shipped, what's blocked, decisions needed</p>
       </div>
@@ -426,28 +427,28 @@
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; align-items: center;">
           <!-- Local -->
           <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px 0 0 12px; padding: 24px; text-align: center; box-shadow: var(--card-shadow);">
-            <div style="font-size: 24px; margin-bottom: 8px;">&#x1F4BB;</div>
+            <div style="font-size: 24px; margin-bottom: 8px;"><i class="ph ph-desktop"></i></div>
             <h5 style="font-size: 14px; margin-bottom: 4px;">Local</h5>
             <p style="font-size: 12px; color: var(--text-secondary);">Unit + integration tests</p>
             <div style="margin-top: 10px;"><span style="font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(34,197,94,0.15); color: var(--success); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Auto</span></div>
           </div>
           <!-- Dev -->
           <div style="background: var(--card-bg); border: 1px solid var(--border); border-left: none; padding: 24px; text-align: center; box-shadow: var(--card-shadow);">
-            <div style="font-size: 24px; margin-bottom: 8px;">&#x1F527;</div>
+            <div style="font-size: 24px; margin-bottom: 8px;"><i class="ph ph-wrench"></i></div>
             <h5 style="font-size: 14px; margin-bottom: 4px;">Dev</h5>
             <p style="font-size: 12px; color: var(--text-secondary);">Integration + CI pipeline</p>
             <div style="margin-top: 10px;"><span style="font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(34,197,94,0.15); color: var(--success); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Auto</span></div>
           </div>
           <!-- Staging -->
           <div style="background: var(--card-bg); border: 1px solid var(--border); border-left: none; padding: 24px; text-align: center; box-shadow: var(--card-shadow);">
-            <div style="font-size: 24px; margin-bottom: 8px;">&#x1F9EA;</div>
+            <div style="font-size: 24px; margin-bottom: 8px;"><i class="ph ph-flask"></i></div>
             <h5 style="font-size: 14px; margin-bottom: 4px;">Staging</h5>
             <p style="font-size: 12px; color: var(--text-secondary);">E2E + performance tests</p>
             <div style="margin-top: 10px;"><span style="font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(34,197,94,0.15); color: var(--success); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Auto</span></div>
           </div>
           <!-- Production -->
           <div style="background: var(--card-bg); border: 2px solid var(--accent); border-left: none; border-radius: 0 12px 12px 0; padding: 24px; text-align: center; box-shadow: var(--card-shadow);">
-            <div style="font-size: 24px; margin-bottom: 8px;">&#x1F680;</div>
+            <div style="font-size: 24px; margin-bottom: 8px;"><i class="ph ph-rocket-launch"></i></div>
             <h5 style="font-size: 14px; margin-bottom: 4px;">Production</h5>
             <p style="font-size: 12px; color: var(--text-secondary);">Smoke tests + monitoring</p>
             <div style="margin-top: 10px;"><span style="font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(176,1,73,0.15); color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Human</span></div>
@@ -466,17 +467,17 @@
       <!-- How it works cards -->
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;">
         <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--card-shadow);">
-          <div style="font-size: 28px; margin-bottom: 12px;">&#x2705;</div>
+          <div style="font-size: 28px; margin-bottom: 12px;"><i class="ph ph-check-circle"></i></div>
           <h4 style="font-size: 17px; margin-bottom: 8px;">Verify at each level</h4>
           <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Each environment runs its own verification suite. Unit tests in dev. E2E in staging. Smoke tests in production. Verification must pass before promotion.</p>
         </div>
         <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--card-shadow);">
-          <div style="font-size: 28px; margin-bottom: 12px;">&#x23EA;</div>
+          <div style="font-size: 28px; margin-bottom: 12px;"><i class="ph ph-arrow-counter-clockwise"></i></div>
           <h4 style="font-size: 17px; margin-bottom: 8px;">Auto-rollback on failure</h4>
           <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">If verification fails after deployment, the agent automatically rolls back to last known good. Two strategies: revert-commit for dev, redeploy-previous-tag for staging.</p>
         </div>
         <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--card-shadow);">
-          <div style="font-size: 28px; margin-bottom: 12px;">&#x1F512;</div>
+          <div style="font-size: 28px; margin-bottom: 12px;"><i class="ph ph-lock"></i></div>
           <h4 style="font-size: 17px; margin-bottom: 8px;">Production is always human</h4>
           <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">The ladder stops before production. No matter the maturity level or autonomy mode, production deployment requires explicit human approval. Always.</p>
         </div>
@@ -507,32 +508,32 @@
       <h2>Outcomes, not just features</h2>
       <div class="value-grid">
         <div class="value-card">
-          <div class="value-icon">&#x1F4CB;</div>
+          <div class="value-icon"><i class="ph ph-clipboard-text"></i></div>
           <h4>Zero specification drift</h4>
           <p>PRD &rarr; Spec &rarr; Plan &rarr; Tests &rarr; Code. Every line of implementation traces to an approved requirement. No more "that's not what I asked for."</p>
         </div>
         <div class="value-card">
-          <div class="value-icon">&#x1F9EA;</div>
+          <div class="value-icon"><i class="ph ph-flask"></i></div>
           <h4>Tests before every line of code</h4>
           <p>Strict TDD with independent verification. Sub-agents write tests, implement, refactor. Orchestrators verify independently. Trust but verify.</p>
         </div>
         <div class="value-card">
-          <div class="value-icon">&#x1F9E0;</div>
+          <div class="value-icon"><i class="ph ph-brain"></i></div>
           <h4>Agents that get smarter over time</h4>
           <p>Knowledge persists across projects. Patterns discovered on Project A automatically inform Project B. Retrospectives promote learnings to a cross-project library.</p>
         </div>
         <div class="value-card">
-          <div class="value-icon">&#x1F39B;&#xFE0F;</div>
+          <div class="value-icon"><i class="ph ph-sliders"></i></div>
           <h4>Right rigor for every stage</h4>
           <p>The maturity dial (POC &rarr; Alpha &rarr; Beta &rarr; GA) governs all ADD behavior. One control that scales from "just hack" to "exhaustive verification."</p>
         </div>
         <div class="value-card">
-          <div class="value-icon">&#x1F91D;</div>
+          <div class="value-icon"><i class="ph ph-handshake"></i></div>
           <h4>Structured human-AI teamwork</h4>
           <p>5 engagement modes, structured interviews, away mode with boundaries. Humans architect and decide. Agents execute and verify. Clear handoffs always.</p>
         </div>
         <div class="value-card">
-          <div class="value-icon">&#x1F504;</div>
+          <div class="value-icon"><i class="ph ph-arrows-clockwise"></i></div>
           <h4>Cycles, not sprints</h4>
           <p>Scope-boxed work batches that end when validation passes — not when a timer expires. Hill charts show what's being figured out vs. what's being executed.</p>
         </div>
@@ -691,23 +692,23 @@
       <h4 style="margin-top: 40px; margin-bottom: 16px; font-size: 15px;">Automatic Checkpoint Triggers</h4>
       <div class="learning-triggers">
         <div class="trigger-card">
-          <div class="trigger-icon">&#x2705;</div>
+          <div class="trigger-icon"><i class="ph ph-check-circle"></i></div>
           <div class="trigger-label">After /add:verify</div>
         </div>
         <div class="trigger-card">
-          <div class="trigger-icon">&#x1F504;</div>
+          <div class="trigger-icon"><i class="ph ph-arrows-clockwise"></i></div>
           <div class="trigger-label">After TDD cycle</div>
         </div>
         <div class="trigger-card">
-          <div class="trigger-icon">&#x1F680;</div>
+          <div class="trigger-icon"><i class="ph ph-rocket-launch"></i></div>
           <div class="trigger-label">After deploy</div>
         </div>
         <div class="trigger-card">
-          <div class="trigger-icon">&#x1F4A4;</div>
+          <div class="trigger-icon"><i class="ph ph-moon"></i></div>
           <div class="trigger-label">After away session</div>
         </div>
         <div class="trigger-card">
-          <div class="trigger-icon">&#x1F50D;</div>
+          <div class="trigger-icon"><i class="ph ph-magnifying-glass"></i></div>
           <div class="trigger-label">During /add:retro</div>
         </div>
       </div>
