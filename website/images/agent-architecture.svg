@@ -279,11 +279,11 @@
   <text x="920" y="335" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600">VERIFIER</text>
 
   <!-- Quality gates stack -->
-  <rect x="878" y="370" width="84" height="18" rx="4" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-width="0.75" opacity="0.4"/>
+  <rect x="878" y="370" width="84" height="18" rx="4" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-width="0.75"/>
   <text x="920" y="383" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="400">5 Quality Gates</text>
-  <rect x="878" y="393" width="84" height="18" rx="4" fill="#3b82f6" opacity="0.15" stroke="#3b82f6" stroke-width="0.75" opacity="0.4"/>
+  <rect x="878" y="393" width="84" height="18" rx="4" fill="#3b82f6" opacity="0.15" stroke="#3b82f6" stroke-width="0.75"/>
   <text x="920" y="406" text-anchor="middle" fill="#3b82f6" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="400">Spec Compliance</text>
-  <rect x="878" y="416" width="84" height="18" rx="4" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="0.75" opacity="0.4"/>
+  <rect x="878" y="416" width="84" height="18" rx="4" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="0.75"/>
   <text x="920" y="429" text-anchor="middle" fill="#f59e0b" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="400">Integration Tests</text>
 
   <!-- Arrow from verify zone to outcome -->
