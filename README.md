@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="docs/infographic.svg" alt="ADD — Agent Driven Development" width="100%">
-</p>
-
 <h1 align="center">ADD — Agent Driven Development</h1>
 
 <p align="center">
@@ -34,14 +30,12 @@ ADD is a structured SDLC methodology where AI agents do the development work —
 
 **The six principles:**
 
-| # | Principle | What it means |
-|---|-----------|--------------|
-| 1 | **Specs before code** | Every feature starts as a specification. No spec, no code. |
-| 2 | **Tests before implementation** | Strict TDD: RED (failing tests) → GREEN (make them pass) → REFACTOR → VERIFY |
-| 3 | **Trust but verify** | Sub-agents work autonomously. Orchestrators independently verify. Humans validate UX via screenshots. |
-| 4 | **Structured collaboration** | Interviews, away mode, decision points — humans and agents have clear protocols. |
-| 5 | **Environment awareness** | Skills adapt to where you're deploying: local, staging, or production. |
-| 6 | **Continuous learning** | Agents accumulate knowledge. Retrospectives propagate lessons across projects. |
+1. **Specs before code** — Every feature starts as a specification. No spec, no code.
+2. **Tests before implementation** — Strict TDD: RED → GREEN → REFACTOR → VERIFY.
+3. **Trust but verify** — Sub-agents work autonomously. Orchestrators independently verify. Humans validate UX via screenshots.
+4. **Structured collaboration** — Interviews, away mode, decision points — humans and agents have clear protocols.
+5. **Environment awareness** — Skills adapt to where you're deploying: local, staging, or production.
+6. **Continuous learning** — Agents accumulate knowledge. Retrospectives propagate lessons across projects.
 
 ---
 
@@ -127,29 +121,9 @@ Environment-aware deployment with pre-deploy verification and post-deploy smoke 
 
 ADD doesn't use a single agent. It dispatches **specialized sub-agents** — each with scoped tool permissions — then **independently verifies** their work. Trust but verify.
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   ORCHESTRATOR                       │
-│  Reads spec · Builds plan · Dispatches sub-agents   │
-│  Coordinates merge · Independently verifies results  │
-└──────┬──────────┬──────────┬──────────┬─────────────┘
-       │dispatch  │dispatch  │dispatch  │dispatch
-  ┌────▼────┐ ┌───▼────┐ ┌───▼─────┐ ┌──▼──────┐
-  │  Test   │ │ Imple- │ │ Review- │ │ Deploy- │
-  │ Writer  │ │ menter │ │   er    │ │   er    │
-  │─────────│ │────────│ │─────────│ │─────────│
-  │ Write   │ │ Write  │ │ Read    │ │ Bash    │
-  │ Read    │ │ Edit   │ │ Glob    │ │ Read    │
-  │ Bash    │ │ Bash   │ │ Grep    │ │         │
-  └────┬────┘ └───┬────┘ └───┬─────┘ └──┬──────┘
-       │results   │results   │results   │results
-  ┌────▼──────────▼──────────▼──────────▼───────┐
-  │          INDEPENDENT VERIFICATION            │
-  │  Different agent · Fresh context · No shared │
-  │  state. Humans validate UX via screenshots.  │
-  │  If anything disagrees, the cycle restarts.  │
-  └──────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="website/images/agent-architecture.svg" alt="ADD Agent Architecture — Orchestrator dispatches Test Writer, Implementer, Reviewer, and Deployer sub-agents, then independently verifies" width="700">
+</p>
 
 Each sub-agent is **isolated** — test-writers can't deploy, reviewers can't edit code. At **Beta+ maturity**, agents work in parallel via git worktrees: 2-5 concurrent agents with WIP limits that scale with maturity (POC=1, Alpha=2, Beta=4, GA=5).
 
@@ -159,21 +133,18 @@ Each sub-agent is **isolated** — test-writers can't deploy, reviewers can't ed
 
 ADD defines three engagement modes. You choose how much autonomy agents get.
 
-| Mode | What Happens | Best For |
-|------|-------------|----------|
-| **Guided** | Human approves each step. Every file change reviewed before commit. Architecture decisions need sign-off. | POC maturity, unfamiliar codebases |
-| **Balanced** _(default)_ | Agents execute TDD cycles freely within spec boundaries. Pause at ambiguity or architecture forks. Structured interviews for decisions. | Alpha/Beta, established patterns |
-| **Autonomous** | Human defines scope and boundaries, then walks away. Agents execute full TDD cycles, commit, verify. Return to a full briefing. | GA maturity, well-specified features |
+- **Guided** — Human approves each step. Every file change reviewed before commit. Best for POC maturity and unfamiliar codebases.
+- **Balanced** _(default)_ — Agents execute TDD cycles freely within spec boundaries. Pause at ambiguity or architecture forks. Best for Alpha/Beta.
+- **Autonomous** — Human defines scope and boundaries, then walks away. Agents execute full cycles, commit, verify. Best for GA maturity.
 
 **Screenshot validation** is part of every mode. After agents build, humans review the actual user experience. Claude Code reads images natively — no Playwright or browser automation required.
 
 The `/add:away` and `/add:back` commands power autonomous mode:
 
-```
-Define scope ──▶ /add:away ──▶ Agent executes autonomously ──▶ /add:back ──▶ Full briefing
-                 (work     (TDD cycles, commits, verify    (what shipped,
-                  plan)     — all decisions logged)          what's blocked)
-```
+1. Define scope and boundaries
+2. `/add:away` — agent builds a work plan
+3. Agent executes autonomously (TDD cycles, commits, verify — all decisions logged)
+4. `/add:back` — full briefing: what shipped, what's blocked, what needs your decision
 
 ---
 
@@ -181,14 +152,12 @@ Define scope ──▶ /add:away ──▶ Agent executes autonomously ──▶
 
 AI agents are writing your team's code. ADD gives you the governance, traceability, and progress visibility you need — without slowing anyone down.
 
-| Capability | What You Get |
-|------------|-------------|
-| **Progress visibility** | Hill charts show where every feature stands — still being figured out or actively executing. |
-| **Full traceability** | Every line of code traces back through tests, to a spec, to a PRD requirement. |
-| **One dial for rigor** | The maturity lifecycle (POC → GA) governs all process. No process debates — just turn the dial. |
-| **Quality gates** | 5 automated gates at every stage. Agents can't skip verification. |
-| **Human at the right moments** | Agents handle execution. Humans handle judgment — architecture, scope, production approvals. |
-| **Compounding intelligence** | Every project makes the next one faster via cross-project knowledge. |
+- **Progress visibility** — Hill charts show where every feature stands — still figuring out or actively executing.
+- **Full traceability** — Every line of code traces back through tests, to a spec, to a PRD requirement.
+- **One dial for rigor** — The maturity lifecycle (POC → GA) governs all process. No process debates — just turn the dial.
+- **Quality gates** — 5 automated gates at every stage. Agents can't skip verification.
+- **Human at the right moments** — Agents handle execution. Humans handle judgment — architecture, scope, production approvals.
+- **Compounding intelligence** — Every project makes the next one faster via cross-project knowledge.
 
 ---
 
@@ -211,14 +180,15 @@ ROADMAP  (Now / Next / Later — no fake dates)
 
 Every ADD project declares a maturity level that governs *all* process rigor. This is the master control:
 
-| Level | PRD | Specs | TDD | Quality Gates | Parallel Agents | WIP Limit |
-|-------|-----|-------|-----|---------------|-----------------|-----------|
-| **POC** | A paragraph | Optional | Optional | Pre-commit only | 1 (serial) | 1 |
-| **Alpha** | 1-pager | Critical paths | Critical paths | + CI | 1-2 | 2 |
-| **Beta** | Full template | Required | Enforced | + Pre-deploy | 2-4 | 4 |
-| **GA** | Full + architecture | + Acceptance criteria | Strict | All 5 levels | 3-5 (worktrees) | 5 |
+**POC** — A paragraph PRD. Optional specs and TDD. Pre-commit gate only. Serial execution.
 
-A POC project gets almost no ceremony. A GA project gets exhaustive verification with multiple reviewers. Promotion happens deliberately — triggered by cycle completion or retrospectives when gap analysis shows readiness.
+**Alpha** — 1-page PRD. Critical-path specs and TDD. Adds CI gate. Up to 2 parallel agents.
+
+**Beta** — Full PRD template. All specs required, TDD enforced. Adds pre-deploy gate. 2-4 parallel agents.
+
+**GA** — Full PRD + architecture docs. Acceptance criteria on every spec. Strict TDD. All 5 quality gates. 3-5 agents via worktrees.
+
+A POC project gets almost no ceremony. A GA project gets exhaustive verification. Promotion happens deliberately — triggered by cycle completion or retrospectives when gap analysis shows readiness.
 
 ---
 
@@ -240,13 +210,11 @@ For projects with a UI, humans validate the actual user experience by reviewing 
 
 ADD formalizes five engagement modes between humans and agents:
 
-| Mode | When | Who leads |
-|------|------|-----------|
-| **Spec interview** | Creating PRDs and specs | Human leads, agent refines |
-| **Quick check** | Clarifying a detail | Agent asks, human answers |
-| **Decision point** | Architectural choices | Human decides, agent implements |
-| **Review gate** | Approving artifacts | Human reviews, agent awaits |
-| **Status pulse** | Progress check-ins | Agent reports, human adjusts |
+- **Spec interview** — Human leads, agent refines. For creating PRDs and specs.
+- **Quick check** — Agent asks, human answers. For clarifying a detail mid-work.
+- **Decision point** — Human decides, agent implements. For architectural choices.
+- **Review gate** — Human reviews, agent awaits. For approving artifacts.
+- **Status pulse** — Agent reports, human adjusts. For progress check-ins.
 
 Interviews follow a structured protocol: questions are estimated upfront ("I have 8 questions, about 5 minutes"), asked one at a time, and prioritized so the most critical questions come first.
 
@@ -270,13 +238,11 @@ You get a briefing: what was completed, what's in progress, what needs your deci
 
 Five checkpoints catch issues progressively earlier:
 
-| Gate | Trigger | Checks |
-|------|---------|--------|
-| **Level 1** Pre-commit | Before write | Lint + formatting |
-| **Level 2** Pre-push | Before push | Type checking |
-| **Level 3** CI | On push | Unit tests + coverage |
-| **Level 4** Pre-deploy | Before deploy | Spec compliance + integration tests |
-| **Level 5** Post-deploy | After deploy | Smoke tests + monitoring |
+1. **Pre-commit** — Lint + formatting (before write)
+2. **Pre-push** — Type checking (before push)
+3. **CI** — Unit tests + coverage (on push)
+4. **Pre-deploy** — Spec compliance + integration tests (before deploy)
+5. **Post-deploy** — Smoke tests + monitoring (after deploy)
 
 ### Multi-Agent Coordination
 
@@ -310,11 +276,9 @@ This is what makes ADD compound over time. Agents don't start from zero on each 
 
 Agents read **all three tiers** before starting any task. More specific tiers take precedence:
 
-| Tier | Location | Scope | Who Updates |
-|------|----------|-------|-------------|
-| **Tier 1: Plugin-Global** | `knowledge/global.md` | Universal ADD best practices | Ships with ADD (read-only) |
-| **Tier 2: User-Local** | `~/.claude/add/library.md` | Your cross-project wisdom | Promoted during `/add:retro` |
-| **Tier 3: Project-Specific** | `.add/learnings.md` | This project's discoveries | Auto-checkpoints |
+- **Tier 1: Plugin-Global** (`knowledge/global.md`) — Universal ADD best practices. Ships with ADD, read-only.
+- **Tier 2: User-Local** (`~/.claude/add/library.md`) — Your cross-project wisdom. Promoted during `/add:retro`.
+- **Tier 3: Project-Specific** (`.add/learnings.md`) — This project's discoveries. Auto-populated at checkpoints.
 
 **Tier 1** ships with ADD — curated best practices about agent coordination, away mode, and methodology. Every ADD user benefits immediately.
 
@@ -393,10 +357,8 @@ The entire plugin is ~60 files of markdown, JSON, and templates. It runs entirel
 
 ADD's core is zero-dependency, but some features benefit from optional tools:
 
-| Capability | Used By | Requires | Fallback |
-|------------|---------|----------|----------|
-| **Screenshot validation** | `/add:verify`, human review | Claude Code's built-in image reading | Agents describe UI state in text |
-| **Image generation** | `/add:infographic`, `/add:brand-update` | Image generation MCP tool (e.g., Vertex AI Imagen) | SVG generation (no raster images) |
+- **Screenshot validation** — Used by `/add:verify` and human review. Requires Claude Code's built-in image reading. Fallback: agents describe UI state in text.
+- **Image generation** — Used by `/add:infographic` and `/add:brand-update`. Requires an image generation MCP tool (e.g., Vertex AI Imagen). Fallback: SVG generation.
 
 **Screenshot validation** is a core part of ADD's trust-but-verify loop for projects with a UI. After agents build, humans review screenshots of the actual user experience. Claude Code reads images natively — no Playwright, Puppeteer, or browser automation required. The human takes screenshots in their browser and shares them for review.
 
@@ -434,107 +396,120 @@ Existing conventions are respected. ADD layers on top of what you already have.
 
 ADD adapts to your deployment reality:
 
-| Tier | Scope | Example |
-|------|-------|---------|
-| **Tier 1** | Local development only | Personal projects, plugins, CLIs |
-| **Tier 2** | Local + production | SaaS apps, APIs with a prod server |
-| **Tier 3** | Full pipeline (dev → staging → prod) | Enterprise applications, team projects |
+- **Tier 1** — Local development only. Personal projects, plugins, CLIs.
+- **Tier 2** — Local + production. SaaS apps, APIs with a prod server.
+- **Tier 3** — Full pipeline (dev → staging → prod). Enterprise applications, team projects.
 
-Quality gates, deployment skills, and test matrices all adjust based on your tier. A Tier 1 project doesn't waste time on staging smoke tests. A Tier 3 project doesn't skip them.
+Quality gates, deployment skills, and test matrices all adjust based on your tier.
 
 ---
 
-## Commands
+<details>
+<summary><strong>Commands</strong> — 9 slash commands</summary>
 
-| Command | Purpose | Output |
-|---------|---------|--------|
-| `/add:init` | Bootstrap ADD in your project via structured interview | `.add/` directory, config, PRD, CLAUDE.md |
-| `/add:spec` | Create a feature specification through interview | `specs/{feature}.md` |
-| `/add:cycle` | Plan, track, and complete work cycles | `.add/cycles/cycle-{N}.md` |
-| `/add:brand` | View project branding — accent color, palette, drift detection | Branding config + audit report |
-| `/add:brand-update` | Update branding materials and audit artifacts for consistency | Updated config + fix report |
-| `/add:changelog` | Generate/update CHANGELOG.md from conventional commits | `CHANGELOG.md` |
-| `/add:away` | Declare absence — get autonomous work plan | Away log + work plan |
-| `/add:back` | Return from absence — get briefing | Status report + decision queue |
-| `/add:retro` | Run a retrospective — capture and promote learnings | Updated learnings + archive |
+| Command | Purpose |
+|---------|---------|
+| `/add:init` | Bootstrap ADD in your project via structured interview |
+| `/add:spec` | Create a feature specification through interview |
+| `/add:cycle` | Plan, track, and complete work cycles |
+| `/add:brand` | View project branding — accent color, palette, drift detection |
+| `/add:brand-update` | Update branding materials and audit artifacts |
+| `/add:changelog` | Generate/update CHANGELOG.md from conventional commits |
+| `/add:away` | Declare absence — get autonomous work plan |
+| `/add:back` | Return from absence — get briefing |
+| `/add:retro` | Run a retrospective — capture and promote learnings |
 
-## Skills
+</details>
 
-| Skill | Purpose | Phase |
-|-------|---------|-------|
-| `/add:tdd-cycle` | Complete RED → GREEN → REFACTOR → VERIFY cycle | Full TDD |
-| `/add:test-writer` | Write failing tests from spec acceptance criteria | RED |
-| `/add:implementer` | Write minimal code to pass tests | GREEN |
-| `/add:reviewer` | Code review for spec compliance (read-only) | REFACTOR |
-| `/add:verify` | Run quality gates (lint, types, tests, coverage, spec compliance) | VERIFY |
-| `/add:plan` | Create implementation plan from spec | Planning |
-| `/add:optimize` | Performance optimization pass | Optimization |
-| `/add:deploy` | Environment-aware deployment with verification | Deployment |
-| `/add:infographic` | Generate project infographic SVG from PRD + config | Documentation |
+<details>
+<summary><strong>Skills</strong> — 9 workflow skills</summary>
 
-## Rules (Auto-loaded)
+| Skill | Purpose |
+|-------|---------|
+| `/add:tdd-cycle` | Complete RED → GREEN → REFACTOR → VERIFY cycle |
+| `/add:test-writer` | Write failing tests from spec (RED phase) |
+| `/add:implementer` | Write minimal code to pass tests (GREEN phase) |
+| `/add:reviewer` | Code review for spec compliance (read-only) |
+| `/add:verify` | Run quality gates — lint, types, tests, coverage, spec compliance |
+| `/add:plan` | Create implementation plan from spec |
+| `/add:optimize` | Performance optimization pass |
+| `/add:deploy` | Environment-aware deployment with verification |
+| `/add:infographic` | Generate project infographic SVG from PRD + config |
 
-ADD ships with 11 behavioral rules that auto-load into every conversation:
+</details>
+
+<details>
+<summary><strong>Rules</strong> — 11 auto-loaded behavioral rules</summary>
 
 | Rule | What it enforces |
 |------|-----------------|
-| `spec-driven` | No code without a spec. Implementations must reference spec sections. |
-| `tdd-enforcement` | Strict RED → GREEN → REFACTOR → VERIFY cycle. |
-| `human-collaboration` | Interview protocol, engagement modes, away/back workflow. |
-| `agent-coordination` | Trust-but-verify, sub-agent isolation, parallel execution. |
-| `source-control` | Feature branches, conventional commits, TDD commit pattern. |
-| `environment-awareness` | Tier-based behavior (local / local+prod / full pipeline). |
-| `quality-gates` | 5-level gate system from pre-commit to post-deploy. |
-| `learning` | Automatic checkpoints, knowledge persistence, retro integration. |
-| `project-structure` | Standard `.add/` layout, cross-project persistence paths. |
-| `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level. |
-| `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals. |
+| `spec-driven` | No code without a spec |
+| `tdd-enforcement` | Strict RED → GREEN → REFACTOR → VERIFY cycle |
+| `human-collaboration` | Interview protocol, engagement modes, away/back |
+| `agent-coordination` | Trust-but-verify, sub-agent isolation, parallel execution |
+| `source-control` | Feature branches, conventional commits, TDD commit pattern |
+| `environment-awareness` | Tier-based behavior (local / local+prod / full pipeline) |
+| `quality-gates` | 5-level gate system from pre-commit to post-deploy |
+| `learning` | Automatic checkpoints, knowledge persistence, retro integration |
+| `project-structure` | Standard `.add/` layout, cross-project persistence paths |
+| `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level |
+| `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals |
+
+</details>
 
 ---
 
-## Project Structure Reference
+<details>
+<summary><strong>Project Structure Reference</strong></summary>
 
 After `/add:init`, your project gets this structure:
 
 ```
 your-project/
-├── .add/                           # ADD state (git-committed)
-│   ├── config.json                 # Project config (maturity, stack, tier)
-│   ├── learnings.md                # Agent knowledge base
-│   └── cycles/                     # Work cycle tracking
-├── .claude/
-│   └── settings.json               # Claude Code permissions
-├── CHANGELOG.md                     # Auto-generated changelog
+├── .add/                  # ADD state (git-committed)
+│   ├── config.json        # Project config
+│   ├── learnings.md       # Agent knowledge base
+│   └── cycles/            # Work cycle tracking
 ├── docs/
-│   ├── prd.md                      # Product Requirements Document
-│   ├── infographic.svg              # Project infographic (generated)
-│   ├── plans/                      # Implementation plans
-│   └── milestones/                 # Milestone tracking with hill charts
-├── specs/                          # Feature specifications
+│   ├── prd.md             # Product Requirements Document
+│   ├── plans/             # Implementation plans
+│   └── milestones/        # Milestone tracking
+├── specs/                 # Feature specifications
 ├── tests/
-│   └── screenshots/                # Visual verification (UI projects)
-└── CLAUDE.md                       # Project context for Claude
+│   └── screenshots/       # Visual verification
+└── CLAUDE.md              # Project context for Claude
 ```
 
 Cross-project persistence (machine-local, not committed):
 
 ```
 ~/.claude/add/
-├── profile.md                      # Your preferences and working style
-├── library.md                      # Accumulated wisdom across projects
-└── projects.json                   # Index of all ADD-managed projects
+├── profile.md             # Your preferences
+├── library.md             # Cross-project wisdom
+└── projects.json          # Project index
 ```
+
+</details>
 
 ---
 
 ## Roadmap
 
-| Version | Status | Focus |
-|---------|--------|-------|
-| **v0.1.0** | Complete | Core infrastructure — 6 commands, 8 skills, 10 rules, 10 templates |
-| **v0.2.0** | Complete | Branding system, image gen detection, auto-changelog, infographic generation |
-| **v0.3.0** | Next | Adoption & polish — `/add:init --adopt`, enhanced interviews, cross-project sync |
-| **v1.0.0** | Planned | Marketplace ready — CI/CD hooks, advanced learnings, team profiles |
+- **v0.1.0** — Complete. Core infrastructure — 6 commands, 8 skills, 10 rules, 10 templates.
+- **v0.2.0** — Complete. Branding system, image gen detection, auto-changelog, infographic generation.
+- **v0.3.0** — Next. Adoption & polish — `/add:init --adopt`, enhanced interviews, cross-project sync.
+- **v1.0.0** — Planned. Marketplace ready — CI/CD hooks, advanced learnings, team profiles.
+
+---
+
+<details>
+<summary><strong>Full Infographic</strong></summary>
+
+<p align="center">
+  <img src="docs/infographic.svg" alt="ADD — Agent Driven Development — Full Infographic" width="100%">
+</p>
+
+</details>
 
 ---
 
