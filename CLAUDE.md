@@ -66,6 +66,8 @@ Roadmap (docs/prd.md milestones section)
 | `/add:deploy` | Environment-aware deployment |
 | `/add:brand` | View project branding, drift detection, image gen status |
 | `/add:brand-update` | Update branding materials and audit artifacts |
+| `/add:changelog` | Generate/update CHANGELOG.md from conventional commits |
+| `/add:infographic` | Generate project infographic SVG from PRD + config |
 | `/add:away` | Human stepping away — autonomous work plan |
 | `/add:back` | Human returning — get briefing |
 | `/add:retro` | Retrospective — human-initiated or agent summary |
@@ -85,6 +87,7 @@ Roadmap (docs/prd.md milestones section)
 | learning.md | Continuous learning, checkpoints, knowledge persistence |
 | project-structure.md | Standard directory layout, cross-project persistence |
 | maturity-lifecycle.md | Master dial — governs all behavior per maturity level (poc/alpha/beta/ga) |
+| design-system.md | Silicon Valley Unicorn aesthetic for generated visuals |
 
 ## Work Hierarchy
 
