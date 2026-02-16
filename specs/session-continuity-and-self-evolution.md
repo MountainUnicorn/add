@@ -228,6 +228,8 @@ Rules currently auto-load from the `rules/` directory. Maturity-gating requires:
 
 ### Knowledge Store Boundaries
 
+**Current stores (v0.3.0):**
+
 | Store | Contents | Lifecycle | Owner |
 |-------|----------|-----------|-------|
 | `CLAUDE.md` | Project architecture, tech stack, key conventions | Stable, rarely changes | Human + agent during init |
@@ -238,12 +240,29 @@ Rules currently auto-load from the `rules/` directory. Maturity-gating requires:
 | `.add/decisions.md` | Architectural and process choices with rationale | Append-only, long-lived | Agent at decision points |
 | `.add/mutations.md` | Process evolution history — what changed and why | Append-only, permanent record | Retro synthesis + human approval |
 
+### Knowledge Tier Roadmap (4-tier evolution)
+
+The current 3-tier cascade (plugin-global → user-local → project) will expand to 4 tiers. v0.3.0 implements tiers 1-2. Tiers 3-4 are future.
+
+| Tier | Scope | Location | Status |
+|------|-------|----------|--------|
+| **1. Project** | This project's facts, observations, mutations | `.add/learnings.md`, `.add/observations.md`, `.add/mutations.md` | v0.2.0 (exists) |
+| **2. Install** | One user's cross-project wisdom | `~/.claude/add/library.md`, `~/.claude/add/profile.md` | v0.2.0 (exists) |
+| **3. Collective** | Team, organization, or group shared learnings | `~/.claude/add/collective/{team-name}/` or remote git repo | Future — v1.0+ |
+| **4. Community** | All ADD users — crowd-sourced patterns and process mutations | Curated submission to `knowledge/global.md` or community API | Future — v1.0+ |
+
+**Tier 3 (Collective)** enables teams to share domain learnings, process mutations, and maturity benchmarks within an organization. A team that discovers "always use connection pooling with SeekDB" propagates it to all team projects — not just the one that found it.
+
+**Tier 4 (Community)** enables the entire ADD user base to benefit from crowd-sourced process evolution. A process mutation that improves deploy reliability across 50 projects could be promoted to plugin-global knowledge. This requires curation infrastructure (submission, review, quality scoring) that doesn't exist yet.
+
+Precedence flows downward: project overrides install overrides collective overrides community. More specific always wins.
+
 ## 6. Out of Scope
 
 - CI/CD integration for rule enforcement (future — v1.0.0)
 - Real-time agent communication (agents communicate via files, not sockets)
 - Automated maturity promotion without human approval
-- Cross-project observation aggregation (future — would require user-local observation store)
+- Tier 3 (Collective) and Tier 4 (Community) knowledge sharing (future — v1.0+)
 
 ## 7. Open Questions
 

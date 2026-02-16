@@ -242,3 +242,64 @@ RECOMMENDED RETRO CADENCE:
   - Full interactive retro (/add:retro): After each feature/sprint completion,
     or every 2 weeks — whichever comes first
 ```
+
+---
+
+## Observation Synthesis
+
+After the standard retrospective, read `.add/observations.md` and synthesize:
+
+1. **Read** all observations since the last synthesis (or all if first time)
+2. **Group** by operation type (verify, deploy, tdd-cycle, handoff)
+3. **Identify patterns** — 3+ similar observations = a pattern
+4. **For each pattern, propose a process mutation:**
+   - What skill should change
+   - What specific step to add, modify, or remove
+   - Evidence: list the observations that triggered this
+   - Expected outcome: what should improve
+
+**Format proposals as:**
+```
+### Proposed Mutation: {title}
+**Skill:** /add:{skill-name}
+**Change:** {describe the concrete change to the skill's execution steps}
+**Evidence:** {list observation timestamps and summaries}
+**Expected outcome:** {what should improve}
+```
+
+Present all proposals to the human for approval. Only apply approved mutations.
+
+---
+
+## Apply Approved Mutations
+
+For each human-approved mutation:
+
+1. Read the target skill's SKILL.md
+2. Apply the change — add the step, modify the sequence, embed the check
+3. Log the mutation in `.add/mutations.md`:
+```
+## M-{NNN} ({date}, approved)
+**Trigger:** {pattern description with observation evidence}
+**Change:** {what was modified in which skill}
+**Status:** Applied
+**Outcome:** {to be filled in at next retro}
+```
+4. Mark the source observations as "synthesized" (append ` [synthesized M-{NNN}]` to each)
+
+---
+
+## Process Health Assessment
+
+Review `.add/mutations.md` for previously applied mutations:
+
+1. For each mutation applied before this retro, check recent observations:
+   - Did the problem recur? → Mutation may need strengthening
+   - Did the problem stop? → Mutation is working, note positive outcome
+   - New side effects? → Mutation may need adjustment
+2. Update the mutation's **Outcome** field with findings
+3. Report process health summary:
+   - Mutations working: {count}
+   - Mutations needing adjustment: {count}
+   - New patterns detected: {count}
+   - Overall trend: {improving / stable / degrading}

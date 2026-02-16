@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: alpha
 ---
 
 # ADD Rule: Spec-Driven Development

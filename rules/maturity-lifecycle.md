@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: beta
 description: "Master rule governing all ADD behavior based on project maturity level"
 ---
 

@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: alpha
 ---
 
 # ADD Rule: Human-AI Collaboration Protocol

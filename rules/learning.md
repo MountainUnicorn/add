@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: poc
 ---
 
 # ADD Rule: Continuous Learning
@@ -199,3 +200,57 @@ The highest bar. Plugin-global knowledge ships to ALL ADD users.
 - User preferences (naming conventions, UI patterns)
 
 **Process:** Only the ADD development project can write to `knowledge/global.md`. During `/add:retro` in the ADD project itself, the retro flow includes a "promote to plugin-global" step. In consumer projects, `knowledge/global.md` is read-only.
+
+## Session Handoff Protocol
+
+Agents MUST write `.add/handoff.md` at session boundaries:
+- When context usage exceeds ~80% (conversation getting long)
+- When the user explicitly ends the session or hands off
+- When switching between major work streams
+
+**Handoff format:**
+```
+# Session Handoff
+**Written:** {timestamp}
+
+## In Progress
+- {what was being worked on, with file paths and step progress}
+
+## Decisions Made
+- {choices made this session with brief rationale}
+
+## Blockers
+- {anything that's stuck or needs human input}
+
+## Next Steps
+1. {prioritized list of what should happen next}
+```
+
+**Rules:**
+- Handoff replaces the previous one (current state, not append-only)
+- Keep under 50 lines — this is a summary, not a transcript
+- All ADD skills MUST read `.add/handoff.md` at the start of execution if it exists
+- `/add:back` reads handoff as part of the return briefing
+
+## Knowledge Store Boundaries
+
+Each store has a single purpose. Do not cross-pollinate:
+
+| Store | Purpose | NOT for |
+|-------|---------|---------|
+| `CLAUDE.md` | Project architecture, tech stack, conventions | Session state, learnings, observations |
+| `.add/learnings.md` | Domain facts — framework quirks, API gotchas | Process observations, session state |
+| `.add/observations.md` | Process data — what happened, what it cost | Domain facts, architecture |
+| `.add/handoff.md` | Current session state — in progress, next steps | Permanent knowledge |
+| `.add/decisions.md` | Architectural choices with rationale | Transient session state |
+| `.add/mutations.md` | Process evolution — approved workflow changes | Domain facts |
+
+During `/add:retro`, identify entries in the wrong store and relocate them.
+
+**Knowledge tier roadmap:**
+- **Tier 1: Project** (`.add/`) — this project's knowledge (exists)
+- **Tier 2: Install** (`~/.claude/add/`) — cross-project user wisdom (exists)
+- **Tier 3: Collective** — team/org shared learnings (future)
+- **Tier 4: Community** — all ADD users, crowd-sourced (future)
+
+Precedence: project > install > collective > community. More specific wins.

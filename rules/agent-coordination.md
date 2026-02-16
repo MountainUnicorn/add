@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: beta
 ---
 
 # ADD Rule: Agent Coordination Protocol
@@ -280,6 +281,36 @@ After parallel agents complete:
 3. **If merge conflict**: orchestrator resolves, re-runs affected agent's tests
 4. **Final verification**: run full quality gates on merged main branch
 5. **Update cycle status**: mark items as VERIFIED or flag failures
+
+### Swarm State Coordination
+
+When multiple agents work in parallel, coordinate via `.add/swarm-state.md`:
+
+#### Claiming Work
+Before starting, each agent writes a status block:
+```
+## {agent-role} ({timestamp})
+status: active
+claimed: {what this agent is working on — spec, files, scope}
+depends-on: {other agent roles this work depends on, or "none"}
+```
+
+#### Reporting Results
+After completing, the agent updates its block:
+```
+## {agent-role} ({timestamp})
+status: complete
+claimed: {scope}
+result: {one-line summary of output}
+blockers: {anything that prevented full completion, or "none"}
+handoff: {what the next agent needs to know}
+```
+
+#### Rules
+- Check swarm-state BEFORE claiming work — if another agent has claimed overlapping scope, coordinate or wait
+- Status values: `active`, `complete`, `blocked`, `abandoned`
+- The orchestrator clears swarm-state at the start of each new multi-agent operation
+- Swarm-state is working state, not permanent record — cleared between cycles
 
 ### Anti-Patterns
 

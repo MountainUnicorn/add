@@ -19,19 +19,23 @@ Goal: Establish ADD (Agent Driven Development) as THE authoritative methodology 
 - [ ] Verify site loads at https://getadd.dev
 
 ### GitHub Repository
-- [ ] Push MountainUnicorn/add to GitHub (public)
-- [ ] Set repo description: "ADD — Agent Driven Development. Coordinated AI agent teams that ship verified software. Free Claude Code plugin."
-- [ ] Add topics: `claude-code`, `plugin`, `agent-driven-development`, `ai-agents`, `tdd`, `sdlc`, `methodology`
-- [ ] Set website URL to https://getadd.dev
+- [x] Push MountainUnicorn/add to GitHub (public)
+- [x] Set repo description: "ADD — Agent Driven Development. Coordinated AI agent teams that ship verified software. Free Claude Code plugin."
+- [x] Add topics: `claude-code`, `plugin`, `agent-driven-development`, `ai-agents`, `tdd`, `sdlc`, `methodology`, `multi-agent`, `spec-driven`, `trust-but-verify`
+- [x] Set website URL to https://getadd.dev
 - [x] Add MIT LICENSE file (done in v0.2.0)
-- [ ] Create CONTRIBUTING.md
-- [ ] Create initial GitHub Release (v0.2.0) with release notes
+- [x] Create CONTRIBUTING.md
+- [x] Create initial GitHub Release (v0.2.0) with release notes
+- [x] Create issue templates (bug report, feature request)
+- [x] Create pull request template
+- [x] Enrich plugin.json with homepage, author URL, expanded keywords
+- [x] Enrich marketplace.json with metadata, homepage, keywords, tags
 
 ### Plugin Registries
-- [ ] Submit to **Anthropic's official plugin directory** via submission form: https://clau.de/plugin-directory-submission (NOT via PR — use the form)
-- [ ] Register on **claude-plugins.dev** (community registry)
-- [ ] Submit to **claudemarketplaces.com** (plugin discovery site)
-- [ ] Verify self-hosted marketplace install works: `/plugin marketplace add MountainUnicorn/add` → `/plugin install add@add-marketplace`
+- [x] Submit to **Anthropic's official plugin directory** via submission form: https://clau.de/plugin-directory-submission (submitted 2026-02-14, awaiting review)
+- [ ] **claude-plugins.dev** — Community index that appears to auto-discover from official directory and GitHub. No direct submission form. Should index ADD automatically once listed officially.
+- [ ] **claudemarketplaces.com** — Aggregator that indexes marketplace repos. Should discover MountainUnicorn/add automatically as it gains GitHub visibility.
+- [x] Verify self-hosted marketplace install works: `/plugin marketplace add MountainUnicorn/add` → `/plugin install add@add-marketplace`
 
 **Note:** Claude Code plugins do NOT use npm for distribution. They use git repositories. The npm distribution item in Phase 4 should be removed.
 
@@ -48,11 +52,11 @@ Goal: Establish ADD (Agent Driven Development) as THE authoritative methodology 
 - [ ] **dev.to** — First article: "Introducing ADD: Agent Driven Development"
 
 ### Awesome Lists (Submit PRs)
-- [ ] [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — largest, most relevant
-- [ ] [jqueryscript/awesome-claude-code](https://github.com/jqueryscript/awesome-claude-code)
+- [x] [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — 23.7k stars, submitted via issue template (issues/723, 2026-02-14)
+- [x] [jqueryscript/awesome-claude-code](https://github.com/jqueryscript/awesome-claude-code) — PR #35 submitted (2026-02-14)
 - [ ] [awesomeclaude.ai](https://awesomeclaude.ai/) — visual directory
-- [ ] [tonysurfly/awesome-claude](https://github.com/tonysurfly/awesome-claude) — general Claude ecosystem
-- [ ] [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills)
+- [x] [tonysurfly/awesome-claude](https://github.com/tonysurfly/awesome-claude) — PR #41 submitted (2026-02-14)
+- [x] [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) — 34.8k stars, PR #208 with SKILL.md submitted (2026-02-14)
 
 ### AI Tool Directories
 - [ ] [There's An AI For That](https://theresanaiforthat.com/submit/) — highest reach, newsletter feature
@@ -88,11 +92,12 @@ Goal: Establish ADD (Agent Driven Development) as THE authoritative methodology 
 ## Phase 4: Growth (Month 2+)
 
 ### Community Building
-- [ ] Enable GitHub Discussions with categories: Q&A, Ideas, Announcements, Show and Tell
-- [ ] Create "good first issue" labels for community PRs
-- [ ] Create `.github/CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`
-- [ ] Create issue templates (bug_report.md, feature_request.md)
-- [ ] Create pull request template
+- [x] Enable GitHub Discussions with categories: Q&A, Ideas, Announcements, Show and Tell
+- [x] Create "good first issue" labels for community PRs (default labels already include it)
+- [x] Create CONTRIBUTING.md (done 2026-02-14, at repo root)
+- [x] Create `CODE_OF_CONDUCT.md`, `SECURITY.md` (done 2026-02-15)
+- [x] Create issue templates — bug_report.md, feature_request.md (done 2026-02-14)
+- [x] Create pull request template (done 2026-02-14)
 - [ ] Monthly contributor spotlights
 - [ ] Engage consistently on r/ClaudeAI answering agent-related questions
 

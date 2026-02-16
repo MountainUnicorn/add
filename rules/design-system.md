@@ -1,5 +1,6 @@
 ---
 description: "Design system for visual artifacts — Silicon Valley Unicorn aesthetic adapted for ADD with raspberry branding"
+maturity: ga
 globs: ["docs/infographic.svg", "reports/*.html"]
 ---
 

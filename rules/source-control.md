@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: poc
 ---
 
 # ADD Rule: Source Control Protocol

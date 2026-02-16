@@ -1,5 +1,6 @@
 ---
 autoload: true
+maturity: beta
 ---
 
 # ADD Rule: Test-Driven Development
