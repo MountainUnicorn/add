@@ -100,11 +100,15 @@
 
 ## Profile Update Candidates
 
-- 2026-02-07: Author consistently uses GitHub for git hosting across all projects. Promote to profile?
-- 2026-02-07: Author prefers Python 3.11+ FastAPI + React 18 + TypeScript stack. Promote to profile?
-- 2026-02-07: Author uses GCP (Cloud Run) for production deployment. Promote to profile?
-- 2026-02-07: Author uses Docker Compose for local development on multi-service projects. Promote to profile?
-- 2026-02-07: Author prefers conventional commits (feat:, fix:, docs:, etc.). Promote to profile?
+<!-- All 5 candidates resolved 2026-02-17 during first retro — all already present in ~/.claude/add/profile.md -->
+
+### Checkpoint: First Retro — 2026-02-17
+- Period: 2026-02-07 → 2026-02-17 (full project history)
+- 5/5 specs marked Complete (4 were Draft despite having implementations — spec-after-code violation)
+- 5 profile update candidates resolved (all already in profile.md)
+- Promoted "spec-before-code discipline" to Tier 1 (knowledge/global.md)
+- Key learning: dog-food the methodology or lose credibility as an open-source SDLC project
+- Feedback filtering posture established: accept gems from criticism, maintain independent view
 
 ### Checkpoint: Documentation & Namespace Fix — 2026-02-08
 - Created comprehensive README.md, SVG infographic (docs/infographic.svg), and HTML overview report (reports/add-overview.html) following enterprise plugin's design system patterns

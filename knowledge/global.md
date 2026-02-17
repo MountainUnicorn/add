@@ -41,6 +41,7 @@
 - "Cycle" is better than "sprint" for work batching. Sprints imply fixed calendar time; cycles are scope-boxed and end when validation criteria are met.
 - Now/Next/Later framing for milestones avoids fake date precision. AI-agent work moves at unpredictable pace.
 - Dog-fooding the plugin as a consumer catches issues that the developer perspective never would (e.g., namespace issues, missing permissions).
+- Spec-before-code must be enforced on the methodology project itself. If specs are written after implementation, the project has no credibility prescribing spec-driven development to others. Retroactively marking specs "Complete" is a debt payment, not a workflow.
 
 ## Environment Promotion
 
