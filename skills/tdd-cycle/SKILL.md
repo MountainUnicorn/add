@@ -36,6 +36,10 @@ Before beginning, validate:
 4. Verify plan exists at docs/plans/{feature}-plan.md
    - If not, generate one using /add:plan skill before proceeding
 5. Identify target implementation paths from the spec
+6. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
 
 ## Execution Phases
 

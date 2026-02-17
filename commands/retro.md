@@ -186,7 +186,28 @@ Shall I apply these changes now?
    If agreed changes affect the process (e.g., "add edge case section to spec template"),
    make the edits now.
 
-6. **Clear agent checkpoints:**
+6. **Deduplicate knowledge stores:**
+   Read all knowledge stores (`.add/learnings.md`, `.add/observations.md`, `.add/handoff.md`, `CLAUDE.md`, `.add/decisions.md`) and identify duplicate or overlapping entries:
+   - Same insight recorded in multiple stores → keep in the correct store per Knowledge Store Boundaries (see `rules/learning.md`), remove from others
+   - Near-duplicate observations (same event recorded twice) → consolidate into one entry, preserve the richer version
+   - Learnings that are actually process observations → move to `.add/observations.md`
+   - Process observations that are actually domain facts → move to `.add/learnings.md`
+   - Report: "{N} duplicates consolidated, {N} entries relocated"
+
+7. **Prune stale entries:**
+   Review entries by age and activity:
+   - **Observations >30 days old** without a `[synthesized M-{NNN}]` tag → archive to `.add/archive/observations-{date}.md` (create directory if needed)
+   - **Learnings >90 days old** without being referenced in any checkpoint, retro, or dispatch since recording → flag for human review:
+     ```
+     STALE LEARNINGS (>90 days, no recent references):
+       - {learning summary} (recorded {date})
+       - {learning summary} (recorded {date})
+     Keep or archive these?
+     ```
+   - Do NOT auto-delete learnings — always ask the human
+   - Archived entries are moved, not copied (remove from source after archiving)
+
+8. **Clear agent checkpoints:**
    Move processed checkpoint entries from `.add/learnings.md` into the retro archive.
    Fresh learnings start accumulating for the next period.
    Profile Update Candidates section is cleared after promotion decisions.

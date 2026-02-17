@@ -44,6 +44,11 @@ Test Writer converts acceptance criteria and user test cases from a spec into fa
    - Determine file naming from convention
    - Check if test file already exists; if so, append new tests
 
+6. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Execution Steps
 
 ### Step 1: Analyze Acceptance Criteria

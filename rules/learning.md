@@ -208,6 +208,15 @@ Agents MUST write `.add/handoff.md` at session boundaries:
 - When the user explicitly ends the session or hands off
 - When switching between major work streams
 
+**Proactive 80% Context Trigger:**
+Agents MUST monitor their own context usage. When the conversation has been long (many tool calls, large file reads, extensive back-and-forth), proactively write `.add/handoff.md` without waiting for the user to ask. Err on the side of writing handoff too early rather than losing context. Indicators that you should write a handoff NOW:
+- You have made 20+ tool calls in this session
+- You have read 10+ files
+- The conversation has 30+ back-and-forth turns
+- You are about to start a new major work stream
+
+When writing a proactive handoff, inform the user: "Context is getting long — writing a session handoff to `.add/handoff.md` so the next session can pick up seamlessly."
+
 **Handoff format:**
 ```
 # Session Handoff

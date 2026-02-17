@@ -46,6 +46,11 @@ The plan bridges the gap between "what to build" (spec) and "how to build it" (i
    - If exists, ask user: overwrite or update?
    - Preserve previous efforts if updating
 
+5. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Execution Steps
 
 ### Step 1: Analyze Acceptance Criteria

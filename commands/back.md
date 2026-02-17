@@ -11,10 +11,13 @@ The human has returned. Provide a concise briefing on what happened during their
 ## Phase 1: Gather Status
 
 1. Read `.add/away-log.md` for the work log
-2. Check git log for commits made during the away period
-3. Run test suite to get current status
-4. Check for any pending quality gate issues
-5. Read TodoWrite for current task state
+2. Read `.add/handoff.md` if it exists — note in-progress work, decisions, blockers, and next steps from the last session
+3. Read `.add/swarm-state.md` if it exists — note any parallel agent work that was active, completed, or blocked
+4. Read `.add/decisions.md` if it exists — note any architectural decisions made during absence
+5. Check git log for commits made during the away period
+6. Run test suite to get current status
+7. Check for any pending quality gate issues
+8. Read TodoWrite for current task state
 
 ## Phase 2: Compile Briefing
 
@@ -43,6 +46,12 @@ NEEDS YOUR INPUT:
   1. {decision description}
      Options: {A vs B vs C}
   2. {decision description}
+
+COORDINATION STATE:
+━━━━━━━━━━━━━━━━━
+  Handoff: {summary of handoff.md — in-progress items and next steps, or "no handoff file"}
+  Swarm: {summary of swarm-state.md — active/completed/blocked agents, or "no active swarm"}
+  Decisions: {N new decisions logged, or "no new decisions"}
 
 CURRENT PROJECT STATE:
 ━━━━━━━━━━━━━━━━━━━━

@@ -45,6 +45,11 @@ The Implementer takes failing tests (from test-writer) and writes the smallest a
    - Load any build/transpilation settings
    - Load dependency management settings
 
+6. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Execution Steps
 
 ### Step 1: Analyze Test Requirements

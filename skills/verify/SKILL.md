@@ -29,7 +29,17 @@ The five-gate system ensures code quality at every stage:
    - Load code.types configuration
    - Load environment tier settings
 
-2. **Determine execution level**
+2. **Count active rules for maturity level**
+   - Read maturity level from `.add/config.json` (default: alpha)
+   - Scan all files in `rules/` directory
+   - For each rule file, read the YAML frontmatter `maturity:` field
+   - Count rules where the maturity field is at or below the current level
+     - Maturity hierarchy: poc < alpha < beta < ga
+     - A rule with `maturity: poc` is active at all levels
+     - A rule with `maturity: beta` is active at beta and ga only
+   - Include in report header: "{N} rules active at {maturity} level"
+
+3. **Determine execution level**
    - Use --level flag or infer from environment
    - If not specified, default to 'local'
    - Levels control which gates run:
@@ -38,16 +48,21 @@ The five-gate system ensures code quality at every stage:
      - **deploy**: Gates 1-4 (+ spec compliance) for production deploy
      - **smoke**: Gate 5 only (post-deploy health check)
 
-3. **Verify required files exist**
+4. **Verify required files exist**
    - Test files exist (unless smoke level)
    - Implementation files exist
    - Config files exist (package.json, tsconfig.json, etc.)
    - CI/deployment scripts available
 
-4. **Check environment**
+5. **Check environment**
    - Verify tools are installed (eslint, tsc, jest, pytest, etc.)
    - Check Node/Python version if applicable
    - Verify dependencies are installed
+
+6. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
 
 ## Execution Steps
 
@@ -394,6 +409,7 @@ Generate a comprehensive verification report:
 - Timestamp: {ISO timestamp}
 - Feature: {feature-name}
 - Branch: {git branch}
+- Active Rules: {N} at {maturity} level
 
 ## Summary
 Overall Status: ✓ ALL GATES PASSED [or ✗ GATES FAILED]

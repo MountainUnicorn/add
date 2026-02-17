@@ -50,6 +50,11 @@ The Reviewer analyzes implementation against the spec and quality standards with
    - frontend: UI, components, client code
    - full: Everything
 
+6. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Execution Steps
 
 ### Step 1: Spec Compliance Check

@@ -135,6 +135,11 @@ Verification is a learning opportunity. When the orchestrator verifies sub-agent
    - **Pattern to avoid:** {generalized lesson for future work}
    ```
 3. If the error reveals a spec gap, flag it for the next retro
+4. Append a structured observation to `.add/observations.md` tagged `[agent-retro]`:
+   ```markdown
+   {YYYY-MM-DD HH:MM} | [agent-retro] | verify-catch | {what the sub-agent got wrong} | {process gap: why this wasn't caught earlier}
+   ```
+   This observation feeds into orchestrator micro-retros and `/add:retro` synthesis.
 
 ### When Verification Passes Clean
 
@@ -311,6 +316,20 @@ handoff: {what the next agent needs to know}
 - Status values: `active`, `complete`, `blocked`, `abandoned`
 - The orchestrator clears swarm-state at the start of each new multi-agent operation
 - Swarm-state is working state, not permanent record — cleared between cycles
+
+#### Micro-Retro After Multi-Agent Operations
+
+After ALL parallel agents complete and their work is merged, the orchestrator runs a micro-retro:
+
+1. **Collect observations** — Read all `[agent-retro]` tagged entries from `.add/observations.md` written during this operation
+2. **Synthesize** — Identify the single most impactful process insight from this batch of parallel work
+3. **Record** — Append one synthesis entry to `.add/observations.md`:
+   ```
+   {YYYY-MM-DD HH:MM} | [agent-retro] | micro-retro | {operation name} | {synthesized process insight}
+   ```
+4. **Apply immediately** — If the insight is actionable for the current session (e.g., "Agent B's tests duplicated Agent A's — add file reservation check"), apply it to remaining dispatches
+
+Micro-retros are lightweight — one observation, one insight. Full retrospectives happen during `/add:retro`.
 
 ### Anti-Patterns
 

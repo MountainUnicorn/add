@@ -3,7 +3,7 @@
 **Version:** 0.1.0
 **Created:** 2026-02-16
 **PRD Reference:** docs/prd.md
-**Status:** Draft
+**Status:** Complete
 **Target Release:** v0.3.0
 
 ## 1. Overview
@@ -29,26 +29,26 @@ As a developer using ADD across multiple sessions and agents, I want context to 
 
 | ID | Criterion | Priority |
 |----|-----------|----------|
-| AC-001 | `.add/handoff.md` is written at session boundaries (context getting long, user departure, explicit handoff). Contains: in-progress work, decisions made, blockers, and next steps. | Must |
-| AC-002 | Handoff is current-state (replaced each time), not append-only. One session's handoff replaces the previous. | Must |
-| AC-003 | All ADD skills read `.add/handoff.md` at the start of execution if it exists, to pick up where the last session left off. | Must |
-| AC-004 | `.add/swarm-state.md` tracks parallel agent coordination. Each agent writes a status block when claiming work (start) and when finishing (result). | Must |
-| AC-005 | Swarm state entries include: agent role, timestamp, claimed scope, status (active/complete/blocked), result summary, and handoff notes. | Must |
-| AC-006 | `.add/decisions.md` is an append-only log of architectural and process decisions with timestamps and rationale. One line per decision. | Should |
-| AC-007 | `/add:back` reads handoff.md, swarm-state.md, and decisions.md to construct the briefing — not just the away log. | Must |
-| AC-008 | Session handoff is triggered automatically when context usage exceeds 80%, not only on explicit user request. | Should |
+| AC-001 | ✅ `.add/handoff.md` is written at session boundaries (context getting long, user departure, explicit handoff). Contains: in-progress work, decisions made, blockers, and next steps. | Must |
+| AC-002 | ✅ Handoff is current-state (replaced each time), not append-only. One session's handoff replaces the previous. | Must |
+| AC-003 | ✅ All ADD skills read `.add/handoff.md` at the start of execution if it exists, to pick up where the last session left off. | Must |
+| AC-004 | ✅ `.add/swarm-state.md` tracks parallel agent coordination. Each agent writes a status block when claiming work (start) and when finishing (result). | Must |
+| AC-005 | ✅ Swarm state entries include: agent role, timestamp, claimed scope, status (active/complete/blocked), result summary, and handoff notes. | Must |
+| AC-006 | ✅ `.add/decisions.md` is an append-only log of architectural and process decisions with timestamps and rationale. One line per decision. | Should |
+| AC-007 | ✅ `/add:back` reads handoff.md, swarm-state.md, and decisions.md to construct the briefing — not just the away log. | Must |
+| AC-008 | ✅ Session handoff is triggered automatically when context usage exceeds 80%, not only on explicit user request. | Should |
 
 ### B. Maturity-Gated Rule Loading
 
 | ID | Criterion | Priority |
 |----|-----------|----------|
-| AC-009 | Rules declare their minimum maturity level via frontmatter: `maturity: alpha` (or poc/beta/ga). | Must |
-| AC-010 | Only rules at or below the project's current maturity level load into the system prompt. Higher-maturity rules remain on disk but are dormant. | Must |
-| AC-011 | At `poc` maturity: only `project-structure`, `learning`, and `source-control` rules load (~3 rules). | Must |
-| AC-012 | At `alpha` maturity: add `spec-driven` (critical paths only), `quality-gates` (pre-commit only), `human-collaboration`. (~6 rules). | Must |
-| AC-013 | At `beta` maturity: add `tdd-enforcement`, `agent-coordination`, `environment-awareness`, `maturity-lifecycle`. (~10 rules). | Must |
-| AC-014 | At `ga` maturity: all rules load including `design-system` and full quality cascade. (all rules). | Must |
-| AC-015 | Rule loading is documented so users can see which rules are active: `/add:verify` reports "N rules active at {maturity} level." | Should |
+| AC-009 | ✅ Rules declare their minimum maturity level via frontmatter: `maturity: alpha` (or poc/beta/ga). | Must |
+| AC-010 | ✅ Only rules at or below the project's current maturity level load into the system prompt. Higher-maturity rules remain on disk but are dormant. | Must |
+| AC-011 | ✅ At `poc` maturity: only `project-structure`, `learning`, and `source-control` rules load (~3 rules). | Must |
+| AC-012 | ✅ At `alpha` maturity: add `spec-driven` (critical paths only), `quality-gates` (pre-commit only), `human-collaboration`. (~6 rules). | Must |
+| AC-013 | ✅ At `beta` maturity: add `tdd-enforcement`, `agent-coordination`, `environment-awareness`, `maturity-lifecycle`. (~10 rules). | Must |
+| AC-014 | ✅ At `ga` maturity: all rules load including `design-system` and full quality cascade. (all rules). | Must |
+| AC-015 | ✅ Rule loading is documented so users can see which rules are active: `/add:verify` reports "N rules active at {maturity} level." | Should |
 
 ### C. Honest Maturity Assessment
 
@@ -63,31 +63,31 @@ As a developer using ADD across multiple sessions and agents, I want context to 
 
 | ID | Criterion | Priority |
 |----|-----------|----------|
-| AC-020 | **Micro-observations:** After every `/add:verify`, `/add:deploy`, `/add:tdd-cycle`, and session handoff, the executing skill appends one structured line to `.add/observations.md`. | Must |
-| AC-021 | Observation format: `{timestamp} | {operation} | {what happened} | {cost or benefit}` — one line, no deliberation. Written by the skill as its final step. | Must |
-| AC-022 | **Pattern synthesis:** After every 10 observations, or during `/add:retro`, the agent reads observations and identifies recurring patterns (3+ similar observations = pattern). | Must |
-| AC-023 | Synthesis produces proposed process mutations: concrete changes to skill execution sequences, not new rules to read. Format: "Proposed: {skill} now {does X} before {Y}. Evidence: {observations}." | Must |
-| AC-024 | **Process mutation:** Proposed changes are presented to the human for approval before being applied to skill files or workflow sequences. | Must |
-| AC-025 | Approved mutations are applied by modifying the relevant skill's SKILL.md execution steps — embedding the check as a forced sequence, not a standalone rule. | Must |
-| AC-026 | Mutation history is tracked in `.add/mutations.md` — what changed, when, why, and what observations triggered it. | Should |
-| AC-027 | `/add:retro` now includes a "process health" section that compares recent observations against previous mutations to assess whether changes improved outcomes. | Should |
+| AC-020 | ✅ **Micro-observations:** After every `/add:verify`, `/add:deploy`, `/add:tdd-cycle`, and session handoff, the executing skill appends one structured line to `.add/observations.md`. | Must |
+| AC-021 | ✅ Observation format: `{timestamp} | {operation} | {what happened} | {cost or benefit}` — one line, no deliberation. Written by the skill as its final step. | Must |
+| AC-022 | ✅ **Pattern synthesis:** After every 10 observations, or during `/add:retro`, the agent reads observations and identifies recurring patterns (3+ similar observations = pattern). | Must |
+| AC-023 | ✅ Synthesis produces proposed process mutations: concrete changes to skill execution sequences, not new rules to read. Format: "Proposed: {skill} now {does X} before {Y}. Evidence: {observations}." | Must |
+| AC-024 | ✅ **Process mutation:** Proposed changes are presented to the human for approval before being applied to skill files or workflow sequences. | Must |
+| AC-025 | ✅ Approved mutations are applied by modifying the relevant skill's SKILL.md execution steps — embedding the check as a forced sequence, not a standalone rule. | Must |
+| AC-026 | ✅ Mutation history is tracked in `.add/mutations.md` — what changed, when, why, and what observations triggered it. | Should |
+| AC-027 | ✅ `/add:retro` now includes a "process health" section that compares recent observations against previous mutations to assess whether changes improved outcomes. | Should |
 
 ### E. Agent-to-Agent Retros
 
 | ID | Criterion | Priority |
 |----|-----------|----------|
-| AC-028 | When a verifier agent detects issues in another agent's work, it writes a structured observation noting the gap — not just the fix, but the process failure. | Must |
-| AC-029 | At the end of any multi-agent operation (TDD cycle, parallel work), the orchestrator runs a micro-retro: reads all agent observations from that operation and synthesizes one process insight. | Must |
-| AC-030 | Agent-to-agent retro output goes to `.add/observations.md` (same stream as other observations) tagged with `[agent-retro]`. | Must |
-| AC-031 | The orchestrator can propose skill-level mutations based on agent-to-agent retro patterns — subject to human approval (AC-024). | Should |
+| AC-028 | ✅ When a verifier agent detects issues in another agent's work, it writes a structured observation noting the gap — not just the fix, but the process failure. | Must |
+| AC-029 | ✅ At the end of any multi-agent operation (TDD cycle, parallel work), the orchestrator runs a micro-retro: reads all agent observations from that operation and synthesizes one process insight. | Must |
+| AC-030 | ✅ Agent-to-agent retro output goes to `.add/observations.md` (same stream as other observations) tagged with `[agent-retro]`. | Must |
+| AC-031 | ✅ The orchestrator can propose skill-level mutations based on agent-to-agent retro patterns — subject to human approval (AC-024). | Should |
 
 ### F. Knowledge Store Consolidation
 
 | ID | Criterion | Priority |
 |----|-----------|----------|
-| AC-032 | Clear ownership per store: `.add/learnings.md` = domain facts only (framework quirks, API gotchas). `.add/observations.md` = process observations only. `.add/handoff.md` = current session state only. `CLAUDE.md` = project context and architecture only. | Must |
-| AC-033 | `/add:retro` includes a dedup step: identify entries that appear in multiple stores and consolidate to the correct one. | Should |
-| AC-034 | Stale entry pruning: observations older than 30 days that haven't influenced a synthesis are archived to `.add/archive/`. Learnings older than 90 days without a reference are flagged for review. | Nice |
+| AC-032 | ✅ Clear ownership per store: `.add/learnings.md` = domain facts only (framework quirks, API gotchas). `.add/observations.md` = process observations only. `.add/handoff.md` = current session state only. `CLAUDE.md` = project context and architecture only. | Must |
+| AC-033 | ✅ `/add:retro` includes a dedup step: identify entries that appear in multiple stores and consolidate to the correct one. | Should |
+| AC-034 | ✅ Stale entry pruning: observations older than 30 days that haven't influenced a synthesis are archived to `.add/archive/`. Learnings older than 90 days without a reference are flagged for review. | Nice |
 
 ## 3. User Test Cases
 

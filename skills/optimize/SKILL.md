@@ -50,6 +50,11 @@ Performance optimization follows TDD discipline: write tests that capture perfor
    - Frontend: Chrome DevTools, Lighthouse, WebPageTest
    - Database: EXPLAIN ANALYZE, pg_stat_statements, etc.
 
+6. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Execution Steps
 
 ### Step 1: Baseline Profiling (if --profile-first)

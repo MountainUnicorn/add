@@ -33,6 +33,11 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 - If exists, read for richer content extraction
 - If not found, proceed with config-only mode (fallback)
 
+**Step 1.5: Check for session handoff**
+- Read `.add/handoff.md` if it exists
+- Note any in-progress work or decisions relevant to this operation
+- If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Phase 1: Gather Content
 
 ### Step 1.1: Extract from PRD or Config

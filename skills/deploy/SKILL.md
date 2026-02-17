@@ -61,6 +61,11 @@ Deployment flows:
    - For production, branch should be up-to-date with main
    - For dev, any branch acceptable
 
+7. **Check for session handoff**
+   - Read `.add/handoff.md` if it exists
+   - Note any in-progress work or decisions relevant to this operation
+   - If handoff mentions blockers for this skill's scope, warn before proceeding
+
 ## Execution Steps
 
 ### Step 1: Pre-Deployment Verification
