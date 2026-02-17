@@ -54,10 +54,10 @@ As a developer using ADD across multiple sessions and agents, I want context to 
 
 | ID | Criterion | Priority |
 |----|-----------|----------|
-| AC-016 | `/add:init --adopt` (existing project adoption) analyzes actual project behavior: commit patterns, test presence/coverage, branching strategy, spec existence, CI config. | Must |
-| AC-017 | Maturity is set based on observed behavior, not aspiration. If there are no specs and no TDD, maturity is `poc` or `alpha` regardless of what the user requests. | Must |
-| AC-018 | A maturity gap report is generated showing current state vs. next level requirements, with a concrete remediation path. | Should |
-| AC-019 | Maturity promotion requires evidence: `/add:retro` or `/add:cycle --complete` checks promotion criteria against actual project state. | Must |
+| AC-016 | ✅ `/add:init --adopt` (existing project adoption) analyzes actual project behavior: commit patterns, test presence/coverage, branching strategy, spec existence, CI config. | Must |
+| AC-017 | ✅ Maturity is set based on observed behavior, not aspiration. If there are no specs and no TDD, maturity is `poc` or `alpha` regardless of what the user requests. | Must |
+| AC-018 | ✅ A maturity gap report is generated showing current state vs. next level requirements, with a concrete remediation path. | Should |
+| AC-019 | ✅ Maturity promotion requires evidence: `/add:retro` or `/add:cycle --complete` checks promotion criteria against actual project state. | Must |
 
 ### D. Self-Evolution Model
 
