@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.2.0] Environment-aware commit, push, and deploy workflow"
+description: "[ADD v0.3.0] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 ---
 
-# ADD Deploy Skill v0.2.0
+# ADD Deploy Skill v0.3.0
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 

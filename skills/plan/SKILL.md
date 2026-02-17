@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.2.0] Create implementation plan from a feature spec"
+description: "[ADD v0.3.0] Create implementation plan from a feature spec"
 argument-hint: "specs/{feature}.md"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---
 
-# ADD Plan Skill v0.2.0
+# ADD Plan Skill v0.3.0
 
 Create a detailed implementation plan from a feature specification. This skill analyzes acceptance criteria, breaks down work into manageable tasks, identifies parallelizable work, and estimates effort.
 

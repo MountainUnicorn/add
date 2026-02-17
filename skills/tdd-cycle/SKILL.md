@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.2.0] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
+description: "[ADD v0.3.0] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--parallel]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task, TodoWrite]
 ---
 
-# ADD TDD Cycle Skill v0.2.0
+# ADD TDD Cycle Skill v0.3.0
 
 Execute a complete Test-Driven Development cycle for a feature from the specification through production-quality code.
 

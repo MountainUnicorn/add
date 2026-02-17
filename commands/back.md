@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.2.0] Return from absence — get briefing on autonomous work"
+description: "[ADD v0.3.0] Return from absence — get briefing on autonomous work"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 disable-model-invocation: true
 ---
 
-# ADD Back Command v0.2.0
+# ADD Back Command v0.3.0
 
 The human has returned. Provide a concise briefing on what happened during their absence.
 

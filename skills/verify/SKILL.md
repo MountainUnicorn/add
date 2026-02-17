@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.2.0] Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v0.3.0] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 ---
 
-# ADD Verify Skill v0.2.0
+# ADD Verify Skill v0.3.0
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 
