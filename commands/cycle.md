@@ -367,7 +367,52 @@ Now that cycle is done, did the milestone's success criteria improve?
 - "All authentication specs passing in staging" → Is this now true?
 - "Zero authentication-related bugs for 7 days" → How are we trending?
 
-If milestone success criteria are now fully met, **suggest milestone closure & maturity promotion assessment** (see below).
+If milestone success criteria are now fully met, **suggest milestone closure.**
+
+#### Maturity Promotion Check (evidence-based)
+
+If milestone completion triggers a promotion suggestion, run an evidence scan before recommending it. Promotion requires evidence, not aspiration.
+
+Scan the project for:
+
+| Evidence Item | How to Check |
+|---------------|-------------|
+| Feature specs | `specs/*.md` exist for user-facing features |
+| Test coverage | Run coverage tool, report actual % |
+| CI/CD pipeline | `.github/workflows/` or equivalent exists and passing |
+| PR workflow | Git log shows merge commits from pull requests |
+| Environment separation | Config shows 2+ deploy targets |
+| Conventional commits | Last 20 commits follow `feat:/fix:/docs:` pattern |
+| TDD evidence | Test file timestamps precede or match implementation |
+| Branch protection | Protected branches on main/master |
+| Release tags | Semantic version tags in git |
+| Quality gates | Pre-commit hooks or CI checks configured |
+
+**Scoring:**
+- POC → Alpha: 3+ items present
+- Alpha → Beta: 6+ items present (specs, 50%+ coverage, CI, PR workflow required)
+- Beta → GA: 9+ items present (80%+ coverage, protected branches, release tags, 30+ days stability required)
+
+**If evidence supports promotion:**
+```
+Milestone M{N} complete. Evidence supports maturity promotion:
+  Current: {ALPHA}
+  Evidence score: {7}/10
+  Recommendation: Promote to {BETA}
+
+  Run /add:retro to formally promote (updates config, activates new rules).
+```
+
+**If evidence does NOT support promotion:**
+```
+Milestone M{N} complete. Maturity stays at {ALPHA}.
+  Evidence score: {4}/10
+  Missing for {BETA}: {list gaps}
+
+  Address gaps, then reassess at next /add:retro.
+```
+
+Do NOT auto-promote. Promotion is applied through `/add:retro` which updates config and records the change.
 
 ### Step 4: Archive Cycle & Checkpoint
 
@@ -423,7 +468,7 @@ Milestone M8 progress:
   • Success Criteria: 5/5 met (all specs passing, 0 bugs for 7 days, mobile parity confirmed)
   • Status: READY TO CLOSE
 
-Recommendation: Complete milestone M8, then assess maturity promotion (Alpha → Beta).
+Recommendation: Complete milestone M8, then run /add:retro to assess evidence-based promotion.
 
 Options:
   /milestone --close M8

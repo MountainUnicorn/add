@@ -191,6 +191,89 @@ Shall I apply these changes now?
    Fresh learnings start accumulating for the next period.
    Profile Update Candidates section is cleared after promotion decisions.
 
+### Phase 6: Maturity Promotion Assessment
+
+If the retro surfaces a promotion request (human asks or agent observations suggest readiness), run an evidence-based check before allowing it.
+
+#### Evidence Check
+
+Scan the actual project state for promotion criteria:
+
+```
+PROMOTION ASSESSMENT: {current_level} → {target_level}
+
+EVIDENCE REQUIRED FOR {TARGET_LEVEL}:
+```
+
+**For Alpha → Beta promotion, ALL of these must be present:**
+- [ ] Feature specs exist for all user-facing features (`specs/*.md`)
+- [ ] Test coverage above 50% (run coverage tool, report actual %)
+- [ ] CI/CD pipeline configured and passing (`.github/workflows/`, `.gitlab-ci.yml`, etc.)
+- [ ] PR workflow in use (check git log for merge commits from PRs)
+- [ ] At least 2 deployment environments configured
+- [ ] Conventional commits in use (check last 20 commits for pattern)
+- [ ] TDD evidence: test files with timestamps before or within 1 hour of implementation
+
+**For Beta → GA promotion, ALL Beta criteria plus:**
+- [ ] Test coverage above 80%
+- [ ] Protected branches enabled on main/master
+- [ ] Release tags in use (semantic versioning)
+- [ ] 3+ deployment environments (dev/staging/prod)
+- [ ] All quality gates configured and blocking (not advisory)
+- [ ] 30+ days of production stability (no rollbacks, no critical bugs)
+- [ ] SLAs defined in documentation
+
+**For POC → Alpha promotion:**
+- [ ] At least 3 evidence items from the full checklist (specs, tests, CI, commits, etc.)
+- [ ] Core product concept validated (human confirms)
+
+#### Promotion Decision
+
+```
+PROMOTION EVIDENCE:
+  Required: {N} criteria
+  Met: {N} criteria
+  Missing: {N} criteria
+
+  {list each criterion with ✓ or ✗}
+```
+
+**If all criteria met:**
+```
+Evidence supports promotion to {TARGET_LEVEL}.
+Applying promotion:
+  - Updating .add/config.json maturity to "{target_level}"
+  - Recording promotion in retro archive
+  - New rules will activate at next session start (see maturity-loader)
+
+Congratulations — your project has earned {TARGET_LEVEL} maturity.
+```
+
+Update `.add/config.json`:
+```json
+{
+  "maturity": {
+    "level": "{target_level}",
+    "promoted_from": "{current_level}",
+    "promoted_date": "{today}",
+    "next_promotion_criteria": "{summary of what's needed for the level after target}"
+  }
+}
+```
+
+**If criteria NOT met:**
+```
+Promotion to {TARGET_LEVEL} is not yet supported by evidence.
+
+Missing:
+  ✗ {criterion 1} — {how to fix: e.g., "Run /add:spec for remaining features"}
+  ✗ {criterion 2} — {how to fix}
+
+Staying at {CURRENT_LEVEL}. Run /add:retro again after addressing the gaps.
+```
+
+Do NOT promote. The maturity level stays where it is. Promotion requires evidence, not aspiration.
+
 ---
 
 ## Mode 2: Agent Summary (`--agent-summary`)

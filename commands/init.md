@@ -79,25 +79,71 @@ After silent detection, show the user a structured summary of what exists vs. wh
 
 ### Maturity Level Detection
 
-Assess project maturity based on signals detected in the scan:
+Assess project maturity using evidence-based scoring. This assessment is BINDING — maturity is determined by what the project actually demonstrates, not by aspiration.
 
-**POC signals:** No specs, no CI/CD, few tests (<20% coverage), single environment, <10 commits
-**Alpha signals:** Some specs or docs, basic tests (20-50% coverage), 1-2 environments, conventional commits
-**Beta signals:** Specs for most features, CI/CD pipeline, tests (50-80% coverage), 2+ environments, PR workflow
-**GA signals:** Comprehensive specs, full CI/CD, high coverage (80%+), 3+ environments, release tags, protected branches
+#### Evidence Scoring
 
-Present the assessment:
+Evaluate each of the following evidence categories as present or absent:
+
+| # | Category | How to Detect |
+|---|----------|---------------|
+| 1 | **Specs** | Feature specifications exist in `specs/` or equivalent directory |
+| 2 | **Tests** | Test suite exists with measurable coverage |
+| 3 | **Coverage threshold** | 20% = alpha signal, 50% = beta, 80% = ga |
+| 4 | **CI/CD** | Automated pipeline configured (GitHub Actions, GitLab CI, etc.) |
+| 5 | **Branching** | PR workflow in use (not just pushing to main) — check for merged PRs or branch protection |
+| 6 | **Conventional commits** | Commit messages follow a convention (feat:, fix:, etc.) — sample last 20 commits |
+| 7 | **Environment separation** | Multiple deploy targets (dev/staging/prod) — check configs, docker-compose, CI matrix |
+| 8 | **Release tags** | Git tags for versioned releases exist |
+| 9 | **Protected branches** | Main/master branch protection enabled (check via GitHub API or branch rules) |
+| 10 | **TDD evidence** | Test files created before or alongside implementation (check git timestamps) |
+| 11 | **Spec-driven evidence** | Specs exist that predate their implementations (check git timestamps) |
+| 12 | **Quality gates** | Pre-commit hooks, CI checks, or linting configured (.pre-commit-config.yaml, lint scripts, etc.) |
+
+#### Scoring Logic
+
+- **POC:** 0–2 evidence items
+- **Alpha:** 3–5 evidence items
+- **Beta:** 6–8 evidence items
+- **GA:** 9+ evidence items
+
+#### Assessment Output
+
+Present the assessment authoritatively — do NOT ask the user to confirm or override the level:
+
 ```
-MATURITY ASSESSMENT:
-  Detected signals suggest this project is at: {BETA}
+MATURITY ASSESSMENT (evidence-based):
+  Your project operates at: {ALPHA}
 
-  POC indicators:  {0 of 5}
-  Alpha indicators: {2 of 5} — basic tests ✓, some docs ✓
-  Beta indicators:  {4 of 5} — specs ✓, CI/CD ✓, 73% coverage ✓, 2 environments ✓
-  GA indicators:    {1 of 5} — protected branches ✓
+  Evidence detected:
+    ✓ Tests exist (47% coverage)
+    ✓ CI/CD configured (GitHub Actions)
+    ✓ Conventional commits in use
+    ✗ No feature specifications found
+    ✗ No PR workflow detected (pushing directly to main)
+    ✗ No environment separation
+    ✗ No release tags
+    ✗ No branch protection
+    ✗ No TDD evidence
+    ✗ No spec-driven evidence
+    ✗ No quality gates configured
 
-  Does {BETA} sound right, or would you place it differently?
+  Score: 3/12 evidence items → ALPHA
+
+  GAP TO NEXT LEVEL (Beta):
+    To promote from Alpha → Beta, you need:
+    □ Feature specs for all user-facing features (create with /add:spec)
+    □ Test coverage above 50% (currently 47%)
+    □ PR workflow with code review
+    □ At least 2 deployment environments
+    □ TDD evidence (tests before implementation)
+
+  This assessment is based on observed project behavior, not aspiration.
+  Maturity can be promoted later via /add:retro or /add:cycle --complete
+  when evidence supports the next level.
 ```
+
+If the user disagrees with the assessment, explain that ADD maturity is evidence-based and that promotion happens through `/add:retro` when criteria are met. The user can start at the detected level and promote quickly if the project genuinely meets higher criteria.
 
 ```
 I've scanned your project and detected existing ADD-like methodology.
@@ -596,12 +642,26 @@ Note: Branding can always be updated later with `/add:brand-update`.
 
 ### Section 3: Process & Collaboration (5 questions, ~4 min)
 
-**Q14:** "What maturity level is this project starting at?"
+**Q14:** Maturity level — behavior depends on whether this is adoption or greenfield:
+
+**In adoption mode** (Phase 0 detected existing project):
+Skip Q14 entirely. Use the evidence-based maturity level determined during Phase 0's Maturity Level Detection. Add a note:
+```
+Maturity level was determined by evidence analysis in Phase 0. Skipping maturity question.
+```
+
+**In greenfield mode** (brand new project):
+Cap at Alpha maximum. A brand new project has zero evidence for Beta or GA.
+
+"What maturity level should we start at?"
+
 Use AskUserQuestion with options:
   - "POC — proving the idea works, throwaway code is fine (Recommended for new ideas)"
-  - "Alpha — core architecture locked, building out critical paths"
-  - "Beta — real users will touch this, quality matters"
-  - "GA — production-ready, full rigor required"
+  - "Alpha — building toward MVP, some structure from the start"
+
+Note: Beta and GA require evidence (specs, test coverage, CI/CD, PR workflow).
+Promote via `/add:retro` when your project meets the criteria.
+
 → Captures: maturity level (cascades into all ADD behavior via maturity-lifecycle rule)
 
 If POC selected, inform user:
