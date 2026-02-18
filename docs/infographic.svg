@@ -1,5 +1,5 @@
-<!-- ADD Plugin v0.2.0 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-02-14 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2200">
+<!-- ADD Plugin v0.4.0 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-02-17 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2250">
   <defs>
     <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#1a1a2e"/>
@@ -85,7 +85,7 @@
   </defs>
 
   <!-- ============ BACKGROUND ============ -->
-  <rect width="1200" height="2200" fill="#0f0f23"/>
+  <rect width="1200" height="2250" fill="#0f0f23"/>
   <!-- Gradient orbs for depth -->
   <ellipse cx="200" cy="300" rx="350" ry="300" fill="url(#orbGlow1)"/>
   <ellipse cx="1000" cy="800" rx="400" ry="350" fill="url(#orbGlow2)"/>
@@ -98,10 +98,10 @@
   <line x1="30" y1="30" x2="30" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
   <line x1="1170" y1="30" x2="1130" y2="30" stroke="#b00149" stroke-width="1" opacity="0.3"/>
   <line x1="1170" y1="30" x2="1170" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="2170" x2="70" y2="2170" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="2170" x2="30" y2="2130" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="1170" y1="2170" x2="1130" y2="2170" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="1170" y1="2170" x2="1170" y2="2130" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="2220" x2="70" y2="2220" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="2220" x2="30" y2="2180" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="2220" x2="1130" y2="2220" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="2220" x2="1170" y2="2180" stroke="#b00149" stroke-width="1" opacity="0.3"/>
 
   <!-- ============ SECTION 1: HEADER BAR (y=0-60) ============ -->
   <g transform="translate(0, 0)">
@@ -114,7 +114,7 @@
     <text x="162" y="38" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="300" opacity="0.5" letter-spacing="1">Agent Driven Development</text>
     <!-- Version badge -->
     <rect x="1060" y="18" width="80" height="24" rx="12" fill="#b00149" opacity="0.2" stroke="#b00149" stroke-width="1"/>
-    <text x="1100" y="35" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500">v0.2.0</text>
+    <text x="1100" y="35" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500">v0.4.0</text>
   </g>
 
   <!-- ============ SECTION 2: HERO (y=70-380) ============ -->
@@ -147,12 +147,12 @@
     </g>
     <!-- Metric 3: Rules -->
     <g transform="translate(540, 45)">
-      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">11</text>
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">12</text>
       <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Rules</text>
     </g>
     <!-- Metric 4: Templates -->
     <g transform="translate(756, 45)">
-      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">13</text>
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">18</text>
       <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Templates</text>
     </g>
     <!-- Metric 5: Dependencies -->
@@ -476,7 +476,7 @@
       <line x1="8" y1="8" x2="28" y2="8" stroke="#d4326d" stroke-width="1" opacity="0.3"/>
       <line x1="8" y1="8" x2="8" y2="28" stroke="#d4326d" stroke-width="1" opacity="0.3"/>
       <text x="140" y="30" text-anchor="middle" fill="#d4326d" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Tier 2: User-Local</text>
-      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">~/.claude/add/library.md</text>
+      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">~/.claude/add/library.json</text>
       <text x="140" y="66" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">Cross-project wisdom per user</text>
     </g>
 
@@ -486,7 +486,7 @@
       <line x1="8" y1="8" x2="28" y2="8" stroke="#ff6b9d" stroke-width="1" opacity="0.3"/>
       <line x1="8" y1="8" x2="8" y2="28" stroke="#ff6b9d" stroke-width="1" opacity="0.3"/>
       <text x="140" y="30" text-anchor="middle" fill="#ff6b9d" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700">Tier 3: Project-Specific</text>
-      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">.add/learnings.md</text>
+      <text x="140" y="50" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">.add/learnings.json</text>
       <text x="140" y="66" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="300" opacity="0.5">Discoveries for this project</text>
     </g>
 
@@ -503,24 +503,46 @@
     <!-- "Knowledge flows upward" label -->
     <text x="540" y="178" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" opacity="0.3" letter-spacing="1">KNOWLEDGE FLOWS UPWARD DURING RETROS</text>
 
+    <!-- Smart filtering strip -->
+    <rect x="0" y="192" width="1080" height="40" rx="8" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    <text x="30" y="217" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" opacity="0.7">SMART FILTER:</text>
+    <!-- Filter pipeline pills -->
+    <rect x="130" y="200" width="110" height="22" rx="11" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="0.5" stroke-opacity="0.2"/>
+    <text x="185" y="215" text-anchor="middle" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="9" opacity="0.8">stack overlap</text>
+    <!-- Arrow -->
+    <text x="250" y="215" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" opacity="0.2">&#x2192;</text>
+    <rect x="268" y="200" width="130" height="22" rx="11" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="0.5" stroke-opacity="0.2"/>
+    <text x="333" y="215" text-anchor="middle" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="9" opacity="0.8">category match</text>
+    <!-- Arrow -->
+    <text x="408" y="215" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" opacity="0.2">&#x2192;</text>
+    <rect x="425" y="200" width="120" height="22" rx="11" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="0.5" stroke-opacity="0.2"/>
+    <text x="485" y="215" text-anchor="middle" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="9" opacity="0.8">rank + cap 10</text>
+    <!-- Arrow -->
+    <text x="555" y="215" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" opacity="0.2">&#x2192;</text>
+    <rect x="572" y="200" width="100" height="22" rx="11" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="0.5" stroke-opacity="0.2"/>
+    <text x="622" y="215" text-anchor="middle" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="9" opacity="0.8">surface</text>
+    <!-- Format badge -->
+    <rect x="890" y="200" width="165" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="972" y="215" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">JSON + generated .md</text>
+
     <!-- Checkpoint triggers -->
-    <rect x="140" y="195" width="800" height="35" rx="8" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
-    <text x="180" y="218" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" opacity="0.35">CHECKPOINTS:</text>
+    <rect x="140" y="245" width="800" height="35" rx="8" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    <text x="180" y="268" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" opacity="0.35">CHECKPOINTS:</text>
     <!-- Trigger pills -->
-    <rect x="270" y="203" width="90" height="22" rx="11" fill="#b00149" opacity="0.12"/>
-    <text x="315" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after verify</text>
-    <rect x="375" y="203" width="80" height="22" rx="11" fill="#b00149" opacity="0.12"/>
-    <text x="415" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after TDD</text>
-    <rect x="470" y="203" width="95" height="22" rx="11" fill="#b00149" opacity="0.12"/>
-    <text x="517" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after deploy</text>
-    <rect x="580" y="203" width="90" height="22" rx="11" fill="#b00149" opacity="0.12"/>
-    <text x="625" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after away</text>
-    <rect x="685" y="203" width="100" height="22" rx="11" fill="#b00149" opacity="0.12"/>
-    <text x="735" y="218" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">during retro</text>
+    <rect x="270" y="253" width="90" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="315" y="268" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after verify</text>
+    <rect x="375" y="253" width="80" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="415" y="268" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after TDD</text>
+    <rect x="470" y="253" width="95" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="517" y="268" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after deploy</text>
+    <rect x="580" y="253" width="90" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="625" y="268" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">after away</text>
+    <rect x="685" y="253" width="100" height="22" rx="11" fill="#b00149" opacity="0.12"/>
+    <text x="735" y="268" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">during retro</text>
   </g>
 
-  <!-- ============ SECTION 9: GET STARTED TERMINAL (y=1720-1940) ============ -->
-  <g transform="translate(120, 1720)">
+  <!-- ============ SECTION 9: GET STARTED TERMINAL (y=1770-1990) ============ -->
+  <g transform="translate(120, 1770)">
     <!-- Eyebrow -->
     <text x="480" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">GET STARTED</text>
 
@@ -561,11 +583,11 @@
     <text x="320" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># environment-aware, verified</text>
   </g>
 
-  <!-- ============ SECTION 10: FOOTER (y=1960-2000) ============ -->
-  <g transform="translate(600, 1970)">
+  <!-- ============ SECTION 10: FOOTER (y=2010-2050) ============ -->
+  <g transform="translate(600, 2020)">
     <!-- Divider line -->
     <line x1="-500" y1="-10" x2="500" y2="-10" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
-    <text x="0" y="15" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" opacity="0.4">ADD v0.2.0 -- Agent Driven Development</text>
+    <text x="0" y="15" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" opacity="0.4">ADD v0.4.0 -- Agent Driven Development</text>
     <text x="0" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.25">MIT License -- Free &amp; Open Source</text>
     <text x="0" y="58" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" opacity="0.6">getADD.dev</text>
   </g>
