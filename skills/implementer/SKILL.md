@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.3.0] Write minimal implementation to pass tests (TDD GREEN phase)"
+description: "[ADD v0.4.0] Write minimal implementation to pass tests (TDD GREEN phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
-# ADD Implementer Skill v0.3.0
+# ADD Implementer Skill v0.4.0
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 

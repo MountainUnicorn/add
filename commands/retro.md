@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.3.0] Run a retrospective — human-initiated or review agent learnings"
+description: "[ADD v0.4.0] Run a retrospective — human-initiated or review agent learnings"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite]
 ---
 
-# ADD Retro Command v0.3.0
+# ADD Retro Command v0.4.0
 
 Retrospectives capture what worked, what didn't, and what to change. Two modes exist:
 

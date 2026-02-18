@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.3.0] Performance optimization pass — identify and fix bottlenecks"
+description: "[ADD v0.4.0] Performance optimization pass — identify and fix bottlenecks"
 argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
 ---
 
-# ADD Optimize Skill v0.3.0
+# ADD Optimize Skill v0.4.0
 
 Identify and fix performance bottlenecks. This skill profiles code to find slow operations, suggests optimizations, and implements them with test-driven discipline.
 

@@ -8,13 +8,13 @@
   },
   "metadata": {
     "description": "Coordinated AI agent teams that ship verified software. Like TDD for the age of AI agents.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
       "name": "add",
       "description": "Agent Driven Development (ADD) — Coordinated AI agent teams: test-writers, implementers, reviewers, deployers. Spec-driven TDD, trust-but-verify orchestration, maturity lifecycle, away mode, cross-project learning. 9 commands, 9 skills, 11 rules. Zero dependencies.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "abrooke"
       },
