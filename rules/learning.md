@@ -405,27 +405,31 @@ The highest bar. Plugin-global knowledge ships to ALL ADD users.
 
 ## Session Handoff Protocol
 
-Agents MUST write `.add/handoff.md` at session boundaries:
-- When context usage exceeds ~80% (conversation getting long)
-- When the user explicitly ends the session or hands off
-- When switching between major work streams
+Agents MUST write `.add/handoff.md` **automatically** — never wait for the human to ask. Handoffs are a background bookkeeping task, not a user-facing action.
 
-**Proactive 80% Context Trigger:**
-Agents MUST monitor their own context usage. When the conversation has been long (many tool calls, large file reads, extensive back-and-forth), proactively write `.add/handoff.md` without waiting for the user to ask. Err on the side of writing handoff too early rather than losing context. Indicators that you should write a handoff NOW:
-- You have made 20+ tool calls in this session
-- You have read 10+ files
-- The conversation has 30+ back-and-forth turns
-- You are about to start a new major work stream
+### Auto-Write Triggers
 
-When writing a proactive handoff, inform the user: "Context is getting long — writing a session handoff to `.add/handoff.md` so the next session can pick up seamlessly."
+Write/update the handoff silently after any of these events:
 
-**Handoff format:**
+1. **After completing a major work item** — spec, plan, implementation, or feature marked done
+2. **After a commit** — the commit represents a state change worth capturing
+3. **When context is getting long** — 20+ tool calls, 10+ files read, 30+ turns
+4. **When switching work streams** — pivoting to a different area of work
+5. **When the user departs** — `/add:away` or explicit session end
+
+The agent writes the handoff as a natural final step, the same way it would stage files for a commit. No announcement needed unless context is the trigger (in which case, briefly note: "Writing session handoff to `.add/handoff.md`.").
+
+### Handoff Format
+
 ```
 # Session Handoff
 **Written:** {timestamp}
 
 ## In Progress
 - {what was being worked on, with file paths and step progress}
+
+## Completed This Session
+- {what got done, with commit hashes if applicable}
 
 ## Decisions Made
 - {choices made this session with brief rationale}
@@ -437,11 +441,13 @@ When writing a proactive handoff, inform the user: "Context is getting long — 
 1. {prioritized list of what should happen next}
 ```
 
-**Rules:**
+### Rules
+
 - Handoff replaces the previous one (current state, not append-only)
 - Keep under 50 lines — this is a summary, not a transcript
 - All ADD skills MUST read `.add/handoff.md` at the start of execution if it exists
 - `/add:back` reads handoff as part of the return briefing
+- **Never ask** the human "should I update the handoff?" — just do it
 
 ## Knowledge Store Boundaries
 

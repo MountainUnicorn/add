@@ -1,31 +1,31 @@
 # Session Handoff
-**Written:** 2026-02-17 17:20
+**Written:** 2026-02-17 19:45
 
 ## In Progress
-- Milestone files (task #10) — not started yet, create `docs/milestones/` from PRD
-- Cross-project learning library search (task #11) — not started, needs spec first (spec-before-code!)
-- Both are the next cycle's work items
+- Nothing actively in progress — cycle work items completed
 
 ## Completed This Session
-- Implemented all 12 remaining ACs for session-continuity spec (34/34 complete)
-- First retro completed and archived to `.add/retros/retro-2026-02-17.md`
-- Marked all 5 specs Complete
-- Bumped version to 0.3.0 (30 files)
-- Created GitHub release v0.3.0 with release notes
-- Synced marketplace cache
-- Promoted "spec-before-code discipline" to Tier 1 knowledge
+- Created milestone files from PRD: `docs/milestones/M1-core-plugin.md` (complete), `M2-adoption-and-polish.md` (in progress), `M3-marketplace-ready.md` (not started)
+- Wrote spec for cross-project learning library search (`specs/learning-library-search.md`, 29 ACs, 7 TCs)
+- Created implementation plan (`docs/plans/learning-library-search-plan.md`, 20 tasks, 6 phases)
+- Implemented learning library search (11 files, 473 insertions):
+  - `rules/learning.md` rewritten: JSON storage, smart filtering, scope classification, migration, markdown view generation
+  - 3 skills updated (verify, deploy, tdd-cycle): process observation now writes JSON checkpoints
+  - 2 commands updated (cycle, retro): JSON checkpoints + scope review step
+  - 2 JSON templates created (learnings.json.template, library.json.template)
+  - CLAUDE.md updated, M2 milestone updated, spec marked Complete
+- All committed, pushed, and marketplace synced
 
 ## Decisions Made
-- dossierFYI dogfooding feedback drove v0.2→v0.3 (noted in release notes)
-- Spec-before-code is non-negotiable going forward (retro agreed change)
-- No blog post for v0.3.0 — focus on milestones + library search instead
-- Anthropic plugin submission doesn't need resubmit (they review repo at HEAD)
+- JSON as primary storage, markdown as generated view (dual-format)
+- Scope classification: project / workstation / universal, defaulting to project
+- Smart filtering: stack overlap + operation-category match, ranked by severity, capped at 10
+- Migration is non-destructive (originals preserved as .bak)
 
 ## Blockers
 - None
 
 ## Next Steps
-1. Create milestone files from PRD (`docs/milestones/M1-core-plugin.md`, etc.)
-2. Write spec for cross-project learning library search (spec first!)
-3. Implement learning library search
-4. These are the two remaining items from the agreed next cycle
+1. Run migration on this project's existing `.add/learnings.md` and `~/.claude/add/library.md`
+2. Remaining M2 features: legacy adoption (`/add:init --adopt`), user documentation, retro template automation
+3. Consider version bump if more features land
