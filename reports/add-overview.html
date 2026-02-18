@@ -1,4 +1,4 @@
-<!-- ADD Plugin v0.4.0 | Agent Driven Development | Generated: 2026-02-07 -->
+<!-- ADD Plugin v0.4.0 | Agent Driven Development | Generated: 2026-02-18 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -993,19 +993,19 @@
   <div class="metrics-bar">
     <div class="metrics-inner">
       <div class="metric">
-        <div class="metric-value">6</div>
+        <div class="metric-value">9</div>
         <div class="metric-label">Commands</div>
       </div>
       <div class="metric">
-        <div class="metric-value">8</div>
+        <div class="metric-value">9</div>
         <div class="metric-label">Skills</div>
       </div>
       <div class="metric">
-        <div class="metric-value">10</div>
+        <div class="metric-value">12</div>
         <div class="metric-label">Rules</div>
       </div>
       <div class="metric">
-        <div class="metric-value">10</div>
+        <div class="metric-value">18</div>
         <div class="metric-label">Templates</div>
       </div>
       <div class="metric">
@@ -1546,22 +1546,22 @@
       <div class="learning-flow">
         <div class="learning-box">
           <h4>Project-Level Knowledge</h4>
-          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> — git-committed</p>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.json</code> — structured JSON, git-committed</p>
           <ul>
             <li>Architecture decisions and rationale</li>
             <li>What worked and what didn't</li>
             <li>Patterns discovered during development</li>
-            <li>Tool and framework quirks</li>
+            <li>Tagged by stack, category, severity, scope</li>
           </ul>
         </div>
         <div class="flow-arrow">→</div>
         <div class="learning-box">
           <h4>Cross-Project Library</h4>
-          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code> — machine-local</p>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.json</code> — machine-local</p>
           <ul>
             <li>Your preferences and working style</li>
             <li>Accumulated wisdom from all projects</li>
-            <li>Index of all ADD-managed projects</li>
+            <li>Smart-filtered by stack overlap and operation</li>
             <li>Patterns promoted during retrospectives</li>
           </ul>
         </div>
@@ -1592,12 +1592,27 @@
       </div>
 
       <div style="margin-top: 30px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow);">
+        <h4 style="font-size: 14px; margin-bottom: 12px;">Smart Filtering Pipeline</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
+          Before each task, agents run learnings through a 4-step filter:<br>
+          <span style="display: inline-block; margin: 8px 4px 8px 0; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-family: 'SF Mono', monospace; background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.2);">1. Stack overlap</span>
+          <span style="color: var(--text-muted);">→</span>
+          <span style="display: inline-block; margin: 8px 4px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-family: 'SF Mono', monospace; background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.2);">2. Category match</span>
+          <span style="color: var(--text-muted);">→</span>
+          <span style="display: inline-block; margin: 8px 4px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-family: 'SF Mono', monospace; background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.2);">3. Rank by severity</span>
+          <span style="color: var(--text-muted);">→</span>
+          <span style="display: inline-block; margin: 8px 4px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-family: 'SF Mono', monospace; background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.2);">4. Cap at 10</span><br>
+          Only relevant learnings surface. No noise. Each entry is structured JSON with tags for stack, category, severity, and scope classification (project / workstation / universal).
+        </p>
+      </div>
+
+      <div style="margin-top: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow);">
         <h4 style="font-size: 14px; margin-bottom: 12px;">Example: Knowledge Flowing Across Projects</h4>
         <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
           <strong>Project A</strong>: Agent discovers "UUID columns must be type <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">uuid</code>, not <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">text</code>"<br>
-          → Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> (project-level)<br>
-          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/add:retro</code><br><br>
-          <strong>Project B</strong>: Agent searches library before implementing database schema<br>
+          → Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.json</code> (project-level, tagged: postgres, anti-pattern, high)<br>
+          → Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.json</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/add:retro</code><br><br>
+          <strong>Project B</strong>: Agent's smart filter matches stack (postgres) and category (anti-pattern)<br>
           → Finds UUID pattern, applies it automatically<br>
           → No one repeats the mistake
         </p>
@@ -1609,7 +1624,7 @@
     <div style="max-width: 1100px; margin: 0 auto;">
     <div class="section-eyebrow">Reference</div>
     <h2>Commands &amp; Skills</h2>
-    <p class="section-desc">6 commands for orchestration. 8 skills for execution. 10 rules for behavior.</p>
+    <p class="section-desc">9 commands for orchestration. 9 skills for execution. 12 rules for behavior.</p>
 
     <h3 style="font-size: 18px; margin-bottom: 16px;">Commands</h3>
     <table class="commands-table">
@@ -1623,6 +1638,9 @@
         <tr><td><code>/add:away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
         <tr><td><code>/add:back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
         <tr><td><code>/add:retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
+        <tr><td><code>/add:brand</code></td><td>View branding — accent color, drift detection</td><td>Brand status report</td></tr>
+        <tr><td><code>/add:brand-update</code></td><td>Update branding — colors, fonts, audit artifacts</td><td>Updated brand config</td></tr>
+        <tr><td><code>/add:changelog</code></td><td>Generate CHANGELOG.md from conventional commits</td><td>CHANGELOG.md</td></tr>
       </tbody>
     </table>
 
@@ -1640,6 +1658,7 @@
         <tr><td><code>/add:plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
         <tr><td><code>/add:optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
         <tr><td><code>/add:deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
+        <tr><td><code>/add:infographic</code></td><td>Generate project infographic SVG</td><td>Visual</td></tr>
       </tbody>
     </table>
     </div>
@@ -1649,7 +1668,7 @@
   <section class="section">
     <div class="section-eyebrow">Architecture</div>
       <h2>Intentionally simple</h2>
-      <p class="section-desc">~44 files of markdown, JSON, and templates. No runtime. No build step. No backend.</p>
+      <p class="section-desc">~64 files of markdown, JSON, and templates. No runtime. No build step. No backend.</p>
       <div class="arch-grid">
         <div class="arch-item">
           <h4>No dependencies</h4>
