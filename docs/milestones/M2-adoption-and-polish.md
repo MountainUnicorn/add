@@ -17,7 +17,7 @@ Make ADD easy to adopt on existing projects, refine based on dogfooding feedback
 - [x] Integration with dossierFYI dogfooding project
 - [ ] Comprehensive user documentation + video walkthrough
 - [ ] Retro template automation
-- [ ] Learning library cross-project search
+- [x] Learning library cross-project search
 - [x] Branding system (`/add:brand`, `/add:brand-update`)
 - [x] Image gen detection for branded visuals
 - [x] Auto-changelog from conventional commits
@@ -39,7 +39,7 @@ Auto-Changelog                 ████████████████�
 Infographic Generation         ████████████████████████████████████  DONE
 Session Continuity & Evolution ████████████████████████████████████  DONE
 Legacy Adoption (/add:init)    ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — shaped, needs spec
-Learning Library Search        ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — shaped, needs spec
+Learning Library Search         ████████████████████████████████████  DONE
 User Documentation             ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — not started
 Retro Template Automation      ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — not started
 ```
@@ -54,7 +54,7 @@ Retro Template Automation      ██░░░░░░░░░░░░░░�
 | Infographic Generation | specs/infographic-generation.md | DONE | /add:infographic SVG from PRD + config | — |
 | Session Continuity & Evolution | specs/session-continuity-and-self-evolution.md | DONE | 34/34 ACs — handoff, swarm, observations, mutations, maturity assessment | — |
 | Legacy Adoption | — | SHAPED | /add:init --adopt with project detection | — |
-| Learning Library Search | — | SHAPED | Cross-project search in ~/.claude/add/library.md | — |
+| Learning Library Search | specs/learning-library-search.md | DONE | JSON storage, smart filtering, scope classification, migration | — |
 | User Documentation | — | SHAPED | Docs + video walkthrough | — |
 | Retro Template Automation | — | SHAPED | Extract lessons automatically | — |
 

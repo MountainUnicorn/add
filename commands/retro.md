@@ -18,8 +18,8 @@ Both modes update `.add/learnings.md` and optionally `~/.claude/add/profile.md`.
 1. Read `.add/config.json` for project context
 2. Read all 3 knowledge tiers:
    a. **Tier 1:** Read `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` (plugin-global best practices)
-   b. **Tier 2:** Read `~/.claude/add/library.md` if it exists (cross-project wisdom)
-   c. **Tier 3:** Read `.add/learnings.md` if it exists (agent observations since last retro)
+   b. **Tier 2:** Read `~/.claude/add/library.json` if it exists (cross-project wisdom). Fall back to `library.md` if JSON doesn't exist.
+   c. **Tier 3:** Read `.add/learnings.json` if it exists (agent observations since last retro). Fall back to `learnings.md` if JSON doesn't exist.
 3. Read `~/.claude/add/profile.md` if it exists (cross-project preferences)
 4. Determine the retro window:
    - If `--since` provided, use that date
@@ -141,26 +141,42 @@ Shall I apply these changes now?
    - Agreed changes
    - Action items
 
-2. **Update project learnings:**
-   Append new entries to `.add/learnings.md` under appropriate sections
+2. **Update project learnings (JSON):**
+   Write new learning entries as structured JSON to `.add/learnings.json` (project-scope) or `~/.claude/add/library.json` (workstation/universal-scope). Follow the checkpoint process in `rules/learning.md`:
+   - Classify scope for each learning
+   - Write to the appropriate JSON file
+   - Regenerate the corresponding markdown view
 
-3. **Update cross-project persistence (if patterns detected):**
+3. **Scope review and reclassification:**
+   Review entries classified by agents since the last retro:
 
-   Three levels of promotion from project → personal:
+   ```
+   SCOPE REVIEW — Agent-classified entries since last retro:
+     L-{NNN}: "{title}" — classified as {scope} by agent
+     L-{NNN}: "{title}" — classified as {scope} by agent
+     WL-{NNN}: "{title}" — classified as {scope} by agent
+
+   Any reclassifications needed? (e.g., promote project → workstation, or demote workstation → project)
+   ```
+
+   For each reclassification the human approves:
+   - Move the entry between JSON files (`.add/learnings.json` ↔ `~/.claude/add/library.json`)
+   - Update the entry's `scope` field
+   - Set `classified_by` to `"human"`
+   - Assign a new ID appropriate to the target file (`L-{NNN}` or `WL-{NNN}`)
+   - Regenerate both markdown views
+
+4. **Update cross-project persistence (if patterns detected):**
 
    a. **Profile updates** (`~/.claude/add/profile.md`):
       If the retro reveals preferences that should carry to other projects
       (e.g., "always use Redis", "prefer toast notifications"), ask:
       "I noticed this seems like a general preference. Add to your ADD profile?"
 
-   b. **Library entries** (`~/.claude/add/library.md`):
-      If technical learnings are broadly applicable (not project-specific), ask:
-      "This learning seems useful across projects. Add to your knowledge library?"
+   b. **Project index update** (`~/.claude/add/projects/{name}.json`):
+      Update the `last_retro` date, `key_learnings` list, and `learnings_count` in the project snapshot.
 
-   c. **Project index update** (`~/.claude/add/projects/{name}.json`):
-      Update the `last_retro` date and `key_learnings` list in the project snapshot.
-
-4. **Promote to plugin-global (ADD dev project only):**
+5. **Promote to plugin-global (ADD dev project only):**
    If this retro is running inside the ADD plugin project itself (detected by checking
    if `knowledge/global.md` exists as a local file, not a plugin reference), present
    candidates for Tier 1 promotion:
@@ -182,35 +198,33 @@ Shall I apply these changes now?
 
    If promoted, append to `knowledge/global.md` under the appropriate section.
 
-5. **Apply config/template changes:**
+6. **Apply config/template changes:**
    If agreed changes affect the process (e.g., "add edge case section to spec template"),
    make the edits now.
 
-6. **Deduplicate knowledge stores:**
-   Read all knowledge stores (`.add/learnings.md`, `.add/observations.md`, `.add/handoff.md`, `CLAUDE.md`, `.add/decisions.md`) and identify duplicate or overlapping entries:
+7. **Deduplicate knowledge stores:**
+   Read all knowledge stores (`.add/learnings.json`, `.add/observations.md`, `.add/handoff.md`, `CLAUDE.md`, `.add/decisions.md`) and identify duplicate or overlapping entries:
    - Same insight recorded in multiple stores → keep in the correct store per Knowledge Store Boundaries (see `rules/learning.md`), remove from others
-   - Near-duplicate observations (same event recorded twice) → consolidate into one entry, preserve the richer version
+   - Near-duplicate JSON entries (same title/body) → consolidate, keep the richer version
    - Learnings that are actually process observations → move to `.add/observations.md`
-   - Process observations that are actually domain facts → move to `.add/learnings.md`
+   - Process observations that are actually domain facts → add as JSON entry to appropriate learnings file
    - Report: "{N} duplicates consolidated, {N} entries relocated"
 
-7. **Prune stale entries:**
-   Review entries by age and activity:
+8. **Prune stale entries:**
+   Review JSON entries by age and activity:
    - **Observations >30 days old** without a `[synthesized M-{NNN}]` tag → archive to `.add/archive/observations-{date}.md` (create directory if needed)
-   - **Learnings >90 days old** without being referenced in any checkpoint, retro, or dispatch since recording → flag for human review:
+   - **Learnings >90 days old** (check `date` field in JSON) without being referenced since recording → flag for human review:
      ```
      STALE LEARNINGS (>90 days, no recent references):
-       - {learning summary} (recorded {date})
-       - {learning summary} (recorded {date})
+       - {id}: {title} (recorded {date})
+       - {id}: {title} (recorded {date})
      Keep or archive these?
      ```
    - Do NOT auto-delete learnings — always ask the human
-   - Archived entries are moved, not copied (remove from source after archiving)
+   - Archived entries are removed from the JSON `entries` array and recorded in the retro archive
 
-8. **Clear agent checkpoints:**
-   Move processed checkpoint entries from `.add/learnings.md` into the retro archive.
-   Fresh learnings start accumulating for the next period.
-   Profile Update Candidates section is cleared after promotion decisions.
+9. **Regenerate markdown views:**
+   After all JSON modifications, regenerate `.add/learnings.md` and `~/.claude/add/library.md` from their respective JSON files.
 
 ### Phase 6: Maturity Promotion Assessment
 

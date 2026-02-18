@@ -1,0 +1,20 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/learnings.schema.json",
+  "version": "1.0.0",
+  "project": "_workstation",
+  "entries": [
+    {
+      "id": "WL-001",
+      "title": "{SHORT_TITLE}",
+      "body": "{FULL_LEARNING_TEXT}",
+      "scope": "workstation",
+      "stack": ["{TECH_1}", "{TECH_2}"],
+      "category": "anti-pattern",
+      "severity": "high",
+      "source": "{SOURCE_PROJECT_NAME}",
+      "date": "{YYYY-MM-DD}",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    }
+  ]
+}

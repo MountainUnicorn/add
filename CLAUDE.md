@@ -84,7 +84,7 @@ Roadmap (docs/prd.md milestones section)
 | source-control.md | Git workflow, commits, PRs |
 | environment-awareness.md | Test-per-environment matrix, deploy rules |
 | quality-gates.md | 5-level quality gate system |
-| learning.md | Continuous learning, checkpoints, knowledge persistence |
+| learning.md | Continuous learning, structured JSON checkpoints, smart filtering, scope classification |
 | project-structure.md | Standard directory layout, cross-project persistence |
 | maturity-lifecycle.md | Master dial — governs all behavior per maturity level (poc/alpha/beta/ga) |
 | design-system.md | Silicon Valley Unicorn aesthetic for generated visuals |
@@ -104,21 +104,25 @@ Roadmap (Now / Next / Later milestones)
 
 ADD is dog-fooding its own methodology. Project state lives in `.add/`:
 - `.add/config.json` — project configuration (Tier 1, Markdown/JSON, no CI/CD)
-- `.add/learnings.md` — accumulated knowledge from this build session
+- `.add/learnings.json` — structured learning entries (JSON primary, `.add/learnings.md` generated view)
 - `docs/prd.md` — the plugin's own PRD
 
-Cross-project persistence at `~/.claude/add/` (profile, library, project index).
+Cross-project persistence at `~/.claude/add/` (profile, `library.json` + `library.md`, project index).
 
 ## Learning System (3-Tier Knowledge Cascade)
 
-Agents read all three knowledge tiers before starting any task:
+Agents read all three knowledge tiers before starting any task, with **smart filtering** by stack and operation type:
 
-| Tier | Location | Scope | Who Updates |
-|------|----------|-------|-------------|
-| **Tier 1: Plugin-Global** | `knowledge/global.md` | Universal ADD best practices for all users | ADD maintainers only |
-| **Tier 2: User-Local** | `~/.claude/add/library.md` | Cross-project wisdom accumulated by this user | Promoted during `/add:retro` |
-| **Tier 3: Project-Specific** | `.add/learnings.md` | Discoveries specific to this project | Auto-checkpoints + `/add:retro` |
+| Tier | JSON (primary) | Markdown (generated) | Scope | Who Updates |
+|------|----------------|---------------------|-------|-------------|
+| **Tier 1: Plugin-Global** | — | `knowledge/global.md` | Universal ADD best practices for all users | ADD maintainers only |
+| **Tier 2: User-Local** | `~/.claude/add/library.json` | `~/.claude/add/library.md` | Cross-project wisdom accumulated by this user | Auto-checkpoints + `/add:retro` |
+| **Tier 3: Project-Specific** | `.add/learnings.json` | `.add/learnings.md` | Discoveries specific to this project | Auto-checkpoints + `/add:retro` |
+
+**Smart filtering:** At skill start, agents filter learnings by stack overlap + operation-relevant categories, ranked by severity, capped at 10 entries. Only relevant learnings consume context.
+
+**Scope classification:** When writing checkpoints, agents classify scope (`project` / `workstation` / `universal`) to route entries to the correct tier automatically. Humans can reclassify during `/add:retro`.
 
 Knowledge flows upward: project discoveries can be promoted to user library during retros, and universal insights can be promoted to plugin-global (only in the ADD dev project). Precedence flows downward: project-specific overrides user-local overrides plugin-global.
 
-Checkpoint triggers (auto-populate Tier 3): after every `/add:verify`, TDD cycle, deployment, and away session.
+Checkpoint triggers (auto-populate Tier 2/3 as JSON): after every `/add:verify`, TDD cycle, deployment, and away session.

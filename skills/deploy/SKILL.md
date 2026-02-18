@@ -708,22 +708,18 @@ After production deployment:
 
 ## Process Observation
 
-After completing this skill, append one observation line to `.add/observations.md`:
+After completing this skill, do BOTH:
+
+### 1. Observation Line
+
+Append one observation line to `.add/observations.md`:
 
 ```
-{YYYY-MM-DD HH:MM} | {skill-name} | {one-line summary of outcome} | {cost or benefit estimate}
+{YYYY-MM-DD HH:MM} | deploy | {one-line summary of outcome} | {cost or benefit estimate}
 ```
 
-**Format rules:**
-- One line only — no multi-line entries
-- Outcome should be factual, not aspirational: "5 gates passed, 0 failures" not "everything looks good"
-- Cost/benefit should be concrete when possible: "saved ~30min", "cost: 2hr debugging", "blocked: missing spec"
-- If `.add/observations.md` does not exist, create it with a `# Process Observations` header first
+If `.add/observations.md` does not exist, create it with a `# Process Observations` header first.
 
-**Examples:**
-```
-2026-02-16 14:30 | verify | 5 gates passed, 0 failures, 92% coverage | saved: caught 2 type errors pre-push
-2026-02-16 15:00 | deploy | deployed to staging, smoke tests passed | clean deploy
-2026-02-16 16:00 | tdd-cycle | RED: 8 tests, GREEN: 8/8 pass, REFACTOR: extracted 2 helpers | 45min cycle
-2026-02-16 17:00 | deploy | deployed without running smoke tests | cost: 1hr rollback
-```
+### 2. Learning Checkpoint
+
+Write a structured JSON learning entry per the checkpoint trigger in `rules/learning.md` (section: "After Deployment"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.

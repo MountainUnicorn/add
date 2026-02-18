@@ -416,40 +416,17 @@ Do NOT auto-promote. Promotion is applied through `/add:retro` which updates con
 
 ### Step 4: Archive Cycle & Checkpoint
 
-Write to `.add/learnings.md`:
-```markdown
-## Cycle {N} — {Milestone} — {Date}
+Write a structured JSON learning entry to the appropriate learnings file. Follow the checkpoint process in `rules/learning.md` (section: "How to Write a Checkpoint Entry"):
 
-### Cycle Metrics
-- **Duration:** {actual} ({planned})
-- **Features Advanced:** {count} ({Auth: SPECCED→IN_PROGRESS, Session: SHAPED→SPECCED, Mobile: SHAPED→SPECCED})
-- **Validation Success:** {pass/fail or %, details}
-- **Blockers Hit:** {count} ({list})
+1. **Classify scope** — cycle retrospective insights are typically `project` scope (specific to this project's milestone), but process insights may be `workstation` or `universal`
+2. **Write JSON entry** with:
+   - `checkpoint_type`: `"retro"` (cycle completion is a mini-retro)
+   - `category`: `"process"`
+   - `title`: `"Cycle {N} complete: {summary}"`
+   - `body`: Include cycle metrics (duration, features advanced, validation success, blockers), what worked, what was harder, and learnings for next cycle
+3. **Regenerate** the markdown view
 
-### What Worked Well
-- {Observation 1: e.g., "Parallel auth + mobile tasks saved 1 day"}
-- {Observation 2}
-
-### What Was Harder Than Expected
-- {Observation 1: e.g., "Session token rotation took 2 extra hours"}
-- {Observation 2}
-
-### Blockers & Resolutions
-- {Blocker 1}: Resolved by {action}
-- {Blocker 2}: Deferred to cycle-{N+M}
-
-### Team/Agent Performance
-- Agent-1: On pace, great collaboration
-- Agent-2: Blocked by X, needs to unblock Y
-- Reviewer: Turnaround time good, 1 critical catch
-
-### Learnings for Next Cycle
-- {Learning 1: e.g., "Mobile testing needs a device farm pre-cycle"}
-- {Learning 2}
-
-### Process Adjustments
-- {If any, e.g., "Next time, include mobile QA in cycle plan earlier"}
-```
+If the cycle produced multiple distinct learnings (e.g., a technical discovery AND a process insight), write separate entries with appropriate scope classification for each.
 
 ### Step 5: Present Next Options
 

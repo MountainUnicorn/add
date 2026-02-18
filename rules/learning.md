@@ -5,199 +5,401 @@ maturity: poc
 
 # ADD Rule: Continuous Learning
 
-Agents accumulate knowledge through structured checkpoints. Knowledge is organized in three tiers and consumed by all agents before starting work.
+Agents accumulate knowledge through structured JSON checkpoints. Knowledge is organized in three tiers, filtered by relevance, and consumed by all agents before starting work.
 
 ## Knowledge Tiers
 
 ADD uses a 3-tier knowledge cascade. Agents read all three tiers before starting work, with more specific tiers taking precedence:
 
-| Tier | Location | Scope | Who Updates |
-|------|----------|-------|-------------|
-| **Tier 1: Plugin-Global** | `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` | Universal ADD best practices for all users | ADD maintainers only |
-| **Tier 2: User-Local** | `~/.claude/add/library.md` | Cross-project wisdom accumulated by this user | Promoted during `/add:retro` |
-| **Tier 3: Project-Specific** | `.add/learnings.md` | Discoveries specific to this project | Auto-checkpoints + `/add:retro` |
+| Tier | JSON (primary) | Markdown (generated view) | Scope | Who Updates |
+|------|----------------|--------------------------|-------|-------------|
+| **Tier 1: Plugin-Global** | — | `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` | Universal ADD best practices for all users | ADD maintainers only |
+| **Tier 2: User-Local** | `~/.claude/add/library.json` | `~/.claude/add/library.md` (generated) | Cross-project wisdom accumulated by this user | Auto-checkpoints + `/add:retro` |
+| **Tier 3: Project-Specific** | `.add/learnings.json` | `.add/learnings.md` (generated) | Discoveries specific to this project | Auto-checkpoints + `/add:retro` |
 
 **Precedence:** Project-specific (Tier 3) > User-local (Tier 2) > Plugin-global (Tier 1). If a project learning contradicts a global learning, the project learning wins for that project.
 
+**Dual format:** JSON is the primary storage — skills read and write JSON. Markdown is a human-readable view regenerated from JSON after each write. If JSON doesn't exist but markdown does, treat as pre-migration state and suggest running migration (see Migration section).
+
 ## Read Before Work
 
-Before starting ANY skill or command (except /add:init), read all available knowledge tiers:
+Before starting ANY skill or command (except `/add:init`), read knowledge and filter for relevance:
 
 1. **Tier 1:** Read `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` (always exists — ships with ADD)
-2. **Tier 2:** Check if `~/.claude/add/library.md` exists. If it does, read it.
-3. **Tier 3:** Check if `.add/learnings.md` exists. If it does, read it.
+2. **Tier 2:** Read `~/.claude/add/library.json` if it exists. Filter entries by relevance (see Smart Filtering below). If only `library.md` exists, read it as fallback.
+3. **Tier 3:** Read `.add/learnings.json` if it exists. Filter entries by relevance. If only `learnings.md` exists, read it as fallback.
+4. **Handoff:** Read `.add/handoff.md` if it exists — note in-progress work relevant to this operation.
 
-Previous learnings from any tier may affect how you approach the current task. For example:
-- Tier 1: "Trust-but-verify: always independently run tests after sub-agent work"
-- Tier 2: "User always chooses Redis over in-memory caching" (from library)
-- Tier 3: "pymysql is not thread-safe in this project's schema" (from project learnings)
+If JSON files don't exist or are empty (`{"entries":[]}`), proceed silently — no error, no message.
+
+## Smart Filtering
+
+When reading JSON learning files, don't surface everything. Filter by relevance to the current operation:
+
+### Step 1: Stack Filter
+
+Read `.add/config.json` to get the project's stack:
+- `architecture.languages[].name` (lowercased)
+- `architecture.backend.framework` (lowercased, if not null)
+- `architecture.frontend.framework` (lowercased, if not null)
+
+An entry passes the stack filter if:
+- Its `stack` array has ANY overlap with the project's stack, OR
+- Its `stack` array is empty (stack-agnostic — always passes)
+
+### Step 2: Category Filter
+
+Each skill/command maps to relevant learning categories:
+
+| Skill/Command | Relevant Categories |
+|---------------|-------------------|
+| `/add:plan` | architecture, anti-pattern, collaboration |
+| `/add:tdd-cycle` | technical, anti-pattern, performance |
+| `/add:test-writer` | technical, anti-pattern |
+| `/add:implementer` | technical, anti-pattern, architecture |
+| `/add:deploy` | performance, technical, process |
+| `/add:verify` | technical, process |
+| `/add:optimize` | performance, technical |
+| `/add:reviewer` | architecture, anti-pattern, process |
+| `/add:cycle` | architecture, collaboration, process |
+| `/add:retro` | process, collaboration |
+| `/add:spec` | architecture, collaboration |
+| (other/unknown) | all categories (no filter) |
+
+An entry passes the category filter if its `category` matches any relevant category for the current operation.
+
+### Step 3: Rank and Cap
+
+1. **Rank** matching entries: `critical` > `high` > `medium` > `low`, then by date (newest first)
+2. **Cap** at 10 entries maximum per skill invocation to prevent context bloat
+3. If no entries match, proceed silently — no "no learnings found" message
+
+### Step 4: Surface
+
+Present the top entries to the agent as context. Format:
+
+```
+RELEVANT LEARNINGS ({N} entries):
+  [{severity}] {title} (from {source}, {date})
+    {body}
+```
+
+The agent should incorporate these learnings into its work — e.g., avoiding known anti-patterns, following proven architecture decisions.
+
+## Learning Entry Schema
+
+All learning entries (Tier 2 and Tier 3) use a structured JSON format:
+
+```json
+{
+  "id": "L-001",
+  "title": "Short summary (one line)",
+  "body": "Full learning text with context and actionable detail.",
+  "scope": "project",
+  "stack": ["python", "fastapi"],
+  "category": "technical",
+  "severity": "medium",
+  "source": "project-name",
+  "date": "2026-02-17",
+  "classified_by": "agent",
+  "checkpoint_type": "post-verify"
+}
+```
+
+**Required fields:**
+
+| Field | Type | Values |
+|-------|------|--------|
+| `id` | string | `L-{NNN}` (project-scope) or `WL-{NNN}` (workstation-scope), auto-incrementing |
+| `title` | string | Short summary, one line |
+| `body` | string | Full learning text |
+| `scope` | enum | `project` \| `workstation` \| `universal` |
+| `stack` | string[] | Lowercase tech identifiers. Empty array = stack-agnostic |
+| `category` | enum | `technical` \| `architecture` \| `anti-pattern` \| `performance` \| `collaboration` \| `process` |
+| `severity` | enum | `critical` \| `high` \| `medium` \| `low` |
+| `source` | string | Project name where the learning originated |
+| `date` | string | ISO 8601 date (YYYY-MM-DD) |
+
+**Optional fields:**
+
+| Field | Type | Values |
+|-------|------|--------|
+| `classified_by` | string | `agent` (auto-classified) or `human` (reclassified during retro) |
+| `checkpoint_type` | string | `post-verify` \| `post-tdd` \| `post-deploy` \| `post-away` \| `feature-complete` \| `verification-catch` \| `retro` |
+
+**File wrapper:**
+
+```json
+{
+  "$schema": "https://github.com/MountainUnicorn/add/learnings.schema.json",
+  "version": "1.0.0",
+  "project": "{project-name or _workstation}",
+  "entries": [ ... ]
+}
+```
+
+## Scope Classification
+
+When writing a learning entry, the agent MUST classify its scope before choosing the target file.
+
+### Classification Rules
+
+| Signal in the learning text | Inferred Scope | Target File |
+|-----------------------------|---------------|-------------|
+| References specific files, tables, schemas, routes, or config unique to this project | `project` | `.add/learnings.json` |
+| References a library, framework, or tool used across projects with the same stack | `workstation` | `~/.claude/add/library.json` |
+| References methodology, process, or collaboration patterns independent of any stack | `universal` | `~/.claude/add/library.json` (flagged for future org/community promotion) |
+| Unclear or ambiguous | `project` | `.add/learnings.json` (can be promoted during retro) |
+
+### Classification Process
+
+1. Read the learning text
+2. Ask: "Does this reference anything specific to THIS project's codebase?" → If yes: `project`
+3. Ask: "Does this reference a library/framework pattern useful in OTHER projects with the same stack?" → If yes: `workstation`
+4. Ask: "Is this a process/methodology insight independent of tech stack?" → If yes: `universal`
+5. Default: `project` (conservative — easier to promote later than to demote)
+
+Set `classified_by` to `"agent"` for auto-classification. During `/add:retro`, the human can override scope and the field changes to `"human"`.
 
 ## Checkpoint Triggers
 
-Agents automatically write checkpoint entries to `.add/learnings.md` at these moments.
-No human involvement needed — this is the agent learning autonomously.
+Agents automatically write structured JSON entries at these moments. No human involvement needed.
 
-### After Verification (/add:verify completes)
+### How to Write a Checkpoint Entry
 
-If any quality gate failed and was fixed, record what went wrong:
+1. **Classify scope** using the rules above
+2. **Read the target JSON file** (`.add/learnings.json` or `~/.claude/add/library.json`)
+3. If the file doesn't exist, create it with the wrapper structure and an empty `entries` array
+4. **Determine the next ID**: find the highest existing `L-{NNN}` or `WL-{NNN}`, increment by 1
+5. **Append** the new entry to the `entries` array
+6. **Write** the updated JSON file
+7. **Regenerate** the corresponding markdown view (see Markdown View Generation)
 
-```markdown
-## Checkpoint: Post-Verify — {date}
-- **Gate failure:** {which gate, which check}
-- **Root cause:** {why it failed}
-- **Fix applied:** {what was changed}
-- **Prevention:** {how to avoid this in future}
-```
+### After Verification (`/add:verify` completes)
 
-If all gates passed first time, record that too (positive reinforcement):
-
-```markdown
-## Checkpoint: Post-Verify — {date}
-- **Clean pass:** All gates passed on first run
-- **Notable:** {anything worth remembering, or "routine"}
+```json
+{
+  "id": "L-{NNN}",
+  "title": "{gate passed cleanly | gate failure: {which gate}}",
+  "body": "{Root cause and fix if failure, or 'routine clean pass' if success. Include prevention notes.}",
+  "scope": "{classify}",
+  "stack": ["{from config}"],
+  "category": "technical",
+  "severity": "{critical if production-affecting, high if required fix, medium if minor, low if clean pass}",
+  "source": "{project name}",
+  "date": "{YYYY-MM-DD}",
+  "classified_by": "agent",
+  "checkpoint_type": "post-verify"
+}
 ```
 
 ### After TDD Cycle Completes
 
-Record velocity and quality observations:
-
-```markdown
-## Checkpoint: Post-TDD — {date} — {spec reference}
-- **ACs covered:** {list}
-- **Cycle time:** {duration}
-- **RED phase:** {N} tests written, {any difficulties}
-- **GREEN phase:** {clean or required iteration}
-- **Blockers:** {none, or description}
-- **Spec quality:** {clear | ambiguous in {areas} | missing {details}}
+```json
+{
+  "id": "L-{NNN}",
+  "title": "{spec name}: {summary of cycle outcome}",
+  "body": "ACs covered: {list}. RED: {N} tests. GREEN: {pass details}. Blockers: {any}. Spec quality: {assessment}.",
+  "scope": "{classify}",
+  "stack": ["{from config}"],
+  "category": "technical",
+  "severity": "{high if blockers or rework, medium if clean, low if routine}",
+  "source": "{project name}",
+  "date": "{YYYY-MM-DD}",
+  "classified_by": "agent",
+  "checkpoint_type": "post-tdd"
+}
 ```
 
 ### After Away-Mode Session
 
-When the human returns and `/add:back` runs:
-
-```markdown
-## Checkpoint: Post-Away — {date}
-- **Duration:** {planned} → {actual}
-- **Planned tasks:** {N}
-- **Completed:** {N}
-- **Blocked:** {N} — {reasons}
-- **Decisions queued:** {N}
-- **Autonomous effectiveness:** {percentage completed}
-- **What would have helped:** {e.g., "clearer spec for feature X", "access to staging env"}
+```json
+{
+  "id": "L-{NNN}",
+  "title": "Away session: {N}/{N} tasks completed",
+  "body": "Duration: {planned} → {actual}. Completed: {list}. Blocked: {list with reasons}. Effectiveness: {%}. Would have helped: {notes}.",
+  "scope": "project",
+  "stack": [],
+  "category": "process",
+  "severity": "{high if low effectiveness, medium otherwise}",
+  "source": "{project name}",
+  "date": "{YYYY-MM-DD}",
+  "classified_by": "agent",
+  "checkpoint_type": "post-away"
+}
 ```
 
 ### After Spec Implementation Completes
 
-When all acceptance criteria for a spec have passing tests and code:
-
-```markdown
-## Checkpoint: Feature Complete — {date} — specs/{feature}.md
-- **Total ACs:** {N}
-- **Total TDD cycles:** {N}
-- **Total time:** {estimate}
-- **Rework cycles:** {N} (times implementation had to be revised)
-- **Spec revisions needed:** {N} (times spec was updated mid-implementation)
-- **What went well:** {observation}
-- **What to improve:** {observation}
-- **Patterns discovered:** {any reusable code, architecture insight, or gotcha}
+```json
+{
+  "id": "L-{NNN}",
+  "title": "Feature complete: {feature name}",
+  "body": "Total ACs: {N}. TDD cycles: {N}. Rework: {N}. Spec revisions: {N}. What went well: {text}. What to improve: {text}. Patterns: {text}.",
+  "scope": "{classify}",
+  "stack": ["{from config}"],
+  "category": "technical",
+  "severity": "medium",
+  "source": "{project name}",
+  "date": "{YYYY-MM-DD}",
+  "classified_by": "agent",
+  "checkpoint_type": "feature-complete"
+}
 ```
 
 ### After Deployment
 
-When `/add:deploy` completes (any environment):
-
-```markdown
-## Checkpoint: Post-Deploy — {date} — {environment}
-- **Environment:** {local|dev|staging|production}
-- **Smoke tests:** {passed|failed — details}
-- **Issues found:** {none, or description}
-- **Deployment notes:** {anything notable about the deploy process}
+```json
+{
+  "id": "L-{NNN}",
+  "title": "Deploy to {environment}: {passed|issues found}",
+  "body": "Smoke tests: {result}. Issues: {details or none}. Notes: {anything notable}.",
+  "scope": "{classify — deployment issues are often workstation-level}",
+  "stack": ["{from config}"],
+  "category": "technical",
+  "severity": "{critical if prod issues, high if staging issues, medium if clean}",
+  "source": "{project name}",
+  "date": "{YYYY-MM-DD}",
+  "classified_by": "agent",
+  "checkpoint_type": "post-deploy"
+}
 ```
 
 ### When Verification Catches Sub-Agent Error
 
-This is the trust-but-verify learning moment:
-
-```markdown
-## Checkpoint: Verification Catch — {date}
-- **Agent:** {test-writer|implementer|other}
-- **Error:** {what the sub-agent did wrong}
-- **Correct approach:** {what should have been done}
-- **Pattern to avoid:** {generalized lesson}
-```
-
-## Learnings File Structure
-
-`.add/learnings.md` has these sections. Append to the appropriate section:
-
-```markdown
-# Project Learnings — {PROJECT_NAME}
-
-## Technical Discoveries
-<!-- Things learned about the tech stack, libraries, APIs, infrastructure -->
-
-## Architecture Decisions
-<!-- Decisions made and their rationale -->
-
-## What Worked
-<!-- Patterns, approaches, tools that proved effective -->
-
-## What Didn't Work
-<!-- Patterns, approaches, tools that caused problems -->
-
-## Agent Checkpoints
-<!-- Automatic entries from triggers above — processed during /add:retro -->
+```json
+{
+  "id": "L-{NNN}",
+  "title": "Verification catch: {agent} — {error summary}",
+  "body": "Agent: {test-writer|implementer|other}. Error: {what went wrong}. Correct approach: {what should have been done}. Pattern to avoid: {generalized lesson}.",
+  "scope": "{classify — often workstation-level since agent patterns repeat}",
+  "stack": ["{from config}"],
+  "category": "anti-pattern",
+  "severity": "high",
+  "source": "{project name}",
+  "date": "{YYYY-MM-DD}",
+  "classified_by": "agent",
+  "checkpoint_type": "verification-catch"
+}
 ```
 
 ## Checkpoint Format Rules
 
-- Keep entries concise (3-5 lines max)
-- Always include the date
-- Always include a reference (spec, file, or feature name)
-- Focus on ACTIONABLE insights, not just observations
-- Don't duplicate — if the same lesson already exists, don't add it again
-- Prefix new entries with the checkpoint type for easy scanning
+- Keep `body` concise (2-4 sentences max)
+- Always include a reference to the spec, file, or feature
+- Focus on ACTIONABLE insights, not observations
+- Don't duplicate — if the same lesson already exists (check by title similarity), don't add it
+- Infer `stack` from `.add/config.json` — don't hardcode or guess
+
+## Markdown View Generation
+
+After writing any entry to a JSON learnings file, regenerate the corresponding markdown file:
+
+**For `.add/learnings.json` → `.add/learnings.md`:**
+
+```markdown
+# Project Learnings — {project name}
+
+> **Tier 3: Project-Specific Knowledge**
+> Generated from `.add/learnings.json` — do not edit directly.
+> Agents read JSON for filtering; this file is for human review.
+
+## Anti-Patterns
+{entries where category = "anti-pattern", sorted by date descending}
+- **[{severity}] {title}** (L-{NNN}, {date})
+  {body}
+
+## Technical
+{entries where category = "technical"}
+
+## Architecture
+{entries where category = "architecture"}
+
+## Performance
+{entries where category = "performance"}
+
+## Process
+{entries where category = "process"}
+
+## Collaboration
+{entries where category = "collaboration"}
+
+---
+*{N} entries. Last updated: {date}. Source: .add/learnings.json*
+```
+
+**For `~/.claude/add/library.json` → `~/.claude/add/library.md`:**
+
+Same format but with header:
+
+```markdown
+# ADD Cross-Project Knowledge Library
+
+> **Tier 2: User-Local Knowledge**
+> Generated from `~/.claude/add/library.json` — do not edit directly.
+> Entries are auto-classified by scope: workstation or universal.
+```
+
+Omit empty categories (don't show a heading with no entries).
+
+## Migration from Markdown
+
+For projects with existing freeform `.add/learnings.md` or `~/.claude/add/library.md` that haven't been migrated to JSON:
+
+### Detection
+
+If a skill reads a `.md` learnings file and no corresponding `.json` exists, suggest migration:
+"Learnings are in legacy markdown format. Run migration to enable smart filtering and scope classification."
+
+### Migration Steps
+
+1. **Backup** the original markdown file (copy to `.add/learnings.md.bak` or `~/.claude/add/library.md.bak`)
+2. **Parse** each entry from the markdown (checkpoint blocks, bullet points, sections)
+3. **Classify** each entry — infer tags from the text:
+   - `scope`: Use classification rules above. Default to `project` if unclear.
+   - `stack`: Extract technology names mentioned. Default to empty array if unclear.
+   - `category`: Match against category enum based on content. Default to `technical`.
+   - `severity`: `critical` if mentions production failures/data loss, `high` if mentions bugs/rework, `medium` for general insights, `low` for routine observations.
+   - `source`: Use the project name from config, or extract from "Source: {name}" if present.
+4. **Assign IDs**: `L-001`, `L-002`, etc. for project-scope; `WL-001`, etc. for workstation-scope.
+5. **Write** the JSON file with all entries
+6. **Regenerate** the markdown view from JSON
+7. **Verify** the regenerated markdown contains all original content (may be reorganized by category)
+
+### Migration is Non-Destructive
+
+- Original files are preserved as `.bak`
+- If migration produces bad results, delete the JSON and rename `.bak` back
+- Migration can be re-run after manual corrections
 
 ## Knowledge Promotion
 
-Learnings naturally flow upward through the tiers during retrospectives. Each tier has different promotion criteria.
+Learnings flow upward through the tiers during retrospectives.
 
 ### Tier 3 → Tier 2 (Project → User Library)
 
-Cross-project patterns discovered in any project should be promoted to `~/.claude/add/library.md`:
+During `/add:retro`, entries in `.add/learnings.json` with scope `workstation` or `universal` are candidates for promotion to `~/.claude/add/library.json`.
 
 **Promote when:**
 - A pattern applies across projects (not tied to a specific codebase)
 - A technical insight transfers to other stacks or contexts
 - An anti-pattern would be harmful in any project
 
-**Examples:**
-- "User always chooses Redis over in-memory caching" → Profile (`~/.claude/add/profile.md`)
-- "UUID columns must be type uuid, not text" → Library (`~/.claude/add/library.md`)
-
-Cross-project patterns should only be promoted during `/add:retro` with human confirmation. Agents flag candidates but don't auto-update.
-
-```markdown
-## Profile Update Candidates
-<!-- Flagged during checkpoints, promoted during /add:retro -->
-- {date}: User chose Redis again (3rd time). Promote to profile?
-```
+**Process:** Agent flags candidates. Human confirms. On approval:
+1. Copy entry to `~/.claude/add/library.json` with new `WL-{NNN}` ID
+2. Remove from `.add/learnings.json`
+3. Regenerate both markdown views
 
 ### Tier 2/3 → Tier 1 (User/Project → Plugin-Global)
 
 The highest bar. Plugin-global knowledge ships to ALL ADD users.
 
 **Promote when:**
-- The insight is universal — applies regardless of stack, team size, or project type
-- It reflects an ADD methodology truth (not a tech stack preference)
-- It has been validated across multiple projects or users
-- It relates to agent coordination, collaboration, or ADD workflow patterns
+- Universal — applies regardless of stack, team size, or project type
+- Reflects an ADD methodology truth (not a tech stack preference)
+- Validated across multiple projects or users
 
-**Do NOT promote:**
-- Technology-specific preferences (Redis vs Memcached)
-- Stack-specific patterns (React hooks, Python decorators)
-- Project-specific constraints (API rate limits, schema quirks)
-- User preferences (naming conventions, UI patterns)
+**Do NOT promote:** Technology preferences, stack patterns, project constraints, user preferences.
 
 **Process:** Only the ADD development project can write to `knowledge/global.md`. During `/add:retro` in the ADD project itself, the retro flow includes a "promote to plugin-global" step. In consumer projects, `knowledge/global.md` is read-only.
 
@@ -245,20 +447,23 @@ When writing a proactive handoff, inform the user: "Context is getting long — 
 
 Each store has a single purpose. Do not cross-pollinate:
 
-| Store | Purpose | NOT for |
-|-------|---------|---------|
-| `CLAUDE.md` | Project architecture, tech stack, conventions | Session state, learnings, observations |
-| `.add/learnings.md` | Domain facts — framework quirks, API gotchas | Process observations, session state |
-| `.add/observations.md` | Process data — what happened, what it cost | Domain facts, architecture |
-| `.add/handoff.md` | Current session state — in progress, next steps | Permanent knowledge |
-| `.add/decisions.md` | Architectural choices with rationale | Transient session state |
-| `.add/mutations.md` | Process evolution — approved workflow changes | Domain facts |
+| Store | Format | Purpose | NOT for |
+|-------|--------|---------|---------|
+| `CLAUDE.md` | Markdown | Project architecture, tech stack, conventions | Session state, learnings, observations |
+| `.add/learnings.json` | JSON | Domain facts — framework quirks, API gotchas (project-scope) | Process observations, session state |
+| `.add/learnings.md` | Markdown | Generated human-readable view of learnings.json | Direct editing (regenerated from JSON) |
+| `~/.claude/add/library.json` | JSON | Cross-project wisdom (workstation + universal scope) | Project-specific knowledge |
+| `~/.claude/add/library.md` | Markdown | Generated human-readable view of library.json | Direct editing (regenerated from JSON) |
+| `.add/observations.md` | Markdown | Process data — what happened, what it cost | Domain facts, architecture |
+| `.add/handoff.md` | Markdown | Current session state — in progress, next steps | Permanent knowledge |
+| `.add/decisions.md` | Markdown | Architectural choices with rationale | Transient session state |
+| `.add/mutations.md` | Markdown | Process evolution — approved workflow changes | Domain facts |
 
 During `/add:retro`, identify entries in the wrong store and relocate them.
 
 **Knowledge tier roadmap:**
-- **Tier 1: Project** (`.add/`) — this project's knowledge (exists)
-- **Tier 2: Install** (`~/.claude/add/`) — cross-project user wisdom (exists)
+- **Tier 1: Plugin-Global** (`knowledge/global.md`) — universal ADD best practices (exists)
+- **Tier 2: User-Local** (`~/.claude/add/library.json`) — cross-project user wisdom (exists)
 - **Tier 3: Collective** — team/org shared learnings (future)
 - **Tier 4: Community** — all ADD users, crowd-sourced (future)
 
