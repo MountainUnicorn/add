@@ -1,29 +1,25 @@
 # Session Handoff
-**Written:** 2026-02-17 21:30
+**Written:** 2026-02-18 00:15
 
 ## In Progress
 - Nothing actively in progress
 
 ## Completed This Session
-- Created milestone files from PRD: `docs/milestones/M1-core-plugin.md` (complete), `M2-adoption-and-polish.md` (in progress), `M3-marketplace-ready.md` (not started)
-- Wrote spec for cross-project learning library search (`specs/learning-library-search.md`, 29 ACs, 7 TCs)
-- Created implementation plan (`docs/plans/learning-library-search-plan.md`, 20 tasks, 6 phases)
-- Implemented learning library search (11 files, 473 insertions):
-  - `rules/learning.md` rewritten: JSON storage, smart filtering, scope classification, migration, markdown view generation
-  - 3 skills updated (verify, deploy, tdd-cycle): process observation now writes JSON checkpoints
-  - 2 commands updated (cycle, retro): JSON checkpoints + scope review step
-  - 2 JSON templates created (learnings.json.template, library.json.template)
-  - CLAUDE.md updated, M2 milestone updated, spec marked Complete
+- Created milestone files from PRD (M1 complete, M2 in progress, M3 not started)
+- Spec + plan + implementation of cross-project learning library search (29 ACs, 20 tasks)
 - Made handoff writes automatic (no human approval needed)
-- Migrated project learnings to JSON: `.add/learnings.json` (28 entries), `~/.claude/add/library.json` (4 entries), regenerated markdown views
-- Released v0.4.0: version bumped across 30 files (commands, skills, config, plugin manifests, README, reports HTML, website footers), committed, pushed, synced marketplace, created GitHub release
+- Migrated learnings to JSON: `.add/learnings.json` (28 entries), `~/.claude/add/library.json` (4 entries)
+- Released v0.4.0: version bumped 30+ files, GitHub release created
+- Fixed 3 missed version bumps (brand, brand-update, changelog were still at v0.2.0)
+- Updated infographic to v0.4.0: metrics (Rules 12, Templates 18), JSON file refs, smart filtering pipeline visual, canvas height adjusted
+- Updated overview report to v0.4.0: metrics, added 3 commands + 1 skill to tables, smart filtering pipeline section, JSON refs, ~64 files
 
 ## Decisions Made
 - JSON as primary storage, markdown as generated view (dual-format)
 - Scope classification: project / workstation / universal, defaulting to project
 - Smart filtering: stack overlap + operation-category match, ranked by severity, capped at 10
 - Migration is non-destructive (originals preserved as .bak)
-- Handoffs auto-write after commits, completed work, context growth, stream switches — never ask human
+- Handoffs auto-write after commits, completed work, context growth, stream switches
 
 ## Blockers
 - None
