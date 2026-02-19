@@ -1,27 +1,32 @@
 # Session Handoff
-**Written:** 2026-02-18 01:00
+**Written:** 2026-02-19 01:40
 
 ## In Progress
-- Nothing actively in progress
+- Nothing actively in progress — all tasks complete
 
 ## Completed This Session
-- Created `templates/migrations.json` — version manifest with 3 migration entries (v0.1→v0.2, v0.2→v0.3, v0.3→v0.4)
-- Created `rules/version-migration.md` — auto-loading rule for session-start version detection, chained migrations, backup protocol, migration execution with 5 action types, error handling, dry-run mode, migration logging
-- Updated `rules/maturity-loader.md` — added version-migration to rule loading matrix (poc level, always active)
-- Updated `CLAUDE.md` — added version-migration rule to table, updated rule count to 13
-- Updated `docs/milestones/M2-adoption-and-polish.md` — marked Legacy Adoption as DONE in success criteria, hill chart, and feature table
-- Updated `specs/legacy-adoption.md` — status changed from Draft to Complete
+- Spec for retro template automation (29 ACs, 5 TCs) — context-aware retros with pre-populated tables, 3 scoring dimensions, rate-limited meta questions
+- Implementation plan at `docs/plans/retro-template-automation-plan.md`
+- Created `templates/retro.md.template` — structured retro archive template
+- Created `templates/retro-scores.json.template` — score trend tracking (collab/ADD effectiveness/swarm effectiveness)
+- Rewrote `commands/retro.md` — 11-phase context-aware retro flow replacing blank-slate interview
+- Spec for legacy adoption (22 ACs) + full implementation (migration rule + manifest)
+- Updated M2 milestone: both Legacy Adoption and Retro Template Automation marked DONE
+- **M2 milestone marked COMPLETE** — 8/9 features done, 1 deferred to v0.6.0
+- Deferred User Documentation to v0.6.0
 
 ## Decisions Made
-- Version migration is a rule (not a command) — runs automatically on session start
-- 5 migration actions supported: add_fields, convert_md_to_json, restructure, rename_fields, remove_fields
-- Backup naming: `.pre-migration.bak` (with timestamp suffix if backup already exists)
-- Partial failure leaves version at last successful hop, not original
-- Migration log appended to `.add/migration-log.md`
+- Retro uses 3 scores: human collab (0.0-9.0), agent ADD effectiveness (0.0-9.0), agent swarm effectiveness (0.0-9.0) — all tracked in `.add/retro-scores.json`
+- Collab score + ADD feedback rate-limited to 1x/calendar day
+- Agent self-scores must be evidence-backed (no vague claims)
+- Directive scopes: project, workstation active; organization, community stubbed for future
+- M2 is complete — v0.5.0 will focus on project management
+- User documentation deferred to v0.6.0
 
 ## Blockers
 - None
 
 ## Next Steps
-1. Remaining M2 features: user documentation, retro template automation
-2. M3: marketplace listing, install flow, plugin registry
+1. Run `/add:retro` to test the new context-aware retro flow live
+2. Plan v0.5.0 — project management features (M3 or new milestone)
+3. Consider version bump to v0.5.0 once project management scope is defined
