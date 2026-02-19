@@ -72,6 +72,7 @@ Roadmap (docs/prd.md milestones section)
 | `/add:back` | Human returning — get briefing |
 | `/add:retro` | Retrospective — human-initiated or agent summary |
 | `/add:cycle` | Plan, track, and complete work cycles within milestones |
+| `/add:dashboard` | Generate visual HTML project dashboard from .add/ project files |
 
 ## Rules (auto-loaded)
 
