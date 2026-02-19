@@ -366,6 +366,84 @@
       "date": "2026-02-08",
       "classified_by": "agent",
       "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-029",
+      "title": "Feature complete: cross-project learning library search",
+      "body": "Total ACs: 29. Migrated learnings to structured JSON (28 project entries, 4 workstation entries). Smart filtering pipeline: stack overlap → category match → rank by severity → cap at 10. Dual-format: JSON primary, markdown generated. Scope classification (project/workstation/universal) with conservative default.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-02-18",
+      "classified_by": "agent",
+      "checkpoint_type": "feature-complete"
+    },
+    {
+      "id": "L-030",
+      "title": "Feature complete: legacy adoption (version migration)",
+      "body": "Total ACs: 22. Auto-loading rule detects stale projects on session start. Chained migrations (v0.1→v0.2→v0.3→v0.4) via version manifest (templates/migrations.json). 5 migration actions: add_fields, convert_md_to_json, restructure, rename_fields, remove_fields. Safety: backup before modify, skip on failure, never update version if anything breaks.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-02-19",
+      "classified_by": "agent",
+      "checkpoint_type": "feature-complete"
+    },
+    {
+      "id": "L-031",
+      "title": "Feature complete: retro template automation",
+      "body": "Total ACs: 29. Transformed retro from blank-slate interview to context-aware review. Pre-populated tables (human directives, agent project observations, agent workstation observations). 3 scores: human collab, ADD effectiveness, swarm effectiveness (0.0-9.0). Rate-limited meta questions (1x/day). Agent self-assesses methodology adherence.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-02-19",
+      "classified_by": "agent",
+      "checkpoint_type": "feature-complete"
+    },
+    {
+      "id": "L-032",
+      "title": "Version bump across 30+ files needs automation",
+      "body": "v0.4.0 bump touched 30+ files. Missed 3 commands (brand, brand-update, changelog) because they were at v0.2.0 not v0.3.0 — the bump script only replaced the most recent version. Future: search ALL version patterns, not just latest.",
+      "scope": "project",
+      "stack": [],
+      "category": "anti-pattern",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-02-18",
+      "classified_by": "agent",
+      "checkpoint_type": "post-verify"
+    },
+    {
+      "id": "L-033",
+      "title": "Away session: 8/8 tasks completed in ~10 minutes",
+      "body": "Duration: 45min planned → 10min actual. Completed: retro templates, retro command rewrite, CLAUDE.md update, spec status, M2 milestone marked COMPLETE, commit/push/sync. Effectiveness: 100%. All implementation was already nearly done before away started.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "low",
+      "source": "ADD",
+      "date": "2026-02-19",
+      "classified_by": "agent",
+      "checkpoint_type": "post-away"
+    },
+    {
+      "id": "L-034",
+      "title": "M2 milestone complete: 8/9 features shipped in 12 days",
+      "body": "M2 Adoption & Polish: branding, image-gen, changelog, infographic, session continuity, learning library search, legacy adoption, retro template automation. User docs deferred to v0.6.0. 8 specs, ~150 ACs total. Velocity driven by spec-first discipline and parallel subagents.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-02-19",
+      "classified_by": "agent",
+      "checkpoint_type": "feature-complete"
     }
   ]
 }

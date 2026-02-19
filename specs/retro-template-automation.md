@@ -24,7 +24,8 @@ As an ADD user running a retrospective, I want the retro to already know what ha
 | AC-005 | Present **Table 1: Human Directives** with scope classification, asking user to confirm these are captured in learnings | Must |
 | AC-006 | Present **Table 2: Agent Observations (Project)** — project-scoped learnings the agent recorded since last retro | Must |
 | AC-007 | Present **Table 3: Agent Observations (Workstation)** — workstation-scoped learnings the agent recorded since last retro | Must |
-| AC-008 | Agent observations must include self-assessment of ADD methodology adherence: spec-before-code, TDD cycles, auto-handoffs, learning checkpoints, quality gates | Must |
+| AC-008 | Agent observations must include self-assessment of ADD methodology adherence as a **table** (Rule / Status / Detail) — not inline checkmarks. Table format is easier to scan. | Must |
+| AC-008a | If human identifies data gaps during refinement (missing checkpoints, incorrect entries), fix them in the background — do not block the retro flow while writing JSON or regenerating markdown | Must |
 | AC-009 | After presenting tables, ask human to polish/modify: "Do you disagree or wish to modify any of these learnings?" | Must |
 | AC-010 | Ask "What went well?" only after tables are presented and refined | Must |
 | AC-011 | Ask "What needed improvement that was not included already in our learnings?" — scoped to gaps not already captured | Must |

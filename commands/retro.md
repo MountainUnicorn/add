@@ -129,7 +129,7 @@ Include in the agent observations a self-assessment of how well ADD methodology 
 | Quality gates | Were `/add:verify` runs done? Did they pass first time? |
 | Source control | Were conventional commits used? Check last N commits for pattern compliance |
 
-Format:
+Format methodology adherence as a **table** (not inline checkmarks — tables are easier to scan):
 
 ```
 ━━━ TABLE 2: AGENT OBSERVATIONS (PROJECT) ━━━
@@ -138,16 +138,14 @@ Format:
 | 1 | {observation} | {severity} |
 
 ADD Methodology Adherence:
-  ✓ Spec-before-code: {assessment}
-  ✓ Auto-handoffs: {assessment}
-  ✗ Learning checkpoints: {assessment with specifics}
-  ...
-
-━━━ TABLE 3: AGENT OBSERVATIONS (WORKSTATION) ━━━
-| # | Observation | Severity |
-|---|-------------|----------|
-| 1 | {observation} | {severity} |
+| Rule | Status | Detail |
+|------|--------|--------|
+| Spec-before-code | ✓ Pass | {assessment} |
+| Auto-handoffs | ✓ Pass | {assessment} |
+| Learning checkpoints | ✗ Fail | {assessment with specifics} |
 ```
+
+**Do NOT show Table 3 if it has zero entries.** Skip it silently — no heading, no empty table, no mention.
 
 Then ask:
 
@@ -155,7 +153,7 @@ Then ask:
 Help me polish these. Do you disagree or wish to modify any of these learnings?
 ```
 
-Wait for human input. Apply modifications to the relevant JSON files and regenerate markdown views.
+Wait for human input. If the human identifies data gaps (missing checkpoints, incorrect entries), fix them **in the background** — queue the writes and continue the retro flow immediately. Do not block the human while writing JSON entries or regenerating markdown views.
 
 ### Phase 5: Targeted Questions
 
