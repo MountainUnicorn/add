@@ -32,6 +32,7 @@ A project at `alpha` loads `poc` + `alpha` rules. A project at `beta` loads `poc
 | `learning` | **active** | active | active | active |
 | `source-control` | **active** | active | active | active |
 | `maturity-loader` (this rule) | **active** | active | active | active |
+| `version-migration` | **active** | active | active | active |
 | `spec-driven` | dormant | **active** | active | active |
 | `quality-gates` | dormant | **active** | active | active |
 | `human-collaboration` | dormant | **active** | active | active |

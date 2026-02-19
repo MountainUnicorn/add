@@ -20,7 +20,7 @@ The core principles:
 add/
 ├── commands/          # Slash commands (/add:init, /add:spec, /add:away, /add:back, /add:retro, /add:cycle)
 ├── skills/            # Workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
-├── rules/             # Auto-loading behavioral rules (10 files)
+├── rules/             # Auto-loading behavioral rules (13 files)
 ├── hooks/             # PostToolUse automation
 ├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)
 │   └── global.md      # Universal learnings that ship with ADD for all users
@@ -85,6 +85,7 @@ Roadmap (docs/prd.md milestones section)
 | environment-awareness.md | Test-per-environment matrix, deploy rules |
 | quality-gates.md | 5-level quality gate system |
 | learning.md | Continuous learning, structured JSON checkpoints, smart filtering, scope classification |
+| version-migration.md | Auto-detect stale projects, chain migrations on session start |
 | project-structure.md | Standard directory layout, cross-project persistence |
 | maturity-lifecycle.md | Master dial — governs all behavior per maturity level (poc/alpha/beta/ga) |
 | design-system.md | Silicon Valley Unicorn aesthetic for generated visuals |

@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "plugin_version": "0.4.0",
+  "migrations": [
+    {
+      "from": "0.1.0",
+      "to": "0.2.0",
+      "steps": [
+        {
+          "file": ".add/config.json",
+          "action": "add_fields",
+          "params": {
+            "fields": {
+              "collaboration.autonomy_level": "balanced",
+              "collaboration.team_size": "solo",
+              "collaboration.commit_review_gate": false,
+              "collaboration.pr_review_gate": true,
+              "collaboration.deploy_approval_required": false,
+              "source_control.branching": "feature-branches",
+              "source_control.default_branch": "main",
+              "source_control.commit_convention": "conventional",
+              "source_control.pr_template": true,
+              "source_control.protected_branches": ["main"]
+            }
+          },
+          "description": "Add collaboration and source_control sections to config"
+        }
+      ]
+    },
+    {
+      "from": "0.2.0",
+      "to": "0.3.0",
+      "steps": [
+        {
+          "file": ".add/config.json",
+          "action": "add_fields",
+          "params": {
+            "fields": {
+              "planning.current_milestone": null,
+              "planning.current_cycle": null,
+              "planning.wip_limit": 4,
+              "planning.parallel_agents": 2,
+              "planning.cycle_history": []
+            }
+          },
+          "description": "Add planning section to config for milestone/cycle tracking"
+        },
+        {
+          "file": ".add/handoff.md",
+          "action": "restructure",
+          "params": {
+            "required_sections": ["In Progress", "Completed This Session", "Decisions Made", "Blockers", "Next Steps"],
+            "header": "# Session Handoff\n**Written:** {date}"
+          },
+          "description": "Ensure handoff has all required sections"
+        }
+      ]
+    },
+    {
+      "from": "0.3.0",
+      "to": "0.4.0",
+      "steps": [
+        {
+          "file": ".add/learnings.md",
+          "action": "convert_md_to_json",
+          "params": {
+            "target": ".add/learnings.json",
+            "template": "templates/learnings.json.template",
+            "id_prefix": "L",
+            "default_scope": "project",
+            "regenerate_md": true
+          },
+          "description": "Convert freeform learnings markdown to structured JSON with tags"
+        },
+        {
+          "file": "~/.claude/add/library.md",
+          "action": "convert_md_to_json",
+          "params": {
+            "target": "~/.claude/add/library.json",
+            "template": "templates/library.json.template",
+            "id_prefix": "WL",
+            "default_scope": "workstation",
+            "regenerate_md": true
+          },
+          "description": "Convert freeform library markdown to structured JSON with tags"
+        },
+        {
+          "file": ".add/observations.md",
+          "action": "restructure",
+          "params": {
+            "required_format": "{YYYY-MM-DD HH:MM} | {operation} | {summary} | {cost/benefit}",
+            "header": "# Process Observations"
+          },
+          "description": "Ensure observations file has correct header and line format"
+        }
+      ]
+    }
+  ]
+}

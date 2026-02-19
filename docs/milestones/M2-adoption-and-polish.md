@@ -11,7 +11,7 @@ Make ADD easy to adopt on existing projects, refine based on dogfooding feedback
 
 ## Success Criteria
 
-- [ ] `/add:init --adopt` command with legacy project detection
+- [x] Version migration (legacy adoption) — auto-detect and migrate stale ADD files
 - [x] Enhanced spec interview workflow
 - [x] Better away/back mode context preservation (session continuity)
 - [x] Integration with dossierFYI dogfooding project
@@ -38,7 +38,7 @@ Image Gen Detection            ████████████████�
 Auto-Changelog                 ████████████████████████████████████  DONE
 Infographic Generation         ████████████████████████████████████  DONE
 Session Continuity & Evolution ████████████████████████████████████  DONE
-Legacy Adoption (/add:init)    ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — shaped, needs spec
+Legacy Adoption (migration)    ████████████████████████████████████  DONE
 Learning Library Search         ████████████████████████████████████  DONE
 User Documentation             ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — not started
 Retro Template Automation      ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — not started
@@ -53,7 +53,7 @@ Retro Template Automation      ██░░░░░░░░░░░░░░�
 | Auto-Changelog | specs/auto-changelog.md | DONE | /add:changelog from conventional commits | — |
 | Infographic Generation | specs/infographic-generation.md | DONE | /add:infographic SVG from PRD + config | — |
 | Session Continuity & Evolution | specs/session-continuity-and-self-evolution.md | DONE | 34/34 ACs — handoff, swarm, observations, mutations, maturity assessment | — |
-| Legacy Adoption | — | SHAPED | /add:init --adopt with project detection | — |
+| Legacy Adoption | specs/legacy-adoption.md | DONE | Auto-migration rule + version manifest, chained version hops | — |
 | Learning Library Search | specs/learning-library-search.md | DONE | JSON storage, smart filtering, scope classification, migration | — |
 | User Documentation | — | SHAPED | Docs + video walkthrough | — |
 | Retro Template Automation | — | SHAPED | Extract lessons automatically | — |
