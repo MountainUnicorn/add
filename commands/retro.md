@@ -1,337 +1,339 @@
 ---
-description: "[ADD v0.4.0] Run a retrospective — human-initiated or review agent learnings"
-argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session]"
+description: "[ADD v0.4.0] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite]
 ---
 
 # ADD Retro Command v0.4.0
 
-Retrospectives capture what worked, what didn't, and what to change. Two modes exist:
+Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 
-- **Interactive retro** (default) — Human and agent reflect together
-- **Agent summary** (`--agent-summary`) — Agent presents its accumulated observations for human review
-
-Both modes update `.add/learnings.md` and optionally `~/.claude/add/profile.md`.
+Two modes:
+- **Interactive retro** (default) — Data-driven review with pre-populated tables
+- **Agent summary** (`--agent-summary`) — Quick non-interactive observations review
 
 ## Pre-Flight
 
-1. Read `.add/config.json` for project context
+1. Read `.add/config.json` for project context (name, maturity, stack)
 2. Read all 3 knowledge tiers:
-   a. **Tier 1:** Read `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` (plugin-global best practices)
-   b. **Tier 2:** Read `~/.claude/add/library.json` if it exists (cross-project wisdom). Fall back to `library.md` if JSON doesn't exist.
-   c. **Tier 3:** Read `.add/learnings.json` if it exists (agent observations since last retro). Fall back to `learnings.md` if JSON doesn't exist.
-3. Read `~/.claude/add/profile.md` if it exists (cross-project preferences)
+   a. **Tier 1:** Read `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md`
+   b. **Tier 2:** Read `~/.claude/add/library.json` (fall back to `library.md`)
+   c. **Tier 3:** Read `.add/learnings.json` (fall back to `learnings.md`)
+3. Read `~/.claude/add/profile.md` if it exists
 4. Determine the retro window:
    - If `--since` provided, use that date
    - If previous retro exists in `.add/retros/`, use that date as start
    - Otherwise, use project creation date from config
-5. Gather data for the retro window:
-   - Git log (commits, branches merged, PRs)
-   - Specs completed (specs/ with status: Complete)
-   - Plans executed (docs/plans/ with status: Complete)
-   - Quality gate results from recent `/add:verify` runs
-   - Away-mode sessions from `.add/away-logs/`
-   - Agent checkpoint entries from `.add/learnings.md`
+5. Read `.add/handoff.md` — note in-progress work and decisions
 
 ---
 
 ## Mode 1: Interactive Retro (default)
 
-This is the full human-agent retrospective. The human brings strategic and experiential insight. The agent brings data and pattern observations.
+### Phase 1: Detect Session Context
 
-### Phase 1: Set Context
+Determine how the human spent the retro window:
 
-Present a summary of the period under review:
+1. **Read `.add/away-logs/`** — count away sessions, total autonomous hours
+2. **Read git log** — count commits, branches, PRs merged
+3. **Read `.add/handoff.md`** — check for interactive session indicators
+4. **Classify context:**
+   - **Autonomous:** >70% of retro window was away-mode sessions
+   - **Collaborative:** <30% away-mode, active interactive exchanges
+   - **Mixed:** between 30-70% away-mode
+
+The context classification affects the flow:
+- **Autonomous:** Human has less context → skip "what went well", reduce questions
+- **Collaborative/Mixed:** Full question set
+
+### Phase 2: Auto-Gather Metrics
+
+Collect data for the retro window from all sources:
+
+- **Git log:** commit count, branches merged, PRs
+- **Specs:** count completed (status: Complete) in `specs/`
+- **Learnings:** count new entries in `.add/learnings.json` since last retro (by date field)
+- **Workstation learnings:** count new entries in `~/.claude/add/library.json` since last retro
+- **Observations:** read `.add/observations.md` entries since last retro
+- **Away logs:** count sessions, total duration from `.add/away-logs/`
+- **Handoff:** current state from `.add/handoff.md`
+
+Present the summary:
 
 ```
 RETROSPECTIVE — {PROJECT_NAME}
 Period: {start_date} → {today}
+Context: {Collaborative|Autonomous|Mixed} ({detail})
 
 During this period:
-  Specs completed: {N} of {total}
-  TDD cycles run: {N}
-  Commits: {N} across {N} branches
-  PRs merged: {N}
-  Quality gate runs: {N} ({N} passed first time, {N} required fixes)
-  Away-mode sessions: {N} (total: {hours}h autonomous work)
-  Agent checkpoints recorded: {N} learnings
-
-Shall we dive in? This will take about 5 questions (~5 minutes).
+  Specs completed: {N}
+  Commits: {N}
+  Agent learnings recorded: {N} ({N} project, {N} workstation)
+  Human directives captured: {N}
+  Away-mode sessions: {N}
 ```
 
-### Phase 2: Human Perspective (3-4 questions, 1-by-1)
+### Phase 3: Human Directives (Table 1)
 
-**Q1:** "What went well during this period? What should we keep doing?"
-→ Captures: strengths, effective patterns, what to preserve
+Extract directives the human gave during the retro window from:
+- **Handoff files** — decisions, explicit instructions
+- **Learnings entries** with `classified_by: "human"` — human-reclassified knowledge
+- **`.add/observations.md`** — entries recording human feedback or directives
+- **Conversation context** — explicit instructions from the current or recent sessions
 
-**Q2:** "What was frustrating, slow, or felt like wasted effort?"
-→ Captures: pain points, process friction, things to change
+For each directive, **classify scope:**
 
-**Q3:** "Were there moments where you wished I had done something differently? Either asked too many questions, or not enough? Worked on the wrong thing? Missed something?"
-→ Captures: collaboration quality, human-agent dynamic feedback
+| Scope | Signal |
+|-------|--------|
+| project | References specific files, config, routes, schemas unique to this project |
+| workstation | References tools, libraries, workflows that apply across projects |
+| organization | References team, org, or company patterns (stub — accept but note "future tier") |
+| community | References universal methodology insights (stub — accept but note "future tier") |
 
-**Q4 (if applicable — skip for first retro):** "Last retro we agreed to {changes}. Did those changes help?"
-→ Captures: follow-through assessment, whether past improvements stuck
+**If no directives found:** Skip Table 1 entirely, move to Phase 4. Do not show an empty table.
 
-### Phase 3: Agent Perspective
-
-Present the agent's own observations. These come from automatic checkpoints (see Mode 2) plus analysis of the work data:
-
-```
-Here's what I observed from the agent side:
-
-VELOCITY:
-  - Average TDD cycle time: {N} min per acceptance criterion
-  - Fastest: {AC-ID} ({N} min) — {why it was fast}
-  - Slowest: {AC-ID} ({N} min) — {why it was slow}
-  - Specs that caused the most rework: {list}
-
-SPEC QUALITY:
-  - {N} times implementation was blocked by ambiguous specs
-  - {N} times tests revealed spec gaps (missing edge cases)
-  - Specs that needed mid-implementation revision: {list}
-  - Suggestion: {specific improvement to spec template or interview}
-
-QUALITY GATES:
-  - First-pass rate: {N}% (passed all gates on first verify)
-  - Most common failures: {lint|types|tests|coverage}
-  - Tests that were flaky: {list, if any}
-
-COLLABORATION:
-  - Questions asked: {N} (quick checks: {N}, decision points: {N})
-  - Average human response time: {estimate}
-  - Away-mode effectiveness: {N}% of planned work completed
-
-PATTERNS NOTICED:
-  - {pattern 1: e.g., "You consistently chose X over Y when given the option"}
-  - {pattern 2: e.g., "Feature specs with UI mockup descriptions produced fewer rework cycles"}
-  - {pattern 3: e.g., "Integration tests caught issues that unit tests missed in {areas}"}
-```
-
-### Phase 4: Agree on Changes
-
-**Q5:** "Based on all of this, what 2-3 things should we change going forward?"
-
-After the human answers, synthesize both perspectives:
+**If directives found:** Present:
 
 ```
-AGREED CHANGES:
-  1. {change from human input}
-  2. {change from human input}
-  3. {change from agent observation, if human agrees}
+In our recent sessions, you provided some key insights:
 
-I'll apply these by:
-  - Updating .add/learnings.md with new entries
-  - Updating {specific config/template/rule if applicable}
-  - Adding follow-up check to next retro
+━━━ TABLE 1: YOUR DIRECTIVES ━━━
+| # | Directive | Scope | Source |
+|---|-----------|-------|--------|
+| 1 | {directive text} | {scope} | {source} |
+| 2 | {directive text} | {scope} | {source} |
 
-Shall I apply these changes now?
+Are these captured correctly in learnings? Any to add, remove, or reclassify?
 ```
 
-### Phase 5: Record and Update
+Wait for human confirmation. Apply any changes to learnings JSON files.
 
-1. **Archive the retro:**
-   ```bash
-   mkdir -p .add/retros
+### Phase 4: Agent Observations (Tables 2 & 3)
+
+Read agent-generated entries since last retro:
+- **Table 2 (Project):** Entries from `.add/learnings.json` where `classified_by: "agent"` and `date` within retro window
+- **Table 3 (Workstation):** Entries from `~/.claude/add/library.json` where `classified_by: "agent"` and `date` within retro window
+
+**Skip any table that has zero entries.** Do not show empty tables.
+
+**ADD Methodology Adherence Self-Assessment:**
+
+Include in the agent observations a self-assessment of how well ADD methodology was followed during the retro window. Check each rule:
+
+| Rule | How to Assess |
+|------|---------------|
+| Spec-before-code | Were any features implemented without a spec? Check git log for implementation commits vs spec dates |
+| TDD cycles | Were tests written before implementation? (N/A for markdown-only plugins) |
+| Auto-handoffs | Were handoffs written after commits and major work? Check `.add/handoff.md` timestamps vs git log |
+| Learning checkpoints | Were learnings recorded at trigger points (post-verify, post-tdd, post-deploy, post-away)? Count expected vs actual |
+| Quality gates | Were `/add:verify` runs done? Did they pass first time? |
+| Source control | Were conventional commits used? Check last N commits for pattern compliance |
+
+Format:
+
+```
+━━━ TABLE 2: AGENT OBSERVATIONS (PROJECT) ━━━
+| # | Observation | Severity |
+|---|-------------|----------|
+| 1 | {observation} | {severity} |
+
+ADD Methodology Adherence:
+  ✓ Spec-before-code: {assessment}
+  ✓ Auto-handoffs: {assessment}
+  ✗ Learning checkpoints: {assessment with specifics}
+  ...
+
+━━━ TABLE 3: AGENT OBSERVATIONS (WORKSTATION) ━━━
+| # | Observation | Severity |
+|---|-------------|----------|
+| 1 | {observation} | {severity} |
+```
+
+Then ask:
+
+```
+Help me polish these. Do you disagree or wish to modify any of these learnings?
+```
+
+Wait for human input. Apply modifications to the relevant JSON files and regenerate markdown views.
+
+### Phase 5: Targeted Questions
+
+Ask one at a time. Adapt based on session context:
+
+**Q1 (skip if Autonomous context):** "What went well?"
+→ Only ask if the human had enough interactive context to answer meaningfully.
+
+**Q2:** "What needed improvement that was not included already in our learnings?"
+→ Scoped to gaps — the tables already surfaced known issues.
+
+**Q3 (rate-limited — 1x per calendar day):** "On a scale of 0.0 to 9.0, how well are we working together?"
+→ To check rate limit: read `.add/retros/` for any file matching `retro-{today's date}*.md` that already has a `Human Collaboration` score populated. If found, skip this question.
+
+**Q4 (rate-limited — 1x per calendar day):** "Any improvements for Agent Driven Development you would suggest?"
+→ Same rate-limit check as Q3. These two are always asked/skipped together.
+
+### Phase 6: Agent Self-Assessment Scores
+
+The agent provides two self-assessed scores with evidence. These are NOT asked of the human — the agent generates them from data.
+
+**ADD Methodology Effectiveness (0.0-9.0):**
+- Based on methodology adherence from Phase 4
+- Consider: spec coverage, TDD compliance, handoff discipline, checkpoint completeness, quality gate usage
+- Must cite specific evidence (not vague claims)
+
+**Swarm Effectiveness (0.0-9.0):**
+- How well did agents collectively build together?
+- Consider: parallel subagent usage, context handoff quality between sessions, duplicate work avoided, session continuity
+- Must cite specific evidence
+
+Format:
+
+```
+━━━ AGENT SELF-ASSESSMENT ━━━
+ADD Methodology Effectiveness: {X.X} / 9.0
+  Evidence: {specific evidence from the retro window}
+
+Swarm Effectiveness: {X.X} / 9.0
+  Evidence: {specific evidence from the retro window}
+```
+
+Scores must be justified by evidence. If the agent detects its own score seems inflated relative to evidence, adjust downward. Honesty over optimism.
+
+### Phase 7: Record and Update
+
+1. **Write retro archive:**
+   Use `${CLAUDE_PLUGIN_ROOT}/templates/retro.md.template` as structure.
+   Write to `.add/retros/retro-{date}.md` (create directory if needed).
+   Fill all sections with data from the retro.
+
+2. **Store scores:**
+   Read `.add/retro-scores.json` (create from `${CLAUDE_PLUGIN_ROOT}/templates/retro-scores.json.template` if doesn't exist).
+   Append entry:
+   ```json
+   {
+     "date": "{YYYY-MM-DD}",
+     "collab_score": {X.X},
+     "add_effectiveness": {X.X},
+     "swarm_effectiveness": {X.X},
+     "retro_file": ".add/retros/retro-{date}.md",
+     "context": "{collaborative|autonomous|mixed}"
+   }
    ```
-   Write `.add/retros/retro-{date}.md` with full retro content:
-   - Period covered
-   - Human responses (Q1-Q5)
-   - Agent observations
-   - Agreed changes
-   - Action items
+   If collab score was rate-limited (skipped), use `null` for `collab_score`.
 
-2. **Update project learnings (JSON):**
-   Write new learning entries as structured JSON to `.add/learnings.json` (project-scope) or `~/.claude/add/library.json` (workstation/universal-scope). Follow the checkpoint process in `rules/learning.md`:
-   - Classify scope for each learning
+3. **Store ADD feedback:**
+   If the human provided ADD improvement suggestions, append to `.add/add-feedback.md`:
+   ```markdown
+   ## {YYYY-MM-DD}
+   - **Suggestion:** {text}
+   - **Retro:** .add/retros/retro-{date}.md
+   - **Streamed:** false
+   ```
+   Create the file with `# ADD Methodology Feedback` header if it doesn't exist.
+
+4. **Update learnings:**
+   Write new learning entries from the retro as structured JSON to the appropriate file (`.add/learnings.json` or `~/.claude/add/library.json`). Follow the checkpoint process in `rules/learning.md`:
+   - Classify scope for each new learning
    - Write to the appropriate JSON file
    - Regenerate the corresponding markdown view
 
-3. **Scope review and reclassification:**
+5. **Scope review and reclassification:**
    Review entries classified by agents since the last retro:
-
    ```
    SCOPE REVIEW — Agent-classified entries since last retro:
      L-{NNN}: "{title}" — classified as {scope} by agent
-     L-{NNN}: "{title}" — classified as {scope} by agent
      WL-{NNN}: "{title}" — classified as {scope} by agent
 
-   Any reclassifications needed? (e.g., promote project → workstation, or demote workstation → project)
+   Any reclassifications needed?
    ```
-
    For each reclassification the human approves:
-   - Move the entry between JSON files (`.add/learnings.json` ↔ `~/.claude/add/library.json`)
-   - Update the entry's `scope` field
-   - Set `classified_by` to `"human"`
-   - Assign a new ID appropriate to the target file (`L-{NNN}` or `WL-{NNN}`)
+   - Move the entry between JSON files
+   - Update `scope` field and `classified_by` to `"human"`
+   - Assign new ID appropriate to target file
    - Regenerate both markdown views
 
-4. **Update cross-project persistence (if patterns detected):**
+6. **Update cross-project persistence:**
+   a. **Profile updates** (`~/.claude/add/profile.md`): If retro reveals preferences that carry to other projects, ask: "Add to your ADD profile?"
+   b. **Project index** (`~/.claude/add/projects/{name}.json`): Update `last_retro` date and `learnings_count`.
 
-   a. **Profile updates** (`~/.claude/add/profile.md`):
-      If the retro reveals preferences that should carry to other projects
-      (e.g., "always use Redis", "prefer toast notifications"), ask:
-      "I noticed this seems like a general preference. Add to your ADD profile?"
+7. **Promote to plugin-global (ADD dev project only):**
+   If running inside the ADD plugin project (detected by `knowledge/global.md` existing as a local file), present Tier 1 promotion candidates.
 
-   b. **Project index update** (`~/.claude/add/projects/{name}.json`):
-      Update the `last_retro` date, `key_learnings` list, and `learnings_count` in the project snapshot.
+8. **Apply config/template changes:** If agreed changes affect the process, make edits now.
 
-5. **Promote to plugin-global (ADD dev project only):**
-   If this retro is running inside the ADD plugin project itself (detected by checking
-   if `knowledge/global.md` exists as a local file, not a plugin reference), present
-   candidates for Tier 1 promotion:
+9. **Deduplicate knowledge stores:**
+   Check all stores for duplicates or misplaced entries. Report: "{N} duplicates consolidated, {N} entries relocated."
 
+10. **Prune stale entries:**
+    - Observations >30 days old without `[synthesized M-{NNN}]` → archive
+    - Learnings >90 days old without references → flag for human review (never auto-delete)
+
+11. **Regenerate markdown views** after all JSON modifications.
+
+### Phase 8: Observation Synthesis
+
+Read `.add/observations.md` and synthesize:
+
+1. Group observations by operation type
+2. Identify patterns (3+ similar = a pattern)
+3. For each pattern, propose a process mutation:
    ```
-   PLUGIN-GLOBAL PROMOTION CANDIDATES:
-     These learnings could benefit ALL ADD users:
-     - {learning 1 — from Tier 3 or Tier 2}
-     - {learning 2}
-
-   Promote to knowledge/global.md? (Only if universal — not stack/user/project-specific)
+   ### Proposed Mutation: {title}
+   **Skill:** /add:{skill-name}
+   **Change:** {concrete change to the skill}
+   **Evidence:** {observation timestamps and summaries}
+   **Expected outcome:** {what should improve}
    ```
+4. Present proposals to human for approval. Only apply approved mutations.
 
-   Criteria for Tier 1 promotion:
-   - Universal: applies regardless of stack, team size, or project type
-   - Methodology: relates to ADD workflow, agent coordination, or collaboration
-   - Validated: proven across multiple projects or sessions
-   - NOT technology preferences, stack patterns, or user conventions
+### Phase 9: Apply Approved Mutations
 
-   If promoted, append to `knowledge/global.md` under the appropriate section.
+For each human-approved mutation:
+1. Read the target skill's SKILL.md
+2. Apply the change
+3. Log in `.add/mutations.md`
+4. Mark source observations as synthesized
 
-6. **Apply config/template changes:**
-   If agreed changes affect the process (e.g., "add edge case section to spec template"),
-   make the edits now.
+### Phase 10: Process Health Assessment
 
-7. **Deduplicate knowledge stores:**
-   Read all knowledge stores (`.add/learnings.json`, `.add/observations.md`, `.add/handoff.md`, `CLAUDE.md`, `.add/decisions.md`) and identify duplicate or overlapping entries:
-   - Same insight recorded in multiple stores → keep in the correct store per Knowledge Store Boundaries (see `rules/learning.md`), remove from others
-   - Near-duplicate JSON entries (same title/body) → consolidate, keep the richer version
-   - Learnings that are actually process observations → move to `.add/observations.md`
-   - Process observations that are actually domain facts → add as JSON entry to appropriate learnings file
-   - Report: "{N} duplicates consolidated, {N} entries relocated"
+Review `.add/mutations.md` for previously applied mutations:
+1. Did the problem recur? → Strengthen mutation
+2. Did the problem stop? → Note positive outcome
+3. New side effects? → Adjust mutation
+4. Report process health summary
 
-8. **Prune stale entries:**
-   Review JSON entries by age and activity:
-   - **Observations >30 days old** without a `[synthesized M-{NNN}]` tag → archive to `.add/archive/observations-{date}.md` (create directory if needed)
-   - **Learnings >90 days old** (check `date` field in JSON) without being referenced since recording → flag for human review:
-     ```
-     STALE LEARNINGS (>90 days, no recent references):
-       - {id}: {title} (recorded {date})
-       - {id}: {title} (recorded {date})
-     Keep or archive these?
-     ```
-   - Do NOT auto-delete learnings — always ask the human
-   - Archived entries are removed from the JSON `entries` array and recorded in the retro archive
+### Phase 11: Maturity Promotion Assessment
 
-9. **Regenerate markdown views:**
-   After all JSON modifications, regenerate `.add/learnings.md` and `~/.claude/add/library.md` from their respective JSON files.
+If the retro surfaces a promotion request, run an evidence-based check. See maturity promotion criteria:
 
-### Phase 6: Maturity Promotion Assessment
+**POC → Alpha:** At least 3 evidence items (specs, tests, CI, commits, etc.) + core concept validated
+**Alpha → Beta:** Feature specs exist, coverage >50%, CI/CD configured, PR workflow, 2+ environments, conventional commits, TDD evidence
+**Beta → GA:** Coverage >80%, protected branches, release tags, 3+ environments, all gates blocking, 30+ days stability, SLAs defined
 
-If the retro surfaces a promotion request (human asks or agent observations suggest readiness), run an evidence-based check before allowing it.
-
-#### Evidence Check
-
-Scan the actual project state for promotion criteria:
-
-```
-PROMOTION ASSESSMENT: {current_level} → {target_level}
-
-EVIDENCE REQUIRED FOR {TARGET_LEVEL}:
-```
-
-**For Alpha → Beta promotion, ALL of these must be present:**
-- [ ] Feature specs exist for all user-facing features (`specs/*.md`)
-- [ ] Test coverage above 50% (run coverage tool, report actual %)
-- [ ] CI/CD pipeline configured and passing (`.github/workflows/`, `.gitlab-ci.yml`, etc.)
-- [ ] PR workflow in use (check git log for merge commits from PRs)
-- [ ] At least 2 deployment environments configured
-- [ ] Conventional commits in use (check last 20 commits for pattern)
-- [ ] TDD evidence: test files with timestamps before or within 1 hour of implementation
-
-**For Beta → GA promotion, ALL Beta criteria plus:**
-- [ ] Test coverage above 80%
-- [ ] Protected branches enabled on main/master
-- [ ] Release tags in use (semantic versioning)
-- [ ] 3+ deployment environments (dev/staging/prod)
-- [ ] All quality gates configured and blocking (not advisory)
-- [ ] 30+ days of production stability (no rollbacks, no critical bugs)
-- [ ] SLAs defined in documentation
-
-**For POC → Alpha promotion:**
-- [ ] At least 3 evidence items from the full checklist (specs, tests, CI, commits, etc.)
-- [ ] Core product concept validated (human confirms)
-
-#### Promotion Decision
-
-```
-PROMOTION EVIDENCE:
-  Required: {N} criteria
-  Met: {N} criteria
-  Missing: {N} criteria
-
-  {list each criterion with ✓ or ✗}
-```
-
-**If all criteria met:**
-```
-Evidence supports promotion to {TARGET_LEVEL}.
-Applying promotion:
-  - Updating .add/config.json maturity to "{target_level}"
-  - Recording promotion in retro archive
-  - New rules will activate at next session start (see maturity-loader)
-
-Congratulations — your project has earned {TARGET_LEVEL} maturity.
-```
-
-Update `.add/config.json`:
-```json
-{
-  "maturity": {
-    "level": "{target_level}",
-    "promoted_from": "{current_level}",
-    "promoted_date": "{today}",
-    "next_promotion_criteria": "{summary of what's needed for the level after target}"
-  }
-}
-```
-
-**If criteria NOT met:**
-```
-Promotion to {TARGET_LEVEL} is not yet supported by evidence.
-
-Missing:
-  ✗ {criterion 1} — {how to fix: e.g., "Run /add:spec for remaining features"}
-  ✗ {criterion 2} — {how to fix}
-
-Staying at {CURRENT_LEVEL}. Run /add:retro again after addressing the gaps.
-```
-
-Do NOT promote. The maturity level stays where it is. Promotion requires evidence, not aspiration.
+Do NOT promote without evidence. Promotion requires proof, not aspiration.
 
 ---
 
 ## Mode 2: Agent Summary (`--agent-summary`)
 
-Quick, non-interactive mode. The agent presents its accumulated observations
-without requiring a full interactive retro. Useful for:
-- Checking what the agent has learned recently
-- Mid-sprint pulse check
-- Before a planning session
+Quick, non-interactive mode. Present accumulated observations without a full retro.
 
-### Output
-
-Read `.add/learnings.md` and present a structured summary:
+1. Read `.add/learnings.json` and `~/.claude/add/library.json`
+2. Filter entries since last retro
+3. Present structured summary:
 
 ```
 AGENT OBSERVATIONS — since {last_retro_date}
 
 TECHNICAL DISCOVERIES ({N} entries):
-  - {discovery 1 with date}
-  - {discovery 2 with date}
+  - {discovery with date}
 
 ARCHITECTURE DECISIONS ({N} entries):
   - {decision with rationale}
+
+ADD METHODOLOGY ADHERENCE:
+  {self-assessment checklist}
 
 WHAT WORKED:
   - {positive pattern}
@@ -341,7 +343,6 @@ WHAT DIDN'T:
 
 SUGGESTED CHANGES:
   1. {suggestion with rationale}
-  2. {suggestion with rationale}
 
 These are observations only — no changes applied.
 Run /add:retro for a full interactive retrospective.
@@ -351,11 +352,11 @@ Run /add:retro for a full interactive retrospective.
 
 ## Retro Frequency Guidance
 
-Display this during the first retro to set expectations:
+Display during the first retro:
 
 ```
 RECOMMENDED RETRO CADENCE:
-  - Agent auto-checkpoints: Continuous (after each verify, spike, away session)
+  - Agent auto-checkpoints: Continuous (after each verify, cycle, away session)
   - Agent summary (/add:retro --agent-summary): Weekly or before planning
   - Full interactive retro (/add:retro): After each feature/sprint completion,
     or every 2 weeks — whichever comes first
@@ -363,61 +364,14 @@ RECOMMENDED RETRO CADENCE:
 
 ---
 
-## Observation Synthesis
+## Score Semantics
 
-After the standard retrospective, read `.add/observations.md` and synthesize:
+All scores use 0.0-9.0 scale with 1 decimal precision:
 
-1. **Read** all observations since the last synthesis (or all if first time)
-2. **Group** by operation type (verify, deploy, tdd-cycle, handoff)
-3. **Identify patterns** — 3+ similar observations = a pattern
-4. **For each pattern, propose a process mutation:**
-   - What skill should change
-   - What specific step to add, modify, or remove
-   - Evidence: list the observations that triggered this
-   - Expected outcome: what should improve
-
-**Format proposals as:**
-```
-### Proposed Mutation: {title}
-**Skill:** /add:{skill-name}
-**Change:** {describe the concrete change to the skill's execution steps}
-**Evidence:** {list observation timestamps and summaries}
-**Expected outcome:** {what should improve}
-```
-
-Present all proposals to the human for approval. Only apply approved mutations.
-
----
-
-## Apply Approved Mutations
-
-For each human-approved mutation:
-
-1. Read the target skill's SKILL.md
-2. Apply the change — add the step, modify the sequence, embed the check
-3. Log the mutation in `.add/mutations.md`:
-```
-## M-{NNN} ({date}, approved)
-**Trigger:** {pattern description with observation evidence}
-**Change:** {what was modified in which skill}
-**Status:** Applied
-**Outcome:** {to be filled in at next retro}
-```
-4. Mark the source observations as "synthesized" (append ` [synthesized M-{NNN}]` to each)
-
----
-
-## Process Health Assessment
-
-Review `.add/mutations.md` for previously applied mutations:
-
-1. For each mutation applied before this retro, check recent observations:
-   - Did the problem recur? → Mutation may need strengthening
-   - Did the problem stop? → Mutation is working, note positive outcome
-   - New side effects? → Mutation may need adjustment
-2. Update the mutation's **Outcome** field with findings
-3. Report process health summary:
-   - Mutations working: {count}
-   - Mutations needing adjustment: {count}
-   - New patterns detected: {count}
-   - Overall trend: {improving / stable / degrading}
+| Range | Meaning |
+|-------|---------|
+| 0.0-2.0 | Poor — process not working, significant friction |
+| 2.1-4.0 | Below average — notable gaps, frequent workarounds |
+| 4.1-6.0 | Adequate — functional but room for improvement |
+| 6.1-8.0 | Good — effective with minor issues |
+| 8.1-9.0 | Excellent — highly effective, minimal friction |

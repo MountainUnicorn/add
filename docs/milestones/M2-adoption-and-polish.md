@@ -15,8 +15,8 @@ Make ADD easy to adopt on existing projects, refine based on dogfooding feedback
 - [x] Enhanced spec interview workflow
 - [x] Better away/back mode context preservation (session continuity)
 - [x] Integration with dossierFYI dogfooding project
-- [ ] Comprehensive user documentation + video walkthrough
-- [ ] Retro template automation
+- [ ] ~~Comprehensive user documentation + video walkthrough~~ (deferred to v0.6.0)
+- [x] Retro template automation — context-aware retros with pre-populated tables and scoring
 - [x] Learning library cross-project search
 - [x] Branding system (`/add:brand`, `/add:brand-update`)
 - [x] Image gen detection for branded visuals
@@ -40,8 +40,8 @@ Infographic Generation         ████████████████�
 Session Continuity & Evolution ████████████████████████████████████  DONE
 Legacy Adoption (migration)    ████████████████████████████████████  DONE
 Learning Library Search         ████████████████████████████████████  DONE
-User Documentation             ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — not started
-Retro Template Automation      ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — not started
+User Documentation             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  DEFERRED to v0.6.0
+Retro Template Automation      ████████████████████████████████████  DONE
 ```
 
 ### Feature Detail
@@ -55,8 +55,8 @@ Retro Template Automation      ██░░░░░░░░░░░░░░�
 | Session Continuity & Evolution | specs/session-continuity-and-self-evolution.md | DONE | 34/34 ACs — handoff, swarm, observations, mutations, maturity assessment | — |
 | Legacy Adoption | specs/legacy-adoption.md | DONE | Auto-migration rule + version manifest, chained version hops | — |
 | Learning Library Search | specs/learning-library-search.md | DONE | JSON storage, smart filtering, scope classification, migration | — |
-| User Documentation | — | SHAPED | Docs + video walkthrough | — |
-| Retro Template Automation | — | SHAPED | Extract lessons automatically | — |
+| User Documentation | — | DEFERRED | Moved to v0.6.0 | — |
+| Retro Template Automation | specs/retro-template-automation.md | DONE | Context-aware retros, pre-populated tables, 3 scores (collab/ADD/swarm), rate-limited meta Qs | — |
 
 ## Dependencies
 

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/retro-scores.schema.json",
+  "version": "1.0.0",
+  "project": "{PROJECT_NAME}",
+  "entries": []
+}

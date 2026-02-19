@@ -24,7 +24,7 @@ add/
 ├── hooks/             # PostToolUse automation
 ├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)
 │   └── global.md      # Universal learnings that ship with ADD for all users
-└── templates/         # Document scaffolding (PRD, spec, plan, config, learnings, profile)
+└── templates/         # Document scaffolding (PRD, spec, plan, config, learnings, retro, profile)
 ```
 
 ## Document Hierarchy
