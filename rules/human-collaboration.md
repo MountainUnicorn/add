@@ -73,20 +73,20 @@ Before asking each interview question, self-check:
 Bad (compressed):
 ```
 Question 5 of 9: What should happen when things go wrong? Think about:
-network errors, paywalls, bot-blocking, multi-title statutes, PDF compilations,
-missing mapper data, and partial content.
+network timeouts, invalid API keys, rate limiting, malformed responses,
+partial data, missing required fields, and concurrent edit conflicts.
 ```
 
 Good (split):
 ```
-Question 5 of 12: What should happen when a document can't be retrieved
-(network error, 404, site down)?
+Question 5 of 12: What should happen when an external API call fails
+(timeout, 500 error, network unreachable)?
 
-Question 6 of 12: Some states put their legal codes behind paywalls.
-How should the system handle that?
+Question 6 of 12: Some APIs enforce rate limits. How should the
+system handle throttling — retry, queue, or fail gracefully?
 
-Question 7 of 12: Government websites sometimes block automated access
-with CAPTCHAs or login walls. How should the system handle that?
+Question 7 of 12: What should happen when the API returns data
+but required fields are missing or malformed?
 ```
 
 A compressed question lets the agent choose defaults for sub-decisions the user
