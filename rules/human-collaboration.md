@@ -55,6 +55,108 @@ Question 7 of ~8: What format should error messages take?
 
 The human can just say "default" and move on.
 
+### Question Complexity Check
+
+Before asking each interview question, self-check:
+
+1. **Count independent decisions** in the question. If the question asks the user to
+   address 3 or more separate sub-decisions, split it into separate questions.
+2. **One concept per question.** Each question should ask about ONE thing the user
+   needs to decide. "What error types should we handle?" is one decision.
+   "What error types should we handle, how should we detect paywalls, what about
+   bot-blocking, and should multi-title statutes be linked?" is four decisions.
+3. **When in doubt, split.** A question that takes 3+ sentences to explain is
+   probably asking about multiple things. Split it.
+
+**What splitting looks like:**
+
+Bad (compressed):
+```
+Question 5 of 9: What should happen when things go wrong? Think about:
+network timeouts, invalid API keys, rate limiting, malformed responses,
+partial data, missing required fields, and concurrent edit conflicts.
+```
+
+Good (split):
+```
+Question 5 of 12: What should happen when an external API call fails
+(timeout, 500 error, network unreachable)?
+
+Question 6 of 12: Some APIs enforce rate limits. How should the
+system handle throttling — retry, queue, or fail gracefully?
+
+Question 7 of 12: What should happen when the API returns data
+but required fields are missing or malformed?
+```
+
+A compressed question lets the agent choose defaults for sub-decisions the user
+didn't explicitly address. Those defaults become spec requirements. A less
+experienced PM may not realize they've implicitly agreed to simplifications.
+
+### Confusion Protocol
+
+When a user signals confusion during any interview question — "I don't understand",
+"what do you mean?", "can you explain?", "I'm not sure", or any equivalent — follow
+this exact sequence:
+
+1. **Explain** the concept in plain language, without jargon. Translate technical
+   implications to user impact ("what this means for you").
+2. **Re-ask** the question using the `AskUserQuestion` tool with simplified options
+   that reflect the explanation. The structured popup forces a confirmed selection —
+   the agent cannot proceed without the user clicking an answer.
+3. **Wait** for the confirmed answer before moving to the next question.
+
+**NEVER** do any of the following after a user signals confusion:
+- Pick a default and say "unless you disagree" — that is not consent
+- Proceed to the next question without a confirmed answer to this one
+- Start generating output (spec, plan, code) with an unconfirmed answer
+- Treat your own explanation as the user's agreement
+
+Every answer in a spec interview becomes a binding requirement. An unconfirmed
+answer means the spec — and everything built from it — rests on an assumption
+the user never validated.
+
+### Confirmation Gate
+
+After the final interview question is answered — and BEFORE generating any output
+(spec, PRD, plan) — present a summary of all captured answers for confirmation.
+
+```
+Here's what I captured from our interview:
+
+1. Scope: {answer summary}
+2. Users: {answer summary}
+3. Happy path: {answer summary}
+...
+7. Output format: {answer summary} ← (agent-recommended default)
+
+Any of these wrong? Reply "looks good" to proceed, or tell me
+which number to change.
+```
+
+**Rules:**
+- Mark any answer where the agent chose a default with a visible flag so the user
+  can spot agent-chosen answers at a glance.
+- Do NOT generate the spec/output until the user confirms the summary.
+- If the user changes an answer, update the summary and re-confirm.
+
+This is the last checkpoint before answers become spec requirements. It catches
+misunderstandings, agent-assumed defaults, and anything the user's thinking has
+evolved on since answering the original question.
+
+### Cross-Spec Consistency Check
+
+Before writing a new spec, scan all existing specs in `specs/` for:
+- **Related ACs** — acceptance criteria that cover similar capabilities. Carry
+  forward consistent patterns or flag intentional divergences.
+- **Shared data model patterns** — entities or fields that overlap. Ensure naming
+  and structure are consistent.
+- **Conflicting requirements** — two specs that say contradictory things about the
+  same behavior.
+
+If conflicts or overlaps are found, present them to the user before generating
+the spec. The user decides whether to align, diverge intentionally, or defer.
+
 ### Acknowledge Thoroughness
 
 When the human invests time answering all questions:
@@ -169,3 +271,8 @@ The human's autonomy preference is set in `.add/config.json` during init. Three 
 - NEVER ask "is this okay?" without showing what "this" is
 - NEVER continue working after the human said they're stepping away without presenting the away-mode work plan first
 - NEVER present technical implementation details to get product decisions — translate to user impact
+- NEVER compress 3+ independent decisions into a single interview question (see Question Complexity Check)
+- NEVER proceed after "I don't understand" without re-asking via `AskUserQuestion` and getting a confirmed answer (see Confusion Protocol)
+- NEVER say "unless you disagree" or "if that works for you" as a substitute for asking — soft opt-outs are not consent
+- NEVER generate a spec without presenting the answer summary for confirmation (see Confirmation Gate)
+- NEVER write a new spec without checking existing specs for related ACs, shared patterns, or conflicts (see Cross-Spec Consistency Check)
