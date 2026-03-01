@@ -47,7 +47,7 @@
       "name": "MountainUnicorn",
       "url": "https://github.com/MountainUnicorn"
     },
-    "softwareVersion": "0.4.0",
+    "softwareVersion": "0.5.0",
     "license": "https://opensource.org/licenses/MIT",
     "codeRepository": "https://github.com/MountainUnicorn/add"
   }
@@ -65,7 +65,6 @@
     <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
     <div class="site-nav-links">
       <a href="/docs/">Docs</a>
-      <a href="/docs/commands">Commands</a>
       <a href="/docs/skills">Skills</a>
       <a href="/guides/enterprise">Enterprise</a>
       <a href="/guides/best-practices">Best Practices</a>
@@ -96,11 +95,7 @@
   <div class="metrics-bar">
     <div class="metrics-inner">
       <div class="metric">
-        <div class="metric-value">9</div>
-        <div class="metric-label">Commands</div>
-      </div>
-      <div class="metric">
-        <div class="metric-value">9</div>
+        <div class="metric-value">19</div>
         <div class="metric-label">Skills</div>
       </div>
       <div class="metric">
@@ -758,17 +753,17 @@
       </div>
   </section>
 
-  <!-- ===== COMMANDS & SKILLS ===== -->
+  <!-- ===== SKILLS ===== -->
   <section class="section" style="background: var(--bg-secondary);" id="commands">
     <div class="section-inner">
     <div class="section-eyebrow">Reference</div>
-    <h2>Commands &amp; Skills</h2>
-    <p class="section-desc">9 commands for orchestration. 9 skills for execution. 11 rules for behavior. <a href="/docs/commands" style="color: var(--accent);">Full reference &rarr;</a></p>
+    <h2>Skills</h2>
+    <p class="section-desc">19 skills for orchestration and execution. 11 rules for behavior. <a href="/docs/skills" style="color: var(--accent);">Full reference &rarr;</a></p>
 
-    <h3 style="font-size: 18px; margin-bottom: 16px;">Commands</h3>
+    <h3 style="font-size: 18px; margin-bottom: 16px;">Setup &amp; Orchestration</h3>
     <table class="commands-table">
       <thead>
-        <tr><th>Command</th><th>Purpose</th><th>Output</th></tr>
+        <tr><th>Skill</th><th>Purpose</th><th>Output</th></tr>
       </thead>
       <tbody>
         <tr><td><code>/add:init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
@@ -780,21 +775,22 @@
         <tr><td><code>/add:brand</code></td><td>View branding — drift detection, image gen status</td><td>Branding report</td></tr>
         <tr><td><code>/add:brand-update</code></td><td>Update branding — new colors, fonts, tone</td><td>Updated config + artifacts</td></tr>
         <tr><td><code>/add:changelog</code></td><td>Generate CHANGELOG from conventional commits</td><td>CHANGELOG.md</td></tr>
+        <tr><td><code>/add:dashboard</code></td><td>Generate visual HTML project dashboard</td><td>HTML dashboard</td></tr>
       </tbody>
     </table>
 
-    <h3 style="font-size: 18px; margin-bottom: 16px;">Skills</h3>
+    <h3 style="font-size: 18px; margin-bottom: 16px;">Development &amp; Execution</h3>
     <table class="commands-table">
       <thead>
         <tr><th>Skill</th><th>Purpose</th><th>Phase</th></tr>
       </thead>
       <tbody>
+        <tr><td><code>/add:plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
         <tr><td><code>/add:tdd-cycle</code></td><td>Complete RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</td><td>Full TDD</td></tr>
         <tr><td><code>/add:test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
         <tr><td><code>/add:implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
         <tr><td><code>/add:reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
         <tr><td><code>/add:verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
-        <tr><td><code>/add:plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
         <tr><td><code>/add:optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
         <tr><td><code>/add:deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
         <tr><td><code>/add:infographic</code></td><td>Generate project infographic SVG</td><td>Documentation</td></tr>
@@ -866,7 +862,6 @@
     <div class="footer-sub">You've done TDD and BDD. Now it's time to ADD.</div>
     <div class="footer-links">
       <a href="/docs/">Docs</a>
-      <a href="/docs/commands">Commands</a>
       <a href="/docs/skills">Skills</a>
       <a href="/guides/enterprise">Enterprise</a>
       <a href="/blog/">Blog</a>
@@ -879,7 +874,7 @@
       Built and maintained by <strong>Snarky &amp; Quip LLC</strong> — shipping AI-native development tools for teams that move fast and verify everything.
     </div>
     <div class="footer-meta">
-      ADD v0.4.0 — Agent Driven Development | Free &amp; open source<br>
+      ADD v0.5.0 — Agent Driven Development | Free &amp; open source<br>
       Built with ADD, using ADD. Dog-fooded from day one.
     </div>
   </footer>

@@ -18,8 +18,7 @@ The core principles:
 
 ```
 add/
-├── commands/          # Slash commands (/add:init, /add:spec, /add:away, /add:back, /add:retro, /add:cycle)
-├── skills/            # Workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
+├── skills/            # All slash commands and workflow skills (/add:init, /add:spec, /add:tdd-cycle, etc.)
 ├── rules/             # Auto-loading behavioral rules (13 files)
 ├── hooks/             # PostToolUse automation
 ├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)
@@ -50,7 +49,7 @@ Roadmap (docs/prd.md milestones section)
 6. Verify: `/add:verify`
 7. Deploy: `/add:deploy`
 
-## Key Commands
+## Key Skills
 
 | Command | Purpose |
 |---------|---------|

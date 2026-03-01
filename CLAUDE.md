@@ -29,8 +29,7 @@ This loads commands, skills, rules, hooks, knowledge, and templates from the loc
 .claude-plugin/        # Marketplace manifest (marketplace.json)
 plugins/add/           # The installable plugin
   .claude-plugin/      #   Plugin manifest (plugin.json)
-  commands/            #   Slash commands
-  skills/              #   Workflow skills
+  skills/              #   All slash commands and workflow skills
   rules/               #   Auto-loading behavioral rules
   hooks/               #   PostToolUse automation
   knowledge/           #   Tier 1 curated best practices
