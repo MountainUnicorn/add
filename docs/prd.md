@@ -101,6 +101,36 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 
 ---
 
+### v0.5.0: Installation Reliability & Interview Safety Nets (Q1 2026)
+
+**Goal**: Make ADD installable via the standard plugin command and harden the human-collaboration interview protocol.
+
+**Features**:
+- Plugin installation reliability — fix `claude plugin install add` (currently broken, only manual clone works)
+- Interview safety nets (Nick Barger's additions to `human-collaboration.md`):
+  - Question Complexity Check
+  - Confusion Protocol
+  - Confirmation Gate
+  - Cross-Spec Consistency Check
+- 5 new NEVER rules for interview guardrails
+
+**Success**: `claude plugin install add` works end-to-end; interview protocol catches complexity/confusion issues before they propagate
+
+---
+
+### v0.6.0: Project Management & Documentation (Q1–Q2 2026)
+
+**Goal**: Ship project visibility tooling and comprehensive user-facing documentation.
+
+**Features**:
+- Project Dashboard (`/add:dashboard` — already implemented, 6-panel HTML report)
+- Timeline Events (spec drafted)
+- Comprehensive user documentation + video walkthrough
+
+**Success**: Dashboard and timeline provide at-a-glance project health; new users can onboard from docs alone
+
+---
+
 ### v1.0.0: Marketplace Ready (Q2 2026)
 
 **Goal**: Production-grade plugin, ready for broad distribution.
