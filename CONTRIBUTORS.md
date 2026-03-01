@@ -8,7 +8,7 @@ Thank you to everyone who helps make ADD better.
 
 ## Contributors
 
-- **Nick Barger** ([@nicholasbbarger](https://github.com/nicholasbbarger)) — Interview safety nets: Question Complexity Check, Confusion Protocol, Confirmation Gate, and Cross-Spec Consistency Check. Discovered and field-tested across 33 sessions as a non-engineer PM using ADD from scratch.
+- **Nick Barger** — Interview safety nets: Question Complexity Check, Confusion Protocol, Confirmation Gate, and Cross-Spec Consistency Check. Discovered and field-tested across 33 sessions as a non-engineer PM using ADD from scratch.
 
 ## How to Contribute
 
