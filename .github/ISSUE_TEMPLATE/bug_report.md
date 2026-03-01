@@ -28,4 +28,4 @@ What actually happened. Include any error messages or unexpected output.
 
 - **Claude Code version:**
 - **OS:**
-- **ADD version:** (check `.claude-plugin/plugin.json`)
+- **ADD version:** (check `plugins/add/.claude-plugin/plugin.json`)

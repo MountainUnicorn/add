@@ -116,7 +116,7 @@
       <!-- ===== INSTALLATION ===== -->
       <h2 id="installation">Installation</h2>
 
-      <p>ADD is installed through the Claude Code plugin system. One command, nothing else required.</p>
+      <p>ADD is installed through the Claude Code plugin system. Two commands, nothing else required.</p>
 
       <div class="terminal">
         <div class="terminal-bar">
@@ -126,14 +126,45 @@
           <div class="terminal-title">Terminal</div>
         </div>
         <div class="terminal-body">
-          <div><span class="prompt">$</span> <span class="arg">claude plugin install add</span></div>
+          <div><span class="prompt">$</span> <span class="arg">claude plugin marketplace add MountainUnicorn/add</span></div>
+          <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span></div>
         </div>
       </div>
 
-      <p>That's it. No build step, no dependencies, no configuration files to create manually. The plugin installs commands, skills, rules, and templates into your Claude Code environment.</p>
+      <p>No build step, no dependencies, no configuration files to create manually. The plugin installs commands, skills, rules, and templates into your Claude Code environment.</p>
 
       <div class="callout callout-tip">
-        <p><strong>What gets installed:</strong> 9 commands for orchestration, 9 skills for execution, 11 behavioral rules that auto-load, and 13 document templates. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes.</p>
+        <p><strong>What gets installed:</strong> 10 commands for orchestration, 9 skills for execution, 13 behavioral rules that auto-load, and 21 document templates. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes.</p>
+      </div>
+
+      <h3>Troubleshooting</h3>
+
+      <p>If the marketplace install doesn't work, you can install directly from source:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="arg">claude plugin install --source https://github.com/MountainUnicorn/add</span></div>
+        </div>
+      </div>
+
+      <p>To update an existing install:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="arg">claude plugin update add@add-marketplace</span></div>
+        </div>
       </div>
 
       <h3>Prerequisites</h3>

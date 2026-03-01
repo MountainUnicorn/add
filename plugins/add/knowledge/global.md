@@ -13,7 +13,7 @@
 - Claude Code plugins namespace commands and skills automatically as `pluginname:commandname` (e.g., `add:spec`). But Claude reproduces whatever naming pattern it sees in file content — so all internal references in plugin files must use the full namespaced form (`/add:spec`, not `/spec`).
 - Rules with `autoload: true` in YAML frontmatter load automatically when Claude enters the project. This is the primary enforcement mechanism for ADD behavior.
 - Skills use `allowed-tools` in frontmatter to restrict what a skill can do. This enables agent isolation (test-writer can't deploy, reviewer can't edit).
-- Claude Code plugin format uses `.claude-plugin/plugin.json` as the manifest. `marketplace.json` is a sibling for marketplace distribution.
+- Claude Code plugin format uses `.claude-plugin/plugin.json` as the manifest. `marketplace.json` lives at the repo root in `.claude-plugin/` and points to the plugin via `source`.
 
 ## Agent Coordination
 

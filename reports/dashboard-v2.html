@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADD — Project Dashboard</title>
+<style>
+:root {
+  --bg: #0f0f23;
+  --bg2: #1a1a2e;
+  --bg3: #252541;
+  --accent: #b00149;
+  --accent2: #d4326d;
+  --accent3: #ff6b9d;
+  --green: #22c55e;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --purple: #a855f7;
+  --text: #f0f0f0;
+  --text2: #a0a8b8;
+  --text3: #6b7280;
+  --border: rgba(255,255,255,0.07);
+  --glass: rgba(255,255,255,0.04);
+  --glass2: rgba(255,255,255,0.07);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,15,35,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex; align-items: center; gap: 16px;
+}
+.topbar-logo {
+  font-weight: 800; font-size: 20px; letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--accent), var(--accent3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.topbar-name { font-weight: 600; font-size: 15px; color: var(--text2); }
+.topbar-badge {
+  padding: 4px 12px; border-radius: 20px; font-size: 11px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  background: rgba(176,1,73,0.15); color: var(--accent2);
+  border: 1px solid rgba(176,1,73,0.25);
+}
+.topbar-spacer { flex: 1; }
+.topbar-meta { font-size: 11px; color: var(--text3); text-align: right; line-height: 1.4; }
+
+/* ── CONTAINER ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+/* ── NORTH STAR ── */
+.northstar {
+  text-align: center; padding: 48px 32px 40px;
+  position: relative;
+}
+.northstar::after {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%); width: 80px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.northstar-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent2); margin-bottom: 12px;
+}
+.northstar-text {
+  font-size: 22px; font-weight: 600; line-height: 1.4;
+  max-width: 700px; margin: 0 auto 8px;
+  color: var(--text);
+}
+.northstar-sub {
+  font-size: 14px; color: var(--text3); font-style: italic;
+}
+
+/* ── SECTION ── */
+.section { padding: 48px 0; }
+.section + .section { border-top: 1px solid var(--border); }
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent2); margin-bottom: 8px;
+}
+.section-title { font-size: 24px; font-weight: 700; margin-bottom: 28px; }
+
+/* ════════════════════════════════════════════
+   JOURNEY MAP — the hero visualization
+   ════════════════════════════════════════════ */
+.journey { padding: 48px 0 56px; }
+
+.journey-track {
+  display: flex; align-items: flex-start; gap: 0;
+  position: relative; padding: 0 40px;
+}
+
+/* the connecting line */
+.journey-track::before {
+  content: ''; position: absolute;
+  top: 32px; left: 70px; right: 70px;
+  height: 3px; background: var(--border);
+  z-index: 0;
+}
+
+/* completed portion of line */
+.journey-progress-line {
+  position: absolute;
+  top: 32px; left: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--green) 90%, var(--accent2));
+  z-index: 1;
+  transition: width 0.8s ease;
+}
+
+.milestone {
+  flex: 1; text-align: center; position: relative; z-index: 2;
+  cursor: default;
+}
+
+.ms-node {
+  width: 64px; height: 64px; border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700;
+  transition: all 0.3s;
+  position: relative;
+}
+
+/* States */
+.ms-complete .ms-node {
+  background: rgba(34,197,94,0.15);
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+.ms-active .ms-node {
+  background: linear-gradient(135deg, rgba(176,1,73,0.25), rgba(212,50,109,0.15));
+  border: 2px solid var(--accent2);
+  color: var(--accent3);
+  box-shadow: 0 0 24px rgba(176,1,73,0.3);
+  animation: glow 2.5s ease-in-out infinite;
+}
+.ms-planned .ms-node {
+  background: var(--glass);
+  border: 2px dashed rgba(255,255,255,0.15);
+  color: var(--text3);
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 16px rgba(176,1,73,0.2); }
+  50% { box-shadow: 0 0 32px rgba(176,1,73,0.45); }
+}
+
+/* You Are Here arrow */
+.ms-active::before {
+  content: 'YOU ARE HERE';
+  position: absolute; top: -28px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+  color: var(--accent3);
+  white-space: nowrap;
+  animation: fadeInDown 0.6s ease;
+}
+.ms-active::after {
+  content: '▼';
+  position: absolute; top: -14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px; color: var(--accent3);
+  animation: fadeInDown 0.6s ease 0.1s both;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.ms-name {
+  font-size: 14px; font-weight: 600; margin-bottom: 4px;
+  line-height: 1.3;
+}
+.ms-desc {
+  font-size: 12px; color: var(--text3); line-height: 1.4;
+}
+.ms-complete .ms-name { color: var(--green); }
+.ms-active .ms-name { color: var(--accent3); }
+.ms-planned .ms-name { color: var(--text3); }
+
+/* Overall progress bar */
+.journey-bar {
+  margin-top: 36px; padding: 0 40px;
+}
+.journey-bar-label {
+  font-size: 12px; color: var(--text3); margin-bottom: 6px;
+  display: flex; justify-content: space-between;
+}
+.journey-bar-track {
+  height: 6px; border-radius: 3px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+.journey-bar-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--green), var(--accent2));
+  transition: width 1s ease;
+}
+
+/* ════════════════════════════════════════════
+   WHAT'S HAPPENING — current state cards
+   ════════════════════════════════════════════ */
+.cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s;
+}
+.card:hover { border-color: rgba(255,255,255,0.12); }
+
+.card-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.card-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.card-icon-now { background: rgba(176,1,73,0.15); }
+.card-icon-next { background: rgba(59,130,246,0.12); }
+.card-icon-health { background: rgba(34,197,94,0.12); }
+.card-icon-alert { background: rgba(245,158,11,0.12); }
+
+.card-title { font-size: 16px; font-weight: 700; }
+.card-subtitle { font-size: 12px; color: var(--text3); }
+
+/* Feature in progress */
+.feature-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.feature-row:last-child { border-bottom: none; }
+.feature-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.feature-status {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-left: 8px;
+}
+.status-planning { background: rgba(168,85,247,0.15); color: var(--purple); }
+.status-building { background: rgba(176,1,73,0.15); color: var(--accent2); }
+.status-done { background: rgba(34,197,94,0.15); color: var(--green); }
+
+.progress-track {
+  height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden; margin-top: 6px;
+}
+.progress-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 0.6s ease;
+}
+.progress-label {
+  font-size: 11px; color: var(--text3); margin-top: 4px;
+}
+
+/* Decision / Next items */
+.next-item {
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s;
+}
+.next-item:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+}
+.next-item:last-child { margin-bottom: 0; }
+
+.next-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--glass2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--text2);
+  flex-shrink: 0;
+}
+.next-text { font-size: 13px; flex: 1; }
+.next-cmd {
+  font-size: 11px; color: var(--accent2);
+  font-family: 'SF Mono', Monaco, monospace;
+  background: rgba(176,1,73,0.08);
+  padding: 2px 8px; border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════════════
+   HEALTH CHECK — drift / scope
+   ════════════════════════════════════════════ */
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.health-item {
+  padding: 20px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+
+.health-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  margin-top: 5px; flex-shrink: 0;
+}
+.dot-green { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.4); }
+.dot-amber { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+.dot-red { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.4); }
+
+.health-label { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+.health-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+
+/* Recalibrate callout */
+.recalibrate {
+  margin-top: 20px; padding: 20px 24px;
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.15);
+  border-radius: 12px;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.recalibrate-icon { font-size: 20px; flex-shrink: 0; }
+.recalibrate-title { font-size: 13px; font-weight: 700; color: var(--amber); margin-bottom: 4px; }
+.recalibrate-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.recalibrate-text code {
+  font-family: 'SF Mono', Monaco, monospace; font-size: 12px;
+  color: var(--accent2); background: rgba(176,1,73,0.1);
+  padding: 1px 6px; border-radius: 3px;
+}
+
+/* ════════════════════════════════════════════
+   WHAT WE'VE BUILT — completed work
+   ════════════════════════════════════════════ */
+.built-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.built-item {
+  padding: 16px 18px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.built-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(34,197,94,0.12);
+  color: var(--green); font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.built-name { font-size: 13px; font-weight: 500; }
+.built-milestone { font-size: 10px; color: var(--text3); display: block; }
+
+/* ════════════════════════════════════════════
+   THE NUMBERS — compact metrics
+   ════════════════════════════════════════════ */
+.numbers-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.num-card {
+  text-align: center; padding: 24px 16px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.num-value {
+  font-size: 36px; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.num-label {
+  font-size: 12px; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;
+}
+.num-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+/* ════════════════════════════════════════════
+   MATURITY LADDER
+   ════════════════════════════════════════════ */
+.ladder {
+  display: flex; align-items: center; gap: 0;
+  max-width: 560px; margin: 0 auto;
+  position: relative;
+}
+.ladder::before {
+  content: ''; position: absolute;
+  top: 50%; left: 30px; right: 30px;
+  height: 2px; background: rgba(255,255,255,0.08);
+}
+.ladder-step {
+  flex: 1; text-align: center; position: relative; z-index: 1;
+}
+.ladder-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  margin: 0 auto 8px;
+  background: rgba(255,255,255,0.1);
+}
+.ladder-step.done .ladder-dot { background: var(--green); }
+.ladder-step.current .ladder-dot {
+  background: var(--accent);
+  width: 18px; height: 18px;
+  box-shadow: 0 0 12px rgba(176,1,73,0.5);
+  animation: glow 2.5s ease-in-out infinite;
+}
+.ladder-label {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text3);
+}
+.ladder-step.done .ladder-label { color: var(--green); }
+.ladder-step.current .ladder-label { color: var(--accent2); }
+
+/* ════════════════════════════════════════════
+   TIMELINE — metro/gitgraph inspired
+   ════════════════════════════════════════════ */
+.tl-canvas {
+  overflow-x: auto; padding: 12px 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+.tl-canvas::-webkit-scrollbar { height: 6px; }
+.tl-canvas::-webkit-scrollbar-track { background: transparent; }
+.tl-canvas::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+/* Tooltip */
+.tl-tip {
+  position: fixed; z-index: 200; pointer-events: none;
+  background: rgba(20,20,40,0.96);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 14px 18px;
+  max-width: 260px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  opacity: 0; transition: opacity 0.15s ease;
+}
+.tl-tip.show { opacity: 1; }
+.tl-tip-type {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 4px;
+}
+.tl-tip-title { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 3px; }
+.tl-tip-date { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+.tl-tip-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+/* Legend */
+.tl-legend {
+  display: flex; gap: 24px; margin-top: 16px;
+  justify-content: center; flex-wrap: wrap;
+}
+.tl-legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--text3);
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center; padding: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--text3);
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .cards-row { grid-template-columns: 1fr; }
+  .health-grid { grid-template-columns: 1fr; }
+  .numbers-row { grid-template-columns: repeat(2, 1fr); }
+  .journey-track { flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .journey-track::before { display: none; }
+  .journey-progress-line { display: none; }
+}
+@media (max-width: 600px) {
+  .topbar { padding: 12px 16px; gap: 10px; flex-wrap: wrap; }
+  .container { padding: 0 16px; }
+  .northstar { padding: 32px 16px 28px; }
+  .northstar-text { font-size: 18px; }
+  .milestone { flex: 0 1 calc(50% - 8px); }
+  .built-grid { grid-template-columns: 1fr; }
+  .numbers-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── PRINT ── */
+@media print {
+  .topbar { position: static; background: white; color: black; border-bottom: 2px solid #333; }
+  body { background: white; color: black; }
+  .card, .health-item, .num-card, .built-item, .next-item {
+    border: 1px solid #ccc; background: white; break-inside: avoid;
+  }
+  .northstar-text { color: black; }
+  .section-title { color: black; }
+}
+
+/* ── EMPTY STATES ── */
+.empty-state {
+  text-align: center; padding: 32px;
+  color: var(--text3); font-size: 14px;
+}
+.empty-state code {
+  color: var(--accent2); font-family: 'SF Mono', Monaco, monospace;
+  font-size: 13px; background: rgba(176,1,73,0.08);
+  padding: 2px 8px; border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="topbar">
+  <div class="topbar-logo">ADD</div>
+  <div class="topbar-name">Agent Driven Development</div>
+  <div class="topbar-badge">Alpha</div>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-meta">
+    Generated Feb 21, 2026<br>
+    <span style="opacity:0.6">Run <code style="color:var(--accent2);font-family:'SF Mono',monospace;font-size:11px">/add:dashboard</code> to refresh</span>
+  </div>
+</header>
+
+<!-- ═══ NORTH STAR ═══ -->
+<section class="northstar">
+  <div class="northstar-label">Project Objective</div>
+  <div class="northstar-text">
+    A structured SDLC methodology where AI agents are first-class development team members
+  </div>
+  <div class="northstar-sub">Specs before code &middot; Tests before implementation &middot; Trust but verify</div>
+</section>
+
+<div class="container">
+
+<!-- ═══ JOURNEY MAP ═══ -->
+<section class="journey">
+  <div class="section-label">Your Project Journey</div>
+  <div class="section-title">Milestone 3 of 4 — two milestones shipped</div>
+
+  <div class="journey-track">
+    <div class="journey-progress-line" style="width: 55%;"></div>
+
+    <div class="milestone ms-complete">
+      <div class="ms-node">✓</div>
+      <div class="ms-name">Core Plugin</div>
+      <div class="ms-desc">8 features built<br>All verified</div>
+    </div>
+
+    <div class="milestone ms-complete">
+      <div class="ms-node">✓</div>
+      <div class="ms-name">Adoption &amp; Polish</div>
+      <div class="ms-desc">8 features built<br>All verified</div>
+    </div>
+
+    <div class="milestone ms-active">
+      <div class="ms-node">3</div>
+      <div class="ms-name">Dashboard &amp; Insights</div>
+      <div class="ms-desc">1 feature in design<br>Just getting started</div>
+    </div>
+
+    <div class="milestone ms-planned">
+      <div class="ms-node">4</div>
+      <div class="ms-name">Future Growth</div>
+      <div class="ms-desc">Not started yet<br>Ideas being shaped</div>
+    </div>
+  </div>
+
+  <div class="journey-bar">
+    <div class="journey-bar-label">
+      <span>Overall progress</span>
+      <span>2 of 4 milestones complete</span>
+    </div>
+    <div class="journey-bar-track">
+      <div class="journey-bar-fill" style="width: 50%;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT'S HAPPENING NOW ═══ -->
+<section class="section">
+  <div class="section-label">Right Now</div>
+  <div class="section-title">What's in motion &amp; what's next</div>
+
+  <div class="cards-row">
+    <!-- NOW -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon card-icon-now">🔨</div>
+        <div>
+          <div class="card-title">Working On</div>
+          <div class="card-subtitle">Current focus for Milestone 3</div>
+        </div>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature-name">
+          Project Dashboard
+          <span class="feature-status status-planning">Designing</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 15%; background: var(--purple);"></div>
+        </div>
+        <div class="progress-label">Designing the approach — spec written, planning visuals</div>
+      </div>
+
+      <div style="margin-top: 16px; padding: 12px 16px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid var(--border);">
+        <div style="font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 4px;">Milestone 3 at a glance</div>
+        <div style="font-size: 13px; color: var(--text2);">1 feature total &middot; 0 complete &middot; 1 in progress</div>
+      </div>
+    </div>
+
+    <!-- NEXT -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon card-icon-next">📋</div>
+        <div>
+          <div class="card-title">Up Next</div>
+          <div class="card-subtitle">Decisions that need your input</div>
+        </div>
+      </div>
+
+      <div class="next-item">
+        <div class="next-num">1</div>
+        <div class="next-text">Finalize dashboard design &amp; acceptance criteria</div>
+        <div class="next-cmd">/add:spec</div>
+      </div>
+      <div class="next-item">
+        <div class="next-num">2</div>
+        <div class="next-text">Assign dashboard to a work cycle</div>
+        <div class="next-cmd">/add:cycle</div>
+      </div>
+      <div class="next-item">
+        <div class="next-num">3</div>
+        <div class="next-text">Consider promoting Alpha → Beta</div>
+        <div class="next-cmd">/add:retro</div>
+      </div>
+      <div class="next-item">
+        <div class="next-num">4</div>
+        <div class="next-text">Shape ideas for Milestone 4</div>
+        <div class="next-cmd">/add:spec</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECT HEALTH ═══ -->
+<section class="section">
+  <div class="section-label">Project Health</div>
+  <div class="section-title">Are we on track?</div>
+
+  <div class="health-grid">
+    <div class="health-item">
+      <div class="health-dot dot-green"></div>
+      <div>
+        <div class="health-label">Scope</div>
+        <div class="health-desc">9 features specified. 8 shipped and verified. No runaway scope.</div>
+      </div>
+    </div>
+    <div class="health-item">
+      <div class="health-dot dot-amber"></div>
+      <div>
+        <div class="health-label">Organization</div>
+        <div class="health-desc">Dashboard spec exists but hasn't been formally assigned to a work cycle yet.</div>
+      </div>
+    </div>
+    <div class="health-item">
+      <div class="health-dot dot-green"></div>
+      <div>
+        <div class="health-label">Quality</div>
+        <div class="health-desc">87% of acceptance criteria verified across all shipped features. Strong foundation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recalibrate">
+    <div class="recalibrate-icon">💡</div>
+    <div>
+      <div class="recalibrate-title">Suggested next step</div>
+      <div class="recalibrate-text">
+        The Dashboard feature has a spec but no formal work cycle. Running <code>/add:cycle</code> will
+        create a structured plan, set clear goals, and let the agent team execute. This is the one thing
+        standing between "designing" and "building."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT WE'VE BUILT ═══ -->
+<section class="section">
+  <div class="section-label">Completed Work</div>
+  <div class="section-title">16 features shipped across 2 milestones</div>
+
+  <details style="margin-bottom: 16px;">
+    <summary style="cursor:pointer;padding:12px 16px;background:var(--glass);border:1px solid var(--border);border-radius:10px;font-size:14px;display:flex;align-items:center;gap:8px;list-style:none;color:var(--green);">
+      <span style="font-size:12px;transition:transform 0.2s;display:inline-block" class="toggle-arrow">▸</span>
+      <span style="font-weight:600;">✓ Milestone 1: Core Plugin</span>
+      <span style="font-size:12px;color:var(--text3);margin-left:auto;">8 features &middot; all verified</span>
+    </summary>
+    <div style="padding:12px 0 0;">
+      <div class="built-grid">
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Spec-Driven Workflow</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">TDD Enforcement</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Quality Gates</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Environment Awareness</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Learning System</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Human Collaboration</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Agent Coordination</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Maturity Lifecycle</div></div></div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary style="cursor:pointer;padding:12px 16px;background:var(--glass);border:1px solid var(--border);border-radius:10px;font-size:14px;display:flex;align-items:center;gap:8px;list-style:none;color:var(--green);">
+      <span style="font-size:12px;transition:transform 0.2s;display:inline-block" class="toggle-arrow">▸</span>
+      <span style="font-weight:600;">✓ Milestone 2: Adoption &amp; Polish</span>
+      <span style="font-size:12px;color:var(--text3);margin-left:auto;">8 features &middot; all verified</span>
+    </summary>
+    <div style="padding:12px 0 0;">
+      <div class="built-grid">
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Session Continuity</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Branding System</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Image Gen Detection</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Auto-Changelog</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Infographic Generation</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Learning Library Search</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Legacy Adoption</div></div></div>
+        <div class="built-item"><div class="built-check">✓</div><div><div class="built-name">Retro Automation</div></div></div>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ═══ THE NUMBERS ═══ -->
+<section class="section">
+  <div class="section-label">By the Numbers</div>
+  <div class="section-title">Project intelligence</div>
+
+  <div class="numbers-row">
+    <div class="num-card">
+      <div class="num-value">34</div>
+      <div class="num-label">Learnings</div>
+      <div class="num-sub">Captured automatically</div>
+    </div>
+    <div class="num-card">
+      <div class="num-value">87%</div>
+      <div class="num-label">Verified</div>
+      <div class="num-sub">169 of 194 criteria</div>
+    </div>
+    <div class="num-card">
+      <div class="num-value">8</div>
+      <div class="num-label">Specs Shipped</div>
+      <div class="num-sub">1 more in draft</div>
+    </div>
+    <div class="num-card">
+      <div class="num-value">2</div>
+      <div class="num-label">Retros</div>
+      <div class="num-sub">Avg score: 5.3/10</div>
+    </div>
+  </div>
+
+  <!-- Maturity ladder -->
+  <div style="margin-top: 36px;">
+    <div style="font-size: 13px; color: var(--text3); text-align: center; margin-bottom: 16px;">Project maturity</div>
+    <div class="ladder">
+      <div class="ladder-step done">
+        <div class="ladder-dot"></div>
+        <div class="ladder-label">POC</div>
+      </div>
+      <div class="ladder-step current">
+        <div class="ladder-dot"></div>
+        <div class="ladder-label">Alpha</div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-dot"></div>
+        <div class="ladder-label">Beta</div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-dot"></div>
+        <div class="ladder-label">GA</div>
+      </div>
+    </div>
+    <div style="font-size: 11px; color: var(--text3); text-align: center; margin-top: 12px;">
+      Next: Dog-food on 2+ projects, validate milestone tracking → Beta
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIMELINE ═══ -->
+<section class="section">
+  <div class="section-label">Timeline</div>
+  <div class="section-title">How we got here</div>
+
+  <div class="tl-canvas" id="tlCanvas"></div>
+
+  <div class="tl-legend">
+    <div class="tl-legend-item"><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#22c55e" stroke-width="2"/></svg> Milestone</div>
+    <div class="tl-legend-item"><svg width="14" height="14"><circle cx="7" cy="7" r="4" fill="#f59e0b"/></svg> Release</div>
+    <div class="tl-legend-item"><svg width="14" height="14"><circle cx="7" cy="7" r="4" fill="#3b82f6"/></svg> Feature work</div>
+    <div class="tl-legend-item"><svg width="14" height="14"><circle cx="7" cy="7" r="4" fill="#a855f7"/></svg> Human decision</div>
+    <div class="tl-legend-item"><svg width="12" height="12" style="margin-top:1px"><line x1="0" y1="6" x2="12" y2="6" stroke="#6b7280" stroke-width="2" stroke-dasharray="2,2"/></svg> Parallel agents</div>
+  </div>
+</section>
+
+<!-- Tooltip -->
+<div class="tl-tip" id="tlTip">
+  <div class="tl-tip-type" id="ttType"></div>
+  <div class="tl-tip-title" id="ttTitle"></div>
+  <div class="tl-tip-date" id="ttDate"></div>
+  <div class="tl-tip-desc" id="ttDesc"></div>
+</div>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  ADD Project Dashboard &middot; Auto-generated by /add:dashboard &middot; v0.5.0
+</footer>
+
+<script>
+// Toggle arrows on details
+document.querySelectorAll('details').forEach(d => {
+  d.addEventListener('toggle', () => {
+    const arrow = d.querySelector('.toggle-arrow');
+    if (arrow) arrow.style.transform = d.open ? 'rotate(90deg)' : '';
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// METRO-STYLE TIMELINE — data-driven, gitgraph-inspired
+// Lines carry color. Nodes are simple circles. Branches
+// fork smoothly and merge back. Hover for detail.
+// ═══════════════════════════════════════════════════
+
+const EVENTS = [
+  // day: days since Feb 7. lane: 0=main, -1=upper branch, 1=lower branch
+  { day: 0,  type:'milestone', title:'Project Kickoff',            desc:'PRD written. ADD initialized as a self-dog-fooding project.', label:'Start', lane:0 },
+  { day: 0,  type:'release',   title:'v0.1.0 — MVP',               desc:'6 commands, 8 skills, 10 rules, 10 templates. Pure markdown + JSON.', label:'v0.1', lane:0 },
+  { day: 1,  type:'fork',      title:'M1 Swarm Launched',           desc:'Two parallel agents begin building 8 core features across TDD, quality gates, learning, and collaboration.', label:'', lane:0 },
+  // M1 branch work
+  { day: 2,  type:'work',      title:'Spec-Driven Workflow',        desc:'Agent 1: spec-driven development rules and templates.', label:'', lane:-1 },
+  { day: 2.5,type:'work',      title:'TDD Enforcement',             desc:'Agent 1: strict RED → GREEN → REFACTOR cycle enforcement.', label:'', lane:-1 },
+  { day: 3,  type:'work',      title:'Quality Gates',               desc:'Agent 1: 5-level quality gate system.', label:'', lane:-1 },
+  { day: 3.5,type:'work',      title:'Environment Awareness',       desc:'Agent 1: test-per-environment matrix, deploy rules.', label:'', lane:-1 },
+  { day: 2,  type:'work',      title:'Learning System',             desc:'Agent 2: 3-tier knowledge cascade, checkpoints, filtering.', label:'', lane:1 },
+  { day: 2.5,type:'work',      title:'Human Collaboration',         desc:'Agent 2: interview protocol, away mode, engagement modes.', label:'', lane:1 },
+  { day: 3,  type:'work',      title:'Agent Coordination',          desc:'Agent 2: trust-but-verify, sub-agent isolation.', label:'', lane:1 },
+  { day: 3.5,type:'work',      title:'Maturity Lifecycle',          desc:'Agent 2: POC → Alpha → Beta → GA governance.', label:'', lane:1 },
+  { day: 5,  type:'merge',     title:'M1: Core Plugin Complete',    desc:'All 8 core features verified. Swarm branches merged.', label:'M1 ✓', lane:0 },
+  // Between milestones
+  { day: 6,  type:'human',     title:'Retrospective #1',            desc:'Collab 4.0, ADD Effectiveness 5.8, Swarm 6.2. Learnings promoted.', label:'Retro', lane:0 },
+  { day: 7,  type:'release',   title:'v0.2.0 — Adoption',           desc:'Legacy project adoption, enhanced interviews, cross-project learning.', label:'v0.2', lane:0 },
+  { day: 7,  type:'fork',      title:'M2 Swarm Launched',           desc:'Two parallel agents building 8 polish features — branding, changelog, infographic, session continuity, and more.', label:'', lane:0 },
+  // M2 branch work
+  { day: 8,  type:'work',      title:'Session Continuity',          desc:'Agent 1: session persistence and self-evolution.', label:'', lane:-1 },
+  { day: 8.5,type:'work',      title:'Branding System',             desc:'Agent 1: design system, drift detection.', label:'', lane:-1 },
+  { day: 9,  type:'work',      title:'Image Gen Detection',         desc:'Agent 1: auto-detect image generation capability.', label:'', lane:-1 },
+  { day: 9.5,type:'work',      title:'Auto-Changelog',              desc:'Agent 1: generate CHANGELOG from conventional commits.', label:'', lane:-1 },
+  { day: 8,  type:'work',      title:'Infographic Generation',      desc:'Agent 2: project infographic SVG from PRD + config.', label:'', lane:1 },
+  { day: 8.5,type:'work',      title:'Learning Library Search',     desc:'Agent 2: cross-project learning search.', label:'', lane:1 },
+  { day: 9,  type:'work',      title:'Legacy Adoption',             desc:'Agent 2: /add:init --adopt for existing projects.', label:'', lane:1 },
+  { day: 9.5,type:'work',      title:'Retro Automation',            desc:'Agent 2: structured retrospective templates.', label:'', lane:1 },
+  { day: 11, type:'merge',     title:'M2: Adoption & Polish Complete', desc:'All 8 polish features verified. 16 total features shipped. 87% AC verification.', label:'M2 ✓', lane:0 },
+  { day: 11, type:'human',     title:'Retrospective #2',            desc:'Patterns promoted. Alpha → Beta criteria reviewed.', label:'Retro', lane:0 },
+  { day: 11, type:'release',   title:'v0.4.0 — Current',            desc:'All M1 + M2 features, design system, branding, changelog.', label:'v0.4', lane:0 },
+  { day: 12, type:'work',      title:'Dashboard Spec Drafted',      desc:'25 acceptance criteria defined. Awaiting cycle assignment.', label:'spec', lane:0 },
+  { day: 14, type:'now',       title:'M3: Dashboard In Progress',   desc:'Designing the project dashboard visualization. You are here.', label:'NOW', lane:0 },
+];
+
+const COLORS = {
+  milestone: '#22c55e',
+  release:   '#f59e0b',
+  work:      '#3b82f6',
+  human:     '#a855f7',
+  fork:      '#6b7280',
+  merge:     '#22c55e',
+  now:       '#d4326d',
+};
+
+function buildTimeline() {
+  const canvas = document.getElementById('tlCanvas');
+  const W = 1100, PAD = 50;
+  const MAIN_Y = 140, BRANCH_OFFSET = 58;
+  const maxDay = 14;
+  const dayW = (W - PAD * 2) / maxDay;
+
+  function x(day) { return PAD + day * dayW; }
+  function y(lane) { return MAIN_Y + lane * BRANCH_OFFSET; }
+
+  // Build SVG
+  let svg = `<svg width="${W}" height="280" viewBox="0 0 ${W} 280" style="display:block;min-width:${W}px;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg">`;
+
+  // ── Date axis ──
+  svg += `<line x1="${PAD}" y1="258" x2="${W-PAD}" y2="258" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+  for (let d = 0; d <= maxDay; d += 2) {
+    const dx = x(d);
+    const dateLabel = d === 14 ? 'Feb 21' : `Feb ${7 + d}`;
+    const fill = d === 14 ? '#d4326d' : '#4b5563';
+    const fw = d === 14 ? '600' : '400';
+    svg += `<line x1="${dx}" y1="255" x2="${dx}" y2="261" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
+    svg += `<text x="${dx}" y="274" text-anchor="middle" fill="${fill}" font-size="10" font-weight="${fw}" font-family="system-ui">${dateLabel}</text>`;
+  }
+
+  // ── Find fork/merge pairs for branch paths ──
+  const forks = EVENTS.filter(e => e.type === 'fork');
+  const merges = EVENTS.filter(e => e.type === 'merge');
+
+  // Draw branch paths (smooth bezier curves)
+  forks.forEach((fork, i) => {
+    const merge = merges[i];
+    if (!merge) return;
+    const fx = x(fork.day), mx = x(merge.day);
+    const my = MAIN_Y;
+    const branchColor = i === 0 ? '#22c55e' : '#d4326d';
+
+    // Upper branch: fork up, run, merge down
+    [-1, 1].forEach(dir => {
+      const by = my + dir * BRANCH_OFFSET;
+      const cp = dayW * 0.8; // control point offset for smooth curve
+      svg += `<path d="M ${fx} ${my} C ${fx + cp} ${my} ${fx + cp} ${by} ${fx + cp * 1.2} ${by} L ${mx - cp * 1.2} ${by} C ${mx - cp} ${by} ${mx - cp} ${my} ${mx} ${my}"
+              stroke="${branchColor}" stroke-width="2" fill="none" opacity="0.25" stroke-dasharray="4,3"/>`;
+    });
+  });
+
+  // ── Main trunk line ──
+  svg += `<line x1="${x(0)}" y1="${MAIN_Y}" x2="${x(maxDay)}" y2="${MAIN_Y}" stroke="rgba(255,255,255,0.12)" stroke-width="2.5"/>`;
+  // Completed portion (green gradient fading to accent)
+  const completedX = x(11); // M2 complete
+  svg += `<line x1="${x(0)}" y1="${MAIN_Y}" x2="${completedX}" y2="${MAIN_Y}" stroke="#22c55e" stroke-width="2.5" opacity="0.35"/>`;
+  svg += `<line x1="${completedX}" y1="${MAIN_Y}" x2="${x(maxDay)}" y2="${MAIN_Y}" stroke="#d4326d" stroke-width="2.5" opacity="0.2"/>`;
+
+  // ── Nodes ──
+  EVENTS.forEach((ev, idx) => {
+    const cx = x(ev.day), cy = y(ev.lane);
+    const col = COLORS[ev.type] || '#6b7280';
+    const dataAttrs = `data-type="${ev.type}" data-title="${ev.title}" data-date="Feb ${7 + Math.floor(ev.day)}, 2026" data-desc="${ev.desc}"`;
+    let node = '';
+
+    if (ev.type === 'milestone' || ev.type === 'merge') {
+      // Large ring with fill
+      node = `<g class="tl-node" ${dataAttrs} style="cursor:pointer">
+        <circle cx="${cx}" cy="${cy}" r="12" fill="${col}" opacity="0.15"/>
+        <circle cx="${cx}" cy="${cy}" r="12" fill="none" stroke="${col}" stroke-width="2.5"/>
+        <circle cx="${cx}" cy="${cy}" r="4" fill="${col}"/>
+        ${ev.label ? `<text x="${cx}" y="${cy - 18}" text-anchor="middle" fill="${col}" font-size="10" font-weight="600" font-family="system-ui">${ev.label}</text>` : ''}
+      </g>`;
+    } else if (ev.type === 'now') {
+      // Pulsing active marker
+      node = `<g class="tl-node" ${dataAttrs} style="cursor:pointer">
+        <circle cx="${cx}" cy="${cy}" r="14" fill="none" stroke="#d4326d" stroke-width="2" opacity="0.6">
+          <animate attributeName="r" values="14;18;14" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="${cx}" cy="${cy}" r="6" fill="#d4326d"/>
+        <text x="${cx}" y="${cy - 22}" text-anchor="middle" fill="#ff6b9d" font-size="10" font-weight="700" font-family="system-ui">NOW</text>
+      </g>`;
+    } else if (ev.type === 'release') {
+      // Slightly larger solid dot
+      node = `<g class="tl-node" ${dataAttrs} style="cursor:pointer">
+        <circle cx="${cx}" cy="${cy}" r="7" fill="${col}"/>
+        ${ev.label ? `<text x="${cx}" y="${cy + 22}" text-anchor="middle" fill="${col}" font-size="9" font-weight="600" font-family="system-ui">${ev.label}</text>` : ''}
+      </g>`;
+    } else if (ev.type === 'human') {
+      // Medium dot
+      node = `<g class="tl-node" ${dataAttrs} style="cursor:pointer">
+        <circle cx="${cx}" cy="${cy}" r="6" fill="${col}" opacity="0.85"/>
+        ${ev.label ? `<text x="${cx}" y="${cy + 20}" text-anchor="middle" fill="${col}" font-size="9" font-family="system-ui">${ev.label}</text>` : ''}
+      </g>`;
+    } else if (ev.type === 'fork') {
+      // Small dot at fork point — subtle
+      node = `<g class="tl-node" ${dataAttrs} style="cursor:pointer">
+        <circle cx="${cx}" cy="${cy}" r="4" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      </g>`;
+    } else if (ev.type === 'work') {
+      // Small dot on branch
+      node = `<g class="tl-node" ${dataAttrs} style="cursor:pointer">
+        <circle cx="${cx}" cy="${cy}" r="4" fill="${col}" opacity="0.7"/>
+      </g>`;
+    }
+
+    svg += node;
+  });
+
+  svg += '</svg>';
+  canvas.innerHTML = svg;
+}
+
+buildTimeline();
+
+// ── Tooltip interaction ──
+const tip = document.getElementById('tlTip');
+const ttType = document.getElementById('ttType');
+const ttTitle = document.getElementById('ttTitle');
+const ttDate = document.getElementById('ttDate');
+const ttDesc = document.getElementById('ttDesc');
+
+const typeLabels = {
+  milestone:'Milestone', merge:'Milestone', release:'Release',
+  work:'Feature', human:'Human Decision', fork:'Swarm Launch', now:'Active'
+};
+const typeColors = {
+  milestone:'#22c55e', merge:'#22c55e', release:'#f59e0b',
+  work:'#3b82f6', human:'#a855f7', fork:'#6b7280', now:'#d4326d'
+};
+
+document.addEventListener('mouseover', (e) => {
+  const node = e.target.closest('.tl-node');
+  if (!node) { tip.classList.remove('show'); return; }
+
+  const t = node.dataset.type;
+  ttType.textContent = typeLabels[t] || t;
+  ttType.style.color = typeColors[t] || '#d4326d';
+  ttTitle.textContent = node.dataset.title;
+  ttDate.textContent = node.dataset.date;
+  ttDesc.textContent = node.dataset.desc;
+  tip.classList.add('show');
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!tip.classList.contains('show')) return;
+  const bx = tip.getBoundingClientRect();
+  const mx = Math.min(e.clientX + 16, window.innerWidth - bx.width - 16);
+  const my = Math.min(e.clientY - 10, window.innerHeight - bx.height - 16);
+  tip.style.left = mx + 'px';
+  tip.style.top = my + 'px';
+});
+
+document.addEventListener('mouseout', (e) => {
+  if (!e.target.closest('.tl-node')) tip.classList.remove('show');
+});
+</script>
+</body>
+</html>

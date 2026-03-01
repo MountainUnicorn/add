@@ -10,7 +10,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.4.0-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.5.0-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -41,11 +41,26 @@ ADD is a structured SDLC methodology where AI agents do the development work —
 
 ## Install
 
+**Marketplace (recommended):**
+
 ```bash
-claude plugin install add
+claude plugin marketplace add MountainUnicorn/add
+claude plugin install add@add-marketplace
 ```
 
-That's it. No runtime dependencies. No build step. ADD is pure markdown and JSON — it runs entirely within Claude Code's plugin system.
+**Source install:**
+
+```bash
+claude plugin install --source https://github.com/MountainUnicorn/add
+```
+
+**Update an existing install:**
+
+```bash
+claude plugin update add@add-marketplace
+```
+
+No runtime dependencies. No build step. ADD is pure markdown and JSON — it runs entirely within Claude Code's plugin system.
 
 ---
 

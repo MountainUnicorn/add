@@ -1,6 +1,6 @@
 {
   "$schema": "https://github.com/MountainUnicorn/add/config.schema.json",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "project": {
     "name": "ADD",
     "description": "Agent Driven Development — Claude Code plugin implementing an AI-native SDLC methodology",
@@ -14,7 +14,7 @@
     "next_promotion_criteria": "Dog-food on 2+ existing projects, /cycle and /init --adopt working end-to-end, milestone tracking validated"
   },
   "planning": {
-    "current_milestone": "M1-core-plugin",
+    "current_milestone": "M2-install-and-safety",
     "current_cycle": null,
     "wip_limit": 4,
     "parallel_agents": 2,

@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD Project Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --accent-primary: #b00149;
+            --accent-mid: #d4326d;
+            --accent-light: #ff6b9d;
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #252541;
+            --text-primary: #f5f7fa;
+            --text-secondary: #a8b1c0;
+            --text-tertiary: #6b7280;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-color: rgba(255, 107, 157, 0.1);
+            --border-color-strong: rgba(255, 107, 157, 0.25);
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HEADER BAR */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(26, 26, 46, 0.85) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .project-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border-color-strong);
+        }
+
+        .maturity-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            background: linear-gradient(135deg, rgba(176, 1, 73, 0.2) 0%, rgba(212, 50, 109, 0.1) 100%);
+            border: 1px solid var(--accent-mid);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 0.75rem;
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            min-width: 0;
+        }
+
+        .quick-stat {
+            text-align: center;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .quick-stat-value {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1rem;
+        }
+
+        .quick-stat-label {
+            color: var(--text-tertiary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .header-right {
+            text-align: right;
+            min-width: 150px;
+        }
+
+        .timestamp {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+            margin-bottom: 0.35rem;
+        }
+
+        .refresh-hint {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+
+        /* MAIN CONTENT */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NORTH STAR */
+        .north-star {
+            background: linear-gradient(135deg, rgba(176, 1, 73, 0.08) 0%, rgba(212, 50, 109, 0.04) 100%);
+            border: 1px solid var(--border-color-strong);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .north-star::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            opacity: 0.5;
+        }
+
+        .north-star-objective {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .north-star-tagline {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+            letter-spacing: 0.3px;
+        }
+
+        /* JOURNEY MAP */
+        .journey-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            border-radius: 50%;
+        }
+
+        .journey-map {
+            background: linear-gradient(135deg, rgba(37, 37, 65, 0.5) 0%, rgba(26, 26, 46, 0.3) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journey-track {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .journey-line {
+            position: absolute;
+            top: 2.5rem;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg,
+                var(--success) 0%,
+                var(--success) 22%,
+                var(--success) 44%,
+                var(--accent-light) 67%,
+                var(--text-tertiary) 67%,
+                var(--text-tertiary) 100%);
+            z-index: 1;
+        }
+
+        .milestone {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            min-width: 140px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .milestone:hover {
+            transform: translateY(-4px);
+        }
+
+        .milestone-node {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1.25rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .milestone.complete .milestone-node {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: white;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .milestone.active .milestone-node {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            color: white;
+            box-shadow: 0 0 30px rgba(176, 1, 73, 0.6);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .milestone.planned .milestone-node {
+            background: transparent;
+            border: 2px dashed var(--text-tertiary);
+            color: var(--text-tertiary);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(176, 1, 73, 0.6);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(176, 1, 73, 0.8);
+                transform: scale(1.08);
+            }
+        }
+
+        .milestone-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .milestone-features {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+        }
+
+        .milestone.active .milestone-name {
+            color: var(--accent-light);
+        }
+
+        .progress-bar-container {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(107, 114, 128, 0.2);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            border-radius: 999px;
+            width: 67%;
+            transition: width 0.5s ease;
+        }
+
+        /* DRIFT DETECTION */
+        .drift-panel {
+            background: linear-gradient(135deg, rgba(37, 37, 65, 0.5) 0%, rgba(26, 26, 46, 0.3) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .drift-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .drift-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .drift-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-top: 0.35rem;
+            flex-shrink: 0;
+        }
+
+        .drift-indicator.green {
+            background: var(--success);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .drift-indicator.amber {
+            background: var(--warning);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
+        .drift-indicator.red {
+            background: var(--danger);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+
+        .drift-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+        }
+
+        .drift-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .drift-suggestion {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.04) 100%);
+            border-left: 3px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .drift-suggestion h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--warning);
+            margin-bottom: 0.75rem;
+        }
+
+        .drift-suggestion p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ACTIVE WORK PANEL */
+        .work-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .work-column {
+            background: linear-gradient(135deg, rgba(37, 37, 65, 0.5) 0%, rgba(26, 26, 46, 0.3) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .work-column h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-item {
+            background: rgba(255, 107, 157, 0.05);
+            border: 1px solid rgba(255, 107, 157, 0.15);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            border-color: var(--accent-light);
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .feature-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(176, 1, 73, 0.2);
+            color: var(--accent-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .feature-progress {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(107, 114, 128, 0.2);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .feature-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .feature-item.active .feature-bar-fill {
+            width: 40%;
+        }
+
+        .wip-indicator {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .wip-slot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: rgba(107, 114, 128, 0.3);
+            border-radius: 50%;
+            margin-right: 0.25rem;
+        }
+
+        .decision-queue {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .decision-item {
+            background: rgba(255, 107, 157, 0.05);
+            border: 1px solid rgba(255, 107, 157, 0.15);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .decision-item:hover {
+            border-color: var(--accent-light);
+            background: rgba(255, 107, 157, 0.1);
+            transform: translateX(4px);
+        }
+
+        .decision-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .decision-hint {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+            background: rgba(176, 1, 73, 0.15);
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* HILL CHART */
+        .hill-chart {
+            background: linear-gradient(135deg, rgba(37, 37, 65, 0.5) 0%, rgba(26, 26, 46, 0.3) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hill-chart-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .hill-chart-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .hill-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hill-item {
+            display: grid;
+            grid-template-columns: 150px 1fr 60px;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.25rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(107, 114, 128, 0.1);
+        }
+
+        .hill-item:last-child {
+            border-bottom: none;
+        }
+
+        .hill-item.completed {
+            opacity: 0.6;
+        }
+
+        .hill-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .hill-bar-container {
+            position: relative;
+            height: 20px;
+            background: rgba(107, 114, 128, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hill-bar-figuring {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(176, 1, 73, 0.3) 0%, rgba(176, 1, 73, 0.1) 100%);
+            border-radius: 10px 0 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+        }
+
+        .hill-bar-executing {
+            flex: 1;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(212, 50, 109, 0.3) 0%, rgba(255, 107, 157, 0.1) 100%);
+            border-radius: 0 10px 10px 0;
+            display: flex;
+            align-items: center;
+            padding-left: 0.5rem;
+        }
+
+        .hill-marker {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 107, 157, 0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hill-progress {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            text-align: center;
+            font-weight: 600;
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+        }
+
+        /* PROJECT INTELLIGENCE */
+        .intelligence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(37, 37, 65, 0.5) 0%, rgba(26, 26, 46, 0.3) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--border-color-strong);
+            transform: translateY(-2px);
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+        }
+
+        .metric-trend {
+            font-size: 0.75rem;
+            color: var(--success);
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            background: linear-gradient(135deg, rgba(37, 37, 65, 0.5) 0%, rgba(26, 26, 46, 0.3) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .timeline-track {
+            display: flex;
+            gap: 2rem;
+            padding-bottom: 1rem;
+            min-width: min-content;
+        }
+
+        .timeline-event {
+            flex-shrink: 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-event:hover .timeline-dot {
+            transform: scale(1.3);
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin: 0 auto 0.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timeline-event:hover .timeline-dot::after {
+            opacity: 1;
+        }
+
+        .timeline-dot.milestone {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 100%);
+            box-shadow: 0 0 12px rgba(176, 1, 73, 0.4);
+        }
+
+        .timeline-dot.spec {
+            background: var(--success);
+        }
+
+        .timeline-dot.release {
+            background: var(--warning);
+        }
+
+        .timeline-dot.retro {
+            background: #8b5cf6;
+        }
+
+        .timeline-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            word-wrap: break-word;
+            max-width: 80px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-family: "Menlo", "Monaco", "Courier New", monospace;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .work-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .header-center {
+                gap: 1.5rem;
+            }
+
+            .quick-stat {
+                font-size: 0.75rem;
+            }
+
+            .quick-stat-value {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .header-left,
+            .header-center,
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .project-name {
+                margin-left: 0.5rem;
+                padding-left: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .journey-track {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .milestone {
+                flex: 0 1 calc(50% - 0.5rem);
+            }
+
+            .hill-item {
+                grid-template-columns: 100px 1fr 50px;
+                gap: 1rem;
+            }
+
+            .hill-name {
+                font-size: 0.8rem;
+            }
+
+            .intelligence-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .drift-status {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .project-name {
+                display: none;
+            }
+
+            .quick-stat {
+                font-size: 0.7rem;
+            }
+
+            .quick-stat-value {
+                font-size: 0.8rem;
+            }
+
+            .journey-track {
+                gap: 0.5rem;
+            }
+
+            .milestone {
+                flex: 0 1 calc(33.333% - 0.333rem);
+            }
+
+            .milestone-node {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 0.75rem;
+                font-size: 1.1rem;
+            }
+
+            .milestone-name {
+                font-size: 0.75rem;
+            }
+
+            .milestone-features {
+                font-size: 0.65rem;
+            }
+
+            .intelligence-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-value {
+                font-size: 1.5rem;
+            }
+
+            .timeline-track {
+                gap: 1rem;
+            }
+        }
+
+        /* PRINT */
+        @media print {
+            .header {
+                position: static;
+                border-bottom: 2px solid var(--accent-primary);
+                margin-bottom: 2rem;
+            }
+
+            .decision-item,
+            .decision-queue {
+                display: none;
+            }
+
+            .timeline {
+                overflow: visible;
+            }
+
+            .timeline-track {
+                min-width: auto;
+            }
+        }
+
+        /* UTILITY */
+        .collapsible-trigger {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .collapsible-trigger:hover {
+            color: var(--accent-light);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER BAR -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">ADD</div>
+            <div class="project-name">
+                Agent Driven Development
+                <span class="maturity-badge">Alpha</span>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <div class="quick-stat">
+                <div class="quick-stat-value">M3 of 4</div>
+                <div class="quick-stat-label">Milestones</div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-value">8/9</div>
+                <div class="quick-stat-label">Specs Shipped</div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-value">169/194</div>
+                <div class="quick-stat-label">ACs Verified</div>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="timestamp" id="timestamp">2026-02-21 14:32 UTC</div>
+            <div class="refresh-hint">Auto-updated every 5 min</div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- NORTH STAR -->
+        <section class="north-star">
+            <div class="north-star-objective">
+                A structured SDLC methodology plugin for Claude Code where AI agents are first-class development team members
+            </div>
+            <div class="north-star-tagline">
+                Specs before code. Tests before implementation. Trust but verify.
+            </div>
+        </section>
+
+        <!-- JOURNEY MAP -->
+        <section class="journey-section">
+            <h2 class="section-title">Project Journey</h2>
+            <div class="journey-map">
+                <div class="journey-line"></div>
+                <div class="journey-track">
+                    <!-- M1 -->
+                    <div class="milestone complete">
+                        <div class="milestone-node">✓</div>
+                        <div class="milestone-name">M1: Core Plugin</div>
+                        <div class="milestone-features">8 features</div>
+                    </div>
+
+                    <!-- M2 -->
+                    <div class="milestone complete">
+                        <div class="milestone-node">✓</div>
+                        <div class="milestone-name">M2: Adoption & Polish</div>
+                        <div class="milestone-features">8 features</div>
+                    </div>
+
+                    <!-- M3 -->
+                    <div class="milestone active">
+                        <div class="milestone-node">●</div>
+                        <div class="milestone-name">M3: Dashboard & Insights</div>
+                        <div class="milestone-features">1 feature</div>
+                    </div>
+
+                    <!-- M4 -->
+                    <div class="milestone planned">
+                        <div class="milestone-node">○</div>
+                        <div class="milestone-name">M4: Future Growth</div>
+                        <div class="milestone-features">TBD</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-label">Overall Progress: 67% of Milestones Complete</div>
+                    <div class="progress-track">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DRIFT DETECTION -->
+        <section class="journey-section">
+            <h2 class="section-title">Project Health</h2>
+            <div class="drift-panel">
+                <div class="drift-status">
+                    <div class="drift-item">
+                        <div class="drift-indicator green"></div>
+                        <div class="drift-info">
+                            <h4>Scope Status</h4>
+                            <p>9 specs total: 8 shipped, 1 in draft (Project Dashboard)</p>
+                        </div>
+                    </div>
+
+                    <div class="drift-item">
+                        <div class="drift-indicator amber"></div>
+                        <div class="drift-info">
+                            <h4>Unassigned Work</h4>
+                            <p>Dashboard spec exists but needs milestone assignment</p>
+                        </div>
+                    </div>
+
+                    <div class="drift-item">
+                        <div class="drift-indicator green"></div>
+                        <div class="drift-info">
+                            <h4>Maturity Progress</h4>
+                            <p>Alpha → Beta promotion evidence available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="drift-suggestion">
+                    <h4>⚠️ Recalibration Suggested</h4>
+                    <p>Dashboard spec exists but is unassigned to any milestone. Consider: (1) Assign to M3 to formalize current work, or (2) Defer to M4 and create placeholder to unblock team. Current status: <strong>AMBER — Minor drift</strong>. One decision needed to get back on track.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTIVE WORK PANEL -->
+        <section class="journey-section">
+            <h2 class="section-title">Active Work</h2>
+            <div class="work-panel">
+                <!-- NOW COLUMN -->
+                <div class="work-column">
+                    <h3>Now — Current Focus</h3>
+                    <div class="feature-item active">
+                        <div class="feature-name">
+                            Project Dashboard
+                            <span class="feature-status">Planning</span>
+                        </div>
+                        <div class="feature-progress">0 of 25 acceptance criteria (0%)</div>
+                        <div class="feature-bar">
+                            <div class="feature-bar-fill"></div>
+                        </div>
+                    </div>
+                    <div class="wip-indicator">
+                        WIP Utilization:
+                        <span class="wip-slot" style="background: rgba(255,255,255,0.1);"></span>
+                        <span class="wip-slot" style="background: rgba(255,255,255,0.1);"></span>
+                        <span class="wip-slot" style="background: rgba(255,255,255,0.1);"></span>
+                        <span class="wip-slot" style="background: rgba(255,255,255,0.1);"></span>
+                        <strong>0/4 slots</strong>
+                    </div>
+                </div>
+
+                <!-- NEXT COLUMN -->
+                <div class="work-column">
+                    <h3>Next — Decision Queue</h3>
+                    <div class="decision-queue">
+                        <div class="decision-item">
+                            <div class="decision-text">Assign Dashboard spec to M3 or defer</div>
+                            <div class="decision-hint">/add:cycle</div>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-text">Write dashboard acceptance criteria</div>
+                            <div class="decision-hint">/add:spec</div>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-text">Plan Alpha → Beta transition</div>
+                            <div class="decision-hint">/add:retro</div>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-text">Review learning library for patterns</div>
+                            <div class="decision-hint">/add:back</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HILL CHART -->
+        <section class="journey-section">
+            <h2 class="section-title">Feature Hill Chart</h2>
+            <div class="hill-chart">
+                <!-- M1 Features -->
+                <div class="hill-chart-section">
+                    <div class="hill-section-title">✓ M1: Core Plugin (Complete)</div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Session Continuity</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Core Spec Framework</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">TDD Enforcement</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Quality Gates</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Learning System</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Agent Coordination</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Testing Framework</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Environment Awareness</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+                </div>
+
+                <!-- M2 Features -->
+                <div class="hill-chart-section">
+                    <div class="hill-section-title">✓ M2: Adoption & Polish (Complete)</div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Session Continuity</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Branding System</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Image Gen Detection</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Auto-Changelog</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Infographic Generation</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Learning Library Search</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Legacy Adoption</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+
+                    <div class="hill-item completed">
+                        <div class="hill-name">Retro Automation</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 20%;"></div>
+                            <div class="hill-bar-executing" style="flex: 1;">
+                                <div class="hill-marker"></div>
+                            </div>
+                        </div>
+                        <div class="hill-progress">100%</div>
+                    </div>
+                </div>
+
+                <!-- M3 Features -->
+                <div class="hill-chart-section">
+                    <div class="hill-section-title">● M3: Dashboard & Insights (In Progress)</div>
+
+                    <div class="hill-item">
+                        <div class="hill-name">Project Dashboard</div>
+                        <div class="hill-bar-container">
+                            <div class="hill-bar-figuring" style="width: 40%;">
+                                <div class="hill-marker"></div>
+                            </div>
+                            <div class="hill-bar-executing"></div>
+                        </div>
+                        <div class="hill-progress">40%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECT INTELLIGENCE -->
+        <section class="journey-section">
+            <h2 class="section-title">Project Intelligence</h2>
+            <div class="intelligence-grid">
+                <div class="metric-card">
+                    <div class="metric-value">34</div>
+                    <div class="metric-label">Learnings Captured</div>
+                    <div class="metric-trend">↑ 8 this cycle</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">9</div>
+                    <div class="metric-label">Total Specs</div>
+                    <div class="metric-trend">8 shipped</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">87%</div>
+                    <div class="metric-label">ACs Verified</div>
+                    <div class="metric-trend">169 of 194</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">0</div>
+                    <div class="metric-label">Cycles Complete</div>
+                    <div class="metric-trend">1 active</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">2</div>
+                    <div class="metric-label">Retros Completed</div>
+                    <div class="metric-trend">Next: Due soon</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">v0.4</div>
+                    <div class="metric-label">Current Version</div>
+                    <div class="metric-trend">→ v0.5.0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section class="journey-section">
+            <h2 class="section-title">Event Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-track">
+                    <div class="timeline-event">
+                        <div class="timeline-dot milestone"></div>
+                        <div class="timeline-label">M1 Complete</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot spec"></div>
+                        <div class="timeline-label">Session Continuity</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot spec"></div>
+                        <div class="timeline-label">TDD Framework</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot retro"></div>
+                        <div class="timeline-label">Retro 1</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot milestone"></div>
+                        <div class="timeline-label">M2 Complete</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot spec"></div>
+                        <div class="timeline-label">Branding</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot spec"></div>
+                        <div class="timeline-label">Auto-Changelog</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot spec"></div>
+                        <div class="timeline-label">Infographics</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot retro"></div>
+                        <div class="timeline-label">Retro 2</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot milestone"></div>
+                        <div class="timeline-label">M3 Start</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot spec"></div>
+                        <div class="timeline-label">Dashboard</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot release"></div>
+                        <div class="timeline-label">v0.5.0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        ADD Project Dashboard • Auto-generated by /add:dashboard • v0.5.0 • Data refreshed 2026-02-21 14:32 UTC
+    </footer>
+
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const timestamp = now.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+            document.getElementById('timestamp').textContent = timestamp;
+        }
+        updateTimestamp();
+        setInterval(updateTimestamp, 60000);
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add interactive hover effects to decision items
+        document.querySelectorAll('.decision-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const hint = this.querySelector('.decision-hint').textContent;
+                console.log('Action suggested:', hint);
+                // In a real implementation, this could trigger command execution
+            });
+        });
+
+        // Milestone hover tooltips
+        document.querySelectorAll('.milestone').forEach(milestone => {
+            milestone.addEventListener('mouseenter', function () {
+                const name = this.querySelector('.milestone-name').textContent;
+                console.log('Viewing milestone:', name);
+            });
+        });
+
+        // Collapsible sections (optional enhancement)
+        const completedSections = document.querySelectorAll('.hill-chart-section');
+        completedSections.forEach((section, index) => {
+            if (index < 2) { // Collapse M1 and M2 by default
+                const items = section.querySelectorAll('.hill-item');
+                items.forEach((item, itemIndex) => {
+                    if (itemIndex > 0) {
+                        item.style.display = 'none';
+                    }
+                });
+                section.classList.add('collapsed');
+            }
+        });
+
+        // Metric card interactions
+        document.querySelectorAll('.metric-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const label = this.querySelector('.metric-label').textContent;
+                console.log('Metric clicked:', label);
+            });
+        });
+    </script>
+</body>
+</html>
