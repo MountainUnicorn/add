@@ -827,7 +827,7 @@
         </div>
         <div class="arch-item">
           <h4>Plugin format</h4>
-          <p>Commands, skills, rules, hooks, templates — all via Claude Code's native plugin system.</p>
+          <p>Skills, rules, hooks, templates — all via Claude Code's native plugin system.</p>
         </div>
       </div>
   </section>
@@ -837,6 +837,8 @@
     <div class="section-eyebrow">Get Started</div>
     <h2>Up and running in 5 minutes</h2>
     <p class="section-desc">Install the plugin, run the interview, create your first spec, and let the agent build.</p>
+
+    <h3 style="font-size: 18px; margin-bottom: 16px;">New Install</h3>
     <div class="terminal">
       <div class="terminal-bar">
         <div class="terminal-dot dot-red"></div>
@@ -852,6 +854,23 @@
         <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="comment"># RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</span></div>
         <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>    <span class="comment"># 5 quality gates</span></div>
         <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>    <span class="comment"># environment-aware, verified</span></div>
+      </div>
+    </div>
+
+    <h3 style="font-size: 18px; margin-top: 32px; margin-bottom: 16px;">Upgrading from a previous version?</h3>
+    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin-bottom: 16px;">
+      v0.5.0 includes improved skill loading reliability &mdash; we recommend a fresh install. Uninstalling does <strong>not</strong> remove your project data (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/</code>), learnings, specs, or cross-project knowledge (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code>). Everything you've built is safe.
+    </p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <div class="terminal-title">Terminal &mdash; Upgrade</div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> <span class="arg">claude plugin uninstall add</span>        <span class="comment"># removes plugin only &mdash; your data is safe</span></div>
+        <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span> <span class="comment"># fresh v0.5.0 install</span></div>
       </div>
     </div>
   </section>
