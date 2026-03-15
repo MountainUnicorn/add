@@ -99,89 +99,17 @@ Runs automatically on first invocation (no manifest found) or when `--discover` 
 
 ### Stack Detection
 
-Read `.add/config.json` for architecture details and determine archetype (see above). Then apply the archetype-appropriate discovery strategy.
+Read `.add/config.json` for architecture details and determine archetype (see Project Archetypes above). Use the archetype and the vocabulary table to guide what to scan for — entry points, interceptors, types, and services mean different things per archetype.
 
-### Archetype: `web-api` / `web-app`
+For **monorepos**, identify the workspace structure first, then recursively discover each package/app using its own detected archetype. Build a top-level manifest with per-package sub-manifests.
 
-Use the framework dispatch table to select detection patterns:
+### Discovery Steps
 
-| Framework | Entry point pattern | Handler pattern | Middleware pattern |
-|-----------|--------------------|-----------------|--------------------|
-| FastAPI | `@app.get`, `@app.post`, `@router.get`, `@router.post`, `app.include_router` | Files importing `APIRouter` or defining route decorators | `app.add_middleware`, `@app.middleware` |
-| Express | `app.get(`, `app.post(`, `router.get(`, `router.post(` | Files exporting `Router()` instances | `app.use(` with function argument |
-| Django | `urlpatterns`, `path(`, `re_path(` | `views.py`, class-based views | `MIDDLEWARE` list in settings |
-| Flask | `@app.route(`, `@bp.route(` | Blueprint files | `@app.before_request`, `@app.after_request` |
-| Go net/http | `http.HandleFunc`, `mux.Handle`, `mux.HandleFunc` | Handler packages, files with `ServeHTTP` method | Wrapper/decorator functions around handlers |
-| Rails | `routes.rb`, `resources :`, `get '/'` | Controller files in `app/controllers/` | `before_action`, middleware stack |
-| Generic web | Grep for HTTP method strings near path patterns | Grep for handler/controller/endpoint naming | Grep for middleware/interceptor patterns |
-
-If the framework is not in the table, fall back to **Generic web** pattern detection.
-
-### Archetype: `library`
-
-| Language | Public API detection | Type/interface detection | Internal module detection |
-|----------|---------------------|--------------------------|--------------------------|
-| Python | `__init__.py` exports, `__all__`, public functions (no `_` prefix) | Type annotations, dataclasses, Pydantic models, Protocol classes | Non-exported modules, `_internal/`, `_utils` |
-| TypeScript/JS | `index.ts` exports, `exports` in package.json, `export` statements | Exported interfaces, types, classes | Internal modules, files not re-exported |
-| Go | Exported identifiers (capitalized), package-level functions | Exported structs, interfaces | `internal/` packages |
-| Rust | `pub` items in `lib.rs`, `pub mod` declarations | `pub struct`, `pub enum`, `pub trait` | Non-pub modules |
-| Generic | Grep for export/public patterns appropriate to language | Grep for type/class/struct definitions | Files not referenced from public API |
-
-### Archetype: `cli`
-
-| Tool | Command detection | Flag/option detection | Subcommand detection |
-|------|-------------------|-----------------------|----------------------|
-| Python (click) | `@click.command`, `@click.group` | `@click.option`, `@click.argument` | `group.add_command`, nested `@group.command` |
-| Python (argparse) | `add_parser`, `ArgumentParser()` | `add_argument` | `add_subparsers` |
-| Python (typer) | `@app.command`, `typer.Typer()` | Function parameters with type hints | `app.add_typer` |
-| Node (commander) | `.command(`, `.action(` | `.option(`, `.argument(` | Nested `.command()` calls |
-| Node (yargs) | `.command(` | `.option(`, `.positional(` | `.command()` with builder |
-| Go (cobra) | `&cobra.Command{`, `AddCommand` | `Flags().`, `PersistentFlags().` | `AddCommand` calls |
-| Go (flag) | `flag.Parse`, `flag.String`, `flag.Int` | `flag.*` declarations | Subcommand switch patterns |
-| Generic | Grep for command/subcommand registration patterns | Grep for flag/option/argument patterns | Grep for nested command patterns |
-
-### Archetype: `data-pipeline`
-
-| Tool | DAG/pipeline detection | Task detection | Connection detection |
-|------|------------------------|----------------|---------------------|
-| Airflow | `DAG(`, `@dag` | `@task`, `PythonOperator`, `BashOperator` | `Connection`, `Hook` classes |
-| Prefect | `@flow` | `@task` | `Block` subclasses |
-| Dagster | `@job`, `@graph` | `@op`, `@asset` | `@resource`, `IOManager` |
-| dbt | `dbt_project.yml`, model SQL files | `.sql` files in `models/` | `profiles.yml`, source definitions |
-| Luigi | `class *Task(luigi.Task)` | `requires()`, `output()`, `run()` methods | `Target` subclasses |
-| Generic | Grep for pipeline/workflow/dag patterns | Grep for task/step/stage patterns | Grep for connection/source/sink patterns |
-
-### Archetype: `plugin`
-
-| Platform | Skill/command detection | Hook detection | Config detection |
-|----------|------------------------|----------------|------------------|
-| Claude Code | `skills/*/SKILL.md` frontmatter | `hooks/` directory, hook configs | `plugin.json`, `.claude-plugin/` |
-| VS Code | `contributes.commands` in package.json | `activationEvents` | `package.json` contributes section |
-| Vim/Neovim | `command!`, `function!`, Lua `vim.api` | `autocmd`, `BufEnter` patterns | Plugin metadata files |
-| Generic | Grep for command/skill/action registration | Grep for hook/event/lifecycle patterns | Grep for config/manifest/metadata files |
-
-### Archetype: `monorepo`
-
-1. Identify workspace structure (`packages/`, `apps/`, workspaces in package.json, Cargo workspace, Go workspace)
-2. For each package/app, recursively detect its archetype using the rules above
-3. Build a top-level manifest with per-package sub-manifests
-4. Note inter-package dependencies
-
-### Archetype: `generic`
-
-When no specific archetype matches:
-1. Scan for public functions/classes/types in the primary language
-2. Identify the main entry point(s) (`main.*`, `index.*`, `app.*`, `__main__.py`)
-3. Map directory structure and infer purpose from naming conventions
-4. Identify test files and their coverage targets
-
-### Universal Discovery Steps
-
-Regardless of archetype, always perform these steps:
+For all archetypes, perform these steps using framework/language-appropriate patterns:
 
 1. **Scan entry points**
-   - Use the archetype-appropriate patterns from the tables above
-   - For each entry point, capture: name, type (route/command/export/task/etc.), file, function/class, parameters or signature, grouping/tags
+   - Use the archetype vocabulary to determine what constitutes an entry point, then scan using framework/language-appropriate patterns
+   - For each entry point, capture: name, kind (route/command/export/task/etc.), file, function/class, parameters or signature, grouping/tags
 
 2. **Scan interceptors / middleware / hooks**
    - Identify processing layers between entry and handler
@@ -306,84 +234,6 @@ The manifest adapts to the project archetype. The top-level structure is univers
 }
 ```
 
-### Example: Web API (FastAPI)
-
-```json
-{
-  "$schema": "https://github.com/MountainUnicorn/add/docs-manifest.schema.json",
-  "version": "1.0.0",
-  "generated": "2026-03-15T10:30:00Z",
-  "archetype": "web-api",
-  "stack": {
-    "languages": ["python"],
-    "framework": "fastapi",
-    "frontend": "jinja2+htmx",
-    "database": "postgresql",
-    "doc_tools": ["openapi-auto"]
-  },
-  "directories": {
-    "entry_points": ["app/api/endpoints/"],
-    "types": ["app/models/", "app/schemas/"],
-    "services": ["app/services/"],
-    "tests": ["tests/"],
-    "docs": ["docs/"]
-  },
-  "entry_points": [
-    {
-      "name": "create_sync_log",
-      "kind": "route",
-      "detail": { "method": "POST", "path": "/api/v1/sync-logs" },
-      "file": "app/api/endpoints/sync_logs.py",
-      "function": "create_sync_log",
-      "interceptors": ["auth_redirect", "csrf"],
-      "tags": ["sync-logs"],
-      "signature": { "response_model": "SyncLogRead" }
-    }
-  ],
-  "interceptors": [
-    {
-      "name": "AuthRedirectMiddleware",
-      "file": "app/middleware.py",
-      "order": 1,
-      "purpose": "Redirect unauthenticated requests to login"
-    }
-  ],
-  "types": [
-    {
-      "name": "SyncLog",
-      "file": "app/models/sync_log.py",
-      "field_count": 15,
-      "relationships": ["User"]
-    }
-  ],
-  "services": [
-    {
-      "name": "rsync_parser",
-      "file": "app/services/rsync_parser.py",
-      "public_functions": ["parse_rsync_output", "extract_stats"]
-    }
-  ],
-  "existing_docs": [
-    {
-      "path": "docs/architecture-diagrams.md",
-      "last_modified": "2026-03-10T14:20:00Z",
-      "topic": "request-flows",
-      "type": "diagram"
-    }
-  ],
-  "flows": {
-    "documented": ["POST /api/v1/sync-logs", "GET /api/v1/sync-logs"],
-    "undocumented": ["DELETE /api/v1/sync-logs/{id}"],
-    "stale": ["GET /api/v1/analytics/summary"]
-  },
-  "fingerprints": {
-    "app/api/endpoints/sync_logs.py": "a1b2c3d4...",
-    "app/models/sync_log.py": "e5f6g7h8...",
-    "app/middleware.py": "i9j0k1l2..."
-  }
-}
-```
-
 **Archetype-specific `entry_points[].detail` shapes:**
 
 | Archetype | `kind` | `detail` fields |
@@ -503,60 +353,20 @@ Generate or regenerate interface documentation appropriate to the project archet
 
 ### Strategy by Archetype
 
-**web-api / web-app** — Generate or update OpenAPI/Swagger documentation:
-
-| Framework | Strategy | Detection | Command/Action |
-|-----------|----------|-----------|----------------|
-| FastAPI | Verify auto-generated `/docs` endpoint; optionally export `openapi.json` | `from fastapi import FastAPI` in entry point | `curl http://localhost:8000/openapi.json > docs/openapi.json` (if app running) or read from `app.openapi()` |
-| Express + swagger-jsdoc | Run swagger-jsdoc to regenerate spec | `swagger-jsdoc` in `package.json` | `npx swagger-jsdoc -d swaggerDef.js -o docs/swagger.json` |
-| Express + tsoa | Run tsoa to regenerate routes and spec | `tsoa` in `package.json` | `npx tsoa spec && npx tsoa routes` |
-| Django REST Framework | Export schema via management command | `rest_framework` in `INSTALLED_APPS` | `python manage.py generateschema --format openapi3 > docs/openapi.json` |
-| Go + swaggo/swag | Run swag init to regenerate docs | `swaggo/swag` in `go.mod` | `swag init -g cmd/server/main.go -o docs/ --parseDependency --parseInternal` |
-| Rails + rswag | Run rswag specs to generate OpenAPI | `rswag` in `Gemfile` | `rails rswag:specs:swaggerize` |
-| No tool detected | Generate `docs/api.md` from manifest entry points | No known doc tool found | Build markdown from manifest data |
-
-**library** — Generate module/API reference documentation:
-
-| Language | Strategy | Detection | Command/Action |
-|----------|----------|-----------|----------------|
-| Python + Sphinx | Run Sphinx build | `sphinx` in requirements, `conf.py` exists | `sphinx-build -b html docs/ docs/_build/` |
-| Python + pdoc | Run pdoc | `pdoc` in requirements | `pdoc --html --output-dir docs/api/ <package>` |
-| Python + mkdocs | Run mkdocs | `mkdocs.yml` exists | `mkdocs build` |
-| TypeScript + TypeDoc | Run TypeDoc | `typedoc` in package.json | `npx typedoc --out docs/api/` |
-| Go | Run godoc or pkgsite | Go module detected | Generate from `go doc` output |
-| Rust | Run cargo doc | `Cargo.toml` exists | `cargo doc --no-deps` |
-| No tool detected | Generate `docs/api.md` from manifest exports | No known doc tool found | Build markdown from manifest data with function signatures and docstrings |
-
-**cli** — Generate usage documentation:
-
-| Approach | Strategy |
-|----------|----------|
-| Built-in help | Extract `--help` output for each command/subcommand and format as markdown |
-| Man pages | Check for existing man pages; generate if tooling supports it |
-| No tool detected | Generate `docs/usage.md` from manifest commands with flags, arguments, and descriptions |
-
-**data-pipeline** — Generate pipeline documentation:
-
-| Approach | Strategy |
-|----------|----------|
-| Airflow | Extract DAG docs, task docs, connection info |
-| dbt | Use `dbt docs generate` |
-| No tool detected | Generate `docs/pipelines.md` from manifest DAGs/tasks with descriptions and dependencies |
-
-**plugin** — Generate plugin documentation:
-
-| Approach | Strategy |
-|----------|----------|
-| Has structured metadata | Extract from manifest/config files (plugin.json, package.json contributes, etc.) |
-| No tool detected | Generate `docs/plugin.md` from manifest skills/commands/hooks |
-
-**generic** — Generate `docs/api.md` from manifest entry points with signatures and docstrings.
+| Archetype | What to generate | Approach |
+|-----------|-----------------|----------|
+| web-api / web-app | OpenAPI / Swagger spec | Detect and run the framework's doc generation tool (e.g., export `openapi.json` from FastAPI, run `swagger-jsdoc` for Express, `generateschema` for DRF). Fall back to manifest-based `docs/api.md` if no tool detected. |
+| library | Module / API reference | Detect and run the language's doc tool (e.g., Sphinx, pdoc, TypeDoc, godoc, cargo doc). Fall back to manifest-based `docs/api.md` with signatures and docstrings. |
+| cli | Usage documentation | Extract `--help` output for each command/subcommand and format as markdown. Fall back to manifest-based `docs/usage.md`. |
+| data-pipeline | Pipeline documentation | Use the pipeline tool's doc generator if available (e.g., `dbt docs generate`). Fall back to manifest-based `docs/pipelines.md`. |
+| plugin | Plugin documentation | Extract from structured metadata (plugin.json, package.json contributes, etc.). Fall back to manifest-based `docs/plugin.md`. |
+| generic | Interface documentation | Generate `docs/api.md` from manifest entry points with signatures and docstrings. |
 
 ### Steps
 
 1. **Identify doc generation strategy**
    - Read `docs.api_doc_strategy` from config (default: `auto`)
-   - If `auto`, use the archetype and dispatch tables above to detect the right tool
+   - If `auto`, use the archetype to detect the appropriate doc generation tool
    - If explicitly set, use that strategy
 
 2. **Check tool availability**
@@ -565,7 +375,7 @@ Generate or regenerate interface documentation appropriate to the project archet
    - Fall back to manifest-based markdown generation if installation fails
 
 3. **Run doc generation**
-   - Execute the appropriate command/action from the dispatch tables
+   - Execute the detected tool's generation command
    - Capture stdout/stderr for error reporting
 
 4. **Verify generation succeeded**
@@ -802,8 +612,8 @@ Mark each task `in_progress` when starting and `completed` when done. Skip tasks
 - Warn: "Could not determine project archetype — using generic discovery. Set `docs.archetype` in `.add/config.json` for better results."
 
 **Framework not recognized (web-api/web-app archetype)**
-- Fall back to Generic web detection patterns from the dispatch table
-- Warn: "Framework not in dispatch table — using generic HTTP pattern detection. Results may be incomplete."
+- Fall back to generic HTTP pattern detection (grep for route registrations, handler files, middleware)
+- Warn: "Framework not recognized — using generic detection. Results may be incomplete."
 - If generic detection also finds nothing, suggest adding `docs.api_doc_strategy` to config
 
 **No entry points found**
