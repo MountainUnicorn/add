@@ -164,73 +164,20 @@ Discovery complete:
 
 The manifest adapts to the project archetype. The top-level structure is universal; `entry_points[].kind` and `entry_points[].detail` vary by archetype (see detail shapes table below).
 
-### Example: Library (Python)
-
 ```json
 {
-  "$schema": "https://github.com/MountainUnicorn/add/docs-manifest.schema.json",
   "version": "1.0.0",
-  "generated": "2026-03-15T10:30:00Z",
-  "archetype": "library",
-  "stack": {
-    "languages": ["python"],
-    "framework": null,
-    "frontend": null,
-    "database": null,
-    "doc_tools": ["sphinx"]
-  },
-  "directories": {
-    "entry_points": ["src/mylib/"],
-    "types": ["src/mylib/types/"],
-    "services": ["src/mylib/_internal/"],
-    "tests": ["tests/"],
-    "docs": ["docs/"]
-  },
-  "entry_points": [
-    {
-      "name": "parse_config",
-      "kind": "export",
-      "detail": { "module": "mylib.config", "visibility": "public" },
-      "file": "src/mylib/config.py",
-      "function": "parse_config",
-      "interceptors": [],
-      "tags": ["config"],
-      "signature": { "params": "path: str, strict: bool = True", "returns": "Config" }
-    }
-  ],
-  "interceptors": [],
-  "types": [
-    {
-      "name": "Config",
-      "file": "src/mylib/types/config.py",
-      "field_count": 8,
-      "relationships": ["ValidationRule"]
-    }
-  ],
-  "services": [
-    {
-      "name": "_parser",
-      "file": "src/mylib/_internal/parser.py",
-      "public_functions": ["tokenize", "build_ast"]
-    }
-  ],
-  "existing_docs": [
-    {
-      "path": "docs/architecture.md",
-      "last_modified": "2026-03-10T14:20:00Z",
-      "topic": "module-structure",
-      "type": "diagram"
-    }
-  ],
-  "flows": {
-    "documented": ["parse_config", "validate_schema"],
-    "undocumented": ["export_report", "merge_configs"],
-    "stale": ["transform_data"]
-  },
-  "fingerprints": {
-    "src/mylib/config.py": "a1b2c3d4...",
-    "src/mylib/types/config.py": "e5f6g7h8..."
-  }
+  "generated": "<ISO 8601 timestamp>",
+  "archetype": "<detected archetype>",
+  "stack": { "languages": [], "framework": null, "database": null, "doc_tools": [] },
+  "directories": { "entry_points": [], "types": [], "services": [], "tests": [], "docs": [] },
+  "entry_points": [{ "name": "", "kind": "", "detail": {}, "file": "", "function": "", "interceptors": [], "tags": [], "signature": {} }],
+  "interceptors": [{ "name": "", "file": "", "order": 0, "purpose": "" }],
+  "types": [{ "name": "", "file": "", "field_count": 0, "relationships": [] }],
+  "services": [{ "name": "", "file": "", "public_functions": [] }],
+  "existing_docs": [{ "path": "", "last_modified": "", "topic": "", "type": "" }],
+  "flows": { "documented": [], "undocumented": [], "stale": [] },
+  "fingerprints": { "<file_path>": "<sha256>" }
 }
 ```
 
@@ -482,21 +429,6 @@ When `--check` is passed, do NOT modify any files. Instead:
    - **1** — one or more docs stale
    - **2** — manifest missing (run `--discover` first)
 
-### CI Integration Example
-
-```yaml
-# .github/workflows/docs-check.yml
-name: Documentation Freshness
-on: [pull_request]
-jobs:
-  docs-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check documentation freshness
-        run: claude --skill add:docs -- --check
-```
-
 ## Output Format
 
 After generating/updating docs, produce a concrete report:
@@ -556,32 +488,7 @@ The docs skill reads its configuration from the `docs` key in `.add/config.json`
 }
 ```
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `archetype` | string | `"auto"` | Project archetype: `auto`, `web-api`, `web-app`, `library`, `cli`, `data-pipeline`, `plugin`, `monorepo`, `generic` |
-| `diagram_file` | string | `"docs/architecture-diagrams.md"` | Path to the Mermaid diagram file |
-| `api_doc_strategy` | string | `"auto"` | `auto` detects from stack; or explicit strategy name |
-| `readme_files` | string[] | `["CLAUDE.md", "README.md"]` | Files to check for README drift |
-| `manifest_path` | string | `".add/docs-manifest.json"` | Where the discovery manifest is stored |
-| `auto_discover_on_first_run` | bool | `true` | Run full discovery if no manifest exists |
-| `check_in_ci` | bool | `false` | Whether `--check` is part of CI pipeline |
-| `priority_entries` | string[] | `[]` | Entry points to document first |
-| `exclude_patterns` | string[] | `[]` | Entry point patterns to exclude from diagram generation |
-| `diagram_style.show_interceptors` | bool | `true` | Include interceptors/middleware in diagrams |
-| `diagram_style.show_error_paths` | bool | `true` | Include error/fallback paths |
-| `diagram_style.max_participants` | int | `8` | Maximum participants per diagram before splitting |
-
 If no `docs` key exists in config, all defaults apply.
-
-### Backward Compatibility
-
-The following config keys were renamed in v0.5.0. The skill accepts both old and new keys. If both are present, the new key takes precedence.
-
-| Deprecated key (pre-v0.5.0) | New key (v0.5.0+) |
-|------------------------------|--------------------|
-| `sequence_diagram_file` | `diagram_file` |
-| `priority_routes` | `priority_entries` |
-| `diagram_style.show_middleware` | `diagram_style.show_interceptors` |
 
 ## Progress Tracking
 
