@@ -23,7 +23,8 @@ All subcommands start here:
    - Features (from Feature Detail table: name, position, spec link)
    - Success criteria (count checked `[x]` vs total `[ ]`)
 4. **Read `docs/prd.md` Section 6** — cross-reference horizon placement (Now/Next/Later) from the roadmap table
-5. **Determine subcommand** from arguments. Default: `--list`
+5. **Read `.add/handoff.md`** if it exists — note any in-progress decisions relevant to milestone changes
+6. **Determine subcommand** from arguments. Default: `--list`
 
 ---
 
@@ -229,6 +230,8 @@ Show change summary. On confirmation:
 2. Edit target milestones — add incoming features at their current position
 3. Edit rescoped milestone — add new features at SHAPED, update goal/appetite if changed
 4. Update PRD Section 6 if milestone scope changed significantly
+5. Append to PRD Section 10 (Revision History): `| {DATE} | {VERSION} | milestone | Rescoped {milestone}: {summary of changes} |`
+6. Update `.add/handoff.md` if it exists — note the rescoping for session continuity
 
 ---
 

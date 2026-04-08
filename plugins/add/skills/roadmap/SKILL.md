@@ -26,7 +26,8 @@ All subcommands begin here:
 2. **Read `docs/prd.md`** — locate Section 6 ("Milestones & Roadmap"), parse the roadmap table and milestone detail blocks
    - If `docs/prd.md` missing: abort with "No PRD found. Run `/add:init` first."
 3. **Glob `docs/milestones/M*.md`** — for each, parse: Status, Goal, feature count, feature positions (hill chart data), success criteria progress
-4. **Build roadmap model** — merge PRD table (source of truth for horizons) with milestone files (source of truth for status/content). Flag discrepancies.
+4. **Read `.add/handoff.md`** if it exists — note any in-progress decisions relevant to roadmap changes
+5. **Build roadmap model** — merge PRD table (source of truth for horizons) with milestone files (source of truth for status/content). Flag discrepancies.
 
 ---
 
@@ -118,7 +119,7 @@ Ask which milestone, then which horizon. Handle these cases:
 
 ### Action 2: Add New Milestone
 
-Delegates to the same interview as `/add:milestone --create` (3-8 questions scaled by maturity). Queue the creation for batch apply.
+Follow the same interview steps as documented in `/add:milestone --create` (3-8 questions scaled by maturity). Do not invoke the milestone skill directly — replicate the interview inline so changes can be batched with other roadmap edits.
 
 ### Action 3: Archive Milestone
 
@@ -166,6 +167,8 @@ Apply all changes? (y/n)
 2. **Update milestone files:** Edit existing (goal, status), create new from `${CLAUDE_PLUGIN_ROOT}/templates/milestone.md.template`
 
 3. **Update `.add/config.json`:** Set `planning.current_milestone` to first non-COMPLETE Now milestone, or null
+
+4. **Update `.add/handoff.md`** if it exists — append a note summarizing the roadmap changes for session continuity
 
 ### Step 5: Present Result
 

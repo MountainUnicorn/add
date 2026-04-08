@@ -35,26 +35,11 @@ All cycle commands start by reading context:
 2. **Read active milestone** from `docs/milestones/`
    - Find the current milestone (look for `Status: IN_PROGRESS`, or the most recent)
    - Fail gracefully if no active milestone (prompt to create one first)
-
-   ### Milestone Health Check
-
-   After loading the active milestone, check its status:
-
-   a. **No active milestone** (`planning.current_milestone` is null or file doesn't exist):
-      - Display: "No active milestone found."
-      - Offer: "Run `/add:milestone --list` to see available milestones, `/add:milestone --switch <id>` to activate one, or `/add:milestone --create` to create a new one."
-      - STOP cycle planning until a milestone is active.
-
-   b. **Active milestone is COMPLETE** (all success criteria checked):
-      - Display: "Current milestone {name} is COMPLETE."
-      - Scan `docs/milestones/` for NOT_STARTED milestones.
-      - If found: suggest "Switch to {next}? Run `/add:milestone --switch {id}`"
-      - If none: suggest "Create a new milestone with `/add:milestone --create`"
-      - STOP cycle planning until milestone is switched.
-
-   c. **All features at DONE/VERIFIED** but milestone not formally complete:
-      - Display: "All features in {name} appear complete. Consider closing this milestone with `/add:cycle --complete` or switching to the next one."
-3. **Check for existing active cycle** in `.add/cycles/`
+3. **Milestone health check** — after loading the active milestone, check its status:
+   - **No active milestone** (`planning.current_milestone` is null or file doesn't exist): Display "No active milestone found." Offer: run `/add:milestone --list` to see available milestones, `/add:milestone --switch <id>` to activate one, or `/add:milestone --create` to create a new one. STOP cycle planning until a milestone is active.
+   - **Active milestone is COMPLETE** (all success criteria checked): Display "Current milestone {name} is COMPLETE." Scan `docs/milestones/` for NOT_STARTED milestones. If found, suggest switching. If none, suggest creating one. STOP cycle planning until milestone is switched.
+   - **All features at DONE/VERIFIED** but milestone not formally complete: Display "All features in {name} appear complete. Consider closing this milestone with `/add:cycle --complete` or switching to the next one."
+4. **Check for existing active cycle** in `.add/cycles/`
    - If one exists and last activity was < 3 days ago, assume it's still active
    - Otherwise, offer to archive and start fresh
 4. **Verify prerequisites** (e.g., if POC maturity, skip some docs)

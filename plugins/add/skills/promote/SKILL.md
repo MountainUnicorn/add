@@ -53,7 +53,7 @@ Use Glob, Grep, Bash, Read to gather real data across these categories:
 | # | Category | How to Check |
 |---|----------|-------------|
 | 1 | Feature specs | Glob `specs/*.md`, count files, check for acceptance criteria |
-| 2 | Test coverage | Run test command from config `quality.test.unit` with coverage flag |
+| 2 | Test coverage | Run test command from config `quality.test.unit` with coverage flag. If no test command configured, score as MISSING. If command fails, score as PARTIAL and note the error. |
 | 3 | CI/CD pipeline | Glob `.github/workflows/*.yml`, `.gitlab-ci.yml`, `Jenkinsfile` |
 | 4 | PR workflow | `git log --merges --oneline -20` — check for merge commits |
 | 5 | Environments | Read config `environments` — count tiers with non-null URLs |
