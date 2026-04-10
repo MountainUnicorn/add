@@ -96,6 +96,37 @@ Ask the human 1-by-1 questions. Number of questions varies by maturity (see casc
    - But human can override: "Actually, Session Refresh needs Auth Overhaul to finish first"
    - Build dependency graph → serialization plan
 
+**UI Gate (all maturities, UI features only):**
+
+After selecting features, check each selected feature's spec for UI components:
+- Look for a non-empty Q8 answer in the spec
+- OR acceptance criteria that reference screens, views, components, or flows
+
+For each UI feature, check whether a signed-off UX artifact exists at `specs/ux/{feature-slug}-ux.md` with `Status: APPROVED`.
+
+**If a UI feature has no approved UX artifact:**
+
+At POC maturity, prompt:
+```
+{Feature name} has UI components but no signed-off design.
+
+Options:
+  A) Run /add:ux specs/{feature-slug}.md now (recommended — prevents rework)
+  B) Skip and proceed (accepted risk — UI will be defined during implementation)
+```
+
+At Alpha+ maturity, block and require:
+```
+⚠ {Feature name} has UI components but no signed-off design.
+
+Run /add:ux specs/{feature-slug}.md before including this feature in the cycle.
+This gate exists to prevent implementation rework from late-breaking design changes.
+
+Once the UX artifact is approved, re-run /add:cycle --plan.
+```
+
+If all UI features have approved artifacts (or no features have UI), continue without interruption.
+
 **Additional questions (Alpha+):**
 
 4. **"What's blocking or at-risk?"**
