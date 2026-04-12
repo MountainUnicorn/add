@@ -8,9 +8,30 @@ For commit-level detail see `git log`.
 
 Pending for v0.8.0:
 - Per-skill Codex overrides for high-leak skills (`away`, `tdd-cycle`, `implementer`, `agent-coordination`)
-- Real GPG-signing infrastructure (key generation is a user action)
 - Marketplace re-submission to the official Claude Code registry
 - `/add:cycle` rename to `/add:arc` (or similar) — 3 consecutive release arcs bypassed the command; gap needs addressing
+
+## [0.7.2] — 2026-04-12
+
+First **cryptographically signed** release. Maintainer GPG key provisioned and published.
+
+### Added
+
+- **`scripts/release.sh`** — release helper that enforces clean tree, version/tag match, frontmatter validation, compile-drift check, signing-key presence, tag uniqueness, and CHANGELOG section presence before tagging. Extracts release notes from CHANGELOG. Supports `--dry-run` and `--draft`.
+- **`docs/release-signing.md`** — maintainer runbook for first-time setup, cutting a release, multi-machine key sharing, rotation, expiration, and pinentry/GPG_TTY troubleshooting.
+
+### Changed
+
+- **`SECURITY.md`** now carries the real maintainer fingerprint: `040C 002A B5A0 E552 46B3 5D2F 8C4D 8020 9306 6794` — RSA 4096, identity `Anthony Brooke <anthony.g.brooke@gmail.com>`. Documents that v0.7.0 and v0.7.1 predate signing and will not be retroactively re-tagged (re-tagging a published release rewrites history users may have installed).
+- Git config on the maintainer machine: `tag.gpgsign = true` (mandatory for releases); `commit.gpgsign = false` (opportunistic via `git commit -S`). Rationale: auto-signing commits blocks agent/CI sessions that can't interact with the GUI passphrase prompt. Tag signing is the verification anchor that matters per the threat model.
+
+### Verification
+
+```bash
+curl -fsSL https://github.com/MountainUnicorn.gpg | gpg --import
+git tag --verify v0.7.2
+# Expected: Good signature from "Anthony Brooke <anthony.g.brooke@gmail.com>"
+```
 
 ## [0.7.1] — 2026-04-12
 
@@ -170,7 +191,8 @@ Initial release. Pure markdown/JSON plugin built in one session (36 files, ~6,30
 
 ---
 
-[Unreleased]: https://github.com/MountainUnicorn/add/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/MountainUnicorn/add/compare/v0.7.2...HEAD
+[0.7.2]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.2
 [0.7.1]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.1
 [0.7.0]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.0
 [0.6.0]: https://github.com/MountainUnicorn/add/releases/tag/v0.6.0

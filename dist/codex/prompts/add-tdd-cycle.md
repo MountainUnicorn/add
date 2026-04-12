@@ -1,4 +1,4 @@
-# ADD TDD Cycle Skill v0.7.1
+# ADD TDD Cycle Skill v0.7.2
 
 Execute a complete Test-Driven Development cycle for a feature from the specification through production-quality code.
 

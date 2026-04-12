@@ -1,4 +1,4 @@
-# ADD Cycle Command v0.7.1
+# ADD Cycle Command v0.7.2
 
 Cycles are the operational unit of ADD work. They batch features, assess dependencies, plan parallelism, and define validation criteria before execution. This command manages the full cycle lifecycle: planning, status checks, and completion/retrospective.
 

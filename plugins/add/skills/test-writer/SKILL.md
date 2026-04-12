@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.7.1] Write failing tests from spec (TDD RED phase)"
+description: "[ADD v0.7.2] Write failing tests from spec (TDD RED phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---
 
-# ADD Test Writer Skill v0.7.1
+# ADD Test Writer Skill v0.7.2
 
 Generate comprehensive failing tests from a feature specification. This is the RED phase of TDD — write tests before implementation.
 

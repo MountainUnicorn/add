@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.7.1] Maturity promotion — gap analysis and level-up workflow"
+description: "[ADD v0.7.2] Maturity promotion — gap analysis and level-up workflow"
 argument-hint: "[--check | --execute] [--target poc|alpha|beta|ga]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
 ---
 
-# ADD Promote Command v0.7.1
+# ADD Promote Command v0.7.2
 
 Assess readiness and promote the project's maturity level. Maturity is the master control for all ADD behavior — promotion is intentional, evidence-based, and deliberate.
 

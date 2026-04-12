@@ -1,4 +1,4 @@
-# ADD Brand Command v0.7.1
+# ADD Brand Command v0.7.2
 
 Display the current branding configuration for this ADD-managed project. Shows accent color, palette, fonts, tone, where branding is applied, detects brand drift in generated artifacts, and reports image generation capability status.
 

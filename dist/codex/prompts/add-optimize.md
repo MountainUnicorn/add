@@ -1,4 +1,4 @@
-# ADD Optimize Skill v0.7.1
+# ADD Optimize Skill v0.7.2
 
 Identify and fix performance bottlenecks. This skill profiles code to find slow operations, suggests optimizations, and implements them with test-driven discipline.
 

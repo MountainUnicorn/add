@@ -1,4 +1,4 @@
-# ADD Init Command v0.7.1
+# ADD Init Command v0.7.2
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 
