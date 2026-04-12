@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.5.0] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+description: "[ADD v0.6.0] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite]
 ---
 
-# ADD Retro Command v0.5.0
+# ADD Retro Command v0.6.0
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 
@@ -250,6 +250,39 @@ Scores must be justified by evidence. If the agent detects its own score seems i
    - Update `scope` field and `classified_by` to `"human"`
    - Assign new ID appropriate to target file
    - Regenerate both markdown views
+
+   **Auto-promotion proposals (batch):**
+
+   In addition to asking per-entry, scan `.add/learnings.json` entries since the last retro and auto-propose **workstation promotion candidates** — entries that look universal enough to belong in `~/.claude/add/library.json` for cross-project use.
+
+   Promotion signals (ANY of):
+   - `severity >= "high"` AND `category = "anti-pattern"`
+   - Body contains "always", "never", "every time", "on every", "default" — language indicating a general rule rather than a project-specific fact
+   - `stack` entries describe tooling that the user's other projects in `~/.claude/add/projects/` also use (check registry stacks)
+   - Body references generic cloud/infra primitives (GCE, AWS, GKE, EKS, ArgoCD, cert-manager, etc.) without project-specific identifiers
+
+   Present the candidates as one batch table:
+
+   ```
+   PROMOTION CANDIDATES — cross-project workstation learnings
+
+   | # | Entry | Signal | Promote? |
+   |---|-------|--------|----------|
+   | 1 | L-{NNN}: "{title}" | {signal that matched} | [y/n] |
+   | 2 | L-{NNN}: "{title}" | {signal that matched} | [y/n] |
+   ...
+
+   Reply with the numbers to promote (e.g., "1,3,5" or "all" or "none").
+   ```
+
+   For each approved promotion:
+   - Copy entry to `~/.claude/add/library.json` with a new `WL-{NNN}` ID
+   - Set `source` to the project name
+   - Set `classified_by` to `"human"`
+   - Leave original entry in `.add/learnings.json` (projects may still reference it)
+   - Regenerate both markdown views at the end
+
+   Why this exists: the agentVoice retro (2026-04-12) surfaced 8 clearly-universal lessons (ArgoCD, CI-disabled, Cloud Build, WebSocket timeout, E2E skip ban) that sat in project markdown for 40 days without promotion. A batch proposal at retro time closes that gap.
 
 6. **Update cross-project persistence:**
    a. **Profile updates** (`~/.claude/add/profile.md`): If retro reveals preferences that carry to other projects, ask: "Add to your ADD profile?"

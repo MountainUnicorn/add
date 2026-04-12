@@ -48,3 +48,42 @@
 - Environment promotion ladder: agents climb `local → dev → staging` autonomously when verification passes at each level, with automatic rollback on failure.
 - Two rollback strategies: `revert-commit` (lighter, for dev) and `redeploy-previous-tag` (safer, for staging/production).
 - The ladder stops on first failure — no retries, log and move on. Safer than letting agents debug deployment issues autonomously.
+
+## Competing Swarm Pattern
+
+When a problem has multiple valid approaches and the wrong choice is expensive to reverse, dispatch **2-3 sub-agents with deliberately different approaches in parallel**, then synthesize or pick a winner before implementation. This is different from ordinary parallel dispatch (which assumes independent, non-overlapping work).
+
+**When to use:**
+- Infrastructure problems with multiple architecturally valid solutions (e.g., cert-manager vs Google Managed Certs vs app-level ACME proxy)
+- UX/design decisions where the cheapest information is a side-by-side comparison
+- Security remediation where defense-in-depth from multiple angles is actively useful
+- Research spikes where you want diversity of thought, not just throughput
+
+**How to run one:**
+1. Name the problem in one sentence.
+2. Explicitly brief each sub-agent on *its* approach, and on the fact that other agents are working the same problem differently. This prevents them from converging.
+3. Give each the same success criteria.
+4. When they complete, review all outputs in one sitting.
+5. **Pick a winner BEFORE implementation when approaches are mutually exclusive.** Two swarms independently building mutually-exclusive solutions creates merge conflicts and wasted work.
+6. When approaches are *not* mutually exclusive, synthesize — the agentVoice HTTPS cert case shipped both solutions as belt-and-suspenders redundancy, which turned out to be the right call.
+7. Record the pattern in `.add/observations.md` with `[swarm]` tag for retro fuel.
+
+**Anti-patterns:**
+- Running competing swarms on problems that are already well-understood (pure waste)
+- Forgetting to brief agents that others are attempting the same goal (they'll converge to identical approaches)
+- Letting both winners land in the codebase without coordinating — leads to conflicting abstractions
+
+**Evidence:** Used successfully three times in the agentVoice project (HTTPS cert resolution, GKE CI/CD install, security Phases A/B/C). Each produced better outcomes than a single-approach dispatch would have. The one failure (cert-manager removal vs fix in parallel) reinforced the "pick a winner before implementation" rule.
+
+## Infrastructure Prerequisites
+
+- Before debugging a workflow YAML, verify the workflow is actually running. GitHub Actions can be disabled at the account level, and a disabled repo will show zero runs regardless of config correctness.
+- Before debugging a deployment, verify the artifact exists. Check registry (GHCR, Artifact Registry, etc.) before checking container logs — an image that never built produces "pod never starts" symptoms identical to many other failures.
+- Before issuing a TLS cert, verify the domain serves HTTP 200 at `/` with a healthy backend. Google Managed Certificates require 200 at root; a redirect or 404 fails validation silently and leaves the cert in a stuck `FAILED_NOT_VISIBLE` state.
+- Multi-stage Docker builds only copy paths you explicitly name. Files created in a `deps` stage outside the standard install path will be missing from the `runtime` stage. Add explicit `COPY --from=deps` for every non-standard path.
+- GitOps controllers with `selfHeal: true` (ArgoCD, Flux) revert `kubectl` edits immediately. In such environments, `kubectl` is a read-only tool — all mutations must flow through git.
+- Cloud Build (native amd64) beats local ARM→amd64 QEMU emulation by 10-20x for GPU images. On an Apple Silicon developer machine, cross-build via the cloud is the default; local cross-build should be reserved for tiny images where the upload cost dominates.
+
+## Quality Protocols
+
+- E2E tests must be browser-only, human-like interactions. E2E tests must NEVER call APIs directly, check database state, use `skip()` to mask failures, or make programmatic decisions a real user wouldn't. Every action goes through the browser automation (click, fill, select, wait-for-visible). If a feature doesn't work, the test fails — it does not skip. Skipping on error defeats the entire purpose of E2E, which is catching the integration failures unit tests miss.

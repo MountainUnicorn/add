@@ -76,22 +76,23 @@ Roadmap (docs/prd.md milestones section)
 | `/add:promote` | Maturity promotion — gap analysis and level-up workflow |
 | `/add:dashboard` | Generate visual HTML project dashboard from .add/ project files |
 
-## Rules (auto-loaded)
+## Rules
 
-| Rule | Purpose |
-|------|---------|
-| spec-driven.md | Specs must exist before code |
-| tdd-enforcement.md | Strict TDD cycle enforcement |
-| human-collaboration.md | Interview protocol, away mode, engagement modes |
-| agent-coordination.md | Trust-but-verify, sub-agent isolation, learning-on-verify |
-| source-control.md | Git workflow, commits, PRs |
-| environment-awareness.md | Test-per-environment matrix, deploy rules |
-| quality-gates.md | 5-level quality gate system |
-| learning.md | Continuous learning, structured JSON checkpoints, smart filtering, scope classification |
-| version-migration.md | Auto-detect stale projects, chain migrations on session start |
-| project-structure.md | Standard directory layout, cross-project persistence |
-| maturity-lifecycle.md | Master dial — governs all behavior per maturity level (poc/alpha/beta/ga) |
-| design-system.md | Silicon Valley Unicorn aesthetic for generated visuals |
+@rules/spec-driven.md
+@rules/tdd-enforcement.md
+@rules/human-collaboration.md
+@rules/agent-coordination.md
+@rules/source-control.md
+@rules/environment-awareness.md
+@rules/quality-gates.md
+@rules/learning.md
+@rules/version-migration.md
+@rules/project-structure.md
+@rules/maturity-lifecycle.md
+@rules/maturity-loader.md
+@rules/design-system.md
+@rules/add-compliance.md
+@rules/registry-sync.md
 
 ## Work Hierarchy
 

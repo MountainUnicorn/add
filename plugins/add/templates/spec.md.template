@@ -104,7 +104,29 @@ Human-readable test scenarios. Each maps to an automated E2E test.
 
 - {DEPENDENCY_1}
 
-## 9. Revision History
+## 9. Infrastructure Prerequisites
+
+What must be true in the runtime environment before this feature can run end-to-end?
+Fill in any that apply; write `N/A` for categories that don't.
+
+| Category | Requirement |
+|----------|-------------|
+| Environment variables | {ENV_VARS_REQUIRED} |
+| Registry images | {DOCKER_IMAGES_THAT_MUST_EXIST} |
+| Cloud quotas | {GPU/IP/STORAGE_QUOTAS} |
+| Network reachability | {DNS/INGRESS/EGRESS_PATHS} |
+| CI status | {REQUIRED_WORKFLOW_RUNS_OR_ARTIFACTS} |
+| External secrets | {SECRETS_THAT_MUST_BE_PROVISIONED} |
+| Database migrations | {SCHEMA_MIGRATIONS_THAT_MUST_RUN_FIRST} |
+
+**Verification before implementation:** {HOW_WE_CONFIRM_THESE_ARE_MET}
+
+> Why this section exists: a large share of integration failures come from code that
+> is correct but assumes environment state that isn't there (missing env vars,
+> un-built images, exhausted quotas, disabled CI workflows). Catching these at spec
+> time is orders of magnitude cheaper than catching them at deploy time.
+
+## 10. Revision History
 
 | Date | Version | Author | Changes |
 |------|---------|--------|---------|
