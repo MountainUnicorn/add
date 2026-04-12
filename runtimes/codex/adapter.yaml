@@ -1,0 +1,41 @@
+# ADD Codex CLI adapter
+#
+# Describes how `core/` compiles into a Codex-consumable distribution at `dist/codex/`.
+# Consumed by `scripts/compile.py`.
+
+runtime: codex
+output_dir: dist/codex
+
+# Codex has no distinct "tool" vocabulary in the Claude sense — actions map to
+# the shell sandbox. AskUserQuestion becomes plain-text Q&A.
+tool_mapping:
+  AskUserQuestion: "ask the user (use a clear, single-question prompt)"
+
+path_vars:
+  CLAUDE_PLUGIN_ROOT: "~/.codex/add"
+
+# Codex prompts have no frontmatter — the Claude extensions get stripped.
+frontmatter:
+  skills:
+    strip: [description, argument-hint, allowed-tools, disable-model-invocation]
+  rules:
+    strip: [autoload, maturity, description, globs]
+
+# Codex consumes content in two shapes:
+#   1. AGENTS.md — root context, auto-loaded. Built from concat(knowledge, rules).
+#   2. ~/.codex/prompts/add-{skill}.md — custom prompts, invoked explicitly.
+output_shape:
+  agents_md:
+    from: [core/knowledge/global.md, core/rules/*.md]
+    strategy: concatenate_with_headings
+  prompts:
+    from: core/skills/*/SKILL.md
+    rename: "add-{dirname}.md"
+    strip_frontmatter: true
+  templates:
+    from: core/templates/
+    copy_verbatim: true
+
+# Files specific to the Codex adapter
+adapter_files:
+  - README.md          # Codex-specific usage instructions

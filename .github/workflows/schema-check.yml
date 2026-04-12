@@ -1,0 +1,30 @@
+name: Frontmatter schema validation
+
+on:
+  pull_request:
+    paths:
+      - 'core/skills/**'
+      - 'core/rules/**'
+      - 'core/schemas/**'
+      - 'scripts/validate-frontmatter.py'
+  push:
+    branches: [main]
+    paths:
+      - 'core/skills/**'
+      - 'core/rules/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validator dependencies
+        run: pip install pyyaml jsonschema
+
+      - name: Validate SKILL.md and rule frontmatter
+        run: python3 scripts/validate-frontmatter.py

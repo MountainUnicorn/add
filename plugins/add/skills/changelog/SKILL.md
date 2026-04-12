@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Generate or refresh CHANGELOG.md from conventional commits"
-argument-hint: [--from-scratch]
+description: "[ADD v0.7.0] Generate or refresh CHANGELOG.md from conventional commits"
+argument-hint: "[--from-scratch]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 disable-model-invocation: true
 ---
 
-# ADD Changelog Command v0.6.0
+# ADD Changelog Command v0.7.0
 
 Generate or refresh the project's CHANGELOG.md from git history using conventional commit parsing. Follows the [Keep a Changelog](https://keepachangelog.com/) format.
 

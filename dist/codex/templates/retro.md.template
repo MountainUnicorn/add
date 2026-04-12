@@ -1,0 +1,63 @@
+# Retrospective — {PROJECT_NAME}
+**Period:** {START_DATE} → {END_DATE}
+**Context:** {SESSION_CONTEXT}
+**Mode:** {RETRO_MODE}
+
+## Period Summary
+
+- Specs completed: {SPECS_COMPLETED}
+- Commits: {COMMIT_COUNT}
+- Agent learnings recorded: {LEARNINGS_COUNT} ({PROJECT_LEARNINGS} project, {WORKSTATION_LEARNINGS} workstation)
+- Human directives captured: {DIRECTIVES_COUNT}
+- Away-mode sessions: {AWAY_SESSIONS}
+
+## Human Directives
+
+| # | Directive | Scope | Source |
+|---|-----------|-------|--------|
+{DIRECTIVES_TABLE}
+
+**Confirmation:** {DIRECTIVES_CONFIRMATION}
+
+## Agent Observations (Project)
+
+| # | Observation | Severity |
+|---|-------------|----------|
+{PROJECT_OBSERVATIONS_TABLE}
+
+### ADD Methodology Adherence
+{METHODOLOGY_ADHERENCE}
+
+## Agent Observations (Workstation)
+
+| # | Observation | Severity |
+|---|-------------|----------|
+{WORKSTATION_OBSERVATIONS_TABLE}
+
+## Refinement
+
+**Disagreements / Modifications:**
+{REFINEMENT_NOTES}
+
+## What Went Well
+{WHAT_WENT_WELL}
+
+## What Needs Improvement
+{WHAT_NEEDS_IMPROVEMENT}
+
+## Scores
+
+| Metric | Score | Evidence |
+|--------|-------|----------|
+| Human Collaboration | {COLLAB_SCORE} / 9.0 | {COLLAB_EVIDENCE} |
+| ADD Methodology Effectiveness | {ADD_EFFECTIVENESS} / 9.0 | {ADD_EVIDENCE} |
+| Swarm Effectiveness | {SWARM_EFFECTIVENESS} / 9.0 | {SWARM_EVIDENCE} |
+
+## ADD Methodology Feedback
+{ADD_FEEDBACK}
+
+## Agreed Changes
+{AGREED_CHANGES}
+
+## Actions Taken
+{ACTIONS_TAKEN}

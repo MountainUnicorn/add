@@ -1,0 +1,46 @@
+name: Compile drift check
+
+on:
+  pull_request:
+    paths:
+      - 'core/**'
+      - 'runtimes/**'
+      - 'plugins/add/**'
+      - 'dist/**'
+      - 'scripts/compile.py'
+  push:
+    branches: [main]
+    paths:
+      - 'core/**'
+      - 'runtimes/**'
+      - 'plugins/add/**'
+      - 'dist/**'
+      - 'scripts/compile.py'
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Re-compile all runtimes
+        run: python3 scripts/compile.py
+
+      - name: Verify committed artifacts match compile output
+        run: |
+          if ! git diff --quiet plugins/add dist/codex; then
+            echo "::error::Drift detected — committed plugins/add or dist/codex does not match compile output"
+            echo ""
+            echo "Diff:"
+            git diff plugins/add dist/codex | head -200
+            echo ""
+            echo "Fix: run 'python3 scripts/compile.py' locally, commit the result, and push."
+            exit 1
+          fi
+          echo "✓ Committed artifacts match compile output"

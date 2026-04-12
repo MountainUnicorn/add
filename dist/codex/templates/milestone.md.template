@@ -1,0 +1,169 @@
+# Milestone: M{N} — {MILESTONE_NAME}
+
+**Target Maturity:** {MATURITY_LEVEL}
+**Status:** {NOT_STARTED|IN_PROGRESS|COMPLETE}
+**Started:** {DATE_OR_TBD}
+**Completed:** {DATE_OR_TBD}
+
+## Goal
+
+{MILESTONE_GOAL — 1-2 sentences describing what success looks like}
+
+Example: "Stabilize the authentication system and reduce session timeout bugs by 90%, enabling alpha users to trust login across mobile and web clients."
+
+## Success Criteria
+
+- [ ] {CRITERION_1}
+- [ ] {CRITERION_2}
+- [ ] {CRITERION_3}
+- [ ] {CRITERION_4}
+- [ ] {CRITERION_5}
+
+Example criteria:
+- [ ] All authentication specs passing in staging
+- [ ] Zero authentication-related bugs in production for 7 days
+- [ ] Mobile and web session parity (same timeout behavior)
+- [ ] Automated session refresh working end-to-end
+- [ ] Acceptance test coverage ≥ 95% for auth features
+
+## Appetite
+
+{How much effort we're willing to spend. Not an estimate — a budget.}
+
+Examples:
+- "2 weeks of focused work"
+- "1 sprint cycle (5 days)"
+- "3 cycles of parallel exploration"
+- "Exploratory — stop when we have proof of concept"
+- "Fixed scope: ~40 hours" (if time-boxed)
+
+## Features
+
+### Hill Chart
+
+Progress visualization. Format: `{FEATURE_NAME} {PROGRESS_BAR} {uphill|peak|downhill} — {status detail}`
+
+```
+Authentication Overhaul       ████████████████████░░░░░░░░░░░░░░░░  downhill — testing & edge cases
+Session Refresh Automation    ████████████░░░░░░░░░░░░░░░░░░░░░░░░░  peak — figured out approach, starting implementation
+Mobile Logout Flow            ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  uphill — design in progress, dependencies unclear
+```
+
+**Reading the chart:**
+- `████` = progress to date (uphill = figuring it out, downhill = executing)
+- `░░` = remaining work
+- **Uphill** = uncertainty phase (SHAPED → SPECCED, figuring out scope/approach)
+- **Peak** = inflection point (PLANNED, have a plan, about to start)
+- **Downhill** = execution phase (IN_PROGRESS → DONE, making it real)
+
+### Feature Detail
+
+| Feature | Spec | Position | Status | Cycle |
+|---------|------|----------|--------|-------|
+| {FEATURE_1} | specs/{feature_1}.md | SHAPED \| SPECCED \| PLANNED \| IN_PROGRESS \| VERIFIED \| DONE | {brief status detail} | cycle-{N} |
+| {FEATURE_2} | specs/{feature_2}.md | SHAPED \| SPECCED \| PLANNED \| IN_PROGRESS \| VERIFIED \| DONE | {brief status detail} | cycle-{N} |
+| {FEATURE_3} | specs/{feature_3}.md | SHAPED \| SPECCED \| PLANNED \| IN_PROGRESS \| VERIFIED \| DONE | {brief status detail} | cycle-{N} |
+
+Example:
+| Feature | Spec | Position | Status | Cycle |
+|---------|------|----------|--------|-------|
+| Auth Overhaul | specs/auth-redesign.md | IN_PROGRESS | 3 of 5 acceptance criteria verified | cycle-8 |
+| Session Refresh | specs/session-refresh.md | PLANNED | Ready to start, spec approved | cycle-8 |
+| Mobile Logout | specs/mobile-logout.md | SPECCED | Spec written, dependencies clarified | cycle-9 |
+
+## Dependencies
+
+List any external blockers or prerequisites. Include:
+- Features from **other milestones** that must complete first
+- **Infrastructure changes** needed (e.g., new environment variables, database migrations)
+- **Third-party integrations** pending (vendor API access, payment processor approval)
+- **Team/resource** constraints (waiting for designer availability, etc.)
+
+Example:
+- Requires M3 (Infrastructure Refactor) to complete → provides new secrets manager API
+- Payment provider API access pending approval (ETA: 2026-02-14)
+- Design system update needed before UI feature specs can finalize
+
+If no dependencies, write: "None — this milestone is self-contained."
+
+## Risks
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| {RISK_1} | HIGH \| MED \| LOW | HIGH \| MED \| LOW | {MITIGATION} |
+| {RISK_2} | HIGH \| MED \| LOW | HIGH \| MED \| LOW | {MITIGATION} |
+| {RISK_3} | HIGH \| MED \| LOW | HIGH \| MED \| LOW | {MITIGATION} |
+
+Example:
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| Mobile session tokens expire faster than web, causing logout loop | MED | HIGH | Implement unified session TTL in auth redesign; add tests for parity |
+| Session refresh causes race conditions under high concurrency | MED | MED | Load test with 1000 concurrent sessions before GA; spike on mutex strategy |
+| Rollback needed after deployment | LOW | HIGH | Feature flag session refresh behind config; can disable in production in <5 min |
+
+## Cycles
+
+Track which cycles advance this milestone. Fill in as cycles complete.
+
+| Cycle | Features Advanced | Status | Outcome |
+|-------|-------------------|--------|---------|
+| cycle-{N} | {Feature 1, Feature 2} | PLANNED \| IN_PROGRESS \| COMPLETE | {summary} |
+
+Example:
+| Cycle | Features Advanced | Status | Outcome |
+|-------|-------------------|--------|---------|
+| cycle-7 | Auth Overhaul (SHAPED→SPECCED) | COMPLETE | Spec written, 2 edge cases added, 1 design decision deferred to cycle-8 |
+| cycle-8 | Auth Overhaul (SPECCED→IN_PROGRESS), Session Refresh (SHAPED→SPECCED) | IN_PROGRESS | Both on track; minor blocker on mobile device farm setup resolved |
+| cycle-9 | Session Refresh (PLANNED→VERIFIED), Mobile Logout (SHAPED→SPECCED) | PLANNED | Ready to start Monday |
+
+## Retrospective Notes
+
+**Filled in when milestone completes.** Capture:
+- What went well? (process, collaboration, discovery)
+- What was harder than expected? (scope creep, technical debt, coordination)
+- What learnings should inform the next milestone?
+- Any process changes to adopt going forward?
+- Maturity level readiness: Should we consider promoting?
+
+Example retrospective:
+```
+### What Went Well
+- Parallel auth + session refresh cycles saved 2 days
+- TDD on auth was worth it — caught 3 race conditions in tests before QA found them
+- Mobile testing device farm was game-changer for parity verification
+
+### What Was Harder
+- Session token rotation took 2 extra days (more state management than expected)
+- Dependency on secrets manager delayed mobile testing (ETA slip: 1.5 days)
+
+### Learnings
+- Auth changes benefit from 2 reviewers (missed a logout edge case initially)
+- Mobile parity testing should be in acceptance criteria from start, not bolted on
+- Feature flags for rollback are essential — used twice during verification
+
+### Process Changes
+- For future auth milestones, require design review before specs (saves rework)
+- Add mobile device farm setup as standard pre-cycle 1 task for mobile features
+
+### Maturity Readiness
+- We're ready to move from Alpha → Beta
+- All Beta compliance items met: full specs, TDD on all features, pre-deploy QA complete
+- Promotion: Create M10 (Maturity → Beta) to formalize practices
+```
+
+---
+
+## Notes for Milestone Owners
+
+**Appetite is NOT an estimate.** It's a time budget we're willing to spend. If halfway through the appetite and the hill chart is still mostly uphill, we have choices:
+1. Extend appetite (burn more time)
+2. Scope down features (accept less for this milestone)
+3. Spike a specific unknown (time-box learning)
+
+**Hill chart is the heartbeat.** Track it weekly (Beta/GA) or per-cycle (POC/Alpha). Uphill lingering too long? Flag blockers. Downhill stalling? Debug execution.
+
+**Dependencies should be identified early.** If another team owns a blocker, escalate in first cycle, not last.
+
+**Risks + Mitigations are live documents.** Update as cycle progress reveals new risks or mitigates existing ones.
+
+**Retrospective is how we improve.** Don't skip it. Even 10-minute retros capture learnings for the next milestone.

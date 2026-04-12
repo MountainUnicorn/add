@@ -10,7 +10,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.6.0-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.7.0-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -41,18 +41,19 @@ ADD is a structured SDLC methodology where AI agents do the development work —
 
 ## Install
 
-**Marketplace (recommended):**
+### Claude Code (recommended)
+
+Two commands — first register the marketplace, then install the plugin:
 
 ```bash
+# 1. Register the marketplace (tells Claude Code where to find ADD)
 claude plugin marketplace add MountainUnicorn/add
+
+# 2. Install the plugin from that marketplace
 claude plugin install add@add-marketplace
 ```
 
-**Source install:**
-
-```bash
-claude plugin install --source https://github.com/MountainUnicorn/add
-```
+**Verify:** run `/add:init` in any git repository.
 
 **Update an existing install:**
 
@@ -60,7 +61,28 @@ claude plugin install --source https://github.com/MountainUnicorn/add
 claude plugin update add@add-marketplace
 ```
 
-No runtime dependencies. No build step. ADD is pure markdown and JSON — it runs entirely within Claude Code's plugin system.
+**Source install (for contributors):**
+
+```bash
+git clone https://github.com/MountainUnicorn/add
+claude --plugin-dir ./add/plugins/add
+```
+
+### Codex CLI (v0.7.0+)
+
+ADD ships a Codex adapter alongside the Claude plugin. One-line install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash
+```
+
+This installs ADD as Codex custom prompts + AGENTS.md template. See [Codex install docs](https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md).
+
+### Troubleshooting
+
+Hitting issues? See [TROUBLESHOOTING.md](https://github.com/MountainUnicorn/add/blob/main/TROUBLESHOOTING.md) for stale-cache recovery, rule-loading verification, and common first-run errors.
+
+ADD has **zero runtime dependencies** and **no build step** on the consumer side — it's pure markdown and JSON.
 
 ---
 
@@ -420,36 +442,51 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 ---
 
 <details>
-<summary><strong>Commands</strong> — 9 slash commands</summary>
+<summary><strong>Commands &amp; Skills</strong> — 24 total (v0.7.0)</summary>
+
+**Core workflow:**
 
 | Command | Purpose |
 |---------|---------|
 | `/add:init` | Bootstrap ADD in your project via structured interview |
 | `/add:spec` | Create a feature specification through interview |
-| `/add:cycle` | Plan, track, and complete work cycles |
-| `/add:brand` | View project branding — accent color, palette, drift detection |
-| `/add:brand-update` | Update branding materials and audit artifacts |
-| `/add:changelog` | Generate/update CHANGELOG.md from conventional commits |
-| `/add:away` | Declare absence — get autonomous work plan |
-| `/add:back` | Return from absence — get briefing |
-| `/add:retro` | Run a retrospective — capture and promote learnings |
-
-</details>
-
-<details>
-<summary><strong>Skills</strong> — 9 workflow skills</summary>
-
-| Skill | Purpose |
-|-------|---------|
+| `/add:plan` | Create implementation plan from spec |
 | `/add:tdd-cycle` | Complete RED → GREEN → REFACTOR → VERIFY cycle |
 | `/add:test-writer` | Write failing tests from spec (RED phase) |
 | `/add:implementer` | Write minimal code to pass tests (GREEN phase) |
 | `/add:reviewer` | Code review for spec compliance (read-only) |
 | `/add:verify` | Run quality gates — lint, types, tests, coverage, spec compliance |
-| `/add:plan` | Create implementation plan from spec |
 | `/add:optimize` | Performance optimization pass |
 | `/add:deploy` | Environment-aware deployment with verification |
+
+**Planning &amp; milestones:**
+
+| Command | Purpose |
+|---------|---------|
+| `/add:cycle` | Plan, track, and complete work cycles within milestones |
+| `/add:milestone` | Manage milestones — list, switch, split, rescope, create |
+| `/add:roadmap` | View and manage roadmap — milestones, horizons, reordering |
+| `/add:promote` | Maturity promotion — evidence-based gap analysis + level-up |
+
+**Design &amp; documentation:**
+
+| Command | Purpose |
+|---------|---------|
+| `/add:ux` | Iterate on UI/UX design before implementation (sign-off gate) |
+| `/add:docs` | Generate architecture diagrams, API docs, README drift detection |
 | `/add:infographic` | Generate project infographic SVG from PRD + config |
+| `/add:brand` | View project branding — accent color, palette, drift detection |
+| `/add:brand-update` | Update branding materials and audit artifacts |
+| `/add:dashboard` | Generate visual HTML project dashboard |
+
+**Process &amp; learning:**
+
+| Command | Purpose |
+|---------|---------|
+| `/add:away` | Declare absence — get autonomous work plan |
+| `/add:back` | Return from absence — get briefing |
+| `/add:retro` | Run a retrospective — capture and promote learnings |
+| `/add:changelog` | Generate/update CHANGELOG.md from conventional commits |
 
 </details>
 

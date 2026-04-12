@@ -1,0 +1,64 @@
+# ADD Claude Code adapter
+#
+# Describes how `core/` content compiles into a Claude Code plugin at `plugins/add/`.
+# Consumed by `scripts/compile.py`.
+
+runtime: claude
+output_dir: plugins/add
+
+# Tool name mapping — Claude Code tool names pass through unchanged
+tool_mapping:
+  Read: Read
+  Write: Write
+  Edit: Edit
+  Glob: Glob
+  Grep: Grep
+  Bash: Bash
+  Task: Task
+  TodoWrite: TodoWrite
+  AskUserQuestion: AskUserQuestion
+  WebFetch: WebFetch
+  WebSearch: WebSearch
+
+# Path variable mapping — Claude Code resolves ${CLAUDE_PLUGIN_ROOT} natively
+path_vars:
+  CLAUDE_PLUGIN_ROOT: "${CLAUDE_PLUGIN_ROOT}"
+
+# Frontmatter handling — all ADD extensions pass through for Claude
+frontmatter:
+  skills:
+    preserve:
+      - description
+      - argument-hint
+      - allowed-tools
+    version_substitution:
+      field: description
+      pattern: '\[ADD v[0-9.]+\]'
+      replacement: '[ADD v{VERSION}]'
+  rules:
+    preserve:
+      - autoload
+      - maturity
+
+# Heading version substitution in skill bodies
+heading_substitution:
+  pattern: '^# ADD (.+) (Skill|Command) v[0-9.]+'
+  replacement: '# ADD \1 \2 v{VERSION}'
+
+# Files copied from adapter directly (not from core/)
+adapter_files:
+  - path: .claude-plugin/plugin.json
+    version_substitution:
+      field: version
+  - path: CLAUDE.md
+  - path: README.md
+  - path: LICENSE
+  - path: hooks/hooks.json
+
+# Source directories copied verbatim from core/
+core_sources:
+  - rules
+  - skills
+  - templates
+  - knowledge
+  - schemas

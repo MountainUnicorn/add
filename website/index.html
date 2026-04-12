@@ -6,8 +6,8 @@
 
   <!-- SEO -->
   <title>ADD — Agent Driven Development | Coordinated AI Agent Teams for Software Development</title>
-  <meta name="description" content="Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms collaborate as a coordinated enterprise class development team. Co-author and ship software that simply works. Free Claude Code plugin.">
-  <meta name="keywords" content="agent driven development, ADD, claude code plugin, AI agents, SDLC methodology, TDD, agent swarm, AI development, software development methodology">
+  <meta name="description" content="Agent Driven Development (ADD) is a SDLC methodology where orchestrated agent swarms collaborate as a coordinated enterprise-class development team. Co-author and ship software that simply works. Runtime-neutral — ships adapters for Claude Code and Codex CLI.">
+  <meta name="keywords" content="agent driven development, ADD, claude code plugin, codex cli, AI agents, SDLC methodology, TDD, agent swarm, AI development, software development methodology, multi-runtime">
   <meta name="author" content="MountainUnicorn">
   <link rel="canonical" href="https://getadd.dev/">
 
@@ -78,7 +78,7 @@
   <header class="hero">
     <canvas id="boids-canvas"></canvas>
     <div class="hero-inner">
-      <div class="hero-eyebrow">Free &amp; Open Source Claude Code Plugin</div>
+      <div class="hero-eyebrow">Free &amp; Open Source &mdash; Claude Code + Codex CLI</div>
       <h1 class="hero-pain">AI agents write code fast.<br><span class="gradient-text">Without structure, they ship chaos.</span></h1>
       <p class="hero-sub">ADD is coordinated agent swarms — test-writers, implementers, reviewers, deployers — that ship verified software as a team. Spec-driven. Test-first. Independently verified.</p>
       <p class="hero-tagline">You've done TDD and BDD. Now ADD something to your development.</p>
@@ -807,7 +807,7 @@
       <div class="arch-grid">
         <div class="arch-item">
           <h4>No dependencies</h4>
-          <p>Pure markdown and JSON files. Runs entirely within Claude Code's plugin system.</p>
+          <p>Pure markdown and JSON files. Single <code style="font-size:12px; font-family: 'SF Mono', monospace;">core/</code> source compiles to runtime-specific adapters — Claude Code today, Codex CLI today, more tomorrow.</p>
         </div>
         <div class="arch-item">
           <h4>No build step</h4>
@@ -827,7 +827,7 @@
         </div>
         <div class="arch-item">
           <h4>Plugin format</h4>
-          <p>Skills, rules, hooks, templates — all via Claude Code's native plugin system.</p>
+          <p>Skills, rules, hooks, templates — native to Claude Code's plugin system, with a Codex adapter generated from the same source.</p>
         </div>
       </div>
   </section>
@@ -838,13 +838,13 @@
     <h2>Up and running in 5 minutes</h2>
     <p class="section-desc">Install the plugin, run the interview, create your first spec, and let the agent build.</p>
 
-    <h3 style="font-size: 18px; margin-bottom: 16px;">New Install</h3>
+    <h3 style="font-size: 18px; margin-bottom: 16px;">Claude Code — New Install</h3>
     <div class="terminal">
       <div class="terminal-bar">
         <div class="terminal-dot dot-red"></div>
         <div class="terminal-dot dot-yellow"></div>
         <div class="terminal-dot dot-green"></div>
-        <div class="terminal-title">Terminal</div>
+        <div class="terminal-title">Terminal &mdash; Claude Code</div>
       </div>
       <div class="terminal-body">
         <div><span class="prompt">$</span> <span class="arg">claude plugin marketplace add MountainUnicorn/add</span></div>
@@ -857,9 +857,31 @@
       </div>
     </div>
 
+    <h3 style="font-size: 18px; margin-top: 32px; margin-bottom: 16px;">Codex CLI <span style="font-size: 13px; color: var(--accent); font-weight: 600;">NEW in v0.7.0</span></h3>
+    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin-bottom: 16px;">
+      ADD now ships a Codex adapter generated from the same <code style="font-size: 12px; font-family: 'SF Mono', monospace; color: var(--accent);">core/</code> source as the Claude plugin. One-line install via curl. Same methodology — Spec &rarr; Plan &rarr; TDD &rarr; Verify &mdash; running on OpenAI's Codex CLI.
+    </p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <div class="terminal-title">Terminal &mdash; Codex CLI</div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> <span class="arg">curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add-init</span>      <span class="comment"># Codex uses hyphen-separated prompts</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add-spec</span>      <span class="comment"># same workflow, same specs</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add-tdd-cycle</span> <span class="comment"># RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</span></div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 680px; margin-top: 12px;">
+      Codex adapter differences: no <code style="font-size:11px; font-family: 'SF Mono', monospace;">PostToolUse</code> hooks (run <code style="font-size:11px; font-family: 'SF Mono', monospace;">/add-verify</code> manually), plain-text confirmations instead of structured popups, flat autoload (full ruleset loaded at session start). See <a href="https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md" style="color: var(--accent);">docs/codex-install.md</a> for full details.
+    </p>
+
     <h3 style="font-size: 18px; margin-top: 32px; margin-bottom: 16px;">Upgrading from a previous version?</h3>
     <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin-bottom: 16px;">
-      v0.6.0 includes improved skill loading reliability &mdash; we recommend a fresh install. Uninstalling does <strong>not</strong> remove your project data (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/</code>), learnings, specs, or cross-project knowledge (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code>). Everything you've built is safe.
+      v0.7.0 includes improved skill loading reliability &mdash; we recommend a fresh install. Uninstalling does <strong>not</strong> remove your project data (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/</code>), learnings, specs, or cross-project knowledge (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code>). Everything you've built is safe.
     </p>
     <div class="terminal">
       <div class="terminal-bar">
@@ -870,7 +892,7 @@
       </div>
       <div class="terminal-body">
         <div><span class="prompt">$</span> <span class="arg">claude plugin uninstall add</span>        <span class="comment"># removes plugin only &mdash; your data is safe</span></div>
-        <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span> <span class="comment"># fresh v0.6.0 install</span></div>
+        <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span> <span class="comment"># fresh v0.7.0 install</span></div>
       </div>
     </div>
   </section>
@@ -893,7 +915,7 @@
       Built and maintained by <strong>Snarky &amp; Quip LLC</strong> — shipping AI-native development tools for teams that move fast and verify everything.
     </div>
     <div class="footer-meta">
-      ADD v0.6.0 — Agent Driven Development | Free &amp; open source<br>
+      ADD v0.7.0 — Agent Driven Development | Free &amp; open source<br>
       Built with ADD, using ADD. Dog-fooded from day one.
     </div>
   </footer>

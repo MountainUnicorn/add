@@ -1,0 +1,62 @@
+name: Rule boundary diff check
+
+on:
+  pull_request:
+    paths:
+      - 'core/rules/**'
+      - 'runtimes/claude/hooks/**'
+
+jobs:
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect weakened boundaries
+        id: check
+        run: |
+          # Identify rule files changed in this PR
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'core/rules/*.md' 'runtimes/claude/hooks/*')
+          if [ -z "$CHANGED" ]; then
+            echo "No rule or hook changes in this PR — boundary check skipped."
+            exit 0
+          fi
+
+          echo "Checking boundary-sensitive sections in:"
+          echo "$CHANGED"
+          echo ""
+
+          VIOLATIONS=""
+          for file in $CHANGED; do
+            # Count occurrences of boundary keywords before and after
+            BEFORE=$(git show origin/${{ github.base_ref }}:"$file" 2>/dev/null | grep -cE '^(\s*[-*]\s*)?(NEVER|Boundaries|MUST NOT|do NOT|DO NOT)' || echo 0)
+            AFTER=$(grep -cE '^(\s*[-*]\s*)?(NEVER|Boundaries|MUST NOT|do NOT|DO NOT)' "$file" || echo 0)
+
+            if [ "$AFTER" -lt "$BEFORE" ]; then
+              VIOLATIONS="$VIOLATIONS\n  $file: boundary markers went from $BEFORE → $AFTER"
+            fi
+          done
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::warning::Rule boundary relaxation detected:"
+            printf "$VIOLATIONS\n"
+            echo ""
+            echo "Not automatically blocking — but this PR requires explicit CODEOWNER review."
+            echo "See SECURITY.md > 'How to Spot a Malicious PR' for the review checklist."
+            # Post as a label-worthy comment but don't fail the job — CODEOWNER gate handles it
+            echo "needs_codeowner_review=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR if boundaries weakened
+        if: steps.check.outputs.needs_codeowner_review == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Boundary diff check:** this PR reduces the count of `NEVER`/`Boundaries:`/`MUST NOT` markers in a rule or hooks file.\n\nPer [SECURITY.md](../blob/main/SECURITY.md), this requires explicit approval from a CODEOWNER. Tag @MountainUnicorn to review.'
+            })

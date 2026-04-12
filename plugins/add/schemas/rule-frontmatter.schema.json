@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MountainUnicorn/add/schemas/rule-frontmatter.schema.json",
+  "title": "ADD rule frontmatter",
+  "description": "Schema for YAML frontmatter of every rule file in core/rules/. Validated in CI.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["maturity"],
+  "properties": {
+    "autoload": {
+      "type": "boolean",
+      "description": "Whether this rule loads automatically when a session starts. ADD extension. Adding a new autoload: true rule is equivalent to adding system prompt content — requires CODEOWNER approval per SECURITY.md."
+    },
+    "maturity": {
+      "type": "string",
+      "enum": ["poc", "alpha", "beta", "ga"],
+      "description": "Minimum project maturity at which this rule activates. See maturity-loader.md for filtering logic."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 400,
+      "description": "Optional one-line summary of the rule. Metadata only — not shown to agent at runtime."
+    },
+    "globs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Optional glob list scoping the rule to specific files (used by scoped-application rules like design-system)."
+    }
+  }
+}

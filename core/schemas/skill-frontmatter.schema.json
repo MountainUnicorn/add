@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MountainUnicorn/add/schemas/skill-frontmatter.schema.json",
+  "title": "ADD SKILL.md frontmatter",
+  "description": "Schema for the YAML frontmatter block of every ADD SKILL.md file. Validated in CI by .github/workflows/schema-check.yml. Rejects scope creep in allowed-tools and malformed descriptions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["description", "allowed-tools"],
+  "properties": {
+    "disable-model-invocation": {
+      "type": "boolean",
+      "description": "Claude Code convention: if true, the skill is not callable automatically by the model — must be invoked explicitly by the user."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 400,
+      "pattern": "^\\[ADD v[0-9]+\\.[0-9]+\\.[0-9]+\\] ",
+      "description": "One-line purpose. MUST start with [ADD vX.Y.Z] prefix for version visibility in autocomplete."
+    },
+    "argument-hint": {
+      "oneOf": [
+        {"type": "string", "maxLength": 200},
+        {"type": "array", "items": {"type": "string"}, "maxItems": 5}
+      ],
+      "description": "Human-readable description of expected arguments. ADD extension, not in Anthropic spec."
+    },
+    "allowed-tools": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "Read",
+          "Write",
+          "Edit",
+          "Glob",
+          "Grep",
+          "Bash",
+          "Task",
+          "TodoWrite",
+          "AskUserQuestion",
+          "WebFetch",
+          "WebSearch",
+          "NotebookEdit",
+          "Agent"
+        ]
+      },
+      "description": "Claude Code tool names this skill may invoke. MUST be restricted to what the skill actually uses — reviewers check for scope creep. Adding Bash/Write/Edit to a previously-read-only skill requires CODEOWNER approval (see SECURITY.md)."
+    }
+  }
+}
