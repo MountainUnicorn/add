@@ -1,6 +1,78 @@
-# ADD Init Command v0.7.0
+# ADD Init Command v0.7.1
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
+
+## Modes
+
+| Flag | Purpose | Questions | Target user |
+|---|---|---|---|
+| (none) | Full interview — detects adoption vs greenfield, runs Phases 0-5 | ~12 | New projects with non-trivial scope or existing codebases |
+| `--quick` | Greenfield fast path — 5 essential questions, sensible defaults elsewhere | 5 | Prototypes, solo projects, time-constrained onboarding |
+| `--reconfigure` | Re-run interview preserving existing answers as defaults | ~12 | Updating an already-initialized project |
+| `--sync-registry` | Read-only: reconcile `~/.claude/add/projects/{name}.json` with ground truth | 0 | Fixing drift detected by the registry-sync rule |
+
+## Quick Mode (`--quick`)
+
+Greenfield fast path. Skips adoption detection, skips profile-derived questions, and defaults anything that isn't one of the 5 essential answers. Use when you want ADD initialized in ~2 minutes.
+
+### The 5 questions
+
+1. **Name** — "Project name? (defaults to directory basename: `{current_dir_name}`)"
+2. **Languages / frameworks** — "What's the primary stack? (e.g., 'python+fastapi', 'typescript+react', 'go', 'rust+axum')"
+3. **Environment tier** — "Deployment scope: 1 (local only), 2 (local + prod), or 3 (local + dev + staging + prod)? (default: 2)"
+4. **Maturity** — "Project maturity: poc, alpha, beta, or ga? (default: alpha)"
+5. **Autonomy** — "Agent autonomy level: guided (ask often), balanced (default), or autonomous (trust)? (default: balanced)"
+
+### Defaults applied
+
+Everything else that the full interview asks is defaulted:
+
+| Area | Quick-mode default |
+|------|-------------------|
+| PRD depth | 1-pager generated from (name, stack, scope-paragraph prompt) |
+| Quality mode | `strict` for beta/ga, `standard` for alpha, `spike` for poc |
+| CI/CD provider | Inferred from `.github/` if present, otherwise `none` |
+| Commit convention | Conventional commits |
+| Protected branches | `[main]` |
+| Coverage threshold | 80% at beta/ga, 50% at alpha, 0 at poc |
+| Branding palette | Default ADD raspberry (`#b00149`) until `/add:brand` is run |
+| Image generation | `enabled: false, nudged: false` |
+
+### What `--quick` skips
+
+- Adoption mode detection (Phase 0) — not relevant for greenfield
+- Cross-spec consistency check — no specs yet
+- Profile-integration confirmation prompts — profile defaults applied silently
+- PRD interview (Phase 1 Sections 3-7) — replaced by "scope paragraph" prompt at the end
+- Swarm/worktree config questions — set by maturity default
+
+### What `--quick` still does
+
+- Writes `.add/config.json`, `.add/learnings.json` (empty), `docs/prd.md` (1-pager), `specs/` (dir), `docs/plans/` (dir)
+- Bumps project registry (`~/.claude/add/projects/{name}.json`)
+- Validates that maturity + tier combination is sensible (e.g., warns if `maturity=ga` + `tier=1`)
+- Runs Phase 4 Cross-Project Persistence (same as full interview)
+
+### Upgrade path
+
+After quick init, the user can always run `/add:init --reconfigure` for the full interview, or run `/add:spec` to start formalizing features. Specs created under a quick-init project are no different from specs created under full init.
+
+## Sync Registry Mode (`--sync-registry`)
+
+Reconciles `~/.claude/add/projects/{name}.json` against the project's ground truth. Triggered automatically by the `registry-sync.md` rule when drift is detected at session start, or manually by the user.
+
+Read-only in the project; writes only to the cross-project registry file. Shows a diff before writing:
+
+```
+REGISTRY RECONCILIATION for {project}:
+  learnings_count: 5 → 55
+  last_retro: null → 2026-04-12
+  maturity: alpha → beta
+
+Apply? [yes/no]
+```
+
+Does not run the interview. Does not touch `.add/config.json`.
 
 ## Pre-Flight Check
 

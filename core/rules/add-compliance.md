@@ -64,6 +64,24 @@ If the user provides `--force-no-retro`, record the bypass in `.add/learnings.js
 }
 ```
 
+### Abuse Detection
+
+The `--force-no-retro` override is for rare exceptions. Repeated use indicates a process breakdown that the retro is supposed to surface. Before accepting the override, count prior overrides:
+
+1. Read `.add/learnings.json` and count entries where `checkpoint_type == "compliance-bypass"` AND `date` is within the last 30 calendar days.
+2. Apply the threshold ladder:
+
+| Override count (last 30d) | Behavior |
+|---|---|
+| 0 | Accept silently, record the bypass, proceed |
+| 1 | Accept but WARN: "This is your 2nd retro bypass in 30 days. The cadence rule exists because skipped retros compound — consider running `/add:retro` now." |
+| 2 | Accept but escalate: "⚠ 3rd retro bypass in 30 days. This pattern means the retro cadence rule is failing to serve you. Either (a) run `/add:retro` before continuing, or (b) if the rule itself is wrong for this project, open an issue to adjust the thresholds. Proceed? Re-run with `--force-no-retro --i-know-this-is-a-pattern` to acknowledge." |
+| 3+ | REFUSE: "🛑 4th retro bypass in 30 days. ADD refuses to stack further overrides without a retro. Run `/add:retro` first. If thresholds don't fit this project, override the rule locally via `.claude/rules/add-compliance.md` — compounding bypasses without action isn't supported." |
+
+The escalation ladder is deliberately density-based, not time-since-last-bypass. A project that hits the cap and then runs a retro resets the count at the next retro's date (since the count is over the last 30 days and a retro is part of the baseline behavior the rule expects).
+
+The count is also surfaced in `/add:retro` Phase 7 scope review so the human sees the pattern during the retro itself — closing the loop between bypass accumulation and synthesis.
+
 ## SDLC Watchdog
 
 At the start of every implementation-advancing command (`/add:tdd-cycle`, `/add:implementer`, `/add:deploy`), verify the SDLC chain:

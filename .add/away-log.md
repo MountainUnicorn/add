@@ -1,21 +1,35 @@
-# Away Mode Log
+# Away Mode Log — 2026-04-12
 
-**Started:** 2026-02-19 03:00
-**Expected Return:** 2026-02-19 03:45
-**Duration:** 45 minutes
+**Started:** 2026-04-12T21:00Z (approx)
+**Expected Return:** ~2 hours
+**Duration:** 2 hours
+**Authorization:** full auto, bypass human approval, complete outlined work following ADD SDLC
 
 ## Work Plan
-1. Create implementation plan for project dashboard
-2. Create commands/dashboard.md — command file
-3. Dogfood: generate reports/dashboard.html on ADD project
-4. Verify all 6 panels render
-5. Update CLAUDE.md, commit, push, sync
+
+**P1 — v0.7.1 deferred items:**
+1. `/add:deploy` prod confirm-phrase gate
+2. `/add:init --quick` fast path
+3. PII heuristic in `rules/learning.md`
+4. `--force-no-retro` abuse detection
+
+**P2 — repo polish:**
+5. CHANGELOG.md
+6. ADD self-retro for v0.6→v0.7 arc
+7. `scripts/sync-marketplace.sh`
+8. Infographic multi-runtime update (if SVG exists)
+
+**P3:**
+9. Version bump v0.7.0 → v0.7.1
+10. Tag + release
+
+## Boundaries
+
+- NO: production deploy, forced history rewrite, marketplace re-submission, GPG keygen
+- YES: commit/push to main (per user auth), v0.7.1 release + tag, docs updates, run compile + validators
 
 ## Progress Log
+
 | Time | Task | Status | Notes |
 |------|------|--------|-------|
-| 03:05 | Implementation plan | ✅ Done | docs/plans/project-dashboard-plan.md |
-| 03:12 | Command file | ✅ Done | commands/dashboard.md — full 6-panel spec |
-| 03:20 | Dogfood dashboard | ✅ Done | reports/dashboard.html — 29KB, all 6 panels |
-| 03:25 | Update CLAUDE.md | ✅ Done | Added /add:dashboard to commands table |
-| 03:25 | Commit, push, sync | 🔄 In Progress | |
+| start | Away log created | ✓ | |

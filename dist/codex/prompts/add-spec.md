@@ -1,4 +1,4 @@
-# ADD Spec Command v0.7.0
+# ADD Spec Command v0.7.1
 
 Create a feature specification through a structured interview. The spec becomes the source of truth for implementation.
 

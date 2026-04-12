@@ -302,56 +302,80 @@ If CI disabled:
 - Warn user: "CI verification skipped - consider enabling"
 - Continue to deployment
 
-### Step 6: Production Approval Gate (Production Only)
+### Step 6: Production Approval Gate — Confirm-Phrase (Production Only)
 
-For production deployments only:
+**This gate is a runtime check, not a behavioral rule.** The skill MUST NOT proceed to any production deployment action without capturing the exact confirmation phrase below. This applies regardless of `--promote`, away mode, or any other autonomy granting — production is the one boundary that remains human-gated at all maturities.
 
-1. **Present deployment plan**
-   ```
-   ⚠️  PRODUCTION DEPLOYMENT
+**Also required:** `.add/config.json` → `environments.production.autoPromote` must be `false`. If it is `true`, halt with: "`autoPromote: true` on production is not permitted — ADD refuses to proceed. Edit `.add/config.json` to set `autoPromote: false`."
 
-   Feature: Form submission with email validation
-   Commit: abc1234
-   Branch: feature/form-submission
-   Target: main
+#### 6.1 Present deployment plan
 
-   Changes:
-   - 3 files modified
-   - 450 lines added, 20 lines removed
+```
+⚠️  PRODUCTION DEPLOYMENT
 
-   Testing:
-   - ✓ All 32 tests passing
-   - ✓ 87% code coverage
-   - ✓ Lint and type checks passing
+Feature: Form submission with email validation
+Commit: abc1234
+Branch: feature/form-submission
+Target: main
 
-   Acceptance Criteria Verified:
-   - AC-001: ✓ User can submit valid form
-   - AC-002: ✓ Validation errors shown
-   - AC-003: ✓ Network errors handled
+Changes:
+- 3 files modified
+- 450 lines added, 20 lines removed
 
-   Risk Assessment:
-   - Integration Points: 1 (Email service)
-   - Database Changes: None
-   - Breaking Changes: None
-   - Rollback Plan: Revert commit + redeploy previous tag
+Testing:
+- ✓ All 32 tests passing
+- ✓ 87% code coverage
+- ✓ Lint and type checks passing
 
-   Requires explicit approval to proceed.
-   ```
+Acceptance Criteria Verified:
+- AC-001: ✓ User can submit valid form
+- AC-002: ✓ Validation errors shown
+- AC-003: ✓ Network errors handled
 
-2. **Require human approval**
-   - Ask user: "Approve production deployment? [yes/no]"
-   - User must type "yes" explicitly (no default)
-   - Wait for confirmation
+Risk Assessment:
+- Integration Points: 1 (Email service)
+- Database Changes: None
+- Breaking Changes: None
+- Rollback Plan: Revert commit + redeploy previous tag
+```
 
-3. **Record approval**
-   - Timestamp approval
-   - Record approver identity
-   - Document in deployment log
+#### 6.2 Require the confirm-phrase
 
-4. **Proceed only with approval**
-   - If approved: Continue to Step 7
-   - If denied: Halt and ask user for next steps
-   - If timeout (no response): Halt after 15 minutes
+Ask the user:
+
+> "To proceed with production deployment, type **`DEPLOY TO PRODUCTION`** (all caps, exactly) and press enter. Any other response — including 'yes', 'y', 'ok', or silence — will cancel."
+
+**Matching rules — implemented literally in the skill, not left to agent judgment:**
+
+- The response MUST equal the string `DEPLOY TO PRODUCTION` (no quotes, no leading/trailing whitespace other than a trailing newline).
+- Case-sensitive match. `deploy to production` does NOT pass. `Deploy to Production` does NOT pass.
+- The match is on the ENTIRE user response. `DEPLOY TO PRODUCTION please` does NOT pass.
+- The match must be the IMMEDIATELY NEXT user message. If the user sends any intervening message (clarification, question), the gate resets and must be re-asked.
+
+If the match succeeds: proceed to Step 7.
+If the match fails for any reason: halt and output:
+
+```
+Production deployment CANCELLED. No changes made.
+
+Re-run /add:deploy --env production when ready to deploy.
+The confirm-phrase gate exists to prevent automation, rushed approvals,
+and ambiguous consent from deploying to production.
+```
+
+**Why this gate exists:** ADD's autonomous-execution model is powerful enough that "please approve" prompts during away mode get fuzzy. Requiring a specific literal string means no agent, no script, no accidental enter-key can trigger a production deploy without the human actively typing the phrase. This is a technical gate, not a behavioral rule.
+
+#### 6.3 Record and proceed
+
+- Timestamp the approval
+- Record in `.add/deploy-log.md` with commit hash, branch, and confirm-phrase timestamp
+- Include in the commit message body: `Approved via DEPLOY TO PRODUCTION phrase at {UTC timestamp}`
+- Continue to Step 7
+
+#### 6.4 Timeout and boundary behavior
+
+- If the user does not respond within 15 minutes: halt and cancel (same as a non-matching response)
+- During away mode: the gate still requires the phrase. If away mode is active and the user is unreachable, the production deploy MUST wait for the user's return. Log to `.add/away-log.md` and move to the next task.
 
 ### Step 7: Execute Deployment
 

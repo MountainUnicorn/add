@@ -1,4 +1,4 @@
-# ADD Milestone Command v0.7.0
+# ADD Milestone Command v0.7.1
 
 Manage milestones directly — list status, switch active milestone, split large milestones, rescope features, or create new ones. This is the tactical companion to `/add:roadmap` (strategic horizon planning).
 

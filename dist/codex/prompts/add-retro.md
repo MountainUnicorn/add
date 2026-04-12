@@ -1,4 +1,4 @@
-# ADD Retro Command v0.7.0
+# ADD Retro Command v0.7.1
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 

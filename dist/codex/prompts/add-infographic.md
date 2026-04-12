@@ -1,4 +1,4 @@
-# ADD Infographic Skill v0.7.0
+# ADD Infographic Skill v0.7.1
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 

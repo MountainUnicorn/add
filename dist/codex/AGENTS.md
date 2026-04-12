@@ -1,4 +1,4 @@
-# ADD — Agent Driven Development (Codex adapter v0.7.0)
+# ADD — Agent Driven Development (Codex adapter v0.7.1)
 
 This file is auto-generated from `core/` by `scripts/compile.py`.
 ADD is a methodology for agent-driven development — spec-driven, test-first,
@@ -162,6 +162,24 @@ If the user provides `--force-no-retro`, record the bypass in `.add/learnings.js
   "checkpoint_type": "compliance-bypass"
 }
 ```
+
+### Abuse Detection
+
+The `--force-no-retro` override is for rare exceptions. Repeated use indicates a process breakdown that the retro is supposed to surface. Before accepting the override, count prior overrides:
+
+1. Read `.add/learnings.json` and count entries where `checkpoint_type == "compliance-bypass"` AND `date` is within the last 30 calendar days.
+2. Apply the threshold ladder:
+
+| Override count (last 30d) | Behavior |
+|---|---|
+| 0 | Accept silently, record the bypass, proceed |
+| 1 | Accept but WARN: "This is your 2nd retro bypass in 30 days. The cadence rule exists because skipped retros compound — consider running `/add:retro` now." |
+| 2 | Accept but escalate: "⚠ 3rd retro bypass in 30 days. This pattern means the retro cadence rule is failing to serve you. Either (a) run `/add:retro` before continuing, or (b) if the rule itself is wrong for this project, open an issue to adjust the thresholds. Proceed? Re-run with `--force-no-retro --i-know-this-is-a-pattern` to acknowledge." |
+| 3+ | REFUSE: "🛑 4th retro bypass in 30 days. ADD refuses to stack further overrides without a retro. Run `/add:retro` first. If thresholds don't fit this project, override the rule locally via `.claude/rules/add-compliance.md` — compounding bypasses without action isn't supported." |
+
+The escalation ladder is deliberately density-based, not time-since-last-bypass. A project that hits the cap and then runs a retro resets the count at the next retro's date (since the count is over the last 30 days and a retro is part of the baseline behavior the rule expects).
+
+The count is also surfaced in `/add:retro` Phase 7 scope review so the human sees the pattern during the retro itself — closing the loop between bypass accumulation and synthesis.
 
 ## SDLC Watchdog
 
@@ -1586,6 +1604,54 @@ Agents automatically write structured JSON entries at these moments. No human in
 - Focus on ACTIONABLE insights, not observations
 - Don't duplicate — if the same lesson already exists (check by title similarity), don't add it
 - Infer `stack` from `.add/config.json` — don't hardcode or guess
+
+## PII Heuristic — Pre-Write Check
+
+Before writing ANY learning entry to `.add/learnings.json` or `~/.claude/add/library.json`, scan the candidate `title` and `body` for likely PII or secret patterns. If any match, halt the write and surface a warning.
+
+### Patterns to detect
+
+| Category | Regex | Example match |
+|---|---|---|
+| Email address | `\b[\w.+-]+@[\w-]+\.[\w.-]+\b` | `alice@example.com` |
+| IPv4 (non-local) | `\b(?!10\.)(?!127\.)(?!192\.168\.)(?!172\.(?:1[6-9]\|2\d\|3[01])\.)\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b` | `34.117.88.9` (not `10.0.0.1`, `127.0.0.1`, or RFC1918) |
+| Bearer / API-key-like | `\b(?:sk-\|pk-\|xoxb-\|xoxp-\|ghp_\|gho_\|ghs_\|glpat-\|AIza\|AKIA)[A-Za-z0-9_-]{16,}` | `sk-proj-abc123...`, `ghp_...`, `AKIA...`, `AIza...` |
+| JWT-like token | `\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b` | `eyJhbGciOiJI...` |
+| Private key header | `-----BEGIN (?:RSA\|EC\|OPENSSH\|PGP) PRIVATE KEY-----` | literal header |
+| Password-like kv | `\b(?:password\|passwd\|secret\|token\|api[_-]?key)["':=\s]+['"]?[\w\-/.+=]{8,}` | `password="hunter2-long"` |
+| Cloud resource ID | `\b(?:arn:aws:[\w:-]+:\d{12}:\|projects/[\w-]+/secrets/\|gs://[\w-]+/\|s3://[\w-]+/)` | `arn:aws:iam::123456789012:...` |
+
+### Response to a match
+
+**Halt the learning write.** Print:
+
+```
+⚠ PII HEURISTIC — potential sensitive data detected in learning entry
+
+  Entry title: "{title}"
+  Matched pattern: {category} — "{matched_substring}"
+
+Learning checkpoints are committed to git. Once a secret is in history, it
+is non-trivial to fully remove. Options:
+
+  [r] Rewrite the entry without the sensitive value (recommended)
+  [o] Override — write the entry as-is (logged as compliance-bypass)
+  [s] Skip — don't write this learning at all
+
+Response:
+```
+
+On `r`: present the entry with the matched substring replaced by `«REDACTED»` for the user to confirm before write.
+On `o`: write as-is, AND add a second learning entry with `checkpoint_type: "compliance-bypass"` noting the bypass. Bypass entries count against the `--force-no-retro`-style abuse detection in `add-compliance.md`.
+On `s`: do not write; continue.
+
+### What's NOT checked (explicitly out of scope)
+
+- **Prose that merely mentions concepts** like "rotate api keys quarterly" — the pattern requires a value-like match, not the keyword alone.
+- **Internal code identifiers** (variable names, DB column names) — those are fine; only values with entropy/prefix patterns match.
+- **Test fixtures** with obvious dummy values like `example.com`, `test@test.test`, `AKIAIOSFODNN7EXAMPLE` (AWS docs example) — the heuristic is best-effort, not a secrets scanner. Use `detect-secrets` or `gitleaks` for real secrets scanning.
+
+This is an ergonomic guardrail against accidental leaks in learning-style writing, not a security control. Skills that process production data should still run proper secret-scanning in CI.
 
 ## Markdown View Generation
 
