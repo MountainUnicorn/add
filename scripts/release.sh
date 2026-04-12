@@ -91,7 +91,7 @@ fi
 # 6. Extract release notes from CHANGELOG.md
 # Look for the section matching [VERSION_NO_V]; grab until the next ## heading
 NOTES=$(awk -v ver="[${VERSION_NO_V}]" '
-  $0 ~ "^## "ver {capture=1; next}
+  index($0, "## "ver) == 1 {capture=1; next}
   capture && /^## \[/ {exit}
   capture {print}
 ' CHANGELOG.md)
