@@ -86,3 +86,21 @@ Next steps:
   2. Run /add:plan specs/{feature-slug}.md to create an implementation plan
   3. Or jump straight into /add:tdd-cycle specs/{feature-slug}.md
 ```
+
+### UI Gate Check
+
+If Q8 was answered (the feature has user-facing UI):
+
+```
+This feature has UI components. Before implementation planning, consider running:
+
+  /add:ux specs/{feature-slug}.md
+
+The UX skill iterates on wireframes and design decisions with you before
+any code is written. Skipping this step is the most common cause of
+rework — building the right thing wrong costs more than a design session.
+
+You can proceed directly to /add:plan if the UI is already fully defined.
+```
+
+If Q8 was skipped or answered "N/A" (no UI): omit this block entirely. Do not mention it.
