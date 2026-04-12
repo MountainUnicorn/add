@@ -71,6 +71,9 @@ Roadmap (docs/prd.md milestones section)
 | `/add:back` | Human returning — get briefing |
 | `/add:retro` | Retrospective — human-initiated or agent summary |
 | `/add:cycle` | Plan, track, and complete work cycles within milestones |
+| `/add:roadmap` | View and manage roadmap — milestones, horizons, reordering |
+| `/add:milestone` | Manage milestones — list, switch, split, rescope, create |
+| `/add:promote` | Maturity promotion — gap analysis and level-up workflow |
 | `/add:dashboard` | Generate visual HTML project dashboard from .add/ project files |
 
 ## Rules (auto-loaded)

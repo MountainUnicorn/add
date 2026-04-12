@@ -1,6 +1,6 @@
 ---
 description: "[ADD v0.5.0] Plan and execute a work cycle — select features, assess parallelism, define validation"
-argument-hint: "[--plan | --status | --complete] [milestone M{N}]"
+argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
 ---
 
@@ -35,7 +35,11 @@ All cycle commands start by reading context:
 2. **Read active milestone** from `docs/milestones/`
    - Find the current milestone (look for `Status: IN_PROGRESS`, or the most recent)
    - Fail gracefully if no active milestone (prompt to create one first)
-3. **Check for existing active cycle** in `.add/cycles/`
+3. **Milestone health check** — after loading the active milestone, check its status:
+   - **No active milestone** (`planning.current_milestone` is null or file doesn't exist): Display "No active milestone found." Offer: run `/add:milestone --list` to see available milestones, `/add:milestone --switch <id>` to activate one, or `/add:milestone --create` to create a new one. STOP cycle planning until a milestone is active.
+   - **Active milestone is COMPLETE** (all success criteria checked): Display "Current milestone {name} is COMPLETE." Scan `docs/milestones/` for NOT_STARTED milestones. If found, suggest switching. If none, suggest creating one. STOP cycle planning until milestone is switched.
+   - **All features at DONE/VERIFIED** but milestone not formally complete: Display "All features in {name} appear complete. Consider closing this milestone with `/add:cycle --complete` or switching to the next one."
+4. **Check for existing active cycle** in `.add/cycles/`
    - If one exists and last activity was < 3 days ago, assume it's still active
    - Otherwise, offer to archive and start fresh
 4. **Verify prerequisites** (e.g., if POC maturity, skip some docs)
@@ -486,6 +490,32 @@ Options:
 
 ---
 
+## Command: /cycle --milestone
+
+Select a milestone before planning. Convenience shortcut that runs milestone selection inline, then continues to `--plan`.
+
+### Step 1: List Available Milestones
+
+Glob `docs/milestones/M*.md`. Display table with Status, Horizon, Features, Completion %, Target Maturity. Highlight current active milestone.
+
+### Step 2: Ask for Selection
+
+"Which milestone should we plan the next cycle for?"
+
+Accept milestone ID (e.g., `M3-marketplace-ready` or `M3`). Validate it exists and is not COMPLETE.
+
+### Step 3: Switch if Needed
+
+If selection differs from `planning.current_milestone`:
+- Run the same switch logic as `/add:milestone --switch` (safety checks, config update)
+- Update `planning.current_milestone` and `planning.current_cycle` in config
+
+### Step 4: Continue to --plan
+
+Proceed with normal `/cycle --plan` flow using the newly active milestone.
+
+---
+
 ## Swarm Coordination (Beta/GA Maturity)
 
 When cycle plan includes parallel work with 2+ agents:
@@ -617,6 +647,7 @@ Then resume normal `/add:cycle --plan` for M1+.
 | `/add:cycle --plan` | Plan next cycle (interactive) | `.add/cycles/cycle-{N}.md` |
 | `/add:cycle --status` | Check cycle progress | Report + updated hill chart |
 | `/add:cycle --complete` | Close cycle + update milestone | Archived cycle + learnings checkpoint |
+| `/add:cycle --milestone` | Select milestone before planning | Config update + cycle plan |
 | `/add:cycle --plan M0` | Catch-up spike (new projects) | Catch-up milestone + cycle plan |
 
 **Key principles:**
