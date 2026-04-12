@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.7.2] View and manage project roadmap — milestones, horizons, reordering"
+description: "[ADD v0.7.3] View and manage project roadmap — milestones, horizons, reordering"
 argument-hint: "[--view | --edit | --reorder]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
 ---
 
-# ADD Roadmap Command v0.7.2
+# ADD Roadmap Command v0.7.3
 
 View, edit, and reorder project milestones across roadmap horizons (Now / Next / Later). This skill manages the strategic layer of ADD's work hierarchy — bridging the PRD roadmap table and individual milestone files.
 

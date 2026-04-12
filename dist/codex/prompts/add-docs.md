@@ -1,4 +1,4 @@
-# ADD Docs Skill v0.7.2
+# ADD Docs Skill v0.7.3
 
 Generate, update, and verify project documentation. Uses a discovery-first approach: the skill learns your codebase structure on first run, caches that knowledge in a manifest, and uses it for fast, accurate doc generation on every subsequent run.
 

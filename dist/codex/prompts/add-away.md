@@ -1,4 +1,4 @@
-# ADD Away Command v0.7.2
+# ADD Away Command v0.7.3
 
 The human is stepping away. Establish what work can proceed autonomously and what must wait.
 

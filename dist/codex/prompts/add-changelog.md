@@ -1,4 +1,4 @@
-# ADD Changelog Command v0.7.2
+# ADD Changelog Command v0.7.3
 
 Generate or refresh the project's CHANGELOG.md from git history using conventional commit parsing. Follows the [Keep a Changelog](https://keepachangelog.com/) format.
 

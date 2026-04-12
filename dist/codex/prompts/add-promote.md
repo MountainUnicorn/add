@@ -1,4 +1,4 @@
-# ADD Promote Command v0.7.2
+# ADD Promote Command v0.7.3
 
 Assess readiness and promote the project's maturity level. Maturity is the master control for all ADD behavior — promotion is intentional, evidence-based, and deliberate.
 

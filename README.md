@@ -10,7 +10,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.7.2-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.7.3-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -442,7 +442,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 ---
 
 <details>
-<summary><strong>Commands &amp; Skills</strong> — 24 total (v0.7.2)</summary>
+<summary><strong>Commands &amp; Skills</strong> — 24 total (v0.7.3)</summary>
 
 **Core workflow:**
 

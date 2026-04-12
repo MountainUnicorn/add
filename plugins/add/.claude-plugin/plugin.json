@@ -1,6 +1,6 @@
 {
   "name": "add",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Agent Driven Development (ADD) — Coordinated AI agent teams that ship verified software. Spec-driven TDD, trust-but-verify orchestration, human-AI collaboration protocols, environment-aware deployment, and cross-project learning.",
   "author": {
     "name": "MountainUnicorn",

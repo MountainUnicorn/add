@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.7.2] Declare absence — get autonomous work plan for the duration"
+description: "[ADD v0.7.3] Declare absence — get autonomous work plan for the duration"
 argument-hint: "[duration, e.g. '4 hours', '30 minutes', 'end of day']"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, TodoWrite]
 ---
 
-# ADD Away Command v0.7.2
+# ADD Away Command v0.7.3
 
 The human is stepping away. Establish what work can proceed autonomously and what must wait.
 

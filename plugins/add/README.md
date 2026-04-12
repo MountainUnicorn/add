@@ -43,7 +43,7 @@ ADD extends the Claude Code SKILL.md format with three plugin-specific frontmatt
 
 ```yaml
 ---
-description: "[ADD v0.7.2] One-line purpose — the [ADD v{X}] prefix is an ADD convention"
+description: "[ADD v0.7.3] One-line purpose — the [ADD v{X}] prefix is an ADD convention"
 argument-hint: "<spec-file> [--ac AC-001,AC-002]"       # ADD extension
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]    # ADD extension
 ---

@@ -1,4 +1,4 @@
-<!-- ADD Plugin v0.7.2 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-04-12 -->
+<!-- ADD Plugin v0.7.3 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-04-12 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2250">
   <defs>
     <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -114,7 +114,7 @@
     <text x="162" y="38" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="300" opacity="0.5" letter-spacing="1">Agent Driven Development</text>
     <!-- Version badge -->
     <rect x="1060" y="18" width="80" height="24" rx="12" fill="#b00149" opacity="0.2" stroke="#b00149" stroke-width="1"/>
-    <text x="1100" y="35" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500">v0.7.2</text>
+    <text x="1100" y="35" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="500">v0.7.3</text>
   </g>
 
   <!-- ============ SECTION 2: HERO (y=70-380) ============ -->
@@ -587,7 +587,7 @@
   <g transform="translate(600, 2020)">
     <!-- Divider line -->
     <line x1="-500" y1="-10" x2="500" y2="-10" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
-    <text x="0" y="15" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" opacity="0.4">ADD v0.7.2 -- Agent Driven Development</text>
+    <text x="0" y="15" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" opacity="0.4">ADD v0.7.3 -- Agent Driven Development</text>
     <text x="0" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.25">MIT License -- Free &amp; Open Source</text>
     <text x="0" y="58" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" opacity="0.6">getADD.dev</text>
   </g>

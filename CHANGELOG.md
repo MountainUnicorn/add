@@ -11,6 +11,18 @@ Pending for v0.8.0:
 - Marketplace re-submission to the official Claude Code registry
 - `/add:cycle` rename to `/add:arc` (or similar) — 3 consecutive release arcs bypassed the command; gap needs addressing
 
+## [0.7.3] — 2026-04-12
+
+First **fully GitHub-verified** signed release. v0.7.2 signed correctly but the commit author email didn't match a verified GitHub email, so GitHub showed `reason: no_user` and no green Verified badge. This release fixes the git identity so the author line matches the GPG UID and GitHub can cross-reference.
+
+### Changed
+
+- Global git config: `user.email = anthony.g.brooke@gmail.com`, `user.name = Anthony Brooke` — matches the GPG key UID `Anthony Brooke <anthony.g.brooke@gmail.com>`. Previously commits carried the hostname-derived email `abrooke@Anthonys-MacBook-Pro.local`, which GitHub could not map to a user account for verification.
+
+### Known-unverified window
+
+v0.7.2 cryptographic signature is valid and verifiable via `git tag --verify v0.7.2` after importing the key from `github.com/MountainUnicorn.gpg`. It is **not** shown as Verified on GitHub because the author email mismatch prevents GitHub from tying the signature to the maintainer's account. v0.7.3 and forward are properly Verified.
+
 ## [0.7.2] — 2026-04-12
 
 First **cryptographically signed** release. Maintainer GPG key provisioned and published.
@@ -191,7 +203,8 @@ Initial release. Pure markdown/JSON plugin built in one session (36 files, ~6,30
 
 ---
 
-[Unreleased]: https://github.com/MountainUnicorn/add/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/MountainUnicorn/add/compare/v0.7.3...HEAD
+[0.7.3]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.3
 [0.7.2]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.2
 [0.7.1]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.1
 [0.7.0]: https://github.com/MountainUnicorn/add/releases/tag/v0.7.0

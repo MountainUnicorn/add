@@ -1,4 +1,4 @@
-# ADD Verify Skill v0.7.2
+# ADD Verify Skill v0.7.3
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 
