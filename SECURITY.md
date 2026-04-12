@@ -48,17 +48,44 @@ ADD's CI runs schema validation and boundary-diff checks on every PR. A PR that 
 
 ## Signed Releases
 
-Starting with v0.7.0, release tags are GPG-signed.
+Starting with **v0.7.2**, release tags are GPG-signed by the maintainer.
 
-- Maintainer: `MountainUnicorn` / Anthony Brooke
-- Fingerprint: _published on first signed release; verify with `git verify-tag v0.7.0`_
+- **Maintainer:** Anthony Brooke (`MountainUnicorn`)
+- **Identity:** `Anthony Brooke <anthony.g.brooke@gmail.com>`
+- **Key fingerprint:** `040C 002A B5A0 E552 46B3  5D2F 8C4D 8020 9306 6794`
+- **Key ID (short):** `8C4D802093066794`
+- **Algorithm:** RSA 4096 (SC) + RSA 4096 encryption subkey
+- **Key URL:** https://github.com/MountainUnicorn.gpg
 
-To verify an installed version matches a signed release:
+_Note: v0.7.0 and v0.7.1 predate the signing infrastructure and are **unsigned** — this is a known gap documented in the v0.7.1 retro. They will not be retroactively re-signed because re-tagging a published release rewrites user history. Verify from v0.7.2 onward._
+
+### Verifying a release tag
+
+Import the public key once:
 
 ```bash
-cd ~/.claude/plugins/cache/add-marketplace/add/
-git tag --verify v0.7.0
+curl -fsSL https://github.com/MountainUnicorn.gpg | gpg --import
 ```
+
+Verify any signed tag:
+
+```bash
+cd ~/.claude/plugins/cache/add-marketplace/add-marketplace/plugins/add
+git tag --verify v0.7.2
+# Expected output:
+#   gpg: Good signature from "Anthony Brooke <anthony.g.brooke@gmail.com>"
+#   Primary key fingerprint: 040C 002A B5A0 E552 46B3  5D2F 8C4D 8020 9306 6794
+```
+
+A verification failure — `gpg: BAD signature` or `gpg: Can't check signature: No public key` — means the tag was either tampered with, re-tagged by someone else, or your public-key import didn't complete. Either way, **do not install or trust that release** without contacting the maintainer.
+
+### Key rotation
+
+If the maintainer's private key is ever compromised:
+
+1. A notice will be posted at https://github.com/MountainUnicorn/add/security/advisories
+2. The old fingerprint will be marked revoked; a new fingerprint will be published here in `SECURITY.md`
+3. A new release will be cut with the new key; older releases' signatures remain verifiable against the revoked key (the revocation only prevents new signatures)
 
 ## Reporting a Vulnerability
 
