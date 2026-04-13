@@ -6,7 +6,7 @@
 
   <!-- SEO -->
   <title>Getting Started with ADD — Agent Driven Development Documentation</title>
-  <meta name="description" content="Learn how to install and use ADD (Agent Driven Development), a free Claude Code plugin that brings structured SDLC methodology to AI-native development. Zero dependencies, pure markdown and JSON.">
+  <meta name="description" content="Learn how to install and use ADD (Agent Driven Development) — a free, runtime-neutral SDLC methodology. Ships adapters for Claude Code and Codex CLI. Zero dependencies, pure markdown and JSON.">
   <meta name="keywords" content="ADD documentation, agent driven development, getting started, claude code plugin, TDD, AI agents, SDLC methodology, installation guide">
   <meta name="author" content="MountainUnicorn">
   <link rel="canonical" href="https://getadd.dev/docs/">
@@ -95,7 +95,7 @@
 
       <p>ADD (Agent Driven Development) is a structured SDLC methodology where AI agents are first-class development team members. It brings the same discipline to AI-native development that TDD brought to testing.</p>
 
-      <p>ADD is a free Claude Code plugin &mdash; pure markdown and JSON, zero dependencies. Install it in one command and start building with coordinated agent teams that write specs, run TDD cycles, verify quality, and deploy &mdash; all with structured human collaboration at every decision point.</p>
+      <p>ADD is free and runtime-neutral. It ships adapters for <strong>Claude Code</strong> (native plugin) and <strong>Codex CLI</strong> (one-line install), both generated from the same <code>core/</code> source. Pure markdown and JSON, zero dependencies. Install it in one command and start building with coordinated agent teams that write specs, run TDD cycles, verify quality, and deploy &mdash; all with structured human collaboration at every decision point.</p>
 
       <div class="callout callout-tip">
         <p><strong>Core insight:</strong> AI agents are not solo contributors &mdash; they are team members. ADD treats them as a coordinated team with roles, scoped permissions, independent verification, and accumulated knowledge that compounds across projects.</p>
@@ -116,14 +116,17 @@
       <!-- ===== INSTALLATION ===== -->
       <h2 id="installation">Installation</h2>
 
-      <p>ADD is installed through the Claude Code plugin system. Two commands, nothing else required.</p>
+      <p>Pick your runtime. Both install in one step and give you the same 24 commands, same specs, same TDD discipline.</p>
+
+      <h3>Claude Code</h3>
+      <p>Native plugin install via Claude Code's marketplace system. Two commands:</p>
 
       <div class="terminal">
         <div class="terminal-bar">
           <div class="terminal-dot dot-red"></div>
           <div class="terminal-dot dot-yellow"></div>
           <div class="terminal-dot dot-green"></div>
-          <div class="terminal-title">Terminal</div>
+          <div class="terminal-title">Terminal &mdash; Claude Code</div>
         </div>
         <div class="terminal-body">
           <div><span class="prompt">$</span> <span class="arg">claude plugin marketplace add MountainUnicorn/add</span></div>
@@ -131,47 +134,64 @@
         </div>
       </div>
 
-      <p>No build step, no dependencies, no configuration files to create manually. The plugin installs commands, skills, rules, and templates into your Claude Code environment.</p>
-
-      <div class="callout callout-tip">
-        <p><strong>What gets installed:</strong> 10 commands for orchestration, 9 skills for execution, 13 behavioral rules that auto-load, and 21 document templates. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes.</p>
-      </div>
-
-      <h3>Troubleshooting</h3>
-
-      <p>If the marketplace install doesn't work, you can install directly from source:</p>
+      <p>Installs commands, skills, rules, hooks, and templates into your Claude Code environment. No build step, no dependencies. If the marketplace install doesn't work, install from source:</p>
 
       <div class="terminal">
         <div class="terminal-bar">
           <div class="terminal-dot dot-red"></div>
           <div class="terminal-dot dot-yellow"></div>
           <div class="terminal-dot dot-green"></div>
-          <div class="terminal-title">Terminal</div>
+          <div class="terminal-title">Terminal &mdash; Source install</div>
         </div>
         <div class="terminal-body">
-          <div><span class="prompt">$</span> <span class="arg">claude plugin install --source https://github.com/MountainUnicorn/add</span></div>
+          <div><span class="prompt">$</span> <span class="arg">git clone https://github.com/MountainUnicorn/add</span></div>
+          <div><span class="prompt">$</span> <span class="arg">claude --plugin-dir ./add/plugins/add</span></div>
         </div>
       </div>
 
-      <p>To update an existing install:</p>
+      <p>Update an existing install:</p>
 
       <div class="terminal">
         <div class="terminal-bar">
           <div class="terminal-dot dot-red"></div>
           <div class="terminal-dot dot-yellow"></div>
           <div class="terminal-dot dot-green"></div>
-          <div class="terminal-title">Terminal</div>
+          <div class="terminal-title">Terminal &mdash; Upgrade</div>
         </div>
         <div class="terminal-body">
           <div><span class="prompt">$</span> <span class="arg">claude plugin update add@add-marketplace</span></div>
         </div>
       </div>
 
+      <h3>Codex CLI</h3>
+      <p>One-line curl-to-bash installer. Places 24 custom prompts under <code>~/.codex/prompts/</code> and shared content (AGENTS.md template, templates directory) under <code>~/.codex/add/</code>.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot dot-red"></div>
+          <div class="terminal-dot dot-yellow"></div>
+          <div class="terminal-dot dot-green"></div>
+          <div class="terminal-title">Terminal &mdash; Codex CLI</div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="arg">curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash</span></div>
+        </div>
+      </div>
+
+      <p>After install, wire ADD's rules into your project's <code>AGENTS.md</code> &mdash; either copy <code>~/.codex/add/AGENTS.md</code> to your project root if none exists, or add <code>@~/.codex/add/AGENTS.md</code> to the top of an existing one. See <a href="https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md">docs/codex-install.md</a> for full details.</p>
+
+      <p>Update by re-running the install script &mdash; it's idempotent and backs up replaced files with <code>*.pre-add.bak</code>.</p>
+
+      <div class="callout callout-tip">
+        <p><strong>What gets installed (either runtime):</strong> 24 commands/skills, 15 behavioral rules, 18 document templates. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes. Specs written under one runtime work unchanged under the other.</p>
+      </div>
+
       <h3>Prerequisites</h3>
 
       <ul>
-        <li><strong>Claude Code</strong> &mdash; ADD is a Claude Code plugin. You need Claude Code installed and working.</li>
+        <li><strong>A runtime</strong> &mdash; either <a href="https://claude.com/claude-code">Claude Code</a> or <a href="https://github.com/openai/codex">Codex CLI</a>, installed and working.</li>
         <li><strong>A git repository</strong> &mdash; ADD stores project state in <code>.add/</code> which should be committed to version control.</li>
+        <li><strong>Codex only:</strong> <code>jq</code> on PATH for the install script (<code>brew install jq</code> on macOS).</li>
       </ul>
 
       <h3>Verify Installation</h3>
@@ -571,7 +591,7 @@
       <!-- ===== PLUGIN STRUCTURE ===== -->
       <h2 id="plugin-structure">Plugin Structure</h2>
 
-      <p>ADD is a Claude Code plugin composed entirely of markdown, JSON, and template files. No runtime dependencies, no build step, no backend.</p>
+      <p>ADD is composed entirely of markdown, JSON, and template files. The runtime-neutral <code>core/</code> source compiles to per-runtime adapters (Claude Code plugin format today, Codex CLI custom prompts today, other agent runtimes tomorrow). No runtime dependencies, no build step on the consumer side, no backend.</p>
 
       <pre><code>add/
 &#x251C;&#x2500;&#x2500; commands/     # 9 slash commands (/add:init, /add:spec, /add:away, etc.)

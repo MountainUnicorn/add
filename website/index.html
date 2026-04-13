@@ -78,14 +78,31 @@
   <header class="hero">
     <canvas id="boids-canvas"></canvas>
     <div class="hero-inner">
-      <div class="hero-eyebrow">Free &amp; Open Source &mdash; Claude Code + Codex CLI</div>
+      <div class="hero-eyebrow">Free &amp; Open Source &mdash; One methodology, every runtime</div>
       <h1 class="hero-pain">AI agents write code fast.<br><span class="gradient-text">Without structure, they ship chaos.</span></h1>
       <p class="hero-sub">ADD is coordinated agent swarms — test-writers, implementers, reviewers, deployers — that ship verified software as a team. Spec-driven. Test-first. Independently verified.</p>
       <p class="hero-tagline">You've done TDD and BDD. Now ADD something to your development.</p>
+
+      <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-right: 4px;">Runs on</div>
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; font-size: 13px; font-weight: 500;">
+          <i class="ph ph-terminal" style="color: var(--accent);"></i>
+          Claude Code
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; font-size: 13px; font-weight: 500;">
+          <i class="ph ph-terminal" style="color: var(--accent);"></i>
+          Codex CLI
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; font-size: 12px; color: var(--text-muted); font-weight: 500;">
+          <i class="ph ph-plus-circle"></i>
+          more adapters coming
+        </div>
+      </div>
+
       <p style="margin-top: 16px; font-size: 13px;">
         <a href="/blog/multi-runtime-v0.7" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); text-decoration: none; font-weight: 500;">
-          <span style="font-size: 11px; background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 999px; font-weight: 600;">NEW</span>
-          v0.7 — Multi-Runtime, Hardened, Signed &rarr;
+          <span style="font-size: 11px; background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 999px; font-weight: 600;">v0.7</span>
+          Multi-Runtime, Hardened, Signed &rarr;
         </a>
       </p>
       <div class="hero-nav">
@@ -817,7 +834,7 @@
         </div>
         <div class="arch-item">
           <h4>No build step</h4>
-          <p>Install and use immediately: <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">claude plugin marketplace add MountainUnicorn/add</code></p>
+          <p>One command on Claude Code, one <code style="font-size:12px; font-family: 'SF Mono', monospace;">curl&nbsp;|&nbsp;bash</code> on Codex CLI. Use immediately &mdash; no SDK, no compile, no dependencies to install.</p>
         </div>
         <div class="arch-item">
           <h4>No backend</h4>
@@ -832,8 +849,8 @@
           <p>Project state is committed. Cross-project state is local. Full audit trail via git history.</p>
         </div>
         <div class="arch-item">
-          <h4>Plugin format</h4>
-          <p>Skills, rules, hooks, templates — native to Claude Code's plugin system, with a Codex adapter generated from the same source.</p>
+          <h4>Runtime-neutral</h4>
+          <p>Skills, rules, templates, knowledge all live in a single <code style="font-size:12px; font-family: 'SF Mono', monospace;">core/</code>. Per-runtime adapters compile it into Claude Code plugin format or Codex prompts. One methodology, every agent runtime.</p>
         </div>
       </div>
   </section>
@@ -842,65 +859,89 @@
   <section class="section" id="get-started">
     <div class="section-eyebrow">Get Started</div>
     <h2>Up and running in 5 minutes</h2>
-    <p class="section-desc">Install the plugin, run the interview, create your first spec, and let the agent build.</p>
+    <p class="section-desc">Pick your runtime. Same methodology, same specs, same spec-before-code discipline. ADD compiles from one runtime-neutral <code style="font-size: 14px; font-family: 'SF Mono', monospace; color: var(--accent);">core/</code> source into runtime-specific adapters.</p>
 
-    <h3 style="font-size: 18px; margin-bottom: 16px;">Claude Code — New Install</h3>
-    <div class="terminal">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+
+      <!-- Claude Code install card -->
+      <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+          <i class="ph ph-terminal" style="color: var(--accent); font-size: 22px;"></i>
+          <h3 style="font-size: 20px; margin: 0;">Claude Code</h3>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">Anthropic's terminal + IDE agent. Native plugin install via marketplace.</p>
+        <div class="terminal" style="margin-bottom: 0;">
+          <div class="terminal-bar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <div class="terminal-title">Terminal &mdash; Claude Code</div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="prompt">$</span> <span class="arg">claude plugin marketplace add MountainUnicorn/add</span></div>
+            <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add:init</span>      <span class="comment"># interview &rarr; project setup</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>      <span class="comment"># specs/{feature}.md</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="comment"># RED &rarr; GREEN &rarr; VERIFY</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>    <span class="comment"># quality gates</span></div>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 14px; line-height: 1.6;">
+          <strong style="color: var(--text-secondary);">Native features:</strong> PostToolUse hooks (auto-lint on Write), structured <code style="font-size:11px; font-family: 'SF Mono', monospace;">AskUserQuestion</code> popups, per-skill tool permissions, selective rule autoload by maturity.
+        </p>
+      </div>
+
+      <!-- Codex CLI install card -->
+      <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+          <i class="ph ph-terminal" style="color: var(--accent); font-size: 22px;"></i>
+          <h3 style="font-size: 20px; margin: 0;">Codex CLI</h3>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">OpenAI's terminal coding agent. One-line install via curl.</p>
+        <div class="terminal" style="margin-bottom: 0;">
+          <div class="terminal-bar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <div class="terminal-title">Terminal &mdash; Codex CLI</div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="prompt">$</span> <span class="arg">curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add-init</span>      <span class="comment"># interview &rarr; project setup</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add-spec</span>      <span class="comment"># specs/{feature}.md</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add-tdd-cycle</span> <span class="comment"># RED &rarr; GREEN &rarr; VERIFY</span></div>
+            <div><span class="prompt">$</span> <span class="cmd">/add-verify</span>    <span class="comment"># quality gates</span></div>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 14px; line-height: 1.6;">
+          <strong style="color: var(--text-secondary);">Adapter differences:</strong> no PostToolUse hooks (run <code style="font-size:11px; font-family: 'SF Mono', monospace;">/add-verify</code> manually), plain-text confirmations, flat autoload (full ruleset loaded at session start). <a href="https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md" style="color: var(--accent);">Details &rarr;</a>
+        </p>
+      </div>
+
+    </div>
+
+    <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 32px; line-height: 1.7;">
+      Specs, plans, and learnings written under one runtime work unchanged under the other. Switch anytime. ADD's source of truth is git-committed markdown — runtime-neutral by construction.
+    </p>
+
+    <h3 style="font-size: 18px; margin-top: 48px; margin-bottom: 16px; text-align: center;">Upgrading from a previous version?</h3>
+    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin: 0 auto 16px; text-align: center;">
+      Uninstalling does <strong>not</strong> remove your project data (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/</code>), learnings, specs, or cross-project knowledge (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code>). Everything you've built is safe.
+    </p>
+    <div class="terminal" style="max-width: 680px; margin: 0 auto;">
       <div class="terminal-bar">
         <div class="terminal-dot dot-red"></div>
         <div class="terminal-dot dot-yellow"></div>
         <div class="terminal-dot dot-green"></div>
-        <div class="terminal-title">Terminal &mdash; Claude Code</div>
+        <div class="terminal-title">Terminal &mdash; Upgrade (Claude Code)</div>
       </div>
       <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="arg">claude plugin marketplace add MountainUnicorn/add</span></div>
-        <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:init</span>      <span class="comment"># 5-minute interview &rarr; full project setup</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>      <span class="comment"># feature interview &rarr; specs/{feature}.md</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="comment"># RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>    <span class="comment"># 5 quality gates</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>    <span class="comment"># environment-aware, verified</span></div>
+        <div><span class="prompt">$</span> <span class="arg">claude plugin update add@add-marketplace</span>   <span class="comment"># no data loss</span></div>
       </div>
     </div>
-
-    <h3 style="font-size: 18px; margin-top: 32px; margin-bottom: 16px;">Codex CLI <span style="font-size: 13px; color: var(--accent); font-weight: 600;">NEW in v0.7.3</span></h3>
-    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin-bottom: 16px;">
-      ADD now ships a Codex adapter generated from the same <code style="font-size: 12px; font-family: 'SF Mono', monospace; color: var(--accent);">core/</code> source as the Claude plugin. One-line install via curl. Same methodology — Spec &rarr; Plan &rarr; TDD &rarr; Verify &mdash; running on OpenAI's Codex CLI.
+    <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 12px;">
+      Codex: re-run the install script — it's idempotent and backs up any replaced prompts to <code style="font-size:11px; font-family: 'SF Mono', monospace;">*.pre-add.bak</code>.
     </p>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dot dot-red"></div>
-        <div class="terminal-dot dot-yellow"></div>
-        <div class="terminal-dot dot-green"></div>
-        <div class="terminal-title">Terminal &mdash; Codex CLI</div>
-      </div>
-      <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="arg">curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add-init</span>      <span class="comment"># Codex uses hyphen-separated prompts</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add-spec</span>      <span class="comment"># same workflow, same specs</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add-tdd-cycle</span> <span class="comment"># RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</span></div>
-      </div>
-    </div>
-    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 680px; margin-top: 12px;">
-      Codex adapter differences: no <code style="font-size:11px; font-family: 'SF Mono', monospace;">PostToolUse</code> hooks (run <code style="font-size:11px; font-family: 'SF Mono', monospace;">/add-verify</code> manually), plain-text confirmations instead of structured popups, flat autoload (full ruleset loaded at session start). See <a href="https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md" style="color: var(--accent);">docs/codex-install.md</a> for full details.
-    </p>
-
-    <h3 style="font-size: 18px; margin-top: 32px; margin-bottom: 16px;">Upgrading from a previous version?</h3>
-    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin-bottom: 16px;">
-      v0.7.3 includes improved skill loading reliability &mdash; we recommend a fresh install. Uninstalling does <strong>not</strong> remove your project data (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/</code>), learnings, specs, or cross-project knowledge (<code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/</code>). Everything you've built is safe.
-    </p>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dot dot-red"></div>
-        <div class="terminal-dot dot-yellow"></div>
-        <div class="terminal-dot dot-green"></div>
-        <div class="terminal-title">Terminal &mdash; Upgrade</div>
-      </div>
-      <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="arg">claude plugin uninstall add</span>        <span class="comment"># removes plugin only &mdash; your data is safe</span></div>
-        <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span> <span class="comment"># fresh v0.7.3 install</span></div>
-      </div>
-    </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
