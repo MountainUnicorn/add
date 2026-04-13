@@ -57,8 +57,17 @@ claude plugin install add@add-marketplace
 
 **Update an existing install:**
 
+Two commands — first update existing marketplace, then update the plugin:
+
 ```bash
-claude plugin update add@add-marketplace
+# 1. Update existing marketplace entry for this plugin
+claude plugin marketplace update add-marketplace
+
+* alternatively update all added marketplaces
+claude plugin marketplace update
+
+# 2. Update plugin to latest version from marketplace
+claude plugin update add@add-marketplace         
 ```
 
 **Source install (for contributors):**
