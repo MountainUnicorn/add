@@ -6,7 +6,12 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/deploy-website.sh` — Actions-free website deploy. Syncs `website/` into the `gh-pages` branch and triggers a build via GitHub's legacy Jekyll pipeline (runs on a separate pool from user Actions, so it works even when account-level Actions is restricted). Supports `--dry-run` and `--no-build`.
+
 Pending for v0.8.0:
+
 - Per-skill Codex overrides for high-leak skills (`away`, `tdd-cycle`, `implementer`, `agent-coordination`)
 - Marketplace re-submission to the official Claude Code registry
 - `/add:cycle` rename to `/add:arc` (or similar) — 3 consecutive release arcs bypassed the command; gap needs addressing
