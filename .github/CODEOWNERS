@@ -1,0 +1,37 @@
+# ADD — Code Owners
+#
+# Referenced by .github/workflows/rule-boundary-check.yml and SECURITY.md.
+# PRs that modify files listed here require approval from the owners
+# named on the matching line.
+#
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in this repo
+*                                   @MountainUnicorn
+
+# Auto-loaded behavioral rules — changes here can rewrite agent behavior
+# globally. Require CODEOWNER approval per SECURITY.md threat model.
+/core/rules/                        @MountainUnicorn
+/runtimes/*/hooks/                  @MountainUnicorn
+
+# Skill frontmatter (allowed-tools scope) — security-sensitive
+/core/skills/*/SKILL.md              @MountainUnicorn
+
+# Release + signing infrastructure
+/scripts/release.sh                 @MountainUnicorn
+/scripts/compile.py                 @MountainUnicorn
+/scripts/validate-frontmatter.py    @MountainUnicorn
+/scripts/install-codex.sh           @MountainUnicorn
+/runtimes/*/adapter.yaml            @MountainUnicorn
+/core/VERSION                       @MountainUnicorn
+/core/schemas/                      @MountainUnicorn
+
+# CI gates that enforce security invariants
+/.github/workflows/                 @MountainUnicorn
+/.github/CODEOWNERS                 @MountainUnicorn
+
+# Public-facing surfaces
+/SECURITY.md                        @MountainUnicorn
+/CONTRIBUTORS.md                    @MountainUnicorn
+/CHANGELOG.md                       @MountainUnicorn
+/README.md                          @MountainUnicorn
