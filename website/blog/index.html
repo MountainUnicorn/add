@@ -52,6 +52,31 @@
 
     <div class="blog-grid">
 
+      <!-- v0.7 Multi-runtime Release -->
+      <article class="blog-card">
+        <div class="blog-date">12 April 2026</div>
+        <h3><a href="/blog/multi-runtime-v0.7">ADD v0.7 — Multi-Runtime, Hardened, Signed</a></h3>
+        <p>
+          The biggest structural change since v0.1. ADD extracts from a Claude-specific plugin into a runtime-neutral <code>core/</code> with per-runtime adapters. Codex CLI joins Claude Code as a first-class target, generated from the same source.
+        </p>
+        <p>
+          v0.7 was designed by dispatching 5 AI agents in parallel with non-overlapping review scopes (Anthropic spec, install UX, Codex portability, multi-runtime architecture, security). Each caught findings the others would have missed. The pattern is now Tier 1 knowledge in the plugin itself.
+        </p>
+        <p>
+          Security hardening moved from prose to CI: JSON Schema validation on frontmatter, rule-boundary diff checks, compile-drift verification, and GPG-signed release tags from v0.7.3. Full threat model in <a href="https://github.com/MountainUnicorn/add/blob/main/SECURITY.md" style="color: var(--accent);">SECURITY.md</a>.
+        </p>
+        <p>
+          Three community contributors shipped major additions in the same window: <code>/add:docs</code> (Caleb Dunn), <code>/add:roadmap</code> + <code>/add:milestone</code> + <code>/add:promote</code> (Piotr Pawluk), and <code>/add:ux</code> (David Giambarresi).
+        </p>
+        <p style="margin-top: 16px;">
+          <a href="/blog/multi-runtime-v0.7" style="color: var(--accent); font-weight: 500;">Read the full post &rarr;</a>
+        </p>
+        <span class="blog-tag">Release</span>
+        <span class="blog-tag">Multi-runtime</span>
+        <span class="blog-tag">Codex</span>
+        <span class="blog-tag">Security</span>
+      </article>
+
       <!-- Launch Post -->
       <article class="blog-card">
         <div class="blog-date">February 2026</div>
@@ -77,11 +102,6 @@
         <span class="blog-tag">Launch</span>
       </article>
 
-      <!-- Placeholder for future posts -->
-      <div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; border: 2px dashed var(--border); border-radius: 16px;">
-        More posts coming soon. Follow the project on <a href="https://github.com/MountainUnicorn/add" style="color: var(--accent);">GitHub</a> for updates.
-      </div>
-
     </div>
 
   </div>
@@ -101,7 +121,7 @@
       <a href="/terms">Terms</a>
     </div>
     <div class="footer-meta">
-      ADD v0.4.0 — Agent Driven Development | Free &amp; open source<br>
+      ADD v0.7.3 — Agent Driven Development | Free &amp; open source<br>
       Built with ADD, using ADD. Dog-fooded from day one.
     </div>
   </footer>
