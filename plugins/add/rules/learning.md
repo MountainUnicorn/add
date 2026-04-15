@@ -32,7 +32,9 @@ Before starting ANY skill or command (except `/add:init`), read the pre-filtered
 
 **Do NOT read the full JSON files** during pre-flight. The `-active.md` files contain the top entries already sorted by severity and date, with archived entries excluded. Only read the full JSON when writing new entries (to determine next ID and check for duplicates).
 
-If active files don't exist, proceed silently. **Fallback:** if `-active.md` doesn't exist but the JSON does, run `${CLAUDE_PLUGIN_ROOT}/hooks/filter-learnings.sh <path-to-json>` to generate it, then read the result. Briefly notify the user: "Generated learnings active view — future reads will use this compact file instead of the full JSON."
+**Fallback chain** (if `-active.md` doesn't exist):
+1. Run `${CLAUDE_PLUGIN_ROOT}/hooks/filter-learnings.sh <path-to-json>` to generate it, then read the result. Notify: "Generated learnings active view."
+2. If the script fails (jq missing, parse error), read the full JSON directly and apply in-context filtering (cap at 10 by severity). Learnings are never lost — the JSON is the canonical store.
 
 ## Active View Generation
 
