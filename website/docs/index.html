@@ -134,6 +134,10 @@
         </div>
       </div>
 
+      <div class="callout callout-tip" style="margin-top: 16px;">
+        <p><strong>Why two commands?</strong> Claude Code distributes third-party plugins via &ldquo;marketplaces&rdquo; &mdash; a marketplace is a source (like a package registry), and the plugin is a package from that source. Step 1 registers the source (once per machine); step 2 installs from it. Future updates only need <code>claude plugin update add@add-marketplace</code>.</p>
+      </div>
+
       <p>Installs commands, skills, rules, hooks, and templates into your Claude Code environment. No build step, no dependencies. If the marketplace install doesn't work, install from source:</p>
 
       <div class="terminal">
@@ -228,11 +232,12 @@
           <div class="terminal-title">Terminal</div>
         </div>
         <div class="terminal-body">
-          <div><span class="prompt">$</span> <span class="cmd">/add:init</span>  <span class="comment"># 5-minute structured interview</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">/add:init</span>          <span class="comment"># full interview (~12 questions, ~5 min)</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">/add:init --quick</span>  <span class="comment"># greenfield fast path (5 questions, ~2 min)</span></div>
         </div>
       </div>
 
-      <p>The init command runs a structured interview that captures your project's purpose, tech stack, maturity level, and team preferences. It creates:</p>
+      <p>The init command runs a structured interview that captures your project's purpose, tech stack, maturity level, and team preferences. Use <code>--quick</code> for prototypes or when you want to start building immediately &mdash; it asks only the essentials (name, stack, tier, maturity, autonomy) and defaults the rest. It creates:</p>
 
       <ul>
         <li><code>.add/config.json</code> &mdash; central project configuration</li>

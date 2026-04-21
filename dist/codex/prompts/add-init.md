@@ -1014,9 +1014,68 @@ WHAT'S LOCAL (stays on this machine):
   ~/.claude/add/ (profile, library, project index)
   Run /add:init --import on a new device to rebuild from committed state.
 
-Next steps:
-  1. Review docs/prd.md and refine if needed
-  2. Run /add:spec to create your first feature specification
-  3. Run /add:plan to create an implementation plan from a spec
-  4. Start building with /add:tdd-cycle
+```
+
+### Persona-Aware Next Steps
+
+Display ONE of the following blocks based on maturity level and config. Do NOT show all three.
+
+**If maturity = poc:**
+
+```
+WHAT TO DO NEXT (prototype mode — lightweight):
+
+  You're at POC maturity. Specs are optional. TDD is recommended but not enforced.
+  The fastest path to your first working feature:
+
+  1. /add:tdd-cycle — jump straight into coding with tests (~20 min for a small feature)
+  2. /add:verify    — run quality gates to check your work (~2 min)
+
+  Optional (when you want more structure):
+  • /add:spec "feature name"  — define a feature before coding (~5 min)
+  • /add:retro                — capture what you learned after a session
+
+  Estimated time to first feature: ~25 minutes.
+```
+
+**If maturity = alpha or beta:**
+
+```
+WHAT TO DO NEXT:
+
+  1. /add:spec "your first feature"   — define one feature through a short interview (~5 min)
+     This produces specs/{feature}.md with acceptance criteria and test cases.
+
+  2. /add:plan specs/{feature}.md     — break it into implementation tasks (~3 min)
+
+  3. /add:tdd-cycle specs/{feature}.md — build it with tests: RED → GREEN → REFACTOR → VERIFY (~20 min)
+
+  4. /add:verify                      — confirm all quality gates pass (~2 min)
+
+  First feature end-to-end: ~30 minutes. Second feature: faster (patterns learned).
+
+  Other useful commands:
+  • /add:away      — hand off to the agent for autonomous work
+  • /add:retro     — run a retrospective to capture learnings
+  • /add:cycle     — plan a batch of features with milestone tracking
+```
+
+**If the user appears to be a PM / non-engineer** (detected by: `collaboration.team_size` > 1, OR user said "PM" or "product manager" during the interview, OR autonomy = "guided"):
+
+```
+YOUR ROLE IN ADD:
+
+  As a product person, you'll primarily use two commands:
+
+  1. /add:spec "feature name"   — define what you want built (~5 min interview)
+     ADD captures your requirements as acceptance criteria. Your dev team
+     builds from these specs — no ambiguity, no telephone game.
+
+  2. /add:verify                — check if a feature meets the spec you defined
+
+  You don't need to run /add:plan, /add:tdd-cycle, or /add:deploy — those
+  are for the engineering workflow. Your specs are the source of truth.
+
+  Try it now: /add:spec "your most important feature"
+```
 ```

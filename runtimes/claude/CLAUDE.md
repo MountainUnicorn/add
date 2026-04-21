@@ -76,6 +76,7 @@ Roadmap (docs/prd.md milestones section)
 | `/add:promote` | Maturity promotion — gap analysis and level-up workflow |
 | `/add:learnings` | Manage learnings — generate active views, archive, stats |
 | `/add:dashboard` | Generate visual HTML project dashboard from .add/ project files |
+| `/add:version` | Show installed version, project version, and upgrade status |
 
 ## Rules
 
