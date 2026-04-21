@@ -127,6 +127,33 @@
         }
       ],
       "description": "Learnings optimization — generate compact active views to reduce context usage"
+    },
+    {
+      "from": "0.7.0",
+      "to": "0.8.0",
+      "steps": [
+        {
+          "file": ".add/learnings.json",
+          "action": "run_hook",
+          "params": {
+            "script": "hooks/filter-learnings.sh",
+            "args": ["{file}"],
+            "notify": "Generated .add/learnings-active.md — agents now read this compact view instead of the full JSON (72% smaller)."
+          },
+          "description": "Generate pre-filtered active view of project learnings"
+        },
+        {
+          "file": "~/.claude/add/library.json",
+          "action": "run_hook",
+          "params": {
+            "script": "hooks/filter-learnings.sh",
+            "args": ["{file}"],
+            "notify": "Generated ~/.claude/add/library-active.md — compact cross-project learning view."
+          },
+          "description": "Generate pre-filtered active view of cross-project library"
+        }
+      ],
+      "description": "Learnings optimization — v0.7.x projects hop directly to 0.8.0"
     }
   ]
 }

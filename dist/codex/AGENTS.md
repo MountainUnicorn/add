@@ -1337,68 +1337,29 @@ ADD uses a 3-tier knowledge cascade. Agents read all three tiers before starting
 
 ## Read Before Work
 
-Before starting ANY skill or command (except `/add:init`), read knowledge and filter for relevance:
+Before starting ANY skill or command (except `/add:init`), read the pre-filtered active views:
 
 1. **Tier 1:** Read `~/.codex/add/knowledge/global.md` (always exists — ships with ADD)
-2. **Tier 2:** Read `~/.claude/add/library.json` if it exists. Filter entries by relevance (see Smart Filtering below). If only `library.md` exists, read it as fallback.
-3. **Tier 3:** Read `.add/learnings.json` if it exists. Filter entries by relevance. If only `learnings.md` exists, read it as fallback.
+2. **Tier 2:** Read `~/.claude/add/library-active.md` if it exists (pre-filtered compact view)
+3. **Tier 3:** Read `.add/learnings-active.md` if it exists (pre-filtered compact view)
 4. **Handoff:** Read `.add/handoff.md` if it exists — note in-progress work relevant to this operation.
 
-If JSON files don't exist or are empty (`{"entries":[]}`), proceed silently — no error, no message.
+**Do NOT read the full JSON files** during pre-flight. The `-active.md` files contain the top entries already sorted by severity and date, with archived entries excluded. Only read the full JSON when writing new entries (to determine next ID and check for duplicates).
 
-## Smart Filtering
+**Fallback chain** (if `-active.md` doesn't exist):
+1. Run `~/.codex/add/hooks/filter-learnings.sh <path-to-json>` to generate it, then read the result. Notify: "Generated learnings active view."
+2. If the script fails (jq missing, parse error), read the full JSON directly and apply in-context filtering (cap at 10 by severity). Learnings are never lost — the JSON is the canonical store.
 
-When reading JSON learning files, don't surface everything. Filter by relevance to the current operation:
+## Active View Generation
 
-### Step 1: Stack Filter
+A PostToolUse hook automatically regenerates `-active.md` whenever a learnings JSON file is written. The hook runs `~/.codex/add/hooks/filter-learnings.sh` which:
 
-Read `.add/config.json` to get the project's stack:
-- `architecture.languages[].name` (lowercased)
-- `architecture.backend.framework` (lowercased, if not null)
-- `architecture.frontend.framework` (lowercased, if not null)
+1. Excludes entries with `"archived": true`
+2. Sorts remaining entries by severity (critical > high > medium > low), then date (newest first)
+3. Caps at 15 entries
+4. Groups by category and writes a compact markdown view
 
-An entry passes the stack filter if:
-- Its `stack` array has ANY overlap with the project's stack, OR
-- Its `stack` array is empty (stack-agnostic — always passes)
-
-### Step 2: Category Filter
-
-Each skill/command maps to relevant learning categories:
-
-| Skill/Command | Relevant Categories |
-|---------------|-------------------|
-| `/add:plan` | architecture, anti-pattern, collaboration |
-| `/add:tdd-cycle` | technical, anti-pattern, performance |
-| `/add:test-writer` | technical, anti-pattern |
-| `/add:implementer` | technical, anti-pattern, architecture |
-| `/add:deploy` | performance, technical, process |
-| `/add:verify` | technical, process |
-| `/add:optimize` | performance, technical |
-| `/add:reviewer` | architecture, anti-pattern, process |
-| `/add:cycle` | architecture, collaboration, process |
-| `/add:retro` | process, collaboration |
-| `/add:spec` | architecture, collaboration |
-| (other/unknown) | all categories (no filter) |
-
-An entry passes the category filter if its `category` matches any relevant category for the current operation.
-
-### Step 3: Rank and Cap
-
-1. **Rank** matching entries: `critical` > `high` > `medium` > `low`, then by date (newest first)
-2. **Cap** at 10 entries maximum per skill invocation to prevent context bloat
-3. If no entries match, proceed silently — no "no learnings found" message
-
-### Step 4: Surface
-
-Present the top entries to the agent as context. Format:
-
-```
-RELEVANT LEARNINGS ({N} entries):
-  [{severity}] {title} (from {source}, {date})
-    {body}
-```
-
-The agent should incorporate these learnings into its work — e.g., avoiding known anti-patterns, following proven architecture decisions.
+This moves filtering out of agent context — agents read only the small pre-filtered result.
 
 ## Learning Entry Schema
 
@@ -1440,6 +1401,7 @@ All learning entries (Tier 2 and Tier 3) use a structured JSON format:
 |-------|------|--------|
 | `classified_by` | string | `agent` (auto-classified) or `human` (reclassified during retro) |
 | `checkpoint_type` | string | `post-verify` \| `post-tdd` \| `post-deploy` \| `post-away` \| `feature-complete` \| `verification-catch` \| `retro` |
+| `archived` | boolean | `true` to exclude from active view (set during retro) |
 
 **File wrapper:**
 
@@ -1655,7 +1617,7 @@ This is an ergonomic guardrail against accidental leaks in learning-style writin
 
 ## Markdown View Generation
 
-After writing any entry to a JSON learnings file, regenerate the corresponding markdown file:
+After writing any entry to a JSON learnings file, the PostToolUse hook regenerates the active view (`-active.md`) automatically. Additionally, regenerate the full markdown view for human reading:
 
 **For `.add/learnings.json` → `.add/learnings.md`:**
 
@@ -1764,6 +1726,21 @@ The highest bar. Plugin-global knowledge ships to ALL ADD users.
 **Do NOT promote:** Technology preferences, stack patterns, project constraints, user preferences.
 
 **Process:** Only the ADD development project can write to `knowledge/global.md`. During `/add:retro` in the ADD project itself, the retro flow includes a "promote to plugin-global" step. In consumer projects, `knowledge/global.md` is read-only.
+
+## Archival
+
+Learnings accumulate over time. During `/add:retro`, review entries for archival to keep the active set small and relevant:
+
+**Archive when:**
+- Entry is older than 90 days AND severity is `low` or `medium`
+- Entry has been superseded by a newer learning covering the same topic
+- Entry is project-specific but the referenced code/feature no longer exists
+
+**Archive by:** Setting `"archived": true` on the entry in the JSON. The entry stays in the file for audit history but is excluded from the active view.
+
+**Never archive:** `critical` or `high` severity entries without explicit human approval.
+
+After archiving, the PostToolUse hook regenerates the active view automatically.
 
 ## Session Handoff Protocol
 
@@ -2138,7 +2115,9 @@ Every ADD project follows a standard directory layout. Consistency across projec
 │
 ├── .add/                           # ADD methodology state (COMMITTED TO GIT)
 │   ├── config.json                 # Project configuration (stack, envs, quality, collab)
-│   ├── learnings.md                # Project-specific agent knowledge base
+│   ├── learnings.json              # Project-specific knowledge (canonical JSON)
+│   ├── learnings.md                # Full human-readable view (generated)
+│   ├── learnings-active.md         # Compact agent view (auto-generated by hook)
 │   ├── retros/                     # Retrospective archives
 │   │   └── retro-{YYYY-MM-DD}.md  # Individual retro records
 │   └── away-logs/                  # Away session archives
@@ -2175,14 +2154,16 @@ Everything in the project directory is committable EXCEPT:
 
 ```gitignore
 # ADD to .gitignore during /add:init
-.add/away-logs/          # Ephemeral, not worth tracking
-tests/screenshots/errors/ # Failure screenshots are debugging artifacts
+.add/away-logs/              # Ephemeral, not worth tracking
+.add/learnings-active.md     # Generated by hook, regenerated on each write
+tests/screenshots/errors/    # Failure screenshots are debugging artifacts
 ```
 
 These MUST be committed (agents on other devices need them):
 
 - `.add/config.json` — project configuration
-- `.add/learnings.md` — agent knowledge (critical for device portability)
+- `.add/learnings.json` — agent knowledge (canonical, device-portable)
+- `.add/learnings.md` — human-readable view (generated, committed for portability)
 - `.add/retros/` — retrospective history
 - `docs/prd.md` — product requirements
 - `docs/plans/` — implementation plans
@@ -3042,6 +3023,16 @@ Remove deprecated fields from a JSON file.
 - Read the target JSON file
 - For each field in `params.fields`: delete it if it exists
 - Write the updated JSON
+
+#### Action: `run_hook`
+
+Execute a plugin hook script.
+
+- Resolve the script path from `params.script` (relative to `~/.codex/add`)
+- Pass `params.args` as command-line arguments (array of strings, supports `{file}` placeholder for the `file` field)
+- Run the script: `~/.codex/add/{params.script} {args...}`
+- If the script exits non-zero, log the failure and continue (non-blocking)
+- If `params.notify` is set, print the notification message after successful execution
 
 ### Step 4: Update Version
 

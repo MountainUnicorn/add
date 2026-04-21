@@ -74,6 +74,7 @@ Roadmap (docs/prd.md milestones section)
 | `/add:roadmap` | View and manage roadmap — milestones, horizons, reordering |
 | `/add:milestone` | Manage milestones — list, switch, split, rescope, create |
 | `/add:promote` | Maturity promotion — gap analysis and level-up workflow |
+| `/add:learnings` | Manage learnings — generate active views, archive, stats |
 | `/add:dashboard` | Generate visual HTML project dashboard from .add/ project files |
 
 ## Rules
