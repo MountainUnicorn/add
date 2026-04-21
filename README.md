@@ -43,15 +43,12 @@ ADD is a structured SDLC methodology where AI agents do the development work —
 
 ### Claude Code (recommended)
 
-Two commands — first register the marketplace, then install the plugin:
-
 ```bash
-# 1. Register the marketplace (tells Claude Code where to find ADD)
-claude plugin marketplace add MountainUnicorn/add
-
-# 2. Install the plugin from that marketplace
-claude plugin install add@add-marketplace
+claude plugin marketplace add MountainUnicorn/add    # one-time: register ADD's marketplace
+claude plugin install add@add-marketplace             # install the plugin
 ```
+
+> **Why two commands?** Claude Code distributes third-party plugins via "marketplaces" — a marketplace is a source (like a package registry), and the plugin is a package from that source. Step 1 registers the source (once per machine); step 2 installs from it. Future updates only need `claude plugin update add@add-marketplace`.
 
 **Verify:** run `/add:init` in any git repository.
 
@@ -100,10 +97,11 @@ ADD has **zero runtime dependencies** and **no build step** on the consumer side
 ### 1. Initialize your project
 
 ```bash
-/add:init
+/add:init              # full interview (~12 questions, ~5 minutes)
+/add:init --quick      # greenfield fast path (5 questions, ~2 minutes)
 ```
 
-ADD interviews you about your project (product vision, tech stack, team size, deployment model) and scaffolds the project structure. Takes about 5 minutes.
+ADD interviews you about your project (product vision, tech stack, team size, deployment model) and scaffolds the project structure. Use `--quick` for prototypes or when you want to start building immediately — it asks only the essentials and defaults the rest.
 
 **What gets created:**
 

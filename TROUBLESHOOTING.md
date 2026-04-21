@@ -60,13 +60,14 @@ This works for contributors and users who want to pin to a specific commit.
 
 ### `/add:init` seems too long
 
-The default interview asks ~12 questions to capture maturity, stack, and collaboration preferences. If you want a fast path for greenfield projects:
+The default interview asks ~12 questions to capture maturity, stack, and collaboration preferences. For a faster start:
 
 ```bash
-/add:init --reconfigure    # re-run interview if you want to change settings
+/add:init --quick          # 5 essential questions, ~2 minutes (greenfield projects)
+/add:init --reconfigure    # re-run the full interview to change settings
 ```
 
-A `/add:init --quick` mode is planned for v0.7.1 (5 essential questions only).
+`--quick` asks only: project name, stack, environment tier, maturity, and autonomy level. Everything else gets sensible defaults. You can always run `--reconfigure` later for the full interview.
 
 ### "I don't understand question N"
 
