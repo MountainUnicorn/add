@@ -103,30 +103,52 @@
     },
     {
       "from": "0.5.0",
-      "to": "0.8.0",
+      "to": "0.6.0",
       "steps": [
         {
-          "file": ".add/learnings.json",
-          "action": "run_hook",
+          "file": ".add/config.json",
+          "action": "add_fields",
           "params": {
-            "script": "hooks/filter-learnings.sh",
-            "args": ["{file}"],
-            "notify": "Generated .add/learnings-active.md — agents now read this compact view instead of the full JSON (72% smaller)."
+            "fields": {
+              "branding.accentColor": "#b00149",
+              "branding.presetName": "raspberry",
+              "branding.palette.accent": "#b00149",
+              "branding.palette.accentLight": "#d4326d",
+              "branding.palette.accentDark": "#8a0038",
+              "imageGeneration.enabled": false,
+              "imageGeneration.tool": null,
+              "imageGeneration.nudged": false,
+              "changelog.lastProcessedCommit": null,
+              "changelog.lastVersionTag": null
+            }
           },
-          "description": "Generate pre-filtered active view of project learnings"
-        },
+          "description": "Add branding palette, image generation, and changelog fields"
+        }
+      ]
+    },
+    {
+      "from": "0.6.0",
+      "to": "0.7.0",
+      "steps": [
         {
-          "file": "~/.claude/add/library.json",
-          "action": "run_hook",
+          "file": ".add/config.json",
+          "action": "add_fields",
           "params": {
-            "script": "hooks/filter-learnings.sh",
-            "args": ["{file}"],
-            "notify": "Generated ~/.claude/add/library-active.md — compact cross-project learning view."
+            "fields": {
+              "quality.e2e_required": false,
+              "quality.screenshot_protocol": false
+            }
           },
-          "description": "Generate pre-filtered active view of cross-project library"
+          "description": "Add quality fields for e2e and screenshot protocol (v0.7 compliance rule uses these)"
         }
       ],
-      "description": "Learnings optimization — generate compact active views to reduce context usage"
+      "description": "v0.7 architecture extraction (core/ + runtimes/) — no config schema break, but fields added for compliance rule"
+    },
+    {
+      "from": "0.7.0",
+      "to": "0.7.3",
+      "steps": [],
+      "description": "v0.7.1-v0.7.3: hardening, GPG signing, deploy confirm-phrase gate. No config schema changes — improvements are in rules and skills only."
     },
     {
       "from": "0.7.0",
