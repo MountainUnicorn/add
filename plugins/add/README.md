@@ -51,7 +51,7 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]    # ADD extension
 
 | Field | Purpose | Why it's ADD-specific |
 |-------|---------|----------------------|
-| `argument-hint` | Human-readable description of expected arguments (displayed in `/add:help` and autocomplete) | Not standardized by Anthropic. ADD uses it consistently across all 24 skills. |
+| `argument-hint` | Human-readable description of expected arguments (displayed in `/add:help` and autocomplete) | Not standardized by Anthropic. ADD uses it consistently across all 26 skills. |
 | `allowed-tools` | Array of Claude Code tool names this skill is permitted to invoke. Provides a second-layer permission boundary independent of Claude Code's approval system. | Not part of the public plugin spec. ADD treats it as a security invariant — skills must not request tools they don't use, and PR reviewers check for scope creep. |
 | `[ADD vX.Y.Z]` prefix on description | Makes the plugin version visible in every autocomplete suggestion — helps users spot stale installs. | ADD convention; keeps the version bump checklist actionable. |
 

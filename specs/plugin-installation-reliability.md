@@ -3,8 +3,9 @@
 **Version:** 0.1.0
 **Created:** 2026-03-01
 **PRD Reference:** docs/prd.md
-**Status:** Draft
+**Status:** Superseded
 **Target Release:** v0.5.0
+**Superseded by:** v0.5.0 plugin isolation (`plugins/add/` restructure) and v0.7.0 source-of-truth split (`core/` + `runtimes/` + `scripts/compile.py`). Counts referenced in this spec body (10 commands, 9 skills, 13 rules) reflect repo state at drafting time on 2026-03-01; today's plugin has 26 skills and 15 rules. Retained as a historical record of the install-reliability investigation that drove the v0.5/v0.7 work.
 
 ## 1. Overview
 

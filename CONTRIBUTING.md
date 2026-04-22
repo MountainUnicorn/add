@@ -14,13 +14,20 @@ That's it. There's nothing to build or install. The plugin is entirely markdown 
 ## Plugin Structure
 
 ```
-add/
-├── commands/      # Slash commands (/add:init, /add:spec, /add:away, etc.)
-├── skills/        # Workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
-├── rules/         # Auto-loading behavioral rules
-├── hooks/         # PostToolUse automation
-├── knowledge/     # Plugin-global curated best practices
-├── templates/     # Document scaffolding (PRD, spec, plan, config, etc.)
+core/                   # Source of truth (v0.7+ restructure)
+├── skills/             # 26 skills — all slash commands (/add:init, /add:spec, /add:tdd-cycle, ...)
+├── rules/              # 15 auto-loading behavioral rules
+├── templates/          # 21 document templates (PRD, spec, plan, config, etc.)
+├── knowledge/          # 2 Tier-1 knowledge files (global, image-gen-detection)
+├── schemas/            # 2 JSON Schema validators (rule + skill frontmatter)
+└── VERSION             # Canonical version string
+
+runtimes/claude/        # Claude Code adapter (PostToolUse hooks, plugin manifest)
+runtimes/codex/         # Codex CLI adapter (rules concatenated into AGENTS.md)
+
+scripts/compile.py regenerates plugins/add/ (Claude) and dist/codex/
+(Codex) from core/ on every release. Edit core/, never the generated
+output — the compile-drift CI gate will reject PRs that disagree.
 ```
 
 ## Namespace Rule

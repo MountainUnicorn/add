@@ -39,7 +39,7 @@ If the interview doesn't start, check that `.add/config.json` exists in your pro
 
 ```bash
 claude plugin info add@add-marketplace
-# Look for "skills: 24" or similar — confirms skills were picked up
+# Look for "skills: 26" or similar — confirms skills were picked up
 ```
 
 If skills show 0 or the command returns nothing, reinstall (see stale cache fix above).

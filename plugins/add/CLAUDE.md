@@ -19,7 +19,7 @@ The core principles:
 ```
 add/
 ├── skills/            # All slash commands and workflow skills (/add:init, /add:spec, /add:tdd-cycle, etc.)
-├── rules/             # Auto-loading behavioral rules (13 files)
+├── rules/             # Auto-loading behavioral rules (15 files)
 ├── hooks/             # PostToolUse automation
 ├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)
 │   └── global.md      # Universal learnings that ship with ADD for all users
@@ -56,6 +56,7 @@ Roadmap (docs/prd.md milestones section)
 | `/add:init` | Bootstrap ADD in a new project (PRD interview) |
 | `/add:spec` | Create a feature spec (feature interview) |
 | `/add:plan` | Generate implementation plan from spec |
+| `/add:ux` | Iterate on UI/UX before implementation — wireframes, flow validation, design sign-off |
 | `/add:tdd-cycle` | Execute full TDD cycle against spec |
 | `/add:test-writer` | RED phase only — write failing tests |
 | `/add:implementer` | GREEN phase only — make tests pass |
@@ -67,6 +68,7 @@ Roadmap (docs/prd.md milestones section)
 | `/add:brand-update` | Update branding materials and audit artifacts |
 | `/add:changelog` | Generate/update CHANGELOG.md from conventional commits |
 | `/add:infographic` | Generate project infographic SVG from PRD + config |
+| `/add:docs` | Generate architecture diagrams, API docs, README drift detection — archetype-aware |
 | `/add:away` | Human stepping away — autonomous work plan |
 | `/add:back` | Human returning — get briefing |
 | `/add:retro` | Retrospective — human-initiated or agent summary |
