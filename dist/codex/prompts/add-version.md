@@ -1,4 +1,4 @@
-# ADD Version Command v0.7.3
+# ADD Version Command v0.8.0
 
 Show the current ADD version, compare project config version to plugin version, and flag drift.
 
@@ -42,7 +42,7 @@ If project < plugin and a `CHANGELOG.md` exists at the plugin or repo root, extr
 
 ```
 ADD Version
-  Plugin:  v0.7.3
+  Plugin:  v0.8.0
   Project: v0.5.0    (from .add/config.json)
   Status:  ⚠ Project config is behind — migration will run on next skill invocation
 
@@ -52,6 +52,7 @@ ADD Version
     v0.7.1 — Deploy confirm-phrase gate, /add:init --quick, PII heuristic
     v0.7.2 — GPG signing infrastructure
     v0.7.3 — First GitHub-Verified signed release
+    v0.8.0 — Pre-filtered active learning views (62-82% context reduction)
 ```
 
 Extract the `## [X.Y.Z]` headings from CHANGELOG.md and show the first line of each section (the subtitle after the date/dash). Cap at 10 versions.

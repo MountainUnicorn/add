@@ -6,15 +6,45 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
-### Added
-
-- `scripts/deploy-website.sh` — Actions-free website deploy. Syncs `website/` into the `gh-pages` branch and triggers a build via GitHub's legacy Jekyll pipeline (runs on a separate pool from user Actions, so it works even when account-level Actions is restricted). Supports `--dry-run` and `--no-build`.
-
-Pending for v0.8.0:
+Pending for v0.9.0:
 
 - Per-skill Codex overrides for high-leak skills (`away`, `tdd-cycle`, `implementer`, `agent-coordination`)
 - Marketplace re-submission to the official Claude Code registry
 - `/add:cycle` rename to `/add:arc` (or similar) — 3 consecutive release arcs bypassed the command; gap needs addressing
+
+## [0.8.0] — 2026-04-22
+
+Pre-filtered active learning views. Moves filtering work out of the LLM context window and into a `jq`-based hook, cutting autoload context cost by 62-82% as learnings accumulate. Community contribution from @tdmitruk via #7.
+
+### Added
+
+- **`hooks/filter-learnings.sh`** — generates a compact `learnings-active.md` companion file from `learnings.json`. Sorts by severity (`critical > high > medium > low`) then date, excludes archived entries, caps at the top N, and appends a one-line index of the rest so agents retain visibility. Mirrored at `~/.claude/add/library-active.md` for the Tier 2 library.
+- **`hooks/post-write.sh`** — PostToolUse dispatcher that replaces the inline `case` block in `hooks.json`. Keeps ruff + eslint behavior, adds the learnings-filter dispatch, reads `active_cap` from `.add/config.json` with fallback `15`.
+- **`/add:learnings` skill** — `migrate` (initial active-view generation, also handles legacy markdown → JSON), `archive` (interactive review of low/medium entries older than the configured threshold), and `stats` (counts, sizes, savings). All subcommands support `--dry-run`.
+- **`archived` field on learning entries** — entries stay in the JSON for audit history but drop out of the active view. Never auto-archive `critical` or `high` severity.
+- **Configurable thresholds** in `.add/config.json` `learnings` block: `active_cap` (15), `archival_days` (90), `archival_max_severity` (`medium`). Migration injects defaults for upgrading projects.
+- **`run_hook` migration action type** — lets `migrations.json` invoke a plugin hook script during version migration with `script`, `args` (supports `{file}` placeholder), and `notify` parameters.
+- **Migration chain completed** for projects on any prior version: `0.5.0 → 0.6.0`, `0.6.0 → 0.7.0`, `0.7.0 → 0.7.3`, and `0.7.0 → 0.8.0` hops added so installations from any historical release can reach 0.8.0.
+- **`scripts/deploy-website.sh`** — Actions-free website deploy. Syncs `website/` into the `gh-pages` branch and triggers a build via GitHub's legacy Jekyll pipeline (runs on a separate pool from user Actions, so it works even when account-level Actions is restricted). Supports `--dry-run` and `--no-build`.
+- **Fixture-based tests** under `tests/hooks/` for `filter-learnings.sh`: basic (sort + archive + group), overflow (forced index), large (15 top + 13 indexed + 2 archived), and empty inputs.
+
+### Changed
+
+- **`core/rules/learning.md`** — pre-flight reads `-active.md` instead of full JSON. The 60-line in-context "Smart Filtering" section is removed (replaced by the shell script). Adds an Archival section and a fallback chain (`active.md → run filter → read full JSON`).
+- **`core/rules/project-structure.md`** — documents the new file layout (`learnings.json` + `learnings.md` + `learnings-active.md`) and gitignore additions.
+- **PostToolUse hook glob** extended from `*learnings.json` to `*learnings.json|*library.json` so Tier 2 promotions during retro regenerate the library active view.
+
+### Impact (token cost per session)
+
+| Project size | Before (full JSON) | After (active view) | Reduction |
+|---|---|---|---|
+| 34 entries (this repo) | ~4,820 tokens | ~1,865 tokens | 62% |
+| 200 entries (projected) | ~28,000 tokens | ~5,300 tokens | 82% |
+| 500 entries (projected) | ~70,000 tokens | ~11,750 tokens | 83% |
+
+### Safety
+
+JSON is canonical and never modified by the filter. If the `-active.md` is missing or `jq` fails, agents fall back to running the script then reading the full JSON directly — no data loss possible. Compile-drift, frontmatter-validate, and rule-boundary CI gates all green; no NEVER markers were touched.
 
 ## [0.7.3] — 2026-04-12
 

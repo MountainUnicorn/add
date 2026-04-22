@@ -1,4 +1,4 @@
-# ADD UX Command v0.7.3
+# ADD UX Command v0.8.0
 
 Iterate on UI/UX design for a feature before implementation begins. Produces a signed-off design artifact that gates `/add:plan` and `/add:tdd-cycle`. Prevents token burn from building the wrong UI.
 

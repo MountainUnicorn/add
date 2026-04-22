@@ -1,4 +1,4 @@
-# ADD Dashboard Command v0.7.3
+# ADD Dashboard Command v0.8.0
 
 Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading the project's `.add/` directory, specs, docs, and config. The file opens in the browser and gives anyone — developer, PM, or founder — a real-time picture of the project's state.
 

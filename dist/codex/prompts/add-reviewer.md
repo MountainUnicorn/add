@@ -1,4 +1,4 @@
-# ADD Reviewer Skill v0.7.3
+# ADD Reviewer Skill v0.8.0
 
 Conduct a comprehensive code review focused on specification compliance, code quality, and ADD methodology adherence. This is a READ-ONLY skill that produces a detailed structured review report.
 

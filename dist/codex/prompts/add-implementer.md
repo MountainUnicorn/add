@@ -1,4 +1,4 @@
-# ADD Implementer Skill v0.7.3
+# ADD Implementer Skill v0.8.0
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 

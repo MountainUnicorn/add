@@ -1,4 +1,4 @@
-# ADD Learnings Skill v0.7.3
+# ADD Learnings Skill v0.8.0
 
 Manage the learnings knowledge base: generate optimized active views, archive stale entries, and report statistics.
 

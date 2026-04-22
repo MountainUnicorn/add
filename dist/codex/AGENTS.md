@@ -1,4 +1,4 @@
-# ADD — Agent Driven Development (Codex adapter v0.7.3)
+# ADD — Agent Driven Development (Codex adapter v0.8.0)
 
 This file is auto-generated from `core/` by `scripts/compile.py`.
 ADD is a methodology for agent-driven development — spec-driven, test-first,

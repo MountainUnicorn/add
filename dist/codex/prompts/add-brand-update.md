@@ -1,4 +1,4 @@
-# ADD Brand Update Command v0.7.3
+# ADD Brand Update Command v0.8.0
 
 Update the project's branding configuration with new materials and audit existing generated artifacts for brand consistency. Optionally apply fixes to bring artifacts in line with the new brand.
 

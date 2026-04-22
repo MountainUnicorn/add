@@ -1,4 +1,4 @@
-# ADD Deploy Skill v0.7.3
+# ADD Deploy Skill v0.8.0
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 

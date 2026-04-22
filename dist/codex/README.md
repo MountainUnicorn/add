@@ -1,4 +1,4 @@
-# ADD for Codex CLI — v0.7.3
+# ADD for Codex CLI — v0.8.0
 
 This directory is the Codex adapter for ADD. Install with:
 

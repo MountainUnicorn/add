@@ -1,4 +1,4 @@
-# ADD Test Writer Skill v0.7.3
+# ADD Test Writer Skill v0.8.0
 
 Generate comprehensive failing tests from a feature specification. This is the RED phase of TDD — write tests before implementation.
 
