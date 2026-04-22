@@ -59,10 +59,15 @@ ACTIVE=$(echo "$SORTED" | jq '.top | length' 2>/dev/null)
 REST_COUNT=$(echo "$SORTED" | jq '.rest | length' 2>/dev/null)
 ARCHIVED=$(jq '.entries | map(select(.archived == true)) | length' "$LEARNINGS_JSON" 2>/dev/null)
 
+ARCHIVED_NOTE=""
+if [ -n "$ARCHIVED" ] && [ "$ARCHIVED" -gt 0 ]; then
+  ARCHIVED_NOTE=" ($ARCHIVED archived)"
+fi
+
 {
   echo "# Active Learnings (${ACTIVE} of ${TOTAL})"
   echo ""
-  echo "> Pre-filtered by severity and date. Full data: \`.add/learnings.json\`${ARCHIVED:+$( [ "$ARCHIVED" -gt 0 ] && echo " ($ARCHIVED archived)" || true)}"
+  echo "> Pre-filtered by severity and date. Full data: \`.add/learnings.json\`${ARCHIVED_NOTE}"
   echo ""
   echo "$BODY"
   if [ -n "$REST" ] && [ "$REST_COUNT" -gt 0 ]; then
