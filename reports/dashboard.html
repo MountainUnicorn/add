@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="ADD Dashboard v0.4.0">
 <title>ADD — Project Dashboard</title>
 <style>
 :root {
@@ -23,79 +22,51 @@
   --text-muted: #6b7280;
   --border: rgba(255,255,255,0.08);
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.5;
   min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(176,1,73,0.08), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(14,165,233,0.06), transparent 40%);
 }
-.mono { font-family: 'SF Mono', Monaco, monospace; }
 a { color: var(--accent-light); text-decoration: none; }
-a:hover { color: var(--accent-mid); }
+code, .mono { font-family: 'SF Mono', Monaco, monospace; font-size: 13px; }
 
-/* Header */
-.site-header {
+.site-nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(15,15,35,0.92);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15,15,35,0.92);
   border-bottom: 1px solid var(--border);
-  padding: 12px clamp(16px, 4vw, 40px);
+  padding: 14px 32px;
 }
-.header-inner {
-  max-width: 1200px; margin: 0 auto;
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-}
-.header-logo { color: var(--accent); font-weight: 800; font-size: 18px; letter-spacing: 1px; }
-.header-project { font-weight: 600; font-size: 16px; }
-.header-meta { color: var(--text-muted); font-size: 12px; margin-left: auto; }
-.header-regen { color: var(--text-muted); font-size: 11px; }
-.header-nav {
-  width: 100%; display: flex; gap: 20px; margin-top: 4px;
-  font-size: 13px; flex-wrap: wrap;
-}
-.header-nav a { color: var(--text-secondary); transition: color 0.2s; }
-.header-nav a:hover { color: var(--accent-mid); }
+.nav-inner { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.brand { color: var(--accent); font-weight: 700; font-family: 'SF Mono', Monaco, monospace; font-size: 18px; letter-spacing: 0.5px; }
+.project-name { font-weight: 600; font-size: 16px; }
+.maturity-pill { padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.maturity-poc { background: rgba(234,179,8,0.15); color: #ca8a04; }
+.maturity-alpha { background: rgba(176,1,73,0.15); color: #d4326d; }
+.maturity-beta { background: rgba(212,50,109,0.15); color: #ff6b9d; }
+.maturity-ga { background: rgba(34,197,94,0.15); color: #22c55e; }
+.nav-meta { margin-left: auto; display: flex; gap: 20px; align-items: center; color: var(--text-muted); font-size: 12px; }
+.nav-links { display: flex; gap: 16px; flex-wrap: wrap; padding: 8px 0 0; width: 100%; align-items: center; }
+.nav-links a { color: var(--text-secondary); font-size: 13px; padding: 4px 0; }
+.nav-links a:hover { color: var(--accent-light); }
+.nav-note { color: var(--text-muted); font-size: 11px; font-family: 'SF Mono', Monaco, monospace; margin-left: auto; }
 
-/* Maturity badge */
-.badge {
-  display: inline-block; padding: 3px 10px; border-radius: 12px;
-  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+.container { max-width: 1320px; margin: 0 auto; padding: 32px; }
+.panel { margin-bottom: 48px; scroll-margin-top: 100px; }
+.panel-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.panel-title {
+  font-size: 24px; font-weight: 700;
+  background: linear-gradient(90deg, var(--accent-light), var(--accent-mid));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.badge-poc { background: rgba(234,179,8,0.15); color: #ca8a04; }
-.badge-alpha { background: rgba(176,1,73,0.15); color: #d4326d; }
-.badge-beta { background: rgba(212,50,109,0.15); color: #ff6b9d; }
-.badge-ga { background: rgba(34,197,94,0.15); color: #22c55e; }
-
-/* Status pills */
-.pill {
-  display: inline-block; padding: 2px 8px; border-radius: 10px;
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-}
-.pill-draft { background: rgba(107,114,128,0.2); color: #9ca3af; }
-.pill-specced { background: rgba(14,165,233,0.15); color: #0ea5e9; }
-.pill-planned { background: rgba(168,85,247,0.15); color: #a855f7; }
-.pill-in-progress { background: rgba(176,1,73,0.15); color: #d4326d; }
-.pill-verified { background: rgba(34,197,94,0.15); color: #22c55e; }
-.pill-done { background: rgba(22,163,74,0.2); color: #22c55e; font-weight: 700; }
-.pill-blocked { background: rgba(245,158,11,0.15); color: #f59e0b; }
-.pill-deferred { background: rgba(107,114,128,0.15); color: #6b7280; }
-
-/* Sections */
-.panel {
-  padding: 60px clamp(16px, 4vw, 40px);
-  border-bottom: 1px solid var(--border);
-}
-.panel-inner { max-width: 1200px; margin: 0 auto; }
-.panel-eyebrow {
-  font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--accent-light); margin-bottom: 8px; font-weight: 600;
-}
-.panel-title { font-size: 32px; font-weight: 700; margin-bottom: 32px; }
-
-/* Cards */
+.panel-sub { color: var(--text-secondary); font-size: 13px; }
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -103,587 +74,601 @@ a:hover { color: var(--accent-mid); }
   padding: 24px;
   transition: all 0.3s;
 }
-.card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-
-/* Grid layouts */
-.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-
-/* Traceability chain */
-.trace-chain {
-  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
-  justify-content: center; margin-bottom: 32px;
-}
-.trace-node {
-  text-align: center; padding: 16px 24px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 12px; min-width: 140px;
-}
-.trace-node.healthy { border-color: rgba(34,197,94,0.3); }
-.trace-node .trace-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-.trace-node .trace-value { font-size: 28px; font-weight: 700; margin-top: 4px; }
-.trace-arrow {
-  font-size: 24px; color: var(--text-muted); padding: 0 8px;
-  flex-shrink: 0;
+.card:hover { border-color: rgba(176,1,73,0.3); }
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
 
-/* Donut chart container */
-.donut-container { display: flex; justify-content: center; align-items: center; gap: 32px; margin-top: 24px; flex-wrap: wrap; }
+.pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; }
+.pill-draft { background: rgba(107,114,128,0.2); color: #9ca3af; }
+.pill-specced { background: rgba(14,165,233,0.15); color: #0ea5e9; }
+.pill-planned { background: rgba(168,85,247,0.15); color: #a855f7; }
+.pill-in-progress { background: rgba(176,1,73,0.18); color: #d4326d; }
+.pill-verified { background: rgba(34,197,94,0.15); color: #22c55e; }
+.pill-done { background: rgba(22,163,74,0.22); color: #22c55e; font-weight: 700; }
+.pill-blocked { background: rgba(245,158,11,0.18); color: #f59e0b; }
 
-/* Hill chart */
-.hill-svg { width: 100%; max-width: 700px; margin: 0 auto; display: block; }
-.hill-labels { display: flex; justify-content: space-around; max-width: 700px; margin: 8px auto 0; }
-.hill-labels span { font-size: 13px; color: var(--text-muted); font-style: italic; }
-
-/* Legend */
-.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; justify-content: center; }
-.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); }
-
-/* Cycle progress */
-.cycle-empty { text-align: center; padding: 40px; color: var(--text-muted); font-size: 15px; }
-.cycle-empty code { color: var(--accent-light); }
-
-/* Decision cards */
-.decision-card { padding: 20px; }
-.decision-action { color: var(--accent-light); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.decision-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-.decision-desc { color: var(--text-secondary); font-size: 13px; margin-bottom: 8px; }
-.decision-cmd { font-size: 12px; color: var(--text-muted); }
-.decision-cmd code { color: var(--accent-mid); background: rgba(176,1,73,0.1); padding: 2px 6px; border-radius: 4px; }
-.decision-clear { border-color: rgba(34,197,94,0.2); text-align: center; }
-.decision-clear .decision-action { color: var(--success); }
-
-/* Metric cards */
-.metric-card { text-align: center; padding: 28px 20px; }
-.metric-value { font-size: 42px; font-weight: 800; margin-bottom: 4px; }
-.metric-label { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
-.metric-accent { color: var(--accent-light); }
-.metric-info { color: var(--info); }
-.metric-success { color: var(--success); }
-.metric-purple { color: var(--purple); }
-
-/* Maturity track */
-.maturity-track {
-  display: flex; align-items: center; gap: 0;
-  margin: 32px auto; max-width: 600px; position: relative;
+.flow { display: flex; align-items: stretch; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.flow-node {
+  flex: 1; min-width: 160px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 6px;
 }
-.maturity-step {
-  flex: 1; text-align: center; padding: 12px 0; position: relative;
-  font-size: 13px; font-weight: 600; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: 1px;
-}
-.maturity-step::after {
-  content: ''; position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 12px; height: 12px; border-radius: 50%;
-  background: var(--text-muted); z-index: 1;
-}
-.maturity-step.active { color: var(--accent-light); }
-.maturity-step.active::after {
-  background: var(--accent); width: 16px; height: 16px;
-  box-shadow: 0 0 12px rgba(176,1,73,0.6);
-  animation: pulse 2s ease-in-out infinite;
-}
-.maturity-step.completed { color: var(--success); }
-.maturity-step.completed::after { background: var(--success); }
-.maturity-step .step-label { display: block; margin-top: 16px; }
-.maturity-line {
-  position: absolute; top: 50%; left: 12%; right: 12%;
-  height: 2px; background: var(--text-muted);
-  transform: translateY(-1px);
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(176,1,73,0.4); }
-  50% { box-shadow: 0 0 20px rgba(176,1,73,0.8); }
-}
-
-/* Retro scores chart */
-.scores-chart { margin-top: 32px; }
-.scores-chart svg { width: 100%; max-width: 600px; display: block; margin: 0 auto; }
-
-/* Timeline */
-.timeline-filters {
-  display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
-}
-.timeline-filters button {
-  background: var(--bg-card); border: 1px solid var(--border);
-  color: var(--text-secondary); padding: 6px 14px; border-radius: 20px;
-  font-size: 12px; cursor: pointer; transition: all 0.2s;
-  font-family: inherit;
-}
-.timeline-filters button:hover, .timeline-filters button.active {
-  background: rgba(176,1,73,0.15); color: var(--accent-light);
-  border-color: rgba(176,1,73,0.3);
-}
-.timeline-container {
-  position: relative; padding: 20px 0;
-  overflow-x: auto; min-height: 200px;
-}
-.timeline-line {
-  position: absolute; top: 50%; left: 0; right: 0;
-  height: 2px; background: var(--border);
-}
-.timeline-events {
-  display: flex; gap: 0; position: relative;
-  min-width: max-content; padding: 0 20px;
-}
-.timeline-event {
-  display: flex; flex-direction: column; align-items: center;
-  min-width: 140px; position: relative;
-}
-.timeline-event.above .tl-card { order: -1; margin-bottom: 12px; }
-.timeline-event.below .tl-card { order: 1; margin-top: 12px; }
-.tl-dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  border: 2px solid var(--bg-primary); z-index: 2;
-  flex-shrink: 0;
-}
-.tl-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 10px; padding: 10px 14px;
-  width: 130px; text-align: center; font-size: 12px;
-}
-.tl-date { color: var(--text-muted); font-size: 10px; margin-bottom: 2px; }
-.tl-type { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-.tl-title { font-weight: 600; font-size: 11px; }
-
-/* Accordion */
-details { margin-top: 12px; }
-details summary {
-  cursor: pointer; padding: 12px 16px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 10px; font-size: 14px;
-  list-style: none; display: flex; align-items: center; gap: 8px;
-}
-details summary::before { content: '▸'; transition: transform 0.2s; }
-details[open] summary::before { transform: rotate(90deg); }
-details .detail-content { padding: 16px; }
-
-/* Progress bar */
-.progress-bar {
-  height: 6px; background: rgba(255,255,255,0.1);
-  border-radius: 3px; overflow: hidden; margin-top: 6px;
-}
-.progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
-
-/* Callout */
+.flow-node.healthy { border-color: rgba(34,197,94,0.35); }
+.flow-node.warn { border-color: rgba(245,158,11,0.45); }
+.flow-node-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+.flow-node-count { font-size: 28px; font-weight: 700; color: var(--text-primary); }
+.flow-node-sub { color: var(--text-secondary); font-size: 12px; }
+.flow-arrow { display: flex; align-items: center; color: var(--text-muted); font-size: 20px; padding: 0 4px; }
 .callout {
-  padding: 16px 20px; border-radius: 10px;
-  font-size: 13px; margin-top: 16px;
+  padding: 14px 18px; border-radius: 10px; margin-top: 12px;
+  background: rgba(245,158,11,0.08);
+  border-left: 3px solid var(--warning);
+  color: var(--text-secondary); font-size: 13px;
 }
-.callout-amber { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: #fbbf24; }
-.callout-green { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: #4ade80; }
+.callout strong { color: var(--text-primary); }
 
-/* Print */
+.donut-wrap { display: flex; align-items: center; gap: 28px; justify-content: center; padding: 20px 0; }
+.donut-text { text-align: center; }
+.donut-text .big { font-size: 42px; font-weight: 700; background: linear-gradient(90deg, var(--accent-light), var(--accent-mid)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.donut-text .label { color: var(--text-secondary); font-size: 13px; margin-top: 4px; }
+
+.hill-svg { width: 100%; max-width: 900px; display: block; margin: 0 auto; height: auto; }
+.hill-labels { display: flex; justify-content: space-between; margin-top: 8px; color: var(--text-muted); font-size: 12px; padding: 0 20px; }
+.hill-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; }
+
+.cycle-empty { text-align: center; padding: 30px 20px; color: var(--text-secondary); font-style: italic; }
+.cycle-empty code { background: rgba(176,1,73,0.1); padding: 2px 8px; border-radius: 4px; color: var(--accent-light); font-style: normal; }
+.feature-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.feature-row:last-child { border-bottom: none; }
+.feature-name { flex: 1; font-weight: 500; }
+details.past-cycle { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+details summary { cursor: pointer; padding: 8px 0; color: var(--text-secondary); font-size: 14px; }
+
+.decision-card {
+  background: rgba(176,1,73,0.08);
+  border: 1px solid rgba(176,1,73,0.25);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.decision-card.warn { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); }
+.decision-action { color: var(--accent-light); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.decision-card.warn .decision-action { color: var(--warning); }
+.decision-target { font-weight: 600; font-size: 15px; }
+.decision-desc { color: var(--text-secondary); font-size: 13px; }
+.decision-desc code { font-size: 11px; background: rgba(0,0,0,0.25); padding: 1px 5px; border-radius: 3px; color: var(--accent-light); }
+.decision-cmd { font-family: 'SF Mono', Monaco, monospace; font-size: 12px; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; color: var(--accent-light); align-self: flex-start; }
+
+.metric-card { text-align: center; padding: 28px 20px; }
+.metric-card .num { font-size: 48px; font-weight: 700; background: linear-gradient(90deg, var(--accent-light), var(--accent-mid)); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1; }
+.metric-card .lbl { color: var(--text-secondary); font-size: 13px; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.metric-card .sub { color: var(--text-muted); font-size: 11px; margin-top: 6px; }
+
+.maturity-track { display: flex; align-items: center; justify-content: space-between; padding: 24px 8px; margin-top: 12px; position: relative; }
+.maturity-track::before {
+  content: ""; position: absolute; left: 40px; right: 40px; top: 50%; height: 2px;
+  background: linear-gradient(90deg, #ca8a04, #d4326d, #ff6b9d, #22c55e);
+  opacity: 0.3;
+}
+.maturity-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.maturity-step .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--bg-tertiary); border: 2px solid var(--border); }
+.maturity-step.active .dot { background: var(--accent); border-color: var(--accent-light); box-shadow: 0 0 0 4px rgba(176,1,73,0.2); animation: pulse 2s ease-in-out infinite; }
+.maturity-step.passed .dot { background: var(--success); border-color: var(--success); }
+.maturity-step .lbl { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.maturity-step.active .lbl { color: var(--accent-light); }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(176,1,73,0.2); } 50% { box-shadow: 0 0 0 10px rgba(176,1,73,0.05); } }
+
+.timeline-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.filter-btn {
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);
+  padding: 6px 14px; border-radius: 999px; cursor: pointer; font-size: 12px; font-family: inherit;
+  transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+.filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+.timeline-scroll { overflow-x: auto; padding: 20px 0; }
+.timeline-rail { position: relative; min-width: 1400px; padding: 120px 20px; }
+.timeline-rail::before { content: ""; position: absolute; left: 20px; right: 20px; top: 50%; height: 2px; background: linear-gradient(90deg, rgba(176,1,73,0.2), rgba(255,107,157,0.5), rgba(176,1,73,0.2)); }
+.timeline-events { display: flex; gap: 20px; position: relative; }
+.timeline-event { position: relative; flex-shrink: 0; width: 170px; display: flex; justify-content: center; }
+.timeline-event .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg-primary); box-shadow: 0 0 0 2px var(--accent); z-index: 2; margin-top: -7px; }
+.timeline-event.milestone .dot { background: var(--success); box-shadow: 0 0 0 2px var(--success); }
+.timeline-event.spec .dot { background: var(--info); box-shadow: 0 0 0 2px var(--info); }
+.timeline-event.release .dot { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.timeline-event.retro .dot { background: var(--purple); box-shadow: 0 0 0 2px var(--purple); }
+.event-card {
+  position: absolute; left: 50%; transform: translateX(-50%); width: 160px;
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px; font-size: 12px;
+}
+.timeline-event:nth-child(odd) .event-card { bottom: calc(50% + 20px); }
+.timeline-event:nth-child(even) .event-card { top: calc(50% + 20px); }
+.event-date { color: var(--text-muted); font-size: 10px; font-family: 'SF Mono', Monaco, monospace; }
+.event-icon { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; margin: 4px 0; }
+.event-icon.milestone { background: rgba(34,197,94,0.2); color: var(--success); }
+.event-icon.spec { background: rgba(14,165,233,0.2); color: var(--info); }
+.event-icon.release { background: rgba(176,1,73,0.2); color: var(--accent-light); }
+.event-icon.retro { background: rgba(168,85,247,0.2); color: var(--purple); }
+.event-title { font-weight: 600; margin: 2px 0; color: var(--text-primary); font-size: 12px; }
+.event-desc { color: var(--text-secondary); font-size: 11px; line-height: 1.35; }
+.timeline-event.hidden { display: none; }
+
+footer { margin-top: 60px; padding: 24px 0; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 12px; text-align: center; }
+footer code { color: var(--accent-light); }
+
 @media print {
-  .site-header { display: none; }
-  details { open; }
+  .site-nav { display: none; }
   details[open] summary { display: none; }
+  details { display: block; }
   body { background: white; color: black; }
-  .card, .trace-node, .metric-card { border: 1px solid #ccc; break-inside: avoid; background: white; }
-  .panel { padding: 20px 0; }
-  .panel-eyebrow { color: #666; }
-  .panel-title { color: black; }
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .trace-chain { flex-direction: column; }
-  .trace-arrow { transform: rotate(90deg); }
-  .panel-title { font-size: 24px; }
-  .metric-value { font-size: 32px; }
+  .card, .flow-node, .decision-card, .event-card { border: 1px solid #ccc; break-inside: avoid; background: white; color: black; }
+  .panel-title { color: black; -webkit-text-fill-color: black; }
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<header class="site-header">
-  <div class="header-inner">
-    <span class="header-logo mono">ADD</span>
-    <span class="header-project">ADD</span>
-    <span class="badge badge-alpha">Alpha</span>
-    <span class="header-meta">Generated: 2026-02-19T03:30:00Z</span>
-    <span class="header-regen">Run <code class="mono" style="color:var(--accent-mid)">/add:dashboard</code> to regenerate</span>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <span class="brand">ADD</span>
+    <span class="project-name">ADD</span>
+    <span class="maturity-pill maturity-alpha">alpha</span>
+    <div class="nav-meta">
+      <span>Generated: <span id="gen-ts">—</span></span>
+    </div>
   </div>
-  <nav class="header-nav" style="max-width:1200px;margin:4px auto 0;">
-    <a href="#outcome-health">Outcome Health</a>
-    <a href="#hill-chart">Hill Chart</a>
-    <a href="#cycle-progress">Cycle Progress</a>
-    <a href="#decision-queue">Decision Queue</a>
-    <a href="#intelligence">Intelligence</a>
+  <div class="nav-links">
+    <a href="#outcome">Outcome Health</a>
+    <a href="#hill">Hill Chart</a>
+    <a href="#cycle">Cycle Progress</a>
+    <a href="#decisions">Decision Queue</a>
+    <a href="#intel">Intelligence</a>
     <a href="#timeline">Timeline</a>
-  </nav>
-</header>
+    <span class="nav-note">Run <code>/add:dashboard</code> to regenerate</span>
+  </div>
+</nav>
 
-<!-- Panel 1: Outcome Health -->
-<section class="panel" id="outcome-health">
-  <div class="panel-inner">
-    <div class="panel-eyebrow">Traceability</div>
+<div class="container">
+
+<section class="panel" id="outcome">
+  <div class="panel-header">
     <h2 class="panel-title">Outcome Health</h2>
-
-    <div class="trace-chain">
-      <div class="trace-node healthy">
-        <div class="trace-label">PRD Requirements</div>
-        <div class="trace-value">9</div>
-      </div>
-      <div class="trace-arrow">→</div>
-      <div class="trace-node healthy">
-        <div class="trace-label">Specs</div>
-        <div class="trace-value">9</div>
-      </div>
-      <div class="trace-arrow">→</div>
-      <div class="trace-node healthy">
-        <div class="trace-label">Acceptance Criteria</div>
-        <div class="trace-value" style="font-size:22px">169 / 194</div>
-      </div>
-      <div class="trace-arrow">→</div>
-      <div class="trace-node healthy">
-        <div class="trace-label">Shipped Specs</div>
-        <div class="trace-value" style="color:var(--success)">8</div>
-      </div>
-    </div>
-
-    <div class="callout callout-amber">
-      <strong>Potential Scope Addition:</strong> <em>Project Dashboard</em> spec exists but is not assigned to any milestone yet.
-    </div>
-
-    <div class="donut-container">
-      <svg width="140" height="140" viewBox="0 0 140 140">
-        <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="12"/>
-        <circle cx="70" cy="70" r="56" fill="none" stroke="#22c55e" stroke-width="12"
-          stroke-dasharray="306.3 351.86" stroke-dashoffset="87.96"
-          transform="rotate(-90 70 70)" stroke-linecap="round"/>
-        <text x="70" y="66" text-anchor="middle" fill="var(--text-primary)" font-size="28" font-weight="800">87%</text>
-        <text x="70" y="84" text-anchor="middle" fill="var(--text-muted)" font-size="11">AC Complete</text>
-      </svg>
-      <div style="font-size:14px;color:var(--text-secondary);max-width:300px">
-        <div style="margin-bottom:8px"><strong style="color:var(--success)">169</strong> acceptance criteria verified across 8 shipped specs</div>
-        <div><strong style="color:var(--text-muted)">25</strong> remaining in 1 draft spec (Project Dashboard)</div>
-      </div>
-    </div>
+    <span class="panel-sub">PRD requirements traced through specs, acceptance criteria, and done work</span>
   </div>
-</section>
-
-<!-- Panel 2: Hill Chart -->
-<section class="panel" id="hill-chart">
-  <div class="panel-inner">
-    <div class="panel-eyebrow">Feature Progress</div>
-    <h2 class="panel-title">Hill Chart</h2>
-
-    <svg class="hill-svg" viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
-      <!-- Grid lines -->
-      <line x1="350" y1="20" x2="350" y2="230" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="4"/>
-      <line x1="0" y1="220" x2="700" y2="220" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-
-      <!-- Hill curve -->
-      <path d="M 0 220 C 140 220, 210 30, 350 30 C 490 30, 560 220, 700 220"
-        fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
-
-      <!-- Fill under curve -->
-      <path d="M 0 220 C 140 220, 210 30, 350 30 C 490 30, 560 220, 700 220 L 700 220 L 0 220 Z"
-        fill="rgba(255,255,255,0.02)"/>
-
-      <!-- Labels -->
-      <text x="175" y="260" text-anchor="middle" fill="var(--text-muted)" font-size="12" font-style="italic">Figuring it out</text>
-      <text x="525" y="260" text-anchor="middle" fill="var(--text-muted)" font-size="12" font-style="italic">Executing</text>
-
-      <!-- M2 features (done, 90% position) - spread along right side -->
-      <!-- Session Continuity (M2) -->
-      <circle cx="618" cy="125" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Session Continuity | done | 34/34 ACs (100%)</title>
-      </circle>
-      <!-- Branding System (M2) -->
-      <circle cx="630" cy="140" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Branding System | done | 13/13 ACs (100%)</title>
-      </circle>
-      <!-- Image Gen Detection (M2) -->
-      <circle cx="642" cy="155" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Image Gen Detection | done | 11/11 ACs (100%)</title>
-      </circle>
-      <!-- Auto-Changelog (M2) -->
-      <circle cx="636" cy="170" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Auto-Changelog | done | 12/12 ACs (100%)</title>
-      </circle>
-      <!-- Infographic Generation (M2) -->
-      <circle cx="624" cy="162" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Infographic Generation | done | 18/18 ACs (100%)</title>
-      </circle>
-      <!-- Learning Library Search (M2) -->
-      <circle cx="648" cy="133" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Learning Library Search | done | 29/29 ACs (100%)</title>
-      </circle>
-      <!-- Legacy Adoption (M2) -->
-      <circle cx="612" cy="148" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Legacy Adoption | done | 22/22 ACs (100%)</title>
-      </circle>
-      <!-- Retro Template Automation (M2) -->
-      <circle cx="654" cy="150" r="8" fill="#b00149" stroke="white" stroke-width="2">
-        <title>Retro Template Automation | done | 30/30 ACs (100%)</title>
-      </circle>
-
-      <!-- Milestone M2 checkmark (all done) -->
-      <text x="636" y="105" text-anchor="middle" fill="#22c55e" font-size="16">✓</text>
-      <text x="636" y="96" text-anchor="middle" fill="var(--text-muted)" font-size="9">M2</text>
-
-      <!-- Project Dashboard (Draft with plan = planned, 40%) -->
-      <circle cx="280" cy="60" r="8" fill="#0ea5e9" stroke="white" stroke-width="2">
-        <title>Project Dashboard | planned | 0/25 ACs (0%)</title>
-      </circle>
-      <text x="280" y="48" text-anchor="middle" fill="var(--text-muted)" font-size="9">Dashboard</text>
-    </svg>
-
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#b00149"></div> M2: Adoption &amp; Polish</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div> Unassigned</div>
-      <div class="legend-item"><span style="color:#22c55e;font-size:14px">✓</span> All features done</div>
-    </div>
-  </div>
-</section>
-
-<!-- Panel 3: Cycle Progress -->
-<section class="panel" id="cycle-progress">
-  <div class="panel-inner">
-    <div class="panel-eyebrow">Work Cycles</div>
-    <h2 class="panel-title">Cycle Progress</h2>
-
-    <div class="cycle-empty card">
-      <div style="font-size:24px;margin-bottom:12px">📋</div>
-      <div>No cycles yet — run <code>/add:cycle</code> to plan your first work batch.</div>
-      <div style="margin-top:8px;font-size:13px;color:var(--text-muted)">
-        Cycles scope-box features from milestones into actionable batches with validation criteria.
-      </div>
-    </div>
-
-    <div style="margin-top:24px">
-      <div style="font-size:14px;color:var(--text-secondary);margin-bottom:8px">WIP Limit</div>
-      <div class="card" style="display:flex;align-items:center;gap:16px;padding:16px 20px">
-        <div style="font-size:20px;font-weight:700">0 / 4</div>
-        <div style="font-size:13px;color:var(--text-muted)">WIP slots used</div>
-        <div class="progress-bar" style="flex:1">
-          <div class="progress-fill" style="width:0%;background:var(--success)"></div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="flow">
+        <div class="flow-node healthy">
+          <span class="flow-node-label">PRD Requirements</span>
+          <span class="flow-node-count">12</span>
+          <span class="flow-node-sub">H2 sections in docs/prd.md</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node healthy">
+          <span class="flow-node-label">Specs</span>
+          <span class="flow-node-count">11</span>
+          <span class="flow-node-sub">8 complete · 1 impl · 2 draft</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node warn">
+          <span class="flow-node-label">Acceptance Criteria</span>
+          <span class="flow-node-count">169 / 243</span>
+          <span class="flow-node-sub">70% of ACs closed</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node healthy">
+          <span class="flow-node-label">Done Specs</span>
+          <span class="flow-node-count">8</span>
+          <span class="flow-node-sub">status: Complete</span>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Panel 4: Decision Queue -->
-<section class="panel" id="decision-queue">
-  <div class="panel-inner">
-    <div class="panel-eyebrow">Human Bottlenecks</div>
-    <h2 class="panel-title">Decision Queue</h2>
-
-    <div class="grid-2" id="decision-cards">
-      <div class="card decision-card">
-        <div class="decision-action">Approve Spec</div>
-        <div class="decision-name">Project Dashboard</div>
-        <div class="decision-desc">Spec is in Draft status — review and approve to unblock implementation.</div>
-        <div class="decision-cmd">Run <code>/add:spec project-dashboard</code> to refine</div>
-      </div>
-
-      <div class="card decision-card">
-        <div class="decision-action">Confirm Scope</div>
-        <div class="decision-name">Project Dashboard</div>
-        <div class="decision-desc">This spec is not assigned to any milestone. Assign it to a milestone to track progress.</div>
-        <div class="decision-cmd">Run <code>/add:cycle</code> to assign to a work cycle</div>
-      </div>
-
-      <div class="card decision-card">
-        <div class="decision-action">Consider Maturity Upgrade</div>
-        <div class="decision-name">Alpha → Beta</div>
-        <div class="decision-desc">2 milestones completed (M1, M2) at Alpha maturity. Evidence may support Beta promotion.</div>
-        <div class="decision-cmd">Run <code>/add:retro</code> to trigger promotion assessment</div>
+      <div class="callout">
+        <strong>2 untraced specs:</strong> <code>plugin-installation-reliability</code> and <code>timeline-events</code> are Draft (target v0.5.0) but aren't listed in any milestone file. Config points to milestone <code>M2-install-and-safety</code> — no file with that name exists on disk.
       </div>
     </div>
-  </div>
-</section>
-
-<!-- Panel 5: Project Intelligence -->
-<section class="panel" id="intelligence">
-  <div class="panel-inner">
-    <div class="panel-eyebrow">Knowledge &amp; Metrics</div>
-    <h2 class="panel-title">Project Intelligence</h2>
-
-    <div class="grid-4">
-      <div class="card metric-card">
-        <div class="metric-value metric-info">34</div>
-        <div class="metric-label">Learnings Captured</div>
-      </div>
-      <div class="card metric-card">
-        <div class="metric-value metric-purple">0</div>
-        <div class="metric-label">Decisions Logged</div>
-      </div>
-      <div class="card metric-card">
-        <div class="metric-value metric-accent">0</div>
-        <div class="metric-label">Cycles Completed</div>
-      </div>
-      <div class="card metric-card">
-        <div class="metric-value metric-success">8</div>
-        <div class="metric-label">Specs Shipped</div>
-      </div>
-    </div>
-
-    <!-- Maturity Timeline -->
-    <div style="margin-top:40px;position:relative">
-      <div class="maturity-line"></div>
-      <div class="maturity-track">
-        <div class="maturity-step completed">
-          <span class="step-label">POC</span>
-        </div>
-        <div class="maturity-step active">
-          <span class="step-label">Alpha</span>
-        </div>
-        <div class="maturity-step">
-          <span class="step-label">Beta</span>
-        </div>
-        <div class="maturity-step">
-          <span class="step-label">GA</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Retro Scores Trend -->
-    <div class="scores-chart">
-      <h3 style="font-size:16px;margin-bottom:16px;color:var(--text-secondary)">Retro Scores Trend</h3>
-      <div class="card" style="padding:24px;text-align:center">
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="max-width:500px">
-          <!-- Y-axis labels -->
-          <text x="25" y="18" fill="var(--text-muted)" font-size="10" text-anchor="end">9.0</text>
-          <text x="25" y="58" fill="var(--text-muted)" font-size="10" text-anchor="end">6.0</text>
-          <text x="25" y="98" fill="var(--text-muted)" font-size="10" text-anchor="end">4.5</text>
-          <text x="25" y="138" fill="var(--text-muted)" font-size="10" text-anchor="end">3.0</text>
-          <text x="25" y="178" fill="var(--text-muted)" font-size="10" text-anchor="end">0.0</text>
-
-          <!-- Grid lines -->
-          <line x1="30" y1="15" x2="380" y2="15" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="30" y1="55" x2="380" y2="55" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="30" y1="95" x2="380" y2="95" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="30" y1="135" x2="380" y2="135" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="30" y1="175" x2="380" y2="175" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-
-          <!-- X-axis label -->
-          <text x="200" y="195" fill="var(--text-muted)" font-size="10" text-anchor="middle">2026-02-19</text>
-
-          <!-- Single data point for each metric -->
-          <!-- Collab: 4.0 → y = 175 - (4.0/9.0 * 160) = 175 - 71.1 = 103.9 -->
-          <circle cx="200" cy="104" r="5" fill="#0ea5e9" stroke="white" stroke-width="1.5">
-            <title>Collaboration: 4.0 (2026-02-19)</title>
-          </circle>
-
-          <!-- ADD effectiveness: 5.8 → y = 175 - (5.8/9.0 * 160) = 175 - 103.1 = 71.9 -->
-          <circle cx="200" cy="72" r="5" fill="#b00149" stroke="white" stroke-width="1.5">
-            <title>ADD Effectiveness: 5.8 (2026-02-19)</title>
-          </circle>
-
-          <!-- Swarm: 6.2 → y = 175 - (6.2/9.0 * 160) = 175 - 110.2 = 64.8 -->
-          <circle cx="200" cy="65" r="5" fill="#22c55e" stroke="white" stroke-width="1.5">
-            <title>Swarm Effectiveness: 6.2 (2026-02-19)</title>
-          </circle>
+    <div class="card">
+      <div class="donut-wrap">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="75" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="16"/>
+          <circle cx="90" cy="90" r="75" fill="none" stroke="#22c55e" stroke-width="16"
+            stroke-dasharray="329.87 471.24" stroke-linecap="round"
+            transform="rotate(-90 90 90)"/>
         </svg>
-        <div class="legend" style="margin-top:12px">
-          <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9;border-color:#0ea5e9"></div> Collaboration (4.0)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#b00149;border-color:#b00149"></div> ADD Effectiveness (5.8)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#22c55e;border-color:#22c55e"></div> Swarm Effectiveness (6.2)</div>
+        <div class="donut-text">
+          <div class="big">70%</div>
+          <div class="label">Acceptance Criteria Completion</div>
+          <div style="color:var(--text-muted); font-size: 11px; margin-top: 6px;">169 of 243 ACs across 8 finished specs</div>
         </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:8px">1 retro recorded — trend will appear after 2+ retros</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Panel 6: Project Timeline -->
+<section class="panel" id="hill">
+  <div class="panel-header">
+    <h2 class="panel-title">Hill Chart</h2>
+    <span class="panel-sub">Left half: figuring it out · Right half: executing</span>
+  </div>
+  <div class="card">
+    <svg class="hill-svg" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0 200 C 100 200, 150 20, 250 20 C 350 20, 400 200, 500 200"
+        fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+      <line x1="250" y1="0" x2="250" y2="220" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4 4"/>
+
+      <circle cx="445.2" cy="181.28" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>auto-changelog | done | M2 | 12/12 AC</title></circle>
+      <circle cx="435.2" cy="175" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>branding-system | done | M2 | 13/13 AC</title></circle>
+      <circle cx="455.2" cy="185" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>image-gen-detection | done | M2 | 11/11 AC</title></circle>
+      <circle cx="425.2" cy="170" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>infographic-generation | done | M2 | 18/18 AC</title></circle>
+      <circle cx="465.2" cy="186" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>learning-library-search | done | M2 | 29/29 AC</title></circle>
+      <circle cx="415.2" cy="165" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>legacy-adoption | done | M2 | 22/22 AC</title></circle>
+      <circle cx="405.2" cy="160" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>retro-template-automation | done | M2 | 30/30 AC</title></circle>
+      <circle cx="475.2" cy="190" r="8" fill="#b00149" stroke="white" stroke-width="2"><title>session-continuity-and-self-evolution | done | M1 | 34/34 AC</title></circle>
+
+      <circle cx="304.8" cy="38.72" r="8" fill="#0ea5e9" stroke="white" stroke-width="2"><title>project-dashboard | in-progress | M2 | 25 ACs</title></circle>
+
+      <circle cx="54.8" cy="181.28" r="8" fill="#f59e0b" stroke="white" stroke-width="2"><title>plugin-installation-reliability | draft | untraced → v0.5.0 | 22 ACs</title></circle>
+      <circle cx="44.8" cy="175" r="8" fill="#f59e0b" stroke="white" stroke-width="2"><title>timeline-events | draft | untraced → v0.5.0 | 27 ACs</title></circle>
+
+      <text x="125" y="235" text-anchor="middle" fill="#a0a0a0" font-size="11" font-family="system-ui">Figuring it out</text>
+      <text x="375" y="235" text-anchor="middle" fill="#a0a0a0" font-size="11" font-family="system-ui">Executing</text>
+
+      <g transform="translate(488, 12)">
+        <circle r="10" fill="#22c55e"/>
+        <path d="M -4 0 L -1 3 L 4 -3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="0" y="26" text-anchor="middle" fill="#22c55e" font-size="10" font-family="system-ui" font-weight="600">M1 + M2</text>
+      </g>
+    </svg>
+    <div class="hill-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#b00149"></span>M1 Core Plugin (complete)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#0ea5e9"></span>M2 Adoption &amp; Polish (complete)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#a855f7"></span>M3 Marketplace Ready (not started)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Untraced drafts</span>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="cycle">
+  <div class="panel-header">
+    <h2 class="panel-title">Cycle Progress</h2>
+    <span class="panel-sub">WIP 0 / 4 · current cycle: <em>none</em></span>
+  </div>
+  <div class="card">
+    <div class="cycle-empty">
+      No cycles yet — run <code>/add:cycle</code> to plan your first work batch.
+      <div style="margin-top: 14px; font-size: 13px; color: var(--text-muted); font-style: normal;">
+        Work has been milestone-driven so far. <code>.add/cycles/</code> is empty.
+      </div>
+    </div>
+    <details class="past-cycle">
+      <summary>Recent velocity from git &amp; changelog (no formal cycles recorded)</summary>
+      <div style="padding: 10px 0 4px;">
+        <div class="feature-row"><span class="feature-name">v0.8.0 — pre-filtered active learning views (62-82% token reduction)</span><span class="pill pill-done">shipped</span><span class="mono" style="color:var(--text-muted)">2026-04-22</span></div>
+        <div class="feature-row"><span class="feature-name">Horizon 1 — install/upgrade UX improvements</span><span class="pill pill-in-progress">in-progress</span><span class="mono" style="color:var(--text-muted)">2026-04-21</span></div>
+        <div class="feature-row"><span class="feature-name">v0.7.3 — first GitHub-verified signed release</span><span class="pill pill-done">shipped</span><span class="mono" style="color:var(--text-muted)">2026-04-12</span></div>
+        <div class="feature-row"><span class="feature-name">v0.7.0 — multi-runtime (Claude + Codex) + hardening</span><span class="pill pill-done">shipped</span><span class="mono" style="color:var(--text-muted)">2026-04-12</span></div>
+        <div class="feature-row"><span class="feature-name">v0.6.0 — community release, roadmap &amp; promote skills</span><span class="pill pill-done">shipped</span><span class="mono" style="color:var(--text-muted)">2026-04-12</span></div>
+        <div class="feature-row"><span class="feature-name">v0.5.0 — plugin isolated into plugins/add/</span><span class="pill pill-done">shipped</span><span class="mono" style="color:var(--text-muted)">2026-04</span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="panel" id="decisions">
+  <div class="panel-header">
+    <h2 class="panel-title">Decision Queue</h2>
+    <span class="panel-sub">Human bottlenecks — 6 items waiting on you</span>
+  </div>
+  <div class="grid grid-3">
+    <div class="decision-card">
+      <span class="decision-action">Approve Spec</span>
+      <span class="decision-target">plugin-installation-reliability</span>
+      <span class="decision-desc">Draft targeting v0.5.0 (22 ACs). Names four root causes for broken <code>claude plugin install add</code>: not in default marketplace, dual identity, self-referential source path, unrecognized <code>rules/</code> dir.</span>
+      <span class="decision-cmd">/add:spec plugin-installation-reliability</span>
+    </div>
+    <div class="decision-card">
+      <span class="decision-action">Approve Spec</span>
+      <span class="decision-target">timeline-events</span>
+      <span class="decision-desc">Draft targeting v0.5.0 (27 ACs). Needed to power this Timeline panel with real event data instead of heuristics.</span>
+      <span class="decision-cmd">/add:spec timeline-events</span>
+    </div>
+    <div class="decision-card warn">
+      <span class="decision-action">Unblock</span>
+      <span class="decision-target">plugin install pipeline</span>
+      <span class="decision-desc">Handoff flags <code>claude plugin install add</code> as broken. Since then v0.5.0 isolated the plugin into <code>plugins/add/</code> — verify the blocker is resolved and update <code>.add/handoff.md</code>.</span>
+      <span class="decision-cmd">claude plugin install add</span>
+    </div>
+    <div class="decision-card">
+      <span class="decision-action">Confirm Scope</span>
+      <span class="decision-target">M2-install-and-safety</span>
+      <span class="decision-desc">Config points to this milestone but no file exists in <code>docs/milestones/</code>. Either create it (the two Draft specs belong there) or re-point config at <code>M3-marketplace-ready</code>.</span>
+      <span class="decision-cmd">/add:milestone</span>
+    </div>
+    <div class="decision-card">
+      <span class="decision-action">Consider Maturity Upgrade</span>
+      <span class="decision-target">alpha → beta</span>
+      <span class="decision-desc">M1 and M2 are both COMPLETE. Ten releases shipped (0.1.0 → 0.7.3), community PRs merged, GPG-signed releases live. Alpha criteria appear met.</span>
+      <span class="decision-cmd">/add:promote</span>
+    </div>
+    <div class="decision-card warn">
+      <span class="decision-action">Validate Cycle</span>
+      <span class="decision-target">no formal cycles recorded</span>
+      <span class="decision-desc"><code>.add/cycles/</code> is empty; work has flowed through milestones and specs directly. Decide whether cycle ceremony fits this project, or record validation retroactively.</span>
+      <span class="decision-cmd">/add:cycle</span>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="intel">
+  <div class="panel-header">
+    <h2 class="panel-title">Project Intelligence</h2>
+    <span class="panel-sub">Cumulative signal from learnings, decisions, cycles, specs</span>
+  </div>
+  <div class="grid grid-4">
+    <div class="card metric-card">
+      <div class="num">34</div>
+      <div class="lbl">Learnings Captured</div>
+      <div class="sub">11 architecture · 9 process · 7 technical · 6 anti-pattern · 1 perf</div>
+    </div>
+    <div class="card metric-card">
+      <div class="num">0</div>
+      <div class="lbl">Decisions Logged</div>
+      <div class="sub"><code>.add/decisions.md</code> not found</div>
+    </div>
+    <div class="card metric-card">
+      <div class="num">0</div>
+      <div class="lbl">Cycles Completed</div>
+      <div class="sub">work organized by milestone</div>
+    </div>
+    <div class="card metric-card">
+      <div class="num">8</div>
+      <div class="lbl">Specs Shipped</div>
+      <div class="sub">+1 in progress · +2 draft</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div style="color:var(--text-secondary); font-size: 13px; margin-bottom: 4px;">Maturity Lifecycle</div>
+    <div class="maturity-track">
+      <div class="maturity-step passed"><div class="dot"></div><div class="lbl">POC</div></div>
+      <div class="maturity-step active"><div class="dot"></div><div class="lbl">Alpha</div></div>
+      <div class="maturity-step"><div class="dot"></div><div class="lbl">Beta</div></div>
+      <div class="maturity-step"><div class="dot"></div><div class="lbl">GA</div></div>
+    </div>
+    <div style="text-align:center; color:var(--text-muted); font-size: 12px;">
+      Promoted POC → Alpha on 2026-02-07. Next: dog-food on 2+ existing projects · <code>/cycle</code> + <code>/init --adopt</code> end-to-end · milestone tracking validated.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div style="color:var(--text-secondary); font-size: 13px; margin-bottom: 12px;">Retro Score Trend</div>
+    <svg viewBox="0 0 600 220" style="width:100%; height:auto;">
+      <line x1="50" y1="30" x2="550" y2="30" stroke="rgba(255,255,255,0.05)"/>
+      <line x1="50" y1="80" x2="550" y2="80" stroke="rgba(255,255,255,0.05)"/>
+      <line x1="50" y1="130" x2="550" y2="130" stroke="rgba(255,255,255,0.05)"/>
+      <line x1="50" y1="180" x2="550" y2="180" stroke="rgba(255,255,255,0.1)"/>
+      <text x="40" y="34" text-anchor="end" fill="#6b7280" font-size="10" font-family="system-ui">9.0</text>
+      <text x="40" y="84" text-anchor="end" fill="#6b7280" font-size="10" font-family="system-ui">6.0</text>
+      <text x="40" y="134" text-anchor="end" fill="#6b7280" font-size="10" font-family="system-ui">3.0</text>
+      <text x="40" y="184" text-anchor="end" fill="#6b7280" font-size="10" font-family="system-ui">0.0</text>
+      <circle cx="300" cy="76.7" r="6" fill="#22c55e" stroke="white" stroke-width="1.5"><title>Swarm effectiveness — 6.2 (2026-02-19)</title></circle>
+      <circle cx="300" cy="83.3" r="6" fill="#b00149" stroke="white" stroke-width="1.5"><title>ADD effectiveness — 5.8 (2026-02-19)</title></circle>
+      <circle cx="300" cy="113.3" r="6" fill="#0ea5e9" stroke="white" stroke-width="1.5"><title>Collab score — 4.0 (2026-02-19)</title></circle>
+      <text x="300" y="200" text-anchor="middle" fill="#a0a0a0" font-size="11" font-family="system-ui">2026-02-19</text>
+      <text x="300" y="215" text-anchor="middle" fill="#6b7280" font-size="10" font-family="system-ui">Only one retro has recorded scores — trendline pending</text>
+    </svg>
+    <div class="hill-legend" style="margin-top: 8px;">
+      <span class="legend-item"><span class="legend-dot" style="background:#0ea5e9;border-color:#0ea5e9"></span>Collab 4.0</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#b00149;border-color:#b00149"></span>ADD effectiveness 5.8</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#22c55e;border-color:#22c55e"></span>Swarm effectiveness 6.2</span>
+    </div>
+  </div>
+</section>
+
 <section class="panel" id="timeline">
-  <div class="panel-inner">
-    <div class="panel-eyebrow">History</div>
+  <div class="panel-header">
     <h2 class="panel-title">Project Timeline</h2>
-
+    <span class="panel-sub">Chronological events — milestones, specs, releases, retros</span>
+  </div>
+  <div class="card">
     <div class="timeline-filters">
-      <button class="active" onclick="filterTimeline('all')">All</button>
-      <button onclick="filterTimeline('milestone')">Milestones</button>
-      <button onclick="filterTimeline('spec')">Specs</button>
-      <button onclick="filterTimeline('release')">Releases</button>
-      <button onclick="filterTimeline('retro')">Retros</button>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="milestone">Milestones</button>
+      <button class="filter-btn" data-filter="spec">Specs</button>
+      <button class="filter-btn" data-filter="release">Releases</button>
+      <button class="filter-btn" data-filter="retro">Retros</button>
     </div>
-
-    <div class="timeline-container">
-      <div class="timeline-line"></div>
-      <div class="timeline-events" id="timeline-events">
-        <!-- Populated by JS -->
+    <div class="timeline-scroll">
+      <div class="timeline-rail">
+        <div class="timeline-events">
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-02-07</span><br>
+              <span class="event-icon release">v0.1.0</span>
+              <div class="event-title">Initial release</div>
+              <div class="event-desc">PRD published, plugin scaffolded</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event milestone" data-type="milestone">
+            <div class="event-card">
+              <span class="event-date">2026-02-10</span><br>
+              <span class="event-icon milestone">M1</span>
+              <div class="event-title">Core Plugin complete</div>
+              <div class="event-desc">6 commands · 8 skills · 10 rules</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event spec" data-type="spec">
+            <div class="event-card">
+              <span class="event-date">2026-02-14</span><br>
+              <span class="event-icon spec">Specs</span>
+              <div class="event-title">4 specs drafted</div>
+              <div class="event-desc">auto-changelog · branding · image-gen · infographic</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event spec" data-type="spec">
+            <div class="event-card">
+              <span class="event-date">2026-02-16</span><br>
+              <span class="event-icon spec">Spec</span>
+              <div class="event-title">session-continuity-and-self-evolution</div>
+              <div class="event-desc">34 ACs — handoff, swarm, observations</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event retro" data-type="retro">
+            <div class="event-card">
+              <span class="event-date">2026-02-17</span><br>
+              <span class="event-icon retro">Retro</span>
+              <div class="event-title">First retro</div>
+              <div class="event-desc">Spec-before-code promoted to Tier 1</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event spec" data-type="spec">
+            <div class="event-card">
+              <span class="event-date">2026-02-18</span><br>
+              <span class="event-icon spec">Spec</span>
+              <div class="event-title">legacy-adoption drafted</div>
+              <div class="event-desc">Version migration — 22 ACs</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event milestone" data-type="milestone">
+            <div class="event-card">
+              <span class="event-date">2026-02-19</span><br>
+              <span class="event-icon milestone">M2</span>
+              <div class="event-title">Adoption &amp; Polish complete</div>
+              <div class="event-desc">8 specs shipped · branding · learning lib · retros</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event retro" data-type="retro">
+            <div class="event-card">
+              <span class="event-date">2026-02-19</span><br>
+              <span class="event-icon retro">Retro</span>
+              <div class="event-title">Scored retro</div>
+              <div class="event-desc">Collab 4.0 · ADD 5.8 · Swarm 6.2</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event spec" data-type="spec">
+            <div class="event-card">
+              <span class="event-date">2026-02-21</span><br>
+              <span class="event-icon spec">Spec</span>
+              <div class="event-title">timeline-events drafted</div>
+              <div class="event-desc">27 ACs — still Draft</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event spec" data-type="spec">
+            <div class="event-card">
+              <span class="event-date">2026-03-01</span><br>
+              <span class="event-icon spec">Spec</span>
+              <div class="event-title">plugin-installation-reliability</div>
+              <div class="event-desc">Draft — 22 ACs for v0.5.0</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-04</span><br>
+              <span class="event-icon release">v0.5.0</span>
+              <div class="event-title">Plugin isolation</div>
+              <div class="event-desc">plugins/add/ restructure for marketplace</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-04-12</span><br>
+              <span class="event-icon release">v0.6.0</span>
+              <div class="event-title">Community release</div>
+              <div class="event-desc">Roadmap &amp; promote skills · first external PRs</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-04-12</span><br>
+              <span class="event-icon release">v0.7.0</span>
+              <div class="event-title">Multi-runtime architecture</div>
+              <div class="event-desc">Claude + Codex support, security hardening</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event retro" data-type="retro">
+            <div class="event-card">
+              <span class="event-date">2026-04-12</span><br>
+              <span class="event-icon retro">Retro</span>
+              <div class="event-title">v0.7 retrospective</div>
+              <div class="event-desc">Post-multi-runtime review</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-04-12</span><br>
+              <span class="event-icon release">v0.7.3</span>
+              <div class="event-title">GPG-signed releases live</div>
+              <div class="event-desc">First GitHub-verified signed release</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-04-21</span><br>
+              <span class="event-icon release">Horizon 1</span>
+              <div class="event-title">Install/upgrade UX</div>
+              <div class="event-desc">install-codex + codex-mcp skills</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+          <div class="timeline-event release" data-type="release">
+            <div class="event-card">
+              <span class="event-date">2026-04-22</span><br>
+              <span class="event-icon release">v0.8.0</span>
+              <div class="event-title">Learnings optimization</div>
+              <div class="event-desc">Pre-filtered active views, 62-82% token reduction, /add:learnings skill (PR #7)</div>
+            </div>
+            <div class="dot"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<footer style="text-align:center;padding:32px;color:var(--text-muted);font-size:12px;border-top:1px solid var(--border)">
-  ADD Project Dashboard &middot; Generated by <span style="color:var(--accent)">/add:dashboard</span> &middot; v0.4.0
+<footer>
+  Dashboard generated by <code>/add:dashboard</code> — ADD v0.8.0 · Regenerate anytime for a fresh snapshot.
 </footer>
 
+</div>
+
 <script>
-// Timeline data
-const events = [
-  { date: '2026-02-07', type: 'milestone', title: 'Project Created', desc: 'ADD initialized, POC→Alpha' },
-  { date: '2026-02-07', type: 'spec', title: 'v0.1.0 Core', desc: '36 files, ~6,300 lines' },
-  { date: '2026-02-08', type: 'spec', title: 'Namespace Fix', desc: '205 bare refs fixed' },
-  { date: '2026-02-10', type: 'milestone', title: 'M1 Complete', desc: 'Core Plugin: 8 features' },
-  { date: '2026-02-14', type: 'release', title: 'v0.3.0', desc: 'Version bump' },
-  { date: '2026-02-17', type: 'retro', title: 'First Retro', desc: 'Spec-before-code to Tier 1' },
-  { date: '2026-02-18', type: 'release', title: 'v0.4.0', desc: 'Learning library + JSON migration' },
-  { date: '2026-02-18', type: 'spec', title: 'Library Search', desc: '29 ACs, JSON learnings' },
-  { date: '2026-02-19', type: 'spec', title: 'Legacy Adoption', desc: '22 ACs, version migration' },
-  { date: '2026-02-19', type: 'spec', title: 'Retro Automation', desc: '30 ACs, context-aware' },
-  { date: '2026-02-19', type: 'retro', title: 'Second Retro', desc: 'Scores: 4.0/5.8/6.2' },
-  { date: '2026-02-19', type: 'milestone', title: 'M2 Complete', desc: 'Adoption & Polish: 8/9' },
-  { date: '2026-02-19', type: 'spec', title: 'Dashboard Spec', desc: '25 ACs, v0.7.3 planning' },
-];
+document.getElementById('gen-ts').textContent = new Date().toISOString().replace('T',' ').slice(0, 19) + 'Z';
 
-const typeColors = {
-  milestone: '#d4326d',
-  spec: '#0ea5e9',
-  release: '#22c55e',
-  retro: '#f59e0b',
-  decision: '#a855f7'
-};
-
-const typeIcons = {
-  milestone: '🚩',
-  spec: '📄',
-  release: '🏷️',
-  retro: '🔄',
-  decision: '⚖️'
-};
-
-function renderTimeline(filter) {
-  const container = document.getElementById('timeline-events');
-  const filtered = filter === 'all' ? events : events.filter(e => e.type === filter);
-  container.innerHTML = '';
-
-  filtered.forEach((ev, i) => {
-    const above = i % 2 === 0;
-    const div = document.createElement('div');
-    div.className = 'timeline-event ' + (above ? 'above' : 'below');
-    div.setAttribute('data-type', ev.type);
-    div.innerHTML =
-      '<div class="tl-card">' +
-        '<div class="tl-date">' + ev.date + '</div>' +
-        '<div class="tl-type" style="color:' + typeColors[ev.type] + '">' + typeIcons[ev.type] + ' ' + ev.type + '</div>' +
-        '<div class="tl-title">' + ev.title + '</div>' +
-        '<div style="font-size:10px;color:var(--text-muted);margin-top:2px">' + ev.desc + '</div>' +
-      '</div>' +
-      '<div class="tl-dot" style="background:' + typeColors[ev.type] + '"></div>';
-    container.appendChild(div);
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.timeline-event').forEach(ev => {
+      ev.classList.toggle('hidden', !(f === 'all' || ev.dataset.type === f));
+    });
   });
-}
-
-function filterTimeline(type) {
-  document.querySelectorAll('.timeline-filters button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderTimeline(type);
-}
-
-// Init
-renderTimeline('all');
+});
 </script>
+
 </body>
 </html>
