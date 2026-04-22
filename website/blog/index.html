@@ -52,6 +52,31 @@
 
     <div class="blog-grid">
 
+      <!-- v0.8 Learnings Optimization -->
+      <article class="blog-card">
+        <div class="blog-date">22 April 2026</div>
+        <h3><a href="/blog/learnings-optimization-v0.8">ADD v0.8 — Pre-Filtered Active Learning Views</a></h3>
+        <p>
+          Learning files grow monotonically. A 6-month-old project&rsquo;s <code>learnings.json</code> eats 14% of the context window before a skill starts its real work; at 1 year it hits Read-tool caps and entries silently drop. v0.8 moves the filtering out of Claude&rsquo;s context and into a <code>jq</code>-based PostToolUse hook.
+        </p>
+        <p>
+          Agents read a compact <code>learnings-active.md</code> (top entries grouped by category + one-line index of the rest). The canonical JSON is never modified by the filter. A three-layer fallback &mdash; active view &rarr; run filter &rarr; full JSON &mdash; means no data is ever lost.
+        </p>
+        <p>
+          <strong>62&ndash;82% token reduction</strong> as projects age, measured with the real Claude tokenizer. Comes with a <code>/add:learnings</code> skill (migrate, archive, stats), an <code>archived</code> entry field, and configurable thresholds in <code>.add/config.json</code>. Migration runs automatically from any version &ge; 0.5.0.
+        </p>
+        <p>
+          Second consecutive community-driven release. Proposed, implemented, and iterated by <a href="https://github.com/tdmitruk" style="color: var(--accent);">@tdmitruk</a> with two rounds of review feedback &mdash; the blocker and all four non-blocking nits addressed in a single follow-up push.
+        </p>
+        <p style="margin-top: 16px;">
+          <a href="/blog/learnings-optimization-v0.8" style="color: var(--accent); font-weight: 500;">Read the full post &rarr;</a>
+        </p>
+        <span class="blog-tag">Release</span>
+        <span class="blog-tag">Learnings</span>
+        <span class="blog-tag">Context</span>
+        <span class="blog-tag">Community</span>
+      </article>
+
       <!-- v0.7 Multi-runtime Release -->
       <article class="blog-card">
         <div class="blog-date">12 April 2026</div>
