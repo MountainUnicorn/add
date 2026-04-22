@@ -1,0 +1,51 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/learnings.schema.json",
+  "version": "1.0.0",
+  "project": "test-project",
+  "entries": [
+    {
+      "id": "L-001",
+      "title": "Critical finding",
+      "body": "Top priority item.",
+      "scope": "project",
+      "stack": [],
+      "category": "anti-pattern",
+      "severity": "critical",
+      "source": "test-project",
+      "date": "2026-04-01"
+    },
+    {
+      "id": "L-002",
+      "title": "High finding",
+      "body": "Second priority.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "high",
+      "source": "test-project",
+      "date": "2026-03-15"
+    },
+    {
+      "id": "L-003",
+      "title": "Medium overflow entry",
+      "body": "Should appear in index only.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "medium",
+      "source": "test-project",
+      "date": "2026-02-01"
+    },
+    {
+      "id": "L-004",
+      "title": "Low overflow entry",
+      "body": "Also in index only.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "low",
+      "source": "test-project",
+      "date": "2026-01-15"
+    }
+  ]
+}

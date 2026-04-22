@@ -1,0 +1,63 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/learnings.schema.json",
+  "version": "1.0.0",
+  "project": "test-project",
+  "entries": [
+    {
+      "id": "L-001",
+      "title": "Low severity old entry",
+      "body": "This is a low severity entry.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "low",
+      "source": "test-project",
+      "date": "2026-01-01"
+    },
+    {
+      "id": "L-002",
+      "title": "Critical auth bug",
+      "body": "Auth tokens were not being rotated.",
+      "scope": "project",
+      "stack": ["python"],
+      "category": "anti-pattern",
+      "severity": "critical",
+      "source": "test-project",
+      "date": "2026-03-15"
+    },
+    {
+      "id": "L-003",
+      "title": "Medium technical note",
+      "body": "Use connection pooling for DB access.",
+      "scope": "project",
+      "stack": ["python"],
+      "category": "technical",
+      "severity": "medium",
+      "source": "test-project",
+      "date": "2026-02-10"
+    },
+    {
+      "id": "L-004",
+      "title": "Archived entry should be excluded",
+      "body": "This entry is archived and should not appear.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "high",
+      "source": "test-project",
+      "date": "2026-03-01",
+      "archived": true
+    },
+    {
+      "id": "L-005",
+      "title": "High severity recent",
+      "body": "Deploy pipeline needs smoke tests.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "high",
+      "source": "test-project",
+      "date": "2026-04-01"
+    }
+  ]
+}

@@ -90,6 +90,16 @@ Remove deprecated fields from a JSON file.
 - For each field in `params.fields`: delete it if it exists
 - Write the updated JSON
 
+#### Action: `run_hook`
+
+Execute a plugin hook script.
+
+- Resolve the script path from `params.script` (relative to `${CLAUDE_PLUGIN_ROOT}`)
+- Pass `params.args` as command-line arguments (array of strings, supports `{file}` placeholder for the `file` field)
+- Run the script: `${CLAUDE_PLUGIN_ROOT}/{params.script} {args...}`
+- If the script exits non-zero, log the failure and continue (non-blocking)
+- If `params.notify` is set, print the notification message after successful execution
+
 ### Step 4: Update Version
 
 After ALL migration steps complete successfully:

@@ -142,6 +142,11 @@
     "lastProcessedCommit": null,
     "lastVersionTag": null
   },
+  "learnings": {
+    "active_cap": 15,
+    "archival_days": 90,
+    "archival_max_severity": "medium"
+  },
   "planning": {
     "current_milestone": "{M{N}-{NAME}_OR_NULL}",
     "current_cycle": "{cycle-{N}_OR_NULL}",
