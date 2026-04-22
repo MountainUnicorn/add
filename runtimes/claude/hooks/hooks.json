@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.tool_input.file_path // empty'); case \"$FILE\" in *.py) ruff check --fix \"$FILE\" 2>/dev/null || true ;; *.ts|*.tsx) npx --no-install eslint --fix \"$FILE\" 2>/dev/null || true ;; *learnings.json|*library.json) \"${CLAUDE_PLUGIN_ROOT}/hooks/filter-learnings.sh\" \"$FILE\" 2>/dev/null || true ;; esac"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/post-write.sh\""
           }
         ]
       },
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(jq -r '.tool_input.file_path // empty'); case \"$FILE\" in *.py) ruff check --fix \"$FILE\" 2>/dev/null || true ;; *.ts|*.tsx) npx --no-install eslint --fix \"$FILE\" 2>/dev/null || true ;; *learnings.json|*library.json) \"${CLAUDE_PLUGIN_ROOT}/hooks/filter-learnings.sh\" \"$FILE\" 2>/dev/null || true ;; esac"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/post-write.sh\""
           }
         ]
       },
