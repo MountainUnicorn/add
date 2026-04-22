@@ -42,7 +42,7 @@ A PostToolUse hook automatically regenerates `-active.md` whenever a learnings J
 
 1. Excludes entries with `"archived": true`
 2. Sorts remaining entries by severity (critical > high > medium > low), then date (newest first)
-3. Caps at 15 entries
+3. Caps at `learnings.active_cap` entries (default 15, configurable in `.add/config.json`)
 4. Groups by category and writes a compact markdown view
 
 This moves filtering out of agent context — agents read only the small pre-filtered result.
@@ -418,13 +418,13 @@ The highest bar. Plugin-global knowledge ships to ALL ADD users.
 Learnings accumulate over time. During `/add:retro`, review entries for archival to keep the active set small and relevant:
 
 **Archive when:**
-- Entry is older than 90 days AND severity is `low` or `medium`
+- Entry is older than `learnings.archival_days` (default 90) AND severity is at or below `learnings.archival_max_severity` (default `"medium"`, i.e. `low` and `medium`). Both configurable in `.add/config.json`.
 - Entry has been superseded by a newer learning covering the same topic
 - Entry is project-specific but the referenced code/feature no longer exists
 
 **Archive by:** Setting `"archived": true` on the entry in the JSON. The entry stays in the file for audit history but is excluded from the active view.
 
-**Never archive:** `critical` or `high` severity entries without explicit human approval.
+**Never archive** entries above `archival_max_severity` without explicit human approval. With the default `"medium"`, this means `critical` and `high` are protected.
 
 After archiving, the PostToolUse hook regenerates the active view automatically.
 

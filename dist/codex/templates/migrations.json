@@ -155,6 +155,18 @@
       "to": "0.8.0",
       "steps": [
         {
+          "file": ".add/config.json",
+          "action": "add_fields",
+          "params": {
+            "fields": {
+              "learnings.active_cap": 15,
+              "learnings.archival_days": 90,
+              "learnings.archival_max_severity": "medium"
+            }
+          },
+          "description": "Add configurable learnings thresholds (active view cap and archival age)"
+        },
+        {
           "file": ".add/learnings.json",
           "action": "run_hook",
           "params": {

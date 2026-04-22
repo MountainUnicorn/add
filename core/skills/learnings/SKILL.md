@@ -105,8 +105,9 @@ Review and archive stale learnings to keep the active set focused.
 ### Process
 
 1. Read `.add/learnings.json`
-2. Identify archive candidates:
-   - Entries older than 90 days with severity `low` or `medium`
+2. Read from `.add/config.json`: `learnings.archival_days` (default: 90) and `learnings.archival_max_severity` (default: `"medium"`)
+3. Identify archive candidates:
+   - Entries older than `archival_days` with severity at or below `archival_max_severity`
    - Entries with duplicate/similar titles (keep the newer one)
 3. Present candidates to the user:
 
@@ -139,7 +140,7 @@ List candidates without modifying anything.
 
 ### Never auto-archive
 
-- `critical` or `high` severity entries — always require explicit human selection
+- Entries above `archival_max_severity` — always require explicit human selection
 - Entries less than 30 days old regardless of severity
 
 ## Subcommand: stats
@@ -168,7 +169,7 @@ Tier 2 (Library): ~/.claude/add/library.json
   Active view exists: no
   Recommendation: Run /add:learnings migrate to generate active view
 
-Archive candidates (>90 days, severity ≤ medium): 12 entries
+Archive candidates (>archival_days, severity ≤ medium): 12 entries
   Recommendation: Run /add:learnings archive to review
 ```
 

@@ -24,6 +24,12 @@ case "$FILE" in
     npx --no-install eslint --fix "$FILE" 2>/dev/null || true
     ;;
   *learnings.json|*library.json)
-    "$SCRIPT_DIR/filter-learnings.sh" "$FILE" 2>/dev/null || true
+    # Read active_cap from project config; fall back to 15
+    MAX=15
+    if [ -f .add/config.json ]; then
+      CFG_MAX=$(jq -r '.learnings.active_cap // empty' .add/config.json 2>/dev/null) || true
+      [ -n "$CFG_MAX" ] && MAX="$CFG_MAX"
+    fi
+    "$SCRIPT_DIR/filter-learnings.sh" "$FILE" "$MAX" 2>/dev/null || true
     ;;
 esac
