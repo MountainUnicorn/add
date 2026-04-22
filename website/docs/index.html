@@ -116,7 +116,7 @@
       <!-- ===== INSTALLATION ===== -->
       <h2 id="installation">Installation</h2>
 
-      <p>Pick your runtime. Both install in one step and give you the same 24 commands, same specs, same TDD discipline.</p>
+      <p>Pick your runtime. Both install in one step and give you the same 26 skills, same specs, same TDD discipline.</p>
 
       <h3>Claude Code</h3>
       <p>Native plugin install via Claude Code's marketplace system. Two commands:</p>
@@ -187,7 +187,7 @@
       <p>Update by re-running the install script &mdash; it's idempotent and backs up replaced files with <code>*.pre-add.bak</code>.</p>
 
       <div class="callout callout-tip">
-        <p><strong>What gets installed (either runtime):</strong> 24 commands/skills, 15 behavioral rules, 18 document templates. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes. Specs written under one runtime work unchanged under the other.</p>
+        <p><strong>What gets installed (either runtime):</strong> 26 skills, 15 behavioral rules, 21 document templates, 2 knowledge files, 2 PostToolUse hooks. Everything is plain markdown and JSON &mdash; fully inspectable, no black boxes. Specs written under one runtime work unchanged under the other.</p>
       </div>
 
       <h3>Prerequisites</h3>
@@ -598,13 +598,22 @@
 
       <p>ADD is composed entirely of markdown, JSON, and template files. The runtime-neutral <code>core/</code> source compiles to per-runtime adapters (Claude Code plugin format today, Codex CLI custom prompts today, other agent runtimes tomorrow). No runtime dependencies, no build step on the consumer side, no backend.</p>
 
-      <pre><code>add/
-&#x251C;&#x2500;&#x2500; commands/     # 9 slash commands (/add:init, /add:spec, /add:away, etc.)
-&#x251C;&#x2500;&#x2500; skills/       # 9 workflow skills (/add:tdd-cycle, /add:verify, /add:plan, etc.)
-&#x251C;&#x2500;&#x2500; rules/        # 11 auto-loading behavioral rules
-&#x251C;&#x2500;&#x2500; hooks/        # PostToolUse automation
-&#x251C;&#x2500;&#x2500; knowledge/    # Plugin-global best practices (Tier 1)
-&#x2514;&#x2500;&#x2500; templates/    # 13 document scaffolding templates</code></pre>
+      <pre><code>core/                # source of truth (v0.7+ restructure)
+&#x251C;&#x2500;&#x2500; skills/          # 26 skills (/add:init, /add:spec, /add:tdd-cycle, ...)
+&#x251C;&#x2500;&#x2500; rules/           # 15 auto-loading behavioral rules
+&#x251C;&#x2500;&#x2500; templates/       # 21 document scaffolding templates
+&#x251C;&#x2500;&#x2500; knowledge/       # 2 Tier-1 knowledge files (global, image-gen)
+&#x251C;&#x2500;&#x2500; schemas/         # 2 JSON Schema validators (rule + skill frontmatter)
+&#x2514;&#x2500;&#x2500; VERSION          # canonical version string
+
+runtimes/claude/      # Claude Code adapter
+&#x251C;&#x2500;&#x2500; hooks/           # PostToolUse: post-write.sh + filter-learnings.sh
+&#x2514;&#x2500;&#x2500; .claude-plugin/  # plugin.json manifest
+
+runtimes/codex/       # Codex CLI adapter (concatenates rules into AGENTS.md)
+
+scripts/compile.py regenerates plugins/add/ (Claude) and dist/codex/
+(Codex) from core/ on every release.</code></pre>
 
       <h3>What lives where</h3>
 
@@ -618,34 +627,34 @@
         </thead>
         <tbody>
           <tr>
-            <td><code>commands/</code></td>
-            <td>9</td>
-            <td>Slash commands for project orchestration: init, spec, cycle, away, back, retro, brand, brand-update, changelog.</td>
+            <td><code>core/skills/</code></td>
+            <td>26</td>
+            <td>All slash commands: init, spec, plan, tdd-cycle, test-writer, implementer, reviewer, verify, deploy, optimize, cycle, away, back, retro, promote, milestone, roadmap, brand, brand-update, infographic, dashboard, docs, ux, learnings, changelog, version. (Claude Code unified "commands" and "skills" into a single concept.)</td>
           </tr>
           <tr>
-            <td><code>skills/</code></td>
-            <td>9</td>
-            <td>Execution skills: tdd-cycle, test-writer, implementer, reviewer, verify, plan, optimize, deploy, infographic.</td>
+            <td><code>core/rules/</code></td>
+            <td>15</td>
+            <td>Behavioral rules that auto-load: spec-driven, tdd-enforcement, human-collaboration, agent-coordination, source-control, environment-awareness, quality-gates, learning, project-structure, maturity-lifecycle, maturity-loader, design-system, version-migration, registry-sync, add-compliance.</td>
           </tr>
           <tr>
-            <td><code>rules/</code></td>
-            <td>11</td>
-            <td>Behavioral rules that auto-load: spec-driven, tdd-enforcement, human-collaboration, agent-coordination, source-control, environment-awareness, quality-gates, learning, project-structure, maturity-lifecycle, design-system.</td>
+            <td><code>core/templates/</code></td>
+            <td>21</td>
+            <td>Scaffolding templates for PRDs, specs, plans, configs, learnings, retros, milestones, profiles, infographics, settings, swarm state, decisions, handoffs, migrations, presets, and more.</td>
           </tr>
           <tr>
-            <td><code>hooks/</code></td>
-            <td>&mdash;</td>
-            <td>PostToolUse automation for detecting image generation, auto-changelog triggers, and other event-driven behaviors.</td>
+            <td><code>core/knowledge/</code></td>
+            <td>2</td>
+            <td>Plugin-global Tier-1 knowledge: <code>global.md</code> (universal patterns) and <code>image-gen-detection.md</code> (visual-skill detection). Ships with ADD for all users.</td>
           </tr>
           <tr>
-            <td><code>knowledge/</code></td>
-            <td>1</td>
-            <td>Plugin-global knowledge (Tier 1). Universal best practices that ship with ADD for all users.</td>
+            <td><code>core/schemas/</code></td>
+            <td>2</td>
+            <td>JSON Schema validators for rule + skill frontmatter. Enforced in CI via <code>scripts/validate-frontmatter.py</code>.</td>
           </tr>
           <tr>
-            <td><code>templates/</code></td>
-            <td>13</td>
-            <td>Scaffolding templates for PRDs, specs, plans, configs, learnings, profiles, and other structured documents.</td>
+            <td><code>runtimes/claude/hooks/</code></td>
+            <td>2</td>
+            <td>PostToolUse scripts: <code>post-write.sh</code> dispatches to ruff/eslint/learnings-filter; <code>filter-learnings.sh</code> generates the pre-filtered active learning view.</td>
           </tr>
         </tbody>
       </table>
@@ -656,10 +665,13 @@
 
       <pre><code>your-project/
 &#x251C;&#x2500;&#x2500; .add/
-&#x2502;   &#x251C;&#x2500;&#x2500; config.json       # Project configuration
-&#x2502;   &#x251C;&#x2500;&#x2500; learnings.md      # Project-specific knowledge (Tier 3)
-&#x2502;   &#x251C;&#x2500;&#x2500; cycles/           # Work cycle tracking
-&#x2502;   &#x2514;&#x2500;&#x2500; away-logs/        # Away session archives
+&#x2502;   &#x251C;&#x2500;&#x2500; config.json           # Project configuration
+&#x2502;   &#x251C;&#x2500;&#x2500; learnings.json        # Project-specific knowledge (Tier 3, canonical)
+&#x2502;   &#x251C;&#x2500;&#x2500; learnings-active.md   # Pre-filtered companion (auto-generated, gitignored)
+&#x2502;   &#x251C;&#x2500;&#x2500; learnings.md          # Full human-readable view (auto-generated)
+&#x2502;   &#x251C;&#x2500;&#x2500; retros/               # Retrospective archives
+&#x2502;   &#x251C;&#x2500;&#x2500; cycles/               # Work cycle tracking
+&#x2502;   &#x2514;&#x2500;&#x2500; away-logs/            # Away session archives
 &#x251C;&#x2500;&#x2500; docs/
 &#x2502;   &#x251C;&#x2500;&#x2500; prd.md            # Product requirements document
 &#x2502;   &#x251C;&#x2500;&#x2500; plans/            # Implementation plans

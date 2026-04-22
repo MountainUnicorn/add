@@ -47,7 +47,7 @@
       "name": "MountainUnicorn",
       "url": "https://github.com/MountainUnicorn"
     },
-    "softwareVersion": "0.5.0",
+    "softwareVersion": "0.8.0",
     "license": "https://opensource.org/licenses/MIT",
     "codeRepository": "https://github.com/MountainUnicorn/add"
   }
@@ -116,15 +116,15 @@
   <div class="metrics-bar">
     <div class="metrics-inner">
       <div class="metric">
-        <div class="metric-value">19</div>
+        <div class="metric-value">26</div>
         <div class="metric-label">Skills</div>
       </div>
       <div class="metric">
-        <div class="metric-value">11</div>
+        <div class="metric-value">15</div>
         <div class="metric-label">Rules</div>
       </div>
       <div class="metric">
-        <div class="metric-value">13</div>
+        <div class="metric-value">21</div>
         <div class="metric-label">Templates</div>
       </div>
       <div class="metric">
@@ -602,7 +602,7 @@
         <div class="value-card">
           <div class="value-icon"><i class="ph ph-handshake"></i></div>
           <h4>Structured human-AI teamwork</h4>
-          <p>5 engagement modes, structured interviews, away mode with boundaries. Humans architect and decide. Agents execute and verify. Clear handoffs always.</p>
+          <p>3 engagement modes (guided, balanced, autonomous), 5 interview patterns, away mode with boundaries. Humans architect and decide. Agents execute and verify. Clear handoffs always.</p>
         </div>
         <div class="value-card">
           <div class="value-icon"><i class="ph ph-arrows-clockwise"></i></div>
@@ -711,7 +711,7 @@
       <div class="learning-flow">
         <div class="learning-box">
           <h4>Project-Level Knowledge</h4>
-          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> — git-committed</p>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"><code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.json</code> — git-committed canonical store. Agents read a pre-filtered <code style="font-size:11px; font-family: 'SF Mono', monospace; color: var(--accent);">learnings-active.md</code> companion view (62-82% smaller).</p>
           <ul>
             <li>Architecture decisions and rationale</li>
             <li>What worked and what didn't</li>
@@ -760,8 +760,8 @@
         <h4 style="font-size: 14px; margin-bottom: 12px;">Example: Knowledge Flowing Across Projects</h4>
         <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
           <strong>Project A</strong>: Agent discovers "UUID columns must be type <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">uuid</code>, not <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">text</code>"<br>
-          &rarr; Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.md</code> (project-level)<br>
-          &rarr; Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.md</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/add:retro</code><br><br>
+          &rarr; Stored in <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">.add/learnings.json</code> (project-level, canonical)<br>
+          &rarr; Promoted to <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">~/.claude/add/library.json</code> during <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">/add:retro</code><br><br>
           <strong>Project B</strong>: Agent searches library before implementing database schema<br>
           &rarr; Finds UUID pattern, applies it automatically<br>
           &rarr; No one repeats the mistake
@@ -779,7 +779,7 @@
     <div class="section-inner">
     <div class="section-eyebrow">Reference</div>
     <h2>Skills</h2>
-    <p class="section-desc">19 skills for orchestration and execution. 11 rules for behavior. <a href="/docs/skills" style="color: var(--accent);">Full reference &rarr;</a></p>
+    <p class="section-desc">26 skills for orchestration and execution. 15 rules for behavior. <a href="/docs/skills" style="color: var(--accent);">Full reference &rarr;</a></p>
 
     <h3 style="font-size: 18px; margin-bottom: 16px;">Setup &amp; Orchestration</h3>
     <table class="commands-table">

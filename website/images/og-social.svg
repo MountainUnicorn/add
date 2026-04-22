@@ -68,7 +68,7 @@
   <polygon points="796,380 800,376 804,380 800,384" fill="#b00149" opacity="0.7"/>
 
   <!-- Stats line -->
-  <text x="600" y="430" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" letter-spacing="2" opacity="0.9">6 Commands · 8 Skills · 10 Rules · 0 Dependencies</text>
+  <text x="600" y="430" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" letter-spacing="2" opacity="0.9">26 Skills · 15 Rules · 2 Runtimes · 0 Dependencies</text>
 
   <!-- Methodology descriptor -->
   <text x="600" y="468" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="300" letter-spacing="3" opacity="0.6">A CLAUDE CODE PLUGIN</text>
