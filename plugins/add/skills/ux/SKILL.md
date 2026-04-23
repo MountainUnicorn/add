@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.8.1] Iterate on UI/UX design before implementation — wireframes, flow validation, and design sign-off"
+description: "[ADD v0.9.0] Iterate on UI/UX design before implementation — wireframes, flow validation, and design sign-off"
 argument-hint: "<spec-file> [--figma <url-or-frame-id>]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
 ---
 
-# ADD UX Command v0.8.1
+# ADD UX Command v0.9.0
 
 Iterate on UI/UX design for a feature before implementation begins. Produces a signed-off design artifact that gates `/add:plan` and `/add:tdd-cycle`. Prevents token burn from building the wrong UI.
 

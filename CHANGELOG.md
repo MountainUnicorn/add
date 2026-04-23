@@ -25,6 +25,12 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
+_(Nothing yet — tracking items go here between releases.)_
+
+## [0.9.0] — 2026-04-23
+
+**Pre-GA hardening.** Ships the full M3 milestone in a single coordinated release: seven feature specs built in parallel by agent swarms during a `/add:away` session, squash-merged sequentially with rebase resolutions, and promoted through the v0.8.1 hotfix after the plugin-family review surfaced three shipping bugs. **Maturity: alpha → beta.** ADD is now production-credible for the methodology it prescribes: TDD guardrails that bite, secrets handling that gates deploy, prompt-injection defense with a scan hook and threat model, Codex-native skill emission, OTel-aligned telemetry, stable-prefix cache discipline, tool-portable AGENTS.md generation, and a test-deletion guardrail that defends the signature TDD claim.
+
 ### Added
 
 - **`/add:agents-md` skill** — generates a tool-portable `AGENTS.md` at project root from `.add/` state. Maturity-aware verbosity (POC bullets → Alpha sectioned → Beta full → GA full + team conventions). ADD-managed content wrapped in `<!-- ADD:MANAGED:START … -->` markers so user-authored sections survive regeneration. Modes: `--write` (default), `--check` (CI drift gate, exit 1 on drift), `--merge` / `--import` (absorb hand-curated files). Implemented as `scripts/generate-agents-md.py` plus `core/skills/agents-md/SKILL.md`; fixture tests cover POC/Alpha/Beta render, drift detection, merge flow, idempotency, and staleness-marker clearing. Integrated into `/add:init` (initial generation) and `/add:spec` (active-spec pointer update). Opt-in `agentsMd.gateOnVerify` in `.add/config.json` enables Gate 4.5 in `/add:verify`.
@@ -40,26 +46,21 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 - `scripts/sync-marketplace.sh`: dropped the now-unnecessary `--exclude='website/'`.
 - `scripts/compile.py` now copies `core/security/` into `plugins/add/` and concatenates every `core/knowledge/*.md` file into the Codex `AGENTS.md` (previously only `global.md`).
 - `runtimes/codex/adapter.yaml` updated to glob all knowledge files and document the Codex hook-stderr limitation that blocks automatic warning surfacing for injection events.
+- **Maturity promoted alpha → beta** (2026-04-23). Readiness: ~92% against the cascade matrix (12/13 applicable requirements met, F-005 CI guardrail wiring held as a time-boxed exemption to v0.9.x). Rationale: M3 ships seven feature specs with 207 ACs, v0.8.1 hotfix closed three shipping bugs surfaced by plugin-family review, two community contributions merged, GPG-signed release pipeline live since v0.7.3, 5 signed releases, M1+M2+M3 milestones tracked to completion. Cascade changes now active: strict TDD enforcement, recommended-for-all-changes reviewer, balanced away-mode autonomy, ~12-question interview depth, parallel-agent ceiling raised to 3. Next promotion criteria (GA): guardrail suite running in CI and release-blocking, real Claude + Codex install smoke in CI, per-runtime capability matrix in release notes, 60-day stability at beta, marketplace submission approved, 20+ projects using ADD.
 
-### Planned for v0.9.0 — Pre-GA Hardening (M3 milestone)
+### M3 Pre-GA Hardening — Delivered
 
-Five parallel research swarms (Anthropic direction, Codex/OpenAI direction, IDE competitive landscape, AI dev framework trends, production AI engineering) converged on the v0.9.0 scope. Seven specs drafted and entering parallel development under [`docs/milestones/M3-pre-ga-hardening.md`](docs/milestones/M3-pre-ga-hardening.md). Total: 207 acceptance criteria across 7 Draft specs.
+Seven feature specs planned together, built in parallel by worktree-isolated agent swarms during a `/add:away` session, and merged sequentially with rebase resolutions. Total: 207 acceptance criteria across 7 specs, plus the v0.8.1 plugin-family hotfix.
 
-| Spec | Sizing | Cycle | Driver |
-|------|--------|-------|--------|
-| [`codex-native-skills`](specs/codex-native-skills.md) | Large | 2 | Codex shipped Skills/sub-agents/hooks; ADD compiles to deprecated path |
-| [`prompt-injection-defense`](specs/prompt-injection-defense.md) | Medium | 2 | OWASP A01 + Comment-and-Control attack — GA blocker |
-| [`secrets-handling`](specs/secrets-handling.md) | Small | 1 | GitGuardian: AI-tooled repos 40% more likely to leak — GA blocker |
-| [`telemetry-jsonl`](specs/telemetry-jsonl.md) | Medium | 3 | OTel GenAI semconv stabilizing; EU AI Act Aug 2026; audit/cost attribution |
-| [`test-deletion-guardrail`](specs/test-deletion-guardrail.md) | Medium | 3 | Kent Beck + TDAD paper: agents delete failing tests; defends signature TDD claim |
-| [`cache-discipline`](specs/cache-discipline.md) | Small | 1 | Anthropic's 90% cache discount needs structural discipline; depends on PR #6 |
-| [`agents-md-sync`](specs/agents-md-sync.md) | Small | 2 | AGENTS.md is now the cross-tool standard (Linux Foundation, 60k+ projects) |
-
-Other v0.9.0 work tracked in M3:
-
-- PR #6 merge (rules/knowledge on-demand loading from @tdmitruk) — foundation for cache-discipline
-- Marketplace re-submission to the official Claude Code registry (parallel external work)
-- Maturity promotion alpha → beta executed against the v0.9 release
+| Spec | Cycle | PR | Shipped |
+|------|-------|----|---------|
+| [`agents-md-sync`](specs/agents-md-sync.md) | 2 | [#8](https://github.com/MountainUnicorn/add/pull/8) | 36/36 ACs |
+| [`cache-discipline`](specs/cache-discipline.md) | 1 | [#9](https://github.com/MountainUnicorn/add/pull/9) | 21/24 (3 telemetry ACs closed by #11) |
+| [`secrets-handling`](specs/secrets-handling.md) | 1 | [#10](https://github.com/MountainUnicorn/add/pull/10) | 23/24 (AC-019 blocked on PR #6) |
+| [`telemetry-jsonl`](specs/telemetry-jsonl.md) | 3 | [#11](https://github.com/MountainUnicorn/add/pull/11) | 30 ACs + closes cache deferral |
+| [`codex-native-skills`](specs/codex-native-skills.md) | 2 | [#12](https://github.com/MountainUnicorn/add/pull/12) | 33/35 ACs, Codex CLI pinned 0.122.0 |
+| [`test-deletion-guardrail`](specs/test-deletion-guardrail.md) | 3 | [#13](https://github.com/MountainUnicorn/add/pull/13) | 25 ACs; bypass closed via v0.8.1 F-003 fix |
+| [`prompt-injection-defense`](specs/prompt-injection-defense.md) | 2 | [#14](https://github.com/MountainUnicorn/add/pull/14) | 30/30 ACs |
 
 ### Deferred to v0.9.x or v0.10
 

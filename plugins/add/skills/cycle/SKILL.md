@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.8.1] Plan and execute a work cycle — select features, assess parallelism, define validation"
+description: "[ADD v0.9.0] Plan and execute a work cycle — select features, assess parallelism, define validation"
 argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
 ---
 
-# ADD Cycle Command v0.8.1
+# ADD Cycle Command v0.9.0
 
 Cycles are the operational unit of ADD work. They batch features, assess dependencies, plan parallelism, and define validation criteria before execution. This command manages the full cycle lifecycle: planning, status checks, and completion/retrospective.
 

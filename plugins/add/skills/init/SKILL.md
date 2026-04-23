@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.8.1] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v0.9.0] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
 disable-model-invocation: true
 ---
 
-# ADD Init Command v0.8.1
+# ADD Init Command v0.9.0
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 

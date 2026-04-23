@@ -1,10 +1,10 @@
 ---
 name: add-deploy
-description: "[ADD v0.8.1] Environment-aware commit, push, and deploy workflow"
+description: "[ADD v0.9.0] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 ---
 
-# ADD Deploy Skill v0.8.1
+# ADD Deploy Skill v0.9.0
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 

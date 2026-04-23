@@ -1,10 +1,10 @@
 ---
 name: add-infographic
-description: "[ADD v0.8.1] Generate project infographic — SVG from PRD + config with branding"
+description: "[ADD v0.9.0] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 ---
 
-# ADD Infographic Skill v0.8.1
+# ADD Infographic Skill v0.9.0
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 

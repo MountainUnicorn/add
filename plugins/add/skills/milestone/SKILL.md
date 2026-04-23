@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.8.1] Manage milestones — list, switch, split, rescope, create"
+description: "[ADD v0.9.0] Manage milestones — list, switch, split, rescope, create"
 argument-hint: "[--list | --switch <id> | --split <id> | --rescope <id> | --create]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
 ---
 
-# ADD Milestone Command v0.8.1
+# ADD Milestone Command v0.9.0
 
 Manage milestones directly — list status, switch active milestone, split large milestones, rescope features, or create new ones. This is the tactical companion to `/add:roadmap` (strategic horizon planning).
 

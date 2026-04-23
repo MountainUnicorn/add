@@ -1,6 +1,6 @@
 {
   "$schema": "https://github.com/MountainUnicorn/add/config.schema.json",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "project": {
     "name": "ADD",
     "description": "Agent Driven Development \u2014 Claude Code plugin implementing an AI-native SDLC methodology",
@@ -8,16 +8,19 @@
     "author": "abrooke"
   },
   "maturity": {
-    "level": "alpha",
-    "promoted_from": "poc",
-    "promoted_date": "2026-02-07",
-    "next_promotion_criteria": "Dog-food on 2+ existing projects, /cycle and /init --adopt working end-to-end, milestone tracking validated"
+    "level": "beta",
+    "promoted_from": "alpha",
+    "promoted_date": "2026-04-23",
+    "next_promotion_criteria": "Guardrail suite running in CI and release-blocking; real Claude + Codex install smoke in CI; per-runtime capability matrix in release notes; 60-day stability at beta; marketplace submission approved; 20+ projects using ADD.",
+    "exemptions": [
+      "F-005 guardrail CI wiring \u2014 time-boxed to v0.9.x; 10 test suites exist locally with 90 passing tests, lift into .github/workflows/ before v0.10"
+    ]
   },
   "planning": {
     "current_milestone": "M3-pre-ga-hardening",
     "current_cycle": null,
     "wip_limit": 4,
-    "parallel_agents": 2,
+    "parallel_agents": 3,
     "cycle_history": []
   },
   "architecture": {

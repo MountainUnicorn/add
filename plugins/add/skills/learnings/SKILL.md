@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.8.1] Manage learnings — generate active views, archive old entries, show stats"
+description: "[ADD v0.9.0] Manage learnings — generate active views, archive old entries, show stats"
 argument-hint: "[migrate|archive|stats] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
-# ADD Learnings Skill v0.8.1
+# ADD Learnings Skill v0.9.0
 
 Manage the learnings knowledge base: generate optimized active views, archive stale entries, and report statistics.
 
