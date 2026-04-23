@@ -2,6 +2,8 @@
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 
+<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add:tdd-cycle, which owns the cache-aware prompt layout. -->
+
 ## Overview
 
 The Verify skill is the final checkpoint before deployment. It runs a sequence of quality gates determined by context and provides clear go/no-go status for each gate. Output is a structured report with pass/fail status and next steps.
