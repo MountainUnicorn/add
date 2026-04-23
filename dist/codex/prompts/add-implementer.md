@@ -21,6 +21,25 @@ The Implementer takes failing tests (from test-writer) and writes the smallest a
    - Capture baseline: count of failing tests
    - Halt if tests don't exist or already pass
 
+1b. **Read the impact hint (v0.9.0 — AC-022)**
+   - The tdd-cycle orchestrator emits a files-likely-affected block via
+     `core/lib/impact-hint.sh`. Consume it as part of this skill's context:
+
+     ```
+     ## Files likely to need changes
+       - app/auth.py
+       - app/session.py
+
+     ## Files to be careful around (recent anti-pattern learnings exist)
+       - app/session.py  [L-042]
+     ```
+
+   - Use the first list as the starting set for Step 2 (Design Implementation)
+   - Treat the second list as warnings: those paths have recent anti-pattern
+     learnings — read the learning (by ID) before editing
+   - If the hint reports *"No source files implied by RED diff"* (AC-024), fall
+     back to the spec's acceptance criteria for implementation targets
+
 2. **Read the feature spec**
    - Load spec file from argument
    - Extract feature name, acceptance criteria, requirements
@@ -154,6 +173,14 @@ As tests progress to GREEN:
    - Constructor parameters
    - Module initialization
 
+### Step 5b: NEVER delete tests to reach green (v0.9.0 — AC-028)
+
+If a failing test seems wrong, it is NOT your decision to delete it. Stop, surface the
+discrepancy to the human, and (if confirmed) rerun the cycle with `--allow-test-rewrite`.
+Silent deletion fails Gate 3.5 and halts the cycle. The directive is:
+
+*"Test deletion during a TDD cycle is forbidden. Fix the implementation, not the test."*
+
 ### Step 6: Achieve Full Green State
 
 Run full test suite:
@@ -183,6 +210,23 @@ Test Suites: 1 passed, 1 total
 Tests:       3 passed, 3 total
 Coverage:    85%
 ```
+
+### Step 7: Capture GREEN snapshot (v0.9.0 — AC-007)
+
+Before returning control to the tdd-cycle orchestrator, capture the test surface
+snapshot for Gate 3.5:
+
+```bash
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
+  --phase green \
+  --cycle-id {N} \
+  --spec-slug {slug} \
+  --base-sha {cycle-base-sha}
+```
+
+The snapshot lives at `.add/cycles/cycle-{N}/tdd-{slug}-green.json` and is compared
+against the RED snapshot by `/add:verify` Gate 3.5. If `tests_removed > 0` without an
+override, the cycle fails with a structured error naming each removed test.
 
 ## Code Quality Standards
 

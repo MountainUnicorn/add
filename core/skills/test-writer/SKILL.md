@@ -175,6 +175,31 @@ After generating tests:
    - Or test is incorrectly written (syntax error)
    - Fix test syntax errors; if implementation exists, ask user to clarify
 
+### Step 4b: Capture RED snapshot (v0.9.0 — test-deletion guardrail)
+
+Before returning control to the tdd-cycle orchestrator, capture the test surface
+snapshot so Gate 3.5 can later detect deletions:
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/../../scripts/check-test-count.py snapshot \
+  --phase red \
+  --cycle-id {N} \
+  --spec-slug {slug} \
+  --base-sha {cycle-base-sha} \
+  --fail-on-empty
+```
+
+Requirements (AC-005, AC-006):
+- The snapshot file MUST be committed before exiting RED
+- Commit message: `test(red): snapshot {total_functions} tests for {slug}`
+- If `--fail-on-empty` reports zero tests, halt with the structured error
+  *"RED phase produced no failing tests — TDD violation."*
+
+The snapshot lives at `.add/cycles/cycle-{N}/tdd-{slug}-red.json` and captures: test
+files, function names, normalized body hashes, language, git base SHA, and phase-end
+SHA. `/add:verify` Gate 3.5 reads this file alongside the GREEN snapshot to enforce
+the test-deletion invariant. See `core/rules/tdd-enforcement.md`.
+
 ### Step 5: Document Test Mapping
 
 Create a test mapping file: `tests/{feature}-mapping.md`

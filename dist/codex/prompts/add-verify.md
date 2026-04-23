@@ -204,6 +204,81 @@ Coverage gaps (< 80%):
   - src/api.ts: 79%
 ```
 
+### Gate 3.5: Test Surface Integrity (Test-Deletion Guardrail)
+
+**Purpose**: Enforce the TDD anti-deletion invariant — tests added during RED must exist
+(passing) at end of GREEN. Without this gate, Gate 3 passes even if the implementer
+silently deleted failing tests to reach green.
+
+**When it runs**: After Gate 3 (tests pass), before Gate 4 (spec compliance). Only
+applicable when running within a TDD cycle context (i.e. `.add/cycles/cycle-{N}/`
+snapshots exist). For standalone `/add:verify` runs, the gate is SKIPPED with an
+advisory note.
+
+**Steps**:
+
+1. **Locate snapshots**
+   - Determine the current cycle id (from `/add:cycle` context or the most recent
+     `.add/cycles/cycle-*/` directory)
+   - Determine the spec slug (from the cycle's spec argument)
+   - Expected paths:
+     - `.add/cycles/cycle-{N}/tdd-{slug}-red.json`
+     - `.add/cycles/cycle-{N}/tdd-{slug}-green.json`
+
+2. **Run the gate script**
+   ```bash
+   python3 ~/.codex/add/../../scripts/check-test-count.py gate \
+     --red .add/cycles/cycle-{N}/tdd-{slug}-red.json \
+     --green .add/cycles/cycle-{N}/tdd-{slug}-green.json \
+     --project-root .
+   ```
+
+   For standalone runs (no RED/GREEN snapshot), use the baseline form instead:
+   ```bash
+   python3 scripts/check-test-count.py --baseline origin/main
+   ```
+
+3. **Interpret exit code**
+   - `0`: PASS. A structured JSON summary is emitted — capture it for the report.
+   - `1`: FAIL. The script prints the removed tests, the override status, and a
+     directive. Propagate the message verbatim.
+   - `2`: Invocation error (bad args). Treat as gate failure.
+
+4. **Capture the structured summary** (AC-017):
+   ```
+   tests_added: N, tests_removed: 0, tests_renamed: M, tests_replaced: 0, override: none
+   ```
+
+**Pass/Fail criteria**:
+- PASS: `tests_removed == 0` AND `tests_replaced == 0` (or all removals/replacements
+  are covered by an `overrides.json` record or a `[ADD-TEST-DELETE: ...]` commit trailer)
+- FAIL: Any uncovered removal or replacement
+- SKIP: No `.add/cycles/cycle-*/` dir (standalone verify outside a cycle)
+
+**Report**:
+```
+Gate 3.5: Test Surface Integrity
+- Status: ✓ PASS
+- Tests added: 4
+- Tests removed: 0
+- Tests renamed: 1
+- Tests replaced: 0
+- Override used: none
+```
+
+**Error mode** (AC-015):
+```
+Gate 3.5: Test Surface Integrity
+- Status: ✗ FAIL
+- Error: GREEN snapshot not found — cycle is incomplete or
+         test-writer/implementer skipped snapshotting.
+
+Remediation: Rerun `/add:tdd-cycle` from RED to regenerate snapshots.
+```
+
+See `core/rules/tdd-enforcement.md` "Test-Deletion Invariant" for the justification
+marker formats and the full rationale.
+
 ### Gate 4: Spec Compliance & Integration Tests
 
 **Purpose**: Verify implementation meets spec and integration points work.
@@ -393,10 +468,11 @@ Runs Gates 1-2:
 Typical use: Before committing code locally
 
 ### Level: ci (continuous integration)
-Runs Gates 1-3:
+Runs Gates 1-3 (Gate 3.5 runs if cycle snapshots present):
 1. Lint & formatting
 2. Type checking
 3. Unit tests & coverage
+3.5 Test Surface Integrity (only if `.add/cycles/cycle-*/` snapshots exist)
 
 Typical use: CI/CD pipeline on every push
 
@@ -405,6 +481,7 @@ Runs Gates 1-4:
 1. Lint & formatting
 2. Type checking
 3. Unit tests & coverage
+3.5 Test Surface Integrity (test-deletion guardrail)
 4. Spec compliance & integration tests
 
 Typical use: Before deploying to production
@@ -437,6 +514,7 @@ Overall Status: ✓ ALL GATES PASSED [or ✗ GATES FAILED]
 | 1 | Lint & Formatting | ✓ PASS | 0 errors, 0 warnings |
 | 2 | Type Checking | ✓ PASS | 0 type errors |
 | 3 | Tests & Coverage | ✓ PASS | 32/32 tests, 87% coverage |
+| 3.5 | Test Surface Integrity | ✓ PASS | 4 added, 0 removed, 1 renamed |
 | 4 | Spec Compliance | ✓ PASS | 5/5 ACs tested |
 | 5 | Smoke Tests | ⊘ SKIPPED | Not applicable at this level |
 
@@ -510,6 +588,7 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create
 | Gate 1 | Lint and formatting | Checking lint and formatting... |
 | Gate 2 | Type checking | Running type checks... |
 | Gate 3 | Tests and coverage | Running tests and checking coverage... |
+| Gate 3.5 | Test surface integrity | Checking test-deletion guardrail... |
 | Gate 4 | Spec compliance | Verifying spec compliance... |
 | Gate 5 | Smoke tests | Running smoke tests... |
 | Maturity | Maturity-scaled checks | Running maturity-scaled checks... |

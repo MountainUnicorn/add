@@ -73,10 +73,49 @@ Verify tests actually fail:
 - Confirm exit code is non-zero (tests fail)
 - Log any compilation/import errors — halt if tests can't run
 
+**RED-end snapshot (test-deletion guardrail — required since v0.9.0):**
+
+After test-writer signals RED complete, capture the test surface snapshot:
+
+```bash
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
+  --phase red \
+  --cycle-id {N} \
+  --spec-slug {slug} \
+  --base-sha {cycle-base-sha} \
+  --fail-on-empty
+```
+
+This writes `.add/cycles/cycle-{N}/tdd-{slug}-red.json`. The `--fail-on-empty` flag
+enforces AC-006: a RED phase that produced zero new tests is itself a TDD violation
+and halts the cycle. Commit the snapshot with:
+
+```
+git add .add/cycles/cycle-{N}/tdd-{slug}-red.json
+git commit -m "test(red): snapshot {total_functions} tests for {slug}"
+```
+
+See `core/rules/tdd-enforcement.md` "Test-Deletion Invariant" for the full rationale.
+
 ### Phase 2: GREEN — Implementation
+
+**Pre-GREEN: files-likely-affected hint.**
+
+Before invoking the implementer, generate the impact hint so the implementer enters
+GREEN with a focused set of candidate files:
+
+```bash
+bash ~/.codex/add/lib/impact-hint.sh {cycle-base-sha} specs/{feature}.md .
+```
+
+The helper emits a two-section block: *Files likely to need changes* (from diff +
+import resolution + spec path scan) and *Files to be careful around* (paths mentioned
+in anti-pattern learnings). Pass this block to the implementer verbatim as part of its
+context — see `core/skills/implementer/SKILL.md` §Pre-Flight.
 
 Once RED phase is complete, invoke the /add:implementer skill:
 - Pass argument: `specs/{feature}.md [--ac AC-001,AC-002]`
+- Provide the impact hint as additional context
 - Implementer writes minimal code to pass each test
 - Target: Every test should pass with as little code as possible
 - No over-engineering; defer non-essential features
@@ -86,6 +125,19 @@ After implementation:
 - Verify all tests pass (exit code 0)
 - Capture test output showing pass counts
 - If any tests still fail, return to implementer with failure details
+
+**GREEN-end snapshot (test-deletion guardrail — required since v0.9.0):**
+
+```bash
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
+  --phase green \
+  --cycle-id {N} \
+  --spec-slug {slug} \
+  --base-sha {cycle-base-sha}
+```
+
+This writes `.add/cycles/cycle-{N}/tdd-{slug}-green.json`. Gate 3.5 in /add:verify
+compares RED vs GREEN and fails if tests were removed without a recorded override.
 
 ### Phase 3: REFACTOR — Code Quality
 
@@ -112,6 +164,11 @@ Run the full verification suite using /add:verify skill:
   - Gate 1: Lint and formatting (must pass)
   - Gate 2: Type checking (must pass)
   - Gate 3: Unit test coverage >= configured threshold (default 80%)
+  - **Gate 3.5: Test Surface Integrity** — reads the RED/GREEN snapshots from
+    `.add/cycles/cycle-{N}/` and fails if tests were removed without an override.
+    If `--allow-test-rewrite` was passed to this cycle and the user approved via the
+    prompt, the approval is recorded in `.add/cycles/cycle-{N}/overrides.json` and
+    the gate reads it.
   - Gate 4: Spec compliance (every AC has a passing test)
   - Gate 5: Integration tests if applicable
 
@@ -197,6 +254,32 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 - **reviewer**: Invoked during REFACTOR phase; produces quality report (read-only)
 - **verify**: Invoked during VERIFY phase; produces gate report and pass/fail
 - **plan**: Called pre-cycle if plan doesn't exist; provides task breakdown
+
+## `--allow-test-rewrite` flag (v0.9.0+)
+
+By default, if the GREEN snapshot shows any test removed OR any same-name test with a
+changed body, Gate 3.5 fails the cycle. If the user knows a test was legitimately wrong
+(asserted incorrect behavior), pass `--allow-test-rewrite`:
+
+1. GREEN comparison detects the replacement
+2. Human approval prompt is shown with the RED body and the GREEN body side by side
+3. If the human confirms, an override is recorded in
+   `.add/cycles/cycle-{N}/overrides.json`:
+
+   ```json
+   {
+     "kind": "test-rewrite",
+     "approved_by": "human",
+     "timestamp": "2026-04-22T14:32:00Z",
+     "affected_tests": ["tests/test_auth.py::test_validation"]
+   }
+   ```
+
+4. Gate 3.5 reads the override and passes
+5. Telemetry records `override_used: true` for retro review
+
+Without `--allow-test-rewrite`, or without explicit human confirmation, Gate 3.5 fails
+and the cycle does not advance.
 
 ## Parallelization
 
