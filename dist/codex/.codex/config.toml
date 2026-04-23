@@ -1,0 +1,19 @@
+# ADD Codex runtime — global config
+#
+# Emitted to dist/codex/.codex/config.toml. Codex merges this into the user's
+# live config at install time (or the user points Codex at it directly via
+# the plugin manifest).
+#
+# See spec AC-018, AC-019.
+
+[agents]
+# Codex defaults surfaced so ADD users see what we assume. Raise max_depth
+# only after validating sub-agent recursion behavior in your project.
+max_threads = 6
+max_depth = 1
+
+[features]
+# Both gates must be on for ADD's sub-agent parallelism and hook-based
+# handoff persistence to work. Documented in runtimes/codex/README.md.
+collab = true
+codex_hooks = true

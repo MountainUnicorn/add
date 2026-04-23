@@ -6,13 +6,25 @@
 runtime: codex
 output_dir: dist/codex
 
+# Codex CLI version pinning
+# ------------------------
+# min_codex_version: Lowest Codex CLI version that ships every feature ADD emits
+# (native Skills, sub-agents, hooks, plugin marketplace). Per spec AC-032.
+# codex_cli_version:  The version the CI plugin-validate job targets (AC-035).
+codex_cli_version: "0.122.0"
+min_codex_version: "0.122.0"
+
+# Output mode: "native" = Codex Skills format (v0.9+). The legacy "prompts" mode
+# wrote to ~/.codex/prompts/ and is no longer emitted.
+skills_output: native
+
 # Codex has no distinct "tool" vocabulary in the Claude sense — actions map to
-# the shell sandbox. AskUserQuestion becomes plain-text Q&A.
+# the shell sandbox. AskUserQuestion becomes plain-text Q&A (see the shim).
 tool_mapping:
   AskUserQuestion: "ask the user (use a clear, single-question prompt)"
 
 path_vars:
-  CLAUDE_PLUGIN_ROOT: "~/.codex/add"
+  CLAUDE_PLUGIN_ROOT: "~/.codex"
 
 # Codex prompts have no frontmatter — the Claude extensions get stripped.
 frontmatter:
@@ -21,31 +33,49 @@ frontmatter:
   rules:
     strip: [autoload, maturity, description, globs]
 
-# Codex consumes content in two shapes:
-#   1. AGENTS.md — root context, auto-loaded. Built from concat(knowledge, rules).
-#   2. ~/.codex/prompts/add-{skill}.md — custom prompts, invoked explicitly.
-#
-# Note: The AGENTS.md emitted here is ADD's own runtime plumbing for the Codex
-# CLI — it is NOT the project-level AGENTS.md produced by the `/add:agents-md`
-# skill. The skill's output lives at the consuming project's root; this file
-# ships with the ADD plugin install.
+# Codex consumes content in the native layout:
+#   1. AGENTS.md                                     — root context, slim manifest (≤500 lines)
+#   2. .agents/skills/add-{name}/SKILL.md            — native Codex Skills with preserved frontmatter
+#   3. .agents/skills/add-{name}/agents/openai.yaml  — per-skill invocation policy
+#   4. .codex/agents/{role}.toml                     — sub-agent TOML files
+#   5. .codex/config.toml                            — global [agents] + [features] config
+#   6. .codex/hooks.json                             — hook registration
+#   7. .codex/hooks/*.sh                             — hook shell scripts (mode 0755)
+#   8. plugin.toml                                   — Codex plugin manifest
 output_shape:
   agents_md:
-    # All of core/knowledge/*.md (e.g. global.md, threat-model.md) and all
-    # core/rules/*.md land as sections in AGENTS.md.
-    from: [core/knowledge/*.md, core/rules/*.md]
-    strategy: concatenate_with_headings
-  prompts:
+    from: [core/knowledge/global.md, core/rules/*.md]
+    strategy: slim_manifest            # autoload: always only; skills table generated
+    max_lines: 500                     # compile fails above this
+  skills:
     from: core/skills/*/SKILL.md
-    rename: "add-{dirname}.md"
-    strip_frontmatter: true
+    emit_to: .agents/skills/add-{dirname}/SKILL.md
+    preserve_frontmatter: true
+    policy: runtimes/codex/skill-policy.yaml
+    askuser_shim_template: runtimes/codex/templates/askuser-shim.md
+  skill_policy:
+    from: runtimes/codex/skill-policy.yaml
+    emit_to: .agents/skills/add-{dirname}/agents/openai.yaml
+  agents:
+    from: runtimes/codex/agents/*.toml
+    emit_to: .codex/agents/
+  codex_config:
+    from: runtimes/codex/config.toml
+    emit_to: .codex/config.toml
+  hooks:
+    from: runtimes/codex/hooks/
+    emit_to: .codex/hooks/
+    mode: "0755"
+    manifest: .codex/hooks.json
   templates:
     from: core/templates/
     copy_verbatim: true
+  plugin_manifest:
+    emit_to: plugin.toml
 
-# Files specific to the Codex adapter
+# Files specific to the Codex adapter (copied verbatim; no compile transformation)
 adapter_files:
-  - README.md          # Codex-specific usage instructions
+  - README.md          # Codex-specific install + usage overview
 
 # Known runtime limitations (documented so agents and users understand the gap)
 limitations:

@@ -1,0 +1,17 @@
+{
+  "SessionStart": [
+    {
+      "command": ".codex/hooks/load-handoff.sh"
+    }
+  ],
+  "Stop": [
+    {
+      "command": ".codex/hooks/write-handoff.sh"
+    }
+  ],
+  "UserPromptSubmit": [
+    {
+      "command": ".codex/hooks/handoff-detect.sh"
+    }
+  ]
+}

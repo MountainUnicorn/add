@@ -1,0 +1,12 @@
+# ADD sub-agent — explorer
+#
+# Broad, lower-stakes codebase sweeps (architecture discovery, dependency
+# mapping, pattern detection). Used by /add:docs and /add:optimize in their
+# discovery phases. Read-only by design.
+# See spec AC-015..AC-020.
+
+name = "explorer"
+description = "Broad, read-only codebase exploration. Used for discovery, mapping, and pattern detection."
+model_reasoning_effort = "medium"
+sandbox_mode = "read-only"
+prompt_skill = "add-docs"
