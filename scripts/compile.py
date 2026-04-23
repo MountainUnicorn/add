@@ -31,6 +31,56 @@ RUNTIMES = ROOT / "runtimes"
 CODEX_AGENTS_MD_MAX_LINES = 500
 
 
+FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
+
+
+def parse_frontmatter(text: str) -> dict:
+    """Best-effort YAML frontmatter parse for compile-time rule filtering.
+
+    Handles the small subset of YAML we use: scalar booleans, strings, and flow-style arrays.
+    Avoids a pyyaml dependency so compile.py can run in minimal CI environments.
+    """
+    m = FRONTMATTER_RE.match(text)
+    if not m:
+        return {}
+    out: dict = {}
+    for line in m.group(1).splitlines():
+        line = line.rstrip()
+        if not line or line.startswith("#"):
+            continue
+        if ":" not in line:
+            continue
+        key, _, raw = line.partition(":")
+        key = key.strip()
+        raw = raw.strip()
+        if raw in ("true", "false"):
+            out[key] = raw == "true"
+        elif raw.startswith("[") and raw.endswith("]"):
+            items = [i.strip().strip('"').strip("'") for i in raw[1:-1].split(",") if i.strip()]
+            out[key] = items
+        elif raw.startswith('"') and raw.endswith('"'):
+            out[key] = raw[1:-1]
+        elif raw.startswith("'") and raw.endswith("'"):
+            out[key] = raw[1:-1]
+        else:
+            out[key] = raw
+    return out
+
+
+def autoload_rules_block(rules_dir: Path) -> str:
+    """Build the `@rules/*.md` list for CLAUDE.md, excluding rules with autoload:false.
+
+    Preserves a deterministic order driven by filename so the list is stable across compiles.
+    """
+    lines: list[str] = []
+    for rule_file in sorted(rules_dir.glob("*.md")):
+        fm = parse_frontmatter(rule_file.read_text())
+        if fm.get("autoload") is False:
+            continue
+        lines.append(f"@rules/{rule_file.name}")
+    return "\n".join(lines)
+
+
 def read_version() -> str:
     return (CORE / "VERSION").read_text().strip()
 
@@ -153,8 +203,11 @@ def compile_claude(version: str) -> dict:
 
     counts = {"core": 0, "adapter": 0}
 
-    # Core content: rules, skills, templates, knowledge, schemas, lib, security
-    for src_name in ("rules", "skills", "templates", "knowledge", "schemas", "lib", "security"):
+    # Core content: rules, skills, templates, knowledge, schemas, lib, security, references.
+    # `references/` ships alongside `rules/` but is NOT referenced from CLAUDE.md —
+    # skills load these files on demand via Read/@include when they need them
+    # (per the rule's `references:` frontmatter or skill SKILL.md `references:`).
+    for src_name in ("rules", "skills", "templates", "knowledge", "schemas", "lib", "security", "references"):
         counts["core"] += copy_tree(CORE / src_name, output / src_name, version)
 
     # Preserve executable bit on core/lib/*.sh shell helpers (compile.py uses shutil.copy2
@@ -168,12 +221,16 @@ def compile_claude(version: str) -> dict:
     adapter_src = RUNTIMES / "claude"
     for name in (".claude-plugin", "hooks"):
         counts["adapter"] += copy_tree(adapter_src / name, output / name, version)
+
+    rules_block = autoload_rules_block(CORE / "rules")
     for file in ("CLAUDE.md", "README.md", "LICENSE"):
         src = adapter_src / file
         if src.exists():
             out = output / file
             if src.suffix in {".md"} or src.name == "LICENSE":
-                out.write_text(substitute_version(src.read_text(), version))
+                text = substitute_version(src.read_text(), version)
+                text = text.replace("{{AUTOLOAD_RULES}}", rules_block)
+                out.write_text(text)
             else:
                 shutil.copy2(src, out)
             counts["adapter"] += 1
@@ -700,6 +757,20 @@ def compile_codex(version: str) -> dict:
         security_out = output / "security"
         security_out.mkdir(parents=True, exist_ok=True)
         copy_tree(security_src, security_out, version)
+
+    # 6d. Ship core/references/ verbatim. Prompts load these on demand via
+    # filesystem reads — matches the Claude adapter's
+    # `${CLAUDE_PLUGIN_ROOT}/references/` pattern. The path is rewritten to
+    # `~/.codex/add/references/` via the codex_substitute "${CLAUDE_PLUGIN_ROOT}"
+    # → "~/.codex/add" rule. (PR #6 — on-demand rule/knowledge loading.)
+    references_src = CORE / "references"
+    if references_src.exists():
+        references_out = output / "references"
+        references_out.mkdir(parents=True, exist_ok=True)
+        for ref in sorted(references_src.glob("*.md")):
+            ref_text = codex_substitute(ref.read_text())
+            ref_text = substitute_version(ref_text, version)
+            (references_out / ref.name).write_text(ref_text)
 
     # 7. Plugin manifest
     emit_codex_plugin_manifest(output, version, meta["min_codex_version"])
