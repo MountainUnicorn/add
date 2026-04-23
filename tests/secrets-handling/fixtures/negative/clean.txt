@@ -1,0 +1,4 @@
+# Clean file with no secrets
+This is a plain documentation file.
+It talks about API keys in general terms but contains none.
+We should rotate api keys quarterly — this is just prose.

@@ -1,0 +1,4 @@
+# Positive fixture: AWS_ACCESS_KEY
+# Matches regex: AKIA[0-9A-Z]{16}
+# Test script synthesizes the match string at runtime.
+AWS_ACCESS_KEY_ID=<SYNTHESIZED:AWS_ACCESS_KEY>

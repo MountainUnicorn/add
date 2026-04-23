@@ -1,0 +1,4 @@
+# Positive fixture: JWT
+# Matches regex: eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+
+# Test script synthesizes the match string at runtime.
+Authorization: Bearer <SYNTHESIZED:JWT>

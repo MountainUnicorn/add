@@ -1,0 +1,8 @@
+# Negative fixture: AWS docs' well-known example string
+# The EXAMPLE suffix / documentation path context makes this safe.
+# NOTE: The core AKIA regex will still match — this fixture documents
+# that the spec's Edge Cases table downgrades severity for fixtures
+# with path containing "example" / "test" / "fixture" / "mock".
+# Test script treats this as an "intentional" positive — see test docs.
+# (Not asserted as a negative in the default test run.)
+aws_access_key_id = AKIAIOSFODNN7EXAMPLE  # AWS-published example key

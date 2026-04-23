@@ -1,0 +1,4 @@
+# Positive fixture: OPENAI_API_KEY
+# Matches regex: sk-(proj-)?[A-Za-z0-9]{32,}
+# Test script synthesizes the match string at runtime.
+OPENAI_API_KEY=<SYNTHESIZED:OPENAI_API_KEY>

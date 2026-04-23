@@ -1,0 +1,5 @@
+# Negative fixture: git log commit SHAs
+# 40-hex strings inside a commit-log context — must not flag.
+25ef4e377fc700bbcddb0ae6d5178d69f7d9edd2 chore: handoff + retro
+cbc58512c5b758c7e0ab1cd45561d795d645c972 docs(planning): M3 milestone
+b3c1c308d5dfc6b2010f5c07d89823d9484e9887 chore: extract marketing site

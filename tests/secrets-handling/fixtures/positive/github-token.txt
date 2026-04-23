@@ -1,0 +1,4 @@
+# Positive fixture: GITHUB_TOKEN
+# Matches regex: gh[pousr]_[A-Za-z0-9]{36,}
+# Test script synthesizes the match string at runtime.
+GITHUB_TOKEN=<SYNTHESIZED:GITHUB_TOKEN>

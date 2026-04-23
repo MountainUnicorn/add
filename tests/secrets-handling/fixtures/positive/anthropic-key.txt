@@ -1,0 +1,4 @@
+# Positive fixture: ANTHROPIC_API_KEY
+# Matches regex: sk-ant-[A-Za-z0-9_-]{32,}
+# Test script synthesizes the match string at runtime.
+ANTHROPIC_API_KEY=<SYNTHESIZED:ANTHROPIC_API_KEY>
