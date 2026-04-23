@@ -78,7 +78,12 @@ Roadmap (docs/prd.md milestones section)
 | `/add:promote` | Maturity promotion — gap analysis and level-up workflow |
 | `/add:learnings` | Manage learnings — generate active views, archive, stats |
 | `/add:dashboard` | Generate visual HTML project dashboard from .add/ project files |
+| `/add:agents-md` | Generate or sync a tool-portable `AGENTS.md` from `.add/` state |
 | `/add:version` | Show installed version, project version, and upgrade status |
+
+## AGENTS.md Interop
+
+ADD publishes a tool-portable [`AGENTS.md`](https://agents.md) at project root via `/add:agents-md`. This is an **output** of ADD, not an input — any agent in any tool (Cursor, Codex CLI, Copilot, Windsurf, Amp, Devin) can read the file without needing the ADD plugin installed. The skill generates the file from `.add/config.json`, `docs/prd.md`, and behavioral rules; content is scoped to an HTML-comment marker block so user-authored sections survive regeneration. A PostToolUse hook writes `.add/agents-md.stale` when source inputs change — the human triggers regeneration, never the agent silently.
 
 ## Rules
 

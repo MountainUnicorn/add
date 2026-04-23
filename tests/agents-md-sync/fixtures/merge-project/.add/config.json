@@ -1,0 +1,19 @@
+{
+  "version": "0.9.0",
+  "project": {
+    "name": "MergeCo",
+    "description": "A project adopting ADD with a pre-existing AGENTS.md."
+  },
+  "maturity": {
+    "level": "alpha"
+  },
+  "architecture": {
+    "languages": [
+      {"name": "Rust", "version": "1.78", "role": "backend"}
+    ]
+  },
+  "environments": {
+    "tier": 1,
+    "local": {"run": "cargo run"}
+  }
+}

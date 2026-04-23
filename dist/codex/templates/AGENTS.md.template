@@ -1,0 +1,39 @@
+<!-- ADD:MANAGED:START version={VERSION} maturity={MATURITY} generated={GENERATED} -->
+
+# {PROJECT_NAME}
+
+{PROJECT_DESCRIPTION}
+
+## Engagement Protocol
+
+{ENGAGEMENT_SUMMARY}
+
+## Spec-First Invariants
+
+{SPEC_FIRST_SUMMARY}
+
+## TDD Discipline
+
+{TDD_SUMMARY}
+
+## Maturity & Autonomy Ceiling
+
+Project maturity: **{MATURITY}**.
+
+{AUTONOMY_CEILING_LIST}
+
+Production deploys and merges to the default branch always require human approval.
+
+## Currently Active Spec
+
+- [`{ACTIVE_SPEC_PATH}`](./{ACTIVE_SPEC_PATH})
+
+## Pointers
+
+{POINTER_LIST}
+
+<!-- ADD:MANAGED:END -->
+
+<!-- USER:AUTHORED:START -->
+{USER_AUTHORED_CONTENT}
+<!-- USER:AUTHORED:END -->

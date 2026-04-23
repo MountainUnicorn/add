@@ -1,0 +1,19 @@
+{
+  "version": "0.9.0",
+  "project": {
+    "name": "Tiny POC",
+    "description": "A proof-of-concept project exploring rapid iteration."
+  },
+  "maturity": {
+    "level": "poc"
+  },
+  "architecture": {
+    "languages": [
+      {"name": "Python", "version": "3.12", "role": "backend"}
+    ]
+  },
+  "environments": {
+    "tier": 1,
+    "local": {"run": "python main.py"}
+  }
+}

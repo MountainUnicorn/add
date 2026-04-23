@@ -257,6 +257,28 @@ Test mapping file: tests/feature-mapping.md
 All requirements traced and verified.
 ```
 
+### Gate 4.5: AGENTS.md Drift (Opt-In)
+
+**Purpose**: Detect drift between the project's canonical ADD state and its published `AGENTS.md`.
+
+**Opt-In**: This gate runs only when `.add/config.json` contains `"agentsMd": {"gateOnVerify": true}`. Default is `false` — AGENTS.md is advisory for projects that have not opted in.
+
+**When enabled**:
+
+1. Check that `AGENTS.md` exists at project root. If absent, warn and skip (not a fail — the project may not publish one).
+2. Run `python3 scripts/generate-agents-md.py --check` from the project root.
+   - Exit 0 → in sync, gate PASSES.
+   - Exit 1 → drift detected, gate FAILS (advisory — does not block Gate 5).
+3. Print the unified diff on failure for fast human review. Suggest `/add:agents-md --write` to remediate.
+
+```
+Gate 4.5: AGENTS.md Drift
+- Config flag: agentsMd.gateOnVerify = true
+- AGENTS.md present: yes
+- Drift detected: no
+- Status: ✓ PASS
+```
+
 ### Gate 5: Smoke Tests (Post-Deploy)
 
 **Purpose**: Quick health check after deployment to catch obvious breakage.

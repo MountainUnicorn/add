@@ -98,3 +98,13 @@ You can proceed directly to /add:plan if the UI is already fully defined.
 ```
 
 If Q8 was skipped or answered "N/A" (no UI): omit this block entirely. Do not mention it.
+
+### AGENTS.md Active-Spec Pointer
+
+If `AGENTS.md` exists at project root and the project is at `beta` maturity or higher, prompt:
+
+```
+Update AGENTS.md active-spec pointer to specs/{feature-slug}.md? (Y/n)
+```
+
+On yes, run `/add:agents-md --write`. On no, skip silently. If `AGENTS.md` is absent or the project is below `beta`, skip this prompt entirely. This keeps AGENTS.md in sync with the currently-active spec without noise for projects that haven't opted in.
