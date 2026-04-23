@@ -39,8 +39,8 @@ echo "==> Syncing to $CACHE"
 mkdir -p "$CACHE"
 
 # Exclusions: everything that's project-specific-to-the-ADD-repo vs what ships
-# in the plugin. Consumers don't want our own .add/, our website, our dogfood
-# specs/reports/docs.
+# in the plugin. Consumers don't want our own .add/ or dogfood specs/reports/docs.
+# (Marketing site lives in MountainUnicorn/getadd.dev — not in this repo.)
 rsync -av --delete \
   --exclude='.add/' \
   --exclude='.git/' \
@@ -48,7 +48,6 @@ rsync -av --delete \
   --exclude='.claude/' \
   --exclude='.DS_Store' \
   --exclude='reports/' \
-  --exclude='website/' \
   --exclude='docs/prd.md' \
   --exclude='docs/distribution-plan.md' \
   --exclude='docs/milestones/' \

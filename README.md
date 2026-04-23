@@ -166,7 +166,7 @@ Environment-aware deployment with pre-deploy verification and post-deploy smoke 
 ADD doesn't use a single agent. It dispatches **specialized sub-agents** — each with scoped tool permissions — then **independently verifies** their work. Trust but verify.
 
 <p align="center">
-  <img src="website/images/agent-architecture.svg" alt="ADD Agent Architecture — Orchestrator dispatches Test Writer, Implementer, Reviewer, and Deployer sub-agents, then independently verifies" width="700">
+  <img src="docs/agent-architecture.svg" alt="ADD Agent Architecture — Orchestrator dispatches Test Writer, Implementer, Reviewer, and Deployer sub-agents, then independently verifies" width="700">
 </p>
 
 Each sub-agent is **isolated** — test-writers can't deploy, reviewers can't edit code. At **Beta+ maturity**, agents work in parallel via git worktrees: 2-5 concurrent agents with WIP limits that scale with maturity (POC=1, Alpha=2, Beta=4, GA=5).

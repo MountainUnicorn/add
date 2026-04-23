@@ -6,6 +6,13 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+### Changed
+
+- **Marketing site extracted to a separate repo** ([`MountainUnicorn/getadd.dev`](https://github.com/MountainUnicorn/getadd.dev)) so future commercial elements can land there without touching the open-source plugin. Full git history (38 commits) preserved via `git filter-repo`. Domain `getadd.dev` re-claimed on the new repo with the existing TLS cert. The plugin repo no longer contains `website/`, `.github/workflows/pages.yml`, or `scripts/deploy-website.sh`. The architecture SVG used by the README moved from `website/images/` to `docs/`.
+- `CLAUDE.md` rewritten to reflect the v0.7+ source-of-truth flow (`core/` → `compile.py` → `plugins/add/` + `dist/codex/`) and the website-is-elsewhere reality.
+- `CONTRIBUTING.md` testing-changes section: replaced the long ad-hoc rsync example with the canonical `compile.py` + `sync-marketplace.sh` workflow plus the three CI-gate validation commands.
+- `scripts/sync-marketplace.sh`: dropped the now-unnecessary `--exclude='website/'`.
+
 Pending for v0.9.0:
 
 - Per-skill Codex overrides for high-leak skills (`away`, `tdd-cycle`, `implementer`, `agent-coordination`)

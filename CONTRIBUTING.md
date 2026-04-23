@@ -36,20 +36,22 @@ output — the compile-drift CI gate will reject PRs that disagree.
 
 ## Testing Changes
 
-Sync your working copy to the local marketplace cache, then restart any open Claude Code sessions:
+After editing `core/`, regenerate the runtime adapters and sync the marketplace cache:
 
 ```bash
-rsync -av --delete \
-  --exclude='.add/' --exclude='.git/' --exclude='.github/' \
-  --exclude='.DS_Store' --exclude='reports/' --exclude='website/' \
-  --exclude='docs/prd.md' --exclude='docs/distribution-plan.md' \
-  --exclude='docs/milestones/' --exclude='docs/plans/' \
-  --exclude='docs/infographic.svg' --exclude='specs/' --exclude='tests/' \
-  /path/to/your/add/ \
-  ~/.claude/plugins/cache/add-marketplace/add/0.1.0/
+python3 scripts/compile.py            # regenerates plugins/add/ + dist/codex/
+./scripts/sync-marketplace.sh         # rsync to ~/.claude/plugins/cache/...
 ```
 
-Open a new Claude Code session and exercise the command or skill you changed.
+Then open a new Claude Code session (or `/clear` an existing one) and exercise the skill you changed. Validation gates before opening a PR:
+
+```bash
+python3 scripts/validate-frontmatter.py
+python3 scripts/compile.py --check
+bash tests/hooks/test-filter-learnings.sh
+```
+
+All three CI checks (compile-drift, frontmatter-validate, rule-boundary) must pass before merge.
 
 ## Commit Convention
 
