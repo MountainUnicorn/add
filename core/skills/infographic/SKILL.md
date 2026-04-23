@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
+references: ["design-system.md", "image-gen-detection.md"]
 ---
 
 # ADD Infographic Skill v0.6.0
@@ -25,7 +26,7 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 
 **Step 1.3: Load template and design system**
 - Read `${CLAUDE_PLUGIN_ROOT}/templates/infographic.svg.template`
-- Read `${CLAUDE_PLUGIN_ROOT}/rules/design-system.md` for aesthetic guidance
+- Read `${CLAUDE_PLUGIN_ROOT}/references/design-system.md` for aesthetic guidance
 - If template missing, HALT with error (plugin installation issue)
 
 **Step 1.4: Check for PRD (optional)**

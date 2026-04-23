@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--parallel] [--allow-test-rewrite]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task, TodoWrite]
+references: ["learning-reference.md"]
 ---
 
 # ADD TDD Cycle Skill v0.6.0
@@ -320,4 +321,4 @@ If `.add/observations.md` does not exist, create it with a `# Process Observatio
 
 ### 2. Learning Checkpoint
 
-Write a structured JSON learning entry per the checkpoint trigger in `rules/learning.md` (section: "After TDD Cycle Completes"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+Write a structured JSON learning entry per the checkpoint trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "After TDD Cycle Completes"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.

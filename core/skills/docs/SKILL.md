@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Agent]
+references: ["learning-reference.md"]
 ---
 
 # ADD Docs Skill v0.6.0
@@ -578,4 +579,4 @@ If `.add/observations.md` does not exist, create it with a `# Process Observatio
 
 ### 2. Learning Checkpoint
 
-Write a structured JSON learning entry per the checkpoint trigger in `rules/learning.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+Write a structured JSON learning entry per the checkpoint trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
