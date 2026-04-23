@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
-# ADD Codex CLI installer
+# ADD Codex CLI installer (v0.9+ native Skills layout)
 #
-# Installs ADD's Codex adapter:
-#   - Copies prompts/*.md into ~/.codex/prompts/ (preserves existing files)
-#   - Places AGENTS.md at ~/.codex/add/AGENTS.md (referenced from project AGENTS.md)
-#   - Templates to ~/.codex/add/templates/ for prompts to reference
+# Installs ADD's Codex adapter in the native format:
+#   - .agents/skills/add-*/    → ~/.codex/skills/add-*/   (native Codex Skills)
+#   - .codex/agents/*.toml     → ~/.codex/agents/         (sub-agent definitions)
+#   - .codex/hooks/            → ~/.codex/hooks/          (shell hook scripts, mode 0755)
+#   - .codex/hooks.json        → ~/.codex/hooks.json      (hook registration — merged if present)
+#   - .codex/config.toml       → staged at ~/.codex/add/config.toml (merge guidance printed)
+#   - AGENTS.md                → ~/.codex/add/AGENTS.md   (referenced from project AGENTS.md)
+#   - templates/               → ~/.codex/add/templates/  (referenced by skills)
+#   - plugin.toml              → ~/.codex/add/plugin.toml (plugin manifest)
+#
+# Required Codex CLI: see min_codex_version in dist/codex/plugin.toml.
 #
 # Usage:
 #   # From a clone of the repo:
@@ -34,75 +41,121 @@ if [ ! -d "$DIST_DIR" ]; then
   exit 1
 fi
 
+if [ ! -d "$DIST_DIR/.agents/skills" ]; then
+  echo "ERROR: Codex dist at $DIST_DIR uses the legacy prompts/ layout." >&2
+  echo "       This installer requires the native Skills layout (v0.9+)." >&2
+  echo "       Run: python3 scripts/compile.py" >&2
+  exit 1
+fi
+
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 ADD_HOME="$CODEX_HOME/add"
-PROMPTS_DIR="$CODEX_HOME/prompts"
+SKILLS_DIR="$CODEX_HOME/skills"
+AGENTS_DIR="$CODEX_HOME/agents"
+HOOKS_DIR="$CODEX_HOME/hooks"
 
 VERSION=$(cat "$DIST_DIR/VERSION" 2>/dev/null || echo "unknown")
 
-echo "==> Installing ADD v$VERSION for Codex CLI"
-echo "    Prompts → $PROMPTS_DIR/"
-echo "    Shared  → $ADD_HOME/"
+echo "==> Installing ADD v$VERSION for Codex CLI (native Skills layout)"
+echo "    Skills    → $SKILLS_DIR/"
+echo "    Agents    → $AGENTS_DIR/"
+echo "    Hooks     → $HOOKS_DIR/"
+echo "    Shared    → $ADD_HOME/"
 echo ""
 
-# Ensure Codex home exists
-mkdir -p "$PROMPTS_DIR" "$ADD_HOME"
+mkdir -p "$SKILLS_DIR" "$AGENTS_DIR" "$HOOKS_DIR" "$ADD_HOME"
 
-# Copy prompts — each is a custom-prompt file invoked as /add-spec, /add-tdd-cycle, etc.
-# We prefix all ADD prompts with 'add-' to avoid colliding with user prompts.
-count=0
-conflicts=0
-for src in "$DIST_DIR"/prompts/add-*.md; do
-  [ -f "$src" ] || continue
+# --- Skills: one directory per skill -------------------------------------
+skill_count=0
+for src in "$DIST_DIR"/.agents/skills/add-*; do
+  [ -d "$src" ] || continue
   name=$(basename "$src")
-  dst="$PROMPTS_DIR/$name"
-  if [ -f "$dst" ]; then
-    # If existing file differs, back it up
-    if ! cmp -s "$src" "$dst"; then
-      mv "$dst" "$dst.pre-add.bak"
-      cp "$src" "$dst"
-      conflicts=$((conflicts + 1))
-    fi
-  else
-    cp "$src" "$dst"
-  fi
-  count=$((count + 1))
+  dst="$SKILLS_DIR/$name"
+  rm -rf "$dst"
+  cp -r "$src" "$dst"
+  skill_count=$((skill_count + 1))
 done
-echo "    ✓ $count prompts installed (${conflicts} backups created at *.pre-add.bak)"
+echo "    ✓ $skill_count native skills installed"
 
-# Copy shared AGENTS.md source + templates
+# --- Sub-agent TOMLs ------------------------------------------------------
+agent_count=0
+for src in "$DIST_DIR"/.codex/agents/*.toml; do
+  [ -f "$src" ] || continue
+  cp "$src" "$AGENTS_DIR/$(basename "$src")"
+  agent_count=$((agent_count + 1))
+done
+echo "    ✓ $agent_count sub-agent TOMLs installed"
+
+# --- Hook scripts + manifest ---------------------------------------------
+hook_count=0
+for src in "$DIST_DIR"/.codex/hooks/*.sh; do
+  [ -f "$src" ] || continue
+  cp "$src" "$HOOKS_DIR/$(basename "$src")"
+  chmod 0755 "$HOOKS_DIR/$(basename "$src")"
+  hook_count=$((hook_count + 1))
+done
+cp "$DIST_DIR/.codex/hooks/README.md" "$HOOKS_DIR/README.md"
+# hooks.json is merged by hand if one already exists — warn the user.
+if [ -f "$CODEX_HOME/hooks.json" ]; then
+  cp "$DIST_DIR/.codex/hooks.json" "$ADD_HOME/hooks.json"
+  HOOKS_MERGE_NOTE="A prior ~/.codex/hooks.json exists; ADD's manifest staged at $ADD_HOME/hooks.json — merge manually."
+else
+  cp "$DIST_DIR/.codex/hooks.json" "$CODEX_HOME/hooks.json"
+  HOOKS_MERGE_NOTE="~/.codex/hooks.json installed fresh."
+fi
+echo "    ✓ $hook_count hook scripts installed"
+
+# --- Global config.toml (staged for manual merge) ------------------------
+cp "$DIST_DIR/.codex/config.toml" "$ADD_HOME/config.toml"
+
+# --- Shared content: AGENTS.md, templates, plugin.toml, VERSION ---------
 cp "$DIST_DIR/AGENTS.md" "$ADD_HOME/AGENTS.md"
+cp "$DIST_DIR/plugin.toml" "$ADD_HOME/plugin.toml"
+cp "$DIST_DIR/VERSION" "$ADD_HOME/VERSION"
 if [ -d "$DIST_DIR/templates" ]; then
   rm -rf "$ADD_HOME/templates"
   cp -r "$DIST_DIR/templates" "$ADD_HOME/templates"
 fi
-cp "$DIST_DIR/VERSION" "$ADD_HOME/VERSION"
-echo "    ✓ AGENTS.md and templates installed"
+echo "    ✓ AGENTS.md, templates, and plugin.toml staged at $ADD_HOME/"
 
 # Guide the user on wiring AGENTS.md into their project
 cat <<EOF
 
 Install complete.
 
-Next step — wire ADD into your project's AGENTS.md:
+Next steps:
 
-  Option A (fresh project, no existing AGENTS.md):
-    cp $ADD_HOME/AGENTS.md /path/to/your/project/AGENTS.md
+1. Wire ADD into your project's AGENTS.md:
+     Fresh project (no AGENTS.md yet):
+       cp $ADD_HOME/AGENTS.md /path/to/your/project/AGENTS.md
 
-  Option B (existing AGENTS.md — merge):
-    Add this line to the top of your project's AGENTS.md:
+     Existing AGENTS.md — add this line near the top to include ADD's manifest:
+       @${ADD_HOME/$HOME/~}/AGENTS.md
 
-      @${ADD_HOME/$HOME/~}/AGENTS.md
+2. Enable Codex runtime features (required for sub-agents and hooks):
+     In your ~/.codex/config.toml ensure:
 
-    Codex resolves @-references at session start, pulling ADD's rules in.
+       [features]
+       collab = true
+       codex_hooks = true
 
-Prompts are now available in any Codex session. Try:
-  /add-init        — Bootstrap ADD in your project
-  /add-spec        — Create a feature specification
-  /add-tdd-cycle   — Run the full TDD loop
+       [agents]
+       max_threads = 6
+       max_depth = 1
+
+     A reference block is at: $ADD_HOME/config.toml
+
+3. Hooks:
+     $HOOKS_MERGE_NOTE
+
+Skills dispatch by description match (e.g., "run quality gates" → add-verify)
+or explicitly (e.g., /add-verify). High-leak interview skills (/add-spec,
+/add-brand-update, /add-away, /add-tdd-cycle, /add-implementer, /add-deploy)
+require explicit invocation.
 
 Uninstall:
-  rm -rf $ADD_HOME $PROMPTS_DIR/add-*.md
+  rm -rf $ADD_HOME $SKILLS_DIR/add-* $AGENTS_DIR/{test-writer,implementer,reviewer,explorer}.toml
+  # Restore your own ~/.codex/hooks.json if you backed it up.
 
 Troubleshooting: https://github.com/MountainUnicorn/add/blob/main/TROUBLESHOOTING.md
 EOF
