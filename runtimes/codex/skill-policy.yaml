@@ -1,0 +1,127 @@
+# ADD Codex skill invocation policy
+#
+# Source of truth for each skill's Codex-native metadata: whether the skill may
+# be implicitly invoked by Codex's description-matching dispatcher, and what
+# tool surface it needs. Consumed by `scripts/compile.py::emit_codex_native_skills`.
+#
+# AC-009: compile fails if any skill under `core/skills/` is missing a policy entry.
+# AC-007: high-leak interview skills set allow_implicit_invocation: false.
+# AC-008: other skills default to true.
+#
+# Schema (per entry):
+#   skill: string                      — directory name under core/skills/
+#   allow_implicit_invocation: bool    — required
+#   tools: string[]                    — required; subset of bash/read/edit/write/webfetch/mcp:*
+#   requires_askuser_shim: bool        — optional; default false
+
+skills:
+  # --- High-leak interview skills — explicit invocation only ---
+  - skill: spec
+    allow_implicit_invocation: false
+    tools: [read, write, edit, bash]
+    requires_askuser_shim: true
+
+  - skill: brand-update
+    allow_implicit_invocation: false
+    tools: [read, write, edit, bash]
+    requires_askuser_shim: true
+
+  - skill: away
+    allow_implicit_invocation: false
+    tools: [read, write, edit, bash]
+    requires_askuser_shim: true
+
+  - skill: tdd-cycle
+    allow_implicit_invocation: false
+    tools: [read, write, edit, bash]
+
+  - skill: implementer
+    allow_implicit_invocation: false
+    tools: [read, write, edit, bash]
+
+  - skill: deploy
+    allow_implicit_invocation: false
+    tools: [read, write, edit, bash]
+
+  # --- Dispatcher-eligible skills — description match may auto-invoke ---
+  - skill: init
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+    requires_askuser_shim: true
+
+  - skill: retro
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+    requires_askuser_shim: true
+
+  - skill: plan
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: ux
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: test-writer
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: reviewer
+    allow_implicit_invocation: true
+    tools: [read, bash]
+
+  - skill: verify
+    allow_implicit_invocation: true
+    tools: [read, bash]
+
+  - skill: optimize
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: docs
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: dashboard
+    allow_implicit_invocation: true
+    tools: [read, write, bash]
+
+  - skill: infographic
+    allow_implicit_invocation: true
+    tools: [read, write, bash]
+
+  - skill: brand
+    allow_implicit_invocation: true
+    tools: [read]
+
+  - skill: roadmap
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: milestone
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: cycle
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: promote
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: learnings
+    allow_implicit_invocation: true
+    tools: [read, write, bash]
+
+  - skill: changelog
+    allow_implicit_invocation: true
+    tools: [read, write, edit, bash]
+
+  - skill: back
+    allow_implicit_invocation: true
+    tools: [read, write, bash]
+
+  - skill: version
+    allow_implicit_invocation: true
+    tools: [read, bash]
