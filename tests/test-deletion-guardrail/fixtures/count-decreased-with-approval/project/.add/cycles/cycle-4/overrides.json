@@ -1,0 +1,6 @@
+{
+  "kind": "test-rewrite",
+  "approved_by": "human",
+  "timestamp": "2026-04-22T11:05:00Z",
+  "affected_tests": ["tests/test_demo.py::test_beta"]
+}

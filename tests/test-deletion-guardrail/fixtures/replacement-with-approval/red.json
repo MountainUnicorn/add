@@ -1,0 +1,20 @@
+{
+  "cycle_id": 8,
+  "spec_slug": "demo",
+  "phase": "red",
+  "base_sha": "aaa0000",
+  "phase_end_sha": "bbb0001",
+  "language": "python",
+  "files": [
+    {
+      "path": "tests/test_demo.py",
+      "language": "python",
+      "function_count": 1,
+      "functions": [
+        {"name": "test_validation", "body_hash": "hash_rich_assertions_v1", "line_start": 5}
+      ]
+    }
+  ],
+  "total_functions": 1,
+  "timestamp": "2026-04-22T10:00:00Z"
+}

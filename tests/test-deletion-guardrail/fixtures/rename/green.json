@@ -1,0 +1,21 @@
+{
+  "cycle_id": 6,
+  "spec_slug": "demo",
+  "phase": "green",
+  "base_sha": "aaa0000",
+  "phase_end_sha": "ccc0002",
+  "language": "python",
+  "files": [
+    {
+      "path": "tests/test_demo.py",
+      "language": "python",
+      "function_count": 2,
+      "functions": [
+        {"name": "test_user_constructs_with_name", "body_hash": "hash_shared_body_v1", "line_start": 5},
+        {"name": "test_other", "body_hash": "hash_other_v1", "line_start": 12}
+      ]
+    }
+  ],
+  "total_functions": 2,
+  "timestamp": "2026-04-22T11:00:00Z"
+}
