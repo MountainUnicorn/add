@@ -16,9 +16,25 @@ During `/add:init`, `/add:spec`, or any discovery, follow the 1-by-1 format:
 3. **Priority order:** Who/Why → What → Boundaries → Edge Cases → Polish (essential first)
 4. **Offer defaults** for non-critical questions ("Default: toast notifications — say 'default' to accept")
 5. **One concept per question:** If a question asks 3+ independent decisions, split it
-6. **Confusion protocol:** On "I don't understand" → explain in plain language → re-ask via `AskUserQuestion` → wait for confirmed answer. NEVER pick a default after confusion.
-7. **Confirmation gate:** After all questions, present answer summary before generating output. Flag agent-chosen defaults visibly. Do NOT generate until user confirms.
-8. **Cross-spec check:** Before writing a new spec, scan `specs/` for related ACs, shared data models, and conflicting requirements. Present conflicts to user before generating.
+6. **Cross-spec check:** Before writing a new spec, scan `specs/` for related ACs, shared data models, and conflicting requirements. Present conflicts to user before generating.
+
+### Confusion Protocol
+
+When a user signals confusion ("I don't understand", "what do you mean?", "I'm not sure", etc.):
+
+1. **Explain** in plain language, translating technical details to user impact
+2. **Re-ask** via `AskUserQuestion` with simplified options — the structured popup forces a confirmed selection
+3. **Wait** for the confirmed answer before proceeding
+
+**NEVER** do any of the following after a user signals confusion:
+- **NEVER** pick a default and say "unless you disagree" — that is not consent
+- **NEVER** proceed to the next question without a confirmed answer to this one
+- **NEVER** start generating output (spec, plan, code) with an unconfirmed answer
+- **NEVER** treat your own explanation as the user's agreement
+
+### Confirmation Gate
+
+After the final interview question — and BEFORE generating any output — present a summary of all captured answers. Flag any agent-chosen defaults visibly. **NEVER generate** the spec/output until the user confirms the summary.
 
 ## Engagement Modes
 
@@ -61,10 +77,13 @@ Set in `.add/config.json`:
 
 ## Anti-Patterns
 
-- NEVER batch 5+ questions or compress 3+ decisions into one question
-- NEVER ask questions answerable from spec/PRD
-- NEVER proceed after confusion without confirmed answer via `AskUserQuestion`
-- NEVER say "unless you disagree" as substitute for asking — soft opt-outs are not consent
-- NEVER generate output without confirmation gate
-- NEVER skip cross-spec consistency check before writing new specs
-- NEVER continue after "stepping away" without presenting away-mode work plan
+- **NEVER** batch 5+ questions in a single message
+- **NEVER** ask questions you can answer from the spec or PRD
+- **NEVER** ask "is this okay?" without showing what "this" is
+- **NEVER** continue working after the human said they're stepping away without presenting the away-mode work plan first
+- **NEVER** present technical implementation details to get product decisions — translate to user impact
+- **NEVER** compress 3+ independent decisions into a single interview question
+- **NEVER** proceed after "I don't understand" without re-asking via `AskUserQuestion` and getting a confirmed answer (see Confusion Protocol)
+- **NEVER** say "unless you disagree" or "if that works for you" as a substitute for asking — soft opt-outs are not consent
+- **NEVER** generate a spec without presenting the answer summary for confirmation (see Confirmation Gate)
+- **NEVER** write a new spec without checking existing specs for related ACs, shared patterns, or conflicts
