@@ -1,10 +1,10 @@
 ---
 name: add-infographic
-description: "[ADD v0.8.0] Generate project infographic — SVG from PRD + config with branding"
+description: "[ADD v0.8.1] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 ---
 
-# ADD Infographic Skill v0.8.0
+# ADD Infographic Skill v0.8.1
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 
@@ -24,8 +24,8 @@ Generates a professional SVG infographic from the project's PRD and config. The 
   - Primary run command from `environments.local.run`
 
 **Step 1.3: Load template and design system**
-- Read `~/.codex/templates/infographic.svg.template`
-- Read `~/.codex/rules/design-system.md` for aesthetic guidance
+- Read `~/.codex/add/templates/infographic.svg.template`
+- Read `~/.codex/add/rules/design-system.md` for aesthetic guidance
 - If template missing, HALT with error (plugin installation issue)
 
 **Step 1.4: Check for PRD (optional)**
@@ -112,7 +112,7 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 - If cached and fresh, use cached result
 
 **Step 2.2: Detect image gen capability**
-- Read `~/.codex/knowledge/image-gen-detection.md` for detection algorithm
+- Read `~/.codex/add/knowledge/image-gen-detection.md` for detection algorithm
 - Scan MCP configs for image generation tools:
   - Check `~/.claude/mcp/local.json` for tools matching image gen patterns
   - Common patterns: "image", "generate", "draw", "vision"

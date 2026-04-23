@@ -1,9 +1,9 @@
 {
   "$schema": "https://github.com/MountainUnicorn/add/config.schema.json",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "project": {
     "name": "ADD",
-    "description": "Agent Driven Development — Claude Code plugin implementing an AI-native SDLC methodology",
+    "description": "Agent Driven Development \u2014 Claude Code plugin implementing an AI-native SDLC methodology",
     "created": "2026-02-07",
     "author": "abrooke"
   },
@@ -104,6 +104,8 @@
     "default_branch": "main",
     "commit_convention": "conventional",
     "pr_template": true,
-    "protected_branches": ["main"]
+    "protected_branches": [
+      "main"
+    ]
   }
 }

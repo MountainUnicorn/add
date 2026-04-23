@@ -1,10 +1,10 @@
 ---
 name: add-deploy
-description: "[ADD v0.8.0] Environment-aware commit, push, and deploy workflow"
+description: "[ADD v0.8.1] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 ---
 
-# ADD Deploy Skill v0.8.0
+# ADD Deploy Skill v0.8.1
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 
@@ -98,7 +98,7 @@ If any verification fails:
 
 Before composing the commit message, scan the staged diff for secrets.
 
-**Source of truth:** `~/.codex/knowledge/secret-patterns.md` (regex
+**Source of truth:** `~/.codex/add/knowledge/secret-patterns.md` (regex
 catalog + high-entropy heuristic + path-prefix deny list). The gate MUST use
 this catalog — do not duplicate the patterns inline.
 
@@ -203,7 +203,7 @@ the full phrase).
 | Git not initialized | Skip gate silently; first-commit projects aren't blocked |
 | File path contains `test`, `fixture`, `example`, or `mock` | Still flag, but downgrade severity in the message and suggest `--allow-secret` |
 | `.env.example` with placeholder values | `.secretsignore` negation (`!.env.example`) allows it; content scan usually won't match because examples are placeholders |
-| Pattern catalog updated in plugin upgrade | Gate reads the latest catalog from `~/.codex/knowledge/secret-patterns.md`; existing `.secretsignore` files untouched |
+| Pattern catalog updated in plugin upgrade | Gate reads the latest catalog from `~/.codex/add/knowledge/secret-patterns.md`; existing `.secretsignore` files untouched |
 
 ### Step 2: Prepare Commit Message
 

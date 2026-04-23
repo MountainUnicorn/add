@@ -1,10 +1,10 @@
 ---
 name: add-tdd-cycle
-description: "[ADD v0.8.0] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
+description: "[ADD v0.8.1] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--parallel] [--allow-test-rewrite]"
 ---
 
-# ADD TDD Cycle Skill v0.8.0
+# ADD TDD Cycle Skill v0.8.1
 
 Execute a complete Test-Driven Development cycle for a feature from the specification through production-quality code.
 
@@ -84,7 +84,7 @@ Verify tests actually fail:
 After test-writer signals RED complete, capture the test surface snapshot:
 
 ```bash
-python3 ~/.codex/../../scripts/check-test-count.py snapshot \
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
   --phase red \
   --cycle-id {N} \
   --spec-slug {slug} \
@@ -111,7 +111,7 @@ Before invoking the implementer, generate the impact hint so the implementer ent
 GREEN with a focused set of candidate files:
 
 ```bash
-bash ~/.codex/lib/impact-hint.sh {cycle-base-sha} specs/{feature}.md .
+bash ~/.codex/add/lib/impact-hint.sh {cycle-base-sha} specs/{feature}.md .
 ```
 
 The helper emits a two-section block: *Files likely to need changes* (from diff +
@@ -135,7 +135,7 @@ After implementation:
 **GREEN-end snapshot (test-deletion guardrail — required since v0.9.0):**
 
 ```bash
-python3 ~/.codex/../../scripts/check-test-count.py snapshot \
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
   --phase green \
   --cycle-id {N} \
   --spec-slug {slug} \

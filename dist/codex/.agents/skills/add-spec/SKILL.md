@@ -1,6 +1,6 @@
 ---
 name: add-spec
-description: "[ADD v0.8.0] Create a feature specification through structured interview"
+description: "[ADD v0.8.1] Create a feature specification through structured interview"
 argument-hint: "[feature-name] [--from-prd-section N]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[feature-name] [--from-prd-section N]"
 
 ---
 
-# ADD Spec Command v0.8.0
+# ADD Spec Command v0.8.1
 
 Create a feature specification through a structured interview. The spec becomes the source of truth for implementation.
 
@@ -83,7 +83,7 @@ data models, and everything needed to start TDD.
 
 ## Phase 2: Generate Spec
 
-1. Read `~/.codex/templates/spec.md.template`
+1. Read `~/.codex/add/templates/spec.md.template`
 2. Fill in ALL sections with substantive content from the interview
 3. Generate acceptance criteria with IDs (AC-001 through AC-NNN)
 4. Generate user test cases with IDs (TC-001 through TC-NNN)

@@ -1,10 +1,10 @@
 ---
 name: add-milestone
-description: "[ADD v0.8.0] Manage milestones — list, switch, split, rescope, create"
+description: "[ADD v0.8.1] Manage milestones — list, switch, split, rescope, create"
 argument-hint: "[--list | --switch <id> | --split <id> | --rescope <id> | --create]"
 ---
 
-# ADD Milestone Command v0.8.0
+# ADD Milestone Command v0.8.1
 
 Manage milestones directly — list status, switch active milestone, split large milestones, rescope features, or create new ones. This is the tactical companion to `/add:roadmap` (strategic horizon planning).
 
@@ -182,7 +182,7 @@ Proceed?
 ### Step 4: Apply
 
 1. Edit original milestone file — remove redistributed features from Hill Chart and Feature Detail table
-2. Create new milestone file from `~/.codex/templates/milestone.md.template` — populate with moved features (keep their current positions), goal, appetite
+2. Create new milestone file from `~/.codex/add/templates/milestone.md.template` — populate with moved features (keep their current positions), goal, appetite
 3. Update `docs/prd.md` Section 6 — add new milestone row to roadmap table at the specified horizon
 4. If original milestone was the active one and all its remaining features are DONE, flag it
 
@@ -266,7 +266,7 @@ Create a new milestone from scratch with a lightweight interview.
 ### Generate
 
 1. Determine next milestone number from existing files
-2. Create `docs/milestones/M{N}-{slug}.md` from `~/.codex/templates/milestone.md.template`
+2. Create `docs/milestones/M{N}-{slug}.md` from `~/.codex/add/templates/milestone.md.template`
 3. Populate: Goal, Status: NOT_STARTED, Features (all at SHAPED), Appetite, Success Criteria, Dependencies
 4. Update `docs/prd.md` Section 6 — add row to roadmap table at the specified horizon
 5. If no active milestone exists, offer: "No active milestone set. Switch to M{N}? (y/n)"

@@ -1,6 +1,6 @@
 ---
 name: add-init
-description: "[ADD v0.8.0] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v0.8.1] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 
 ---
 
-# ADD Init Command v0.8.0
+# ADD Init Command v0.8.1
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 
@@ -710,14 +710,14 @@ Use ask the user (use a clear, single-question prompt) with options:
 Ask a follow-up: "Share your brand details — any of: accent/primary color (hex), font preferences, tone/voice description, logo file path, or a link to your style guide."
 
 Parse the response for:
-- Hex color codes → store as `branding.accentColor`, generate palette using algorithm from `~/.codex/templates/presets.json`
+- Hex color codes → store as `branding.accentColor`, generate palette using algorithm from `~/.codex/add/templates/presets.json`
 - Font names → store in `branding.fonts` (heading, body, code)
 - Tone description → store in `branding.tone`
 - Logo path → store in `branding.logoPath`
 - URL/file path → store in `branding.styleGuideSource`
 
 **IF "No — use ADD defaults":**
-Use raspberry preset (#b00149) from `~/.codex/templates/presets.json`. Store `presetName: "raspberry"` in config.
+Use raspberry preset (#b00149) from `~/.codex/add/templates/presets.json`. Store `presetName: "raspberry"` in config.
 
 Alternatively, offer preset selection:
 ```
@@ -798,7 +798,7 @@ Generating:
 
 ## Phase 2: Scaffold Project Structure
 
-The standard ADD layout. See `~/.codex/rules/project-structure.md` for the full specification.
+The standard ADD layout. See `~/.codex/add/rules/project-structure.md` for the full specification.
 
 ### Step 2.1: Create Project Directories
 
@@ -823,7 +823,7 @@ mkdir -p .claude
 
 If `CHANGELOG.md` does not already exist in the project root, create it from the changelog template:
 
-1. Read `~/.codex/templates/changelog.md.template`
+1. Read `~/.codex/add/templates/changelog.md.template`
 2. Write it to `CHANGELOG.md` in the project root
 
 This gives the project a Keep a Changelog-formatted changelog from day one. The `/add:changelog` command and the push hook will populate it automatically as development proceeds.
@@ -883,7 +883,7 @@ Rule files to install:
 
 For each rule file:
 
-1. Read `~/.codex/rules/{name}.md`
+1. Read `~/.codex/add/rules/{name}.md`
 2. Check if `.claude/rules/{name}.md` already exists in the consumer project
 
 **If no conflict (file does not exist):**
@@ -912,7 +912,7 @@ Maintain a results summary for Phase 5:
 
 ### Step 3.1: Generate .add/config.json
 
-Read ~/.codex/templates/config.json.template and fill in all placeholders with interview answers. Use the Write tool.
+Read ~/.codex/add/templates/config.json.template and fill in all placeholders with interview answers. Use the Write tool.
 
 Ensure the generated config includes the `maturity` field:
 ```json
@@ -928,17 +928,17 @@ Ensure the generated config includes the `maturity` field:
 
 ### Step 3.2: Generate docs/prd.md
 
-Read ~/.codex/templates/prd.md.template and fill in all placeholders with interview answers. Write a real PRD — don't leave template placeholders. Every section should have substantive content based on the interview answers.
+Read ~/.codex/add/templates/prd.md.template and fill in all placeholders with interview answers. Write a real PRD — don't leave template placeholders. Every section should have substantive content based on the interview answers.
 
 ### Step 3.3: Generate .claude/settings.json (if it doesn't exist)
 
-Read ~/.codex/templates/settings.json.template. Customize permissions based on the tech stack detected.
+Read ~/.codex/add/templates/settings.json.template. Customize permissions based on the tech stack detected.
 
 The template includes a `statusLine` configuration that displays `/ADD:enabled` in the Claude Code status bar (with "ADD" in raspberry #b00149). This provides an at-a-glance indicator that the project is ADD-managed. If the user already has a custom `statusLine` in their settings, ask before overwriting it.
 
 ### Step 3.4: Generate CLAUDE.md (if it doesn't exist)
 
-Read ~/.codex/templates/CLAUDE.md.template. Fill in project-specific information:
+Read ~/.codex/add/templates/CLAUDE.md.template. Fill in project-specific information:
 - Project name and description (from Q1)
 - Tech stack (from Section 2)
 - Key commands (run, test, lint, deploy per stack)
@@ -951,7 +951,7 @@ If CLAUDE.md already exists, ask before overwriting. Offer to append ADD-specifi
 
 ### Step 3.5: Generate .add/learnings.md
 
-Read ~/.codex/templates/learnings.md.template and fill in the project name. This is the knowledge base that agents build over time through automatic checkpoints. Committed to git so it transfers between devices.
+Read ~/.codex/add/templates/learnings.md.template and fill in the project name. This is the knowledge base that agents build over time through automatic checkpoints. Committed to git so it transfers between devices.
 
 ### Step 3.6: Generate AGENTS.md
 
@@ -962,7 +962,7 @@ Invoke `/add:agents-md` to generate a portable `AGENTS.md` at project root. This
 ### Step 4.1: User Profile
 
 If `~/.claude/add/profile.md` does NOT exist and the user agreed to create one:
-Read ~/.codex/templates/profile.md.template, fill in preferences from the interview, and write to `~/.claude/add/profile.md`.
+Read ~/.codex/add/templates/profile.md.template, fill in preferences from the interview, and write to `~/.claude/add/profile.md`.
 
 If profile already exists, do NOT modify it — profile updates only happen during `/add:retro`.
 
@@ -988,7 +988,7 @@ This lets future `/add:init` calls on new projects reference your history:
 
 ### Step 4.3: Cross-Project Library
 
-If `~/.claude/add/library.md` does NOT exist, create it from ~/.codex/templates/library.md.template.
+If `~/.claude/add/library.md` does NOT exist, create it from ~/.codex/add/templates/library.md.template.
 If it exists, leave it alone — it's updated during `/add:retro`.
 
 ## Phase 5: Summary

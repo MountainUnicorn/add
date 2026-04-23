@@ -1,10 +1,10 @@
 ---
 name: add-promote
-description: "[ADD v0.8.0] Maturity promotion — gap analysis and level-up workflow"
+description: "[ADD v0.8.1] Maturity promotion — gap analysis and level-up workflow"
 argument-hint: "[--check | --execute] [--target poc|alpha|beta|ga]"
 ---
 
-# ADD Promote Command v0.8.0
+# ADD Promote Command v0.8.1
 
 Assess readiness and promote the project's maturity level. Maturity is the master control for all ADD behavior — promotion is intentional, evidence-based, and deliberate.
 
@@ -17,7 +17,7 @@ Assess readiness and promote the project's maturity level. Maturity is the maste
 
 1. **Read `.add/config.json`** — extract `maturity.level`, `promoted_from`, `promoted_date`, `next_promotion_criteria`
    - If not found: abort with "No ADD project found. Run `/add:init` first."
-2. **Read `~/.codex/rules/maturity-lifecycle.md`** — load cascade matrix (source of truth for level requirements)
+2. **Read `~/.codex/add/rules/maturity-lifecycle.md`** — load cascade matrix (source of truth for level requirements)
 3. **Read `docs/prd.md`** — project context, maturity references
 4. **Read `CLAUDE.md`** — check for maturity references
 
@@ -213,7 +213,7 @@ Append to `CHANGELOG.md` under `[Unreleased]`:
   - Readiness: {PCT}%, Rationale: {Q1 summary}
 ```
 
-If `CHANGELOG.md` doesn't exist, create from `~/.codex/templates/changelog.md.template`.
+If `CHANGELOG.md` doesn't exist, create from `~/.codex/add/templates/changelog.md.template`.
 
 #### 4f. Learning Checkpoint
 

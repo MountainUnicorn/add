@@ -1,16 +1,16 @@
 ---
 name: add-version
-description: "[ADD v0.8.0] Show installed version, project version, and upgrade status"
+description: "[ADD v0.8.1] Show installed version, project version, and upgrade status"
 argument-hint: "[--check]"
 ---
 
-# ADD Version Command v0.8.0
+# ADD Version Command v0.8.1
 
 Show the current ADD version, compare project config version to plugin version, and flag drift.
 
 ## Execution
 
-1. **Read plugin version** from `~/.codex/.claude-plugin/plugin.json` → `version` field
+1. **Read plugin version** from `~/.codex/add/.claude-plugin/plugin.json` → `version` field
 2. **Read project version** from `.add/config.json` → `version` field (if file exists)
 3. **Read core/VERSION** if accessible (development installs only)
 

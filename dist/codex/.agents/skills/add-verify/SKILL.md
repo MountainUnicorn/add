@@ -1,10 +1,10 @@
 ---
 name: add-verify
-description: "[ADD v0.8.0] Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v0.8.1] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 ---
 
-# ADD Verify Skill v0.8.0
+# ADD Verify Skill v0.8.1
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 
@@ -233,7 +233,7 @@ advisory note.
 
 2. **Run the gate script**
    ```bash
-   python3 ~/.codex/../../scripts/check-test-count.py gate \
+   python3 ~/.codex/add/../../scripts/check-test-count.py gate \
      --red .add/cycles/cycle-{N}/tdd-{slug}-red.json \
      --green .add/cycles/cycle-{N}/tdd-{slug}-green.json \
      --project-root .

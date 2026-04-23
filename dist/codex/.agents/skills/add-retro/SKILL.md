@@ -1,6 +1,6 @@
 ---
 name: add-retro
-description: "[ADD v0.8.0] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+description: "[ADD v0.8.1] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|s
 
 ---
 
-# ADD Retro Command v0.8.0
+# ADD Retro Command v0.8.1
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 
@@ -38,7 +38,7 @@ Two modes:
 
 1. Read `.add/config.json` for project context (name, maturity, stack)
 2. Read all 3 knowledge tiers:
-   a. **Tier 1:** Read `~/.codex/knowledge/global.md`
+   a. **Tier 1:** Read `~/.codex/add/knowledge/global.md`
    b. **Tier 2:** Read `~/.claude/add/library.json` (fall back to `library.md`)
    c. **Tier 3:** Read `.add/learnings.json` (fall back to `learnings.md`)
 3. Read `~/.claude/add/profile.md` if it exists
@@ -223,12 +223,12 @@ Scores must be justified by evidence. If the agent detects its own score seems i
 ### Phase 7: Record and Update
 
 1. **Write retro archive:**
-   Use `~/.codex/templates/retro.md.template` as structure.
+   Use `~/.codex/add/templates/retro.md.template` as structure.
    Write to `.add/retros/retro-{date}.md` (create directory if needed).
    Fill all sections with data from the retro.
 
 2. **Store scores:**
-   Read `.add/retro-scores.json` (create from `~/.codex/templates/retro-scores.json.template` if doesn't exist).
+   Read `.add/retro-scores.json` (create from `~/.codex/add/templates/retro-scores.json.template` if doesn't exist).
    Append entry:
    ```json
    {

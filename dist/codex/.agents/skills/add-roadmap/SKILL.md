@@ -1,10 +1,10 @@
 ---
 name: add-roadmap
-description: "[ADD v0.8.0] View and manage project roadmap — milestones, horizons, reordering"
+description: "[ADD v0.8.1] View and manage project roadmap — milestones, horizons, reordering"
 argument-hint: "[--view | --edit | --reorder]"
 ---
 
-# ADD Roadmap Command v0.8.0
+# ADD Roadmap Command v0.8.1
 
 View, edit, and reorder project milestones across roadmap horizons (Now / Next / Later). This skill manages the strategic layer of ADD's work hierarchy — bridging the PRD roadmap table and individual milestone files.
 
@@ -164,7 +164,7 @@ Apply all changes? (y/n)
    - Update milestone detail blocks
    - Append to Section 10 (Revision History): `| {DATE} | {VERSION} | roadmap | {summary} |`
 
-2. **Update milestone files:** Edit existing (goal, status), create new from `~/.codex/templates/milestone.md.template`
+2. **Update milestone files:** Edit existing (goal, status), create new from `~/.codex/add/templates/milestone.md.template`
 
 3. **Update `.add/config.json`:** Set `planning.current_milestone` to first non-COMPLETE Now milestone, or null
 

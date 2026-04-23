@@ -1,6 +1,6 @@
 ---
 name: add-brand-update
-description: "[ADD v0.8.0] Update project branding — new colors, fonts, tone, audit artifacts"
+description: "[ADD v0.8.1] Update project branding — new colors, fonts, tone, audit artifacts"
 ---
 
 <!-- ADD AskUserQuestion shim (Codex) -->
@@ -25,7 +25,7 @@ description: "[ADD v0.8.0] Update project branding — new colors, fonts, tone, 
 
 ---
 
-# ADD Brand Update Command v0.8.0
+# ADD Brand Update Command v0.8.1
 
 Update the project's branding configuration with new materials and audit existing generated artifacts for brand consistency. Optionally apply fixes to bring artifacts in line with the new brand.
 
@@ -33,7 +33,7 @@ Update the project's branding configuration with new materials and audit existin
 
 1. Check if `.add/config.json` exists. If not, tell the user to run `/add:init` first.
 2. Read `.add/config.json` and extract the current `branding` section.
-3. Read `~/.codex/templates/presets.json` for available presets and palette generation algorithm.
+3. Read `~/.codex/add/templates/presets.json` for available presets and palette generation algorithm.
 
 ## Arguments
 
@@ -68,7 +68,7 @@ Options:
 
 If "Custom hex color": Ask for the hex value. Validate it's a valid 3 or 6 character hex color (with or without #).
 
-Generate the full palette from the selected color using the algorithm in `~/.codex/templates/presets.json`:
+Generate the full palette from the selected color using the algorithm in `~/.codex/add/templates/presets.json`:
 
 1. Parse hex to RGB, convert to HSL
 2. Generate all palette values (accentLight, accentDark, accentMuted, accentGlow, gradientStart, gradientMid, gradientEnd)
@@ -98,7 +98,7 @@ If specifying: Ask for heading font, body font, code font. Store in `branding.fo
 
 ### Step 1.2c: Apply a Color Preset
 
-List presets from `~/.codex/templates/presets.json`:
+List presets from `~/.codex/add/templates/presets.json`:
 
 Use ask the user (use a clear, single-question prompt):
 ```

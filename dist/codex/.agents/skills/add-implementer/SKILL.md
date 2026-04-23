@@ -1,10 +1,10 @@
 ---
 name: add-implementer
-description: "[ADD v0.8.0] Write minimal implementation to pass tests (TDD GREEN phase)"
+description: "[ADD v0.8.1] Write minimal implementation to pass tests (TDD GREEN phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002]"
 ---
 
-# ADD Implementer Skill v0.8.0
+# ADD Implementer Skill v0.8.1
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 
@@ -223,7 +223,7 @@ Before returning control to the tdd-cycle orchestrator, capture the test surface
 snapshot for Gate 3.5:
 
 ```bash
-python3 ~/.codex/../../scripts/check-test-count.py snapshot \
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
   --phase green \
   --cycle-id {N} \
   --spec-slug {slug} \

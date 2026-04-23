@@ -1,17 +1,17 @@
 ---
 name: add-changelog
-description: "[ADD v0.8.0] Generate or refresh CHANGELOG.md from conventional commits"
+description: "[ADD v0.8.1] Generate or refresh CHANGELOG.md from conventional commits"
 argument-hint: "[--from-scratch]"
 ---
 
-# ADD Changelog Command v0.8.0
+# ADD Changelog Command v0.8.1
 
 Generate or refresh the project's CHANGELOG.md from git history using conventional commit parsing. Follows the [Keep a Changelog](https://keepachangelog.com/) format.
 
 ## Pre-Flight Check
 
 1. Check if `CHANGELOG.md` exists in the project root
-2. If it does NOT exist, create it from `~/.codex/templates/changelog.md.template`
+2. If it does NOT exist, create it from `~/.codex/add/templates/changelog.md.template`
 3. Read `.add/config.json` for `changelog.lastProcessedCommit` (may be null)
 4. Determine mode: `--from-scratch` flag means full regeneration; otherwise incremental
 

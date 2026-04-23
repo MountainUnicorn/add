@@ -1,10 +1,10 @@
 ---
 name: add-test-writer
-description: "[ADD v0.8.0] Write failing tests from spec (TDD RED phase)"
+description: "[ADD v0.8.1] Write failing tests from spec (TDD RED phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]"
 ---
 
-# ADD Test Writer Skill v0.8.0
+# ADD Test Writer Skill v0.8.1
 
 Generate comprehensive failing tests from a feature specification. This is the RED phase of TDD — write tests before implementation.
 
@@ -181,7 +181,7 @@ Before returning control to the tdd-cycle orchestrator, capture the test surface
 snapshot so Gate 3.5 can later detect deletions:
 
 ```bash
-python3 ~/.codex/../../scripts/check-test-count.py snapshot \
+python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
   --phase red \
   --cycle-id {N} \
   --spec-slug {slug} \

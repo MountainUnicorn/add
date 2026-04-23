@@ -1,10 +1,10 @@
 ---
 name: add-docs
-description: "[ADD v0.8.0] Generate and sync project documentation — architecture diagrams, API docs, README"
+description: "[ADD v0.8.1] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 ---
 
-# ADD Docs Skill v0.8.0
+# ADD Docs Skill v0.8.1
 
 Generate, update, and verify project documentation. Uses a discovery-first approach: the skill learns your codebase structure on first run, caches that knowledge in a manifest, and uses it for fast, accurate doc generation on every subsequent run.
 
@@ -36,7 +36,7 @@ Documentation is generated from code, not written by hand. The source of truth i
    - If manifest is missing, queue full discovery phase before any scope executes
 
 3. **Read knowledge tiers** — filter for relevance
-   - Tier 1: `~/.codex/knowledge/global.md` — universal ADD best practices
+   - Tier 1: `~/.codex/add/knowledge/global.md` — universal ADD best practices
    - Tier 2: `~/.claude/add/library.json` — filter for `process` and `technical` entries about documentation drift
    - Tier 3: `.add/learnings.json` — filter for project-specific doc-related entries
    - Apply filtered learnings to guide discovery and generation decisions

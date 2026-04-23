@@ -4,6 +4,25 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.8.1] — 2026-04-23
+
+Hotfix. Fixes three findings from the plugin-family release-hardening review before v0.9.0 ships. The M3 feature set (agents-md, cache-discipline, secrets-handling, telemetry-jsonl, prompt-injection-defense, test-deletion-guardrail, codex-native-skills) has already merged to main; this release makes that merge actually installable and makes the test-deletion guardrail actually enforce.
+
+### Fixed
+
+- **Claude marketplace validation (F-001).** `.claude-plugin/marketplace.json` had `description` at the root, which the marketplace schema rejects. Moved into the `metadata` object per the validator's guidance. `claude plugin validate .` and `claude plugin validate plugins/add` both now pass. Removed the stale `"13 commands, 12 skills, 15 rules"` count string — counts drift; manifests aren't the right place for them.
+- **Codex install path mismatch (F-002).** Generated Codex skills referenced `~/.codex/templates/`, `~/.codex/knowledge/`, `~/.codex/rules/`, `~/.codex/lib/`, `~/.codex/security/`, but `scripts/install-codex.sh` stages shared assets under the namespaced `~/.codex/add/` subdirectory. Every skill invocation on Codex would have failed to resolve its asset refs. Fixed by pointing the `${CLAUDE_PLUGIN_ROOT}` → Codex substitution at `~/.codex/add/` and adding a separate `${CLAUDE_PLUGIN_ROOT}/hooks` → `~/.codex/hooks` rule (hooks stay at the Codex-conventional root). `scripts/compile.py` now also ships `core/rules/` and `core/security/` into `dist/codex/`, and `scripts/install-codex.sh` stages `knowledge/`, `rules/`, `lib/`, `security/` under `$CODEX_HOME/add/` alongside the existing `templates/`. `filter-learnings.sh` is also now shipped into Codex's hooks dir as a cross-runtime utility.
+- **Test-deletion guardrail bypass (F-003).** `scripts/check-test-count.py` treated `--allow-test-rewrite` as a full bypass of the same-name-replacement approval check instead of as an acknowledgment flag that still required a recorded override. The documented intent (flag **AND** override record) matched the error message but not the code. Fix: the replacement check now runs unconditionally; `--allow-test-rewrite` is required to acknowledge intent, AND either a recorded override in `.add/cycles/cycle-{N}/overrides.json` or an `[ADD-TEST-DELETE: <reason>]` commit trailer is required to pass. Regression fixture `replacement-with-flag-no-override` added — proves the flag alone is insufficient.
+
+### Added
+
+- **`tests/codex-install/test-install-paths.sh`** — F-002 regression smoke. Installs the Codex adapter into a temp `CODEX_HOME`, collects every `~/.codex/...` reference from installed skill bodies, and asserts each one resolves (or is explicitly allowlisted). Runs in seconds; no Codex CLI needed.
+
+### Known limitations (tracked for v0.8.2)
+
+- `/add:version` reads `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`, which has no Codex equivalent (the Codex version lives in `plugin.toml` or `VERSION`). Allowlisted in the new smoke test; cross-runtime fix deferred.
+- Hotfix does not address F-004+ from the plugin-family review — adapter contracts, host-neutral kernel, runtime overlays, command catalog generator. Those remain M4 / v0.10+ scope, not v0.9.0 blockers.
+
 ## [Unreleased]
 
 ### Added
