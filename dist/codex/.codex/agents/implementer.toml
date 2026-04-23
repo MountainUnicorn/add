@@ -1,0 +1,11 @@
+# ADD sub-agent — implementer (TDD GREEN phase)
+#
+# Behavioral source: core/skills/implementer/SKILL.md
+# Minimal implementation to make failing tests pass. Does not write tests.
+# See spec AC-015..AC-020.
+
+name = "implementer"
+description = "Writes minimal implementation to pass failing tests (TDD GREEN phase)."
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+prompt_skill = "add-implementer"
