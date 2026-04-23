@@ -196,7 +196,12 @@ def compile_claude(version: str) -> dict:
 CODEX_TOOL_SUBSTITUTIONS = {
     # Claude tool names → Codex equivalents or plain-text fallbacks
     "AskUserQuestion": "ask the user (use a clear, single-question prompt)",
-    "${CLAUDE_PLUGIN_ROOT}": "~/.codex",
+    # ORDERING MATTERS: longest prefix first. Hooks live at the Codex-conventional
+    # $CODEX_HOME/hooks/ (not namespaced under add/) because Codex's CLI loads
+    # hooks from that exact path. Other shared assets are namespaced under
+    # $CODEX_HOME/add/ to avoid collisions with the host and with other plugins.
+    "${CLAUDE_PLUGIN_ROOT}/hooks": "~/.codex/hooks",
+    "${CLAUDE_PLUGIN_ROOT}": "~/.codex/add",
 }
 
 
@@ -540,6 +545,20 @@ def emit_codex_agents_hooks_config(output: Path, version: str) -> dict:
             else:
                 shutil.copy2(entry, dest)
 
+    # Also ship cross-runtime shell utilities that skills invoke imperatively.
+    # These are NOT Codex lifecycle hooks — they don't appear in hooks.json —
+    # but they live in $CODEX_HOME/hooks/ so skill references written as
+    # `${CLAUDE_PLUGIN_ROOT}/hooks/<util>.sh` resolve after install without
+    # runtime-specific substitution per call-site. (F-002 follow-up: unify
+    # these into core/lib/ in v0.9.x so the path stops straddling two roles.)
+    for util in ("filter-learnings.sh",):
+        src = RUNTIMES / "claude" / "hooks" / util
+        if src.exists():
+            dest = hooks_dst / util
+            dest.write_text(src.read_text())
+            os.chmod(dest, 0o755)
+            counts["hooks"] += 1
+
     # hooks.json registration manifest (AC-021)
     hooks_manifest = {
         "SessionStart": [{"command": ".codex/hooks/load-handoff.sh"}],
@@ -666,6 +685,21 @@ def compile_codex(version: str) -> dict:
     knowledge_out = output / "knowledge"
     knowledge_out.mkdir(parents=True, exist_ok=True)
     copy_tree(CORE / "knowledge", knowledge_out, version)
+
+    # 6b. Ship core/rules/ as individual files so skill bodies that reference
+    # a specific rule by path (e.g. `rules/maturity-lifecycle.md`) resolve at
+    # runtime. Rules are ALSO inlined into AGENTS.md (slim manifest), but the
+    # individual files must exist on disk for path references in skills.
+    rules_out = output / "rules"
+    rules_out.mkdir(parents=True, exist_ok=True)
+    copy_tree(CORE / "rules", rules_out, version)
+
+    # 6c. Ship core/security/ (injection pattern catalog, etc.)
+    security_src = CORE / "security"
+    if security_src.exists():
+        security_out = output / "security"
+        security_out.mkdir(parents=True, exist_ok=True)
+        copy_tree(security_src, security_out, version)
 
     # 7. Plugin manifest
     emit_codex_plugin_manifest(output, version, meta["min_codex_version"])

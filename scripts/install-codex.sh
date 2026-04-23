@@ -9,6 +9,10 @@
 #   - .codex/config.toml       → staged at ~/.codex/add/config.toml (merge guidance printed)
 #   - AGENTS.md                → ~/.codex/add/AGENTS.md   (referenced from project AGENTS.md)
 #   - templates/               → ~/.codex/add/templates/  (referenced by skills)
+#   - knowledge/               → ~/.codex/add/knowledge/  (referenced by skills — threat-model, etc.)
+#   - rules/                   → ~/.codex/add/rules/      (referenced by skills)
+#   - lib/                     → ~/.codex/add/lib/        (shell helpers, e.g. impact-hint.sh)
+#   - security/                → ~/.codex/add/security/   (injection pattern catalog)
 #   - plugin.toml              → ~/.codex/add/plugin.toml (plugin manifest)
 #
 # Required Codex CLI: see min_codex_version in dist/codex/plugin.toml.
@@ -108,15 +112,26 @@ echo "    ✓ $hook_count hook scripts installed"
 # --- Global config.toml (staged for manual merge) ------------------------
 cp "$DIST_DIR/.codex/config.toml" "$ADD_HOME/config.toml"
 
-# --- Shared content: AGENTS.md, templates, plugin.toml, VERSION ---------
+# --- Shared content: AGENTS.md, templates, knowledge, rules, lib, security ---
+# Every asset referenced from installed skills as ~/.codex/add/<dir>/... must
+# be staged here so the skill references resolve at runtime. F-002 regression
+# guard: keep this list in sync with scripts/compile.py CODEX_TOOL_SUBSTITUTIONS
+# and with `tests/codex-install/test-install-paths.sh`.
 cp "$DIST_DIR/AGENTS.md" "$ADD_HOME/AGENTS.md"
 cp "$DIST_DIR/plugin.toml" "$ADD_HOME/plugin.toml"
 cp "$DIST_DIR/VERSION" "$ADD_HOME/VERSION"
-if [ -d "$DIST_DIR/templates" ]; then
-  rm -rf "$ADD_HOME/templates"
-  cp -r "$DIST_DIR/templates" "$ADD_HOME/templates"
-fi
-echo "    ✓ AGENTS.md, templates, and plugin.toml staged at $ADD_HOME/"
+
+shared_count=0
+for shared_dir in templates knowledge rules lib security; do
+  if [ -d "$DIST_DIR/$shared_dir" ]; then
+    rm -rf "$ADD_HOME/$shared_dir"
+    cp -r "$DIST_DIR/$shared_dir" "$ADD_HOME/$shared_dir"
+    # Preserve exec bit on shell helpers (tar/rsync/cp modes vary)
+    find "$ADD_HOME/$shared_dir" -type f -name "*.sh" -exec chmod 0755 {} +
+    shared_count=$((shared_count + 1))
+  fi
+done
+echo "    ✓ AGENTS.md, plugin.toml, and $shared_count shared asset trees staged at $ADD_HOME/"
 
 # Guide the user on wiring AGENTS.md into their project
 cat <<EOF
