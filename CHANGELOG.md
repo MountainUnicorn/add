@@ -10,6 +10,7 @@ For commit-level detail see `git log`.
 
 - **`/add:agents-md` skill** — generates a tool-portable `AGENTS.md` at project root from `.add/` state. Maturity-aware verbosity (POC bullets → Alpha sectioned → Beta full → GA full + team conventions). ADD-managed content wrapped in `<!-- ADD:MANAGED:START … -->` markers so user-authored sections survive regeneration. Modes: `--write` (default), `--check` (CI drift gate, exit 1 on drift), `--merge` / `--import` (absorb hand-curated files). Implemented as `scripts/generate-agents-md.py` plus `core/skills/agents-md/SKILL.md`; fixture tests cover POC/Alpha/Beta render, drift detection, merge flow, idempotency, and staleness-marker clearing. Integrated into `/add:init` (initial generation) and `/add:spec` (active-spec pointer update). Opt-in `agentsMd.gateOnVerify` in `.add/config.json` enables Gate 4.5 in `/add:verify`.
 - **PostToolUse staleness hook for AGENTS.md** — `runtimes/claude/hooks/post-write.sh` now writes `.add/agents-md.stale` when `.add/config.json`, `core/rules/*.md`, or `core/skills/*/SKILL.md` changes and an `AGENTS.md` exists at root. The hook never auto-rewrites AGENTS.md — the human triggers regen.
+- **Prompt-injection defense** (spec `prompt-injection-defense`, M3 Cycle 2) — three-layer GA security story. New auto-loaded rule `core/rules/injection-defense.md` teaches the agent to treat untrusted content (PR comments, web fetches, foreign repos, `node_modules`) as data, never as instructions. New PostToolUse scan hook `runtimes/claude/hooks/posttooluse-scan.sh` pattern-matches tool output (Read, WebFetch, WebSearch, Bash) against `core/security/patterns.json` — eight named patterns covering OWASP Top 10 Agentic 2026, Snyk ToxicSkills, and the January 2026 Comment-and-Control attack. Audit events append to `.add/security/injection-events.jsonl`. New Tier-1 knowledge file `core/knowledge/threat-model.md` documents trust boundaries, defended attacks (T1-T5), out-of-scope threats, and warn-only posture for v0.9. Users can extend without forking via `.add/security/patterns.json` (project) or `~/.claude/add/security/patterns.json` (workstation).
 
 ### Changed
 
@@ -17,6 +18,8 @@ For commit-level detail see `git log`.
 - `CLAUDE.md` rewritten to reflect the v0.7+ source-of-truth flow (`core/` → `compile.py` → `plugins/add/` + `dist/codex/`) and the website-is-elsewhere reality.
 - `CONTRIBUTING.md` testing-changes section: replaced the long ad-hoc rsync example with the canonical `compile.py` + `sync-marketplace.sh` workflow plus the three CI-gate validation commands.
 - `scripts/sync-marketplace.sh`: dropped the now-unnecessary `--exclude='website/'`.
+- `scripts/compile.py` now copies `core/security/` into `plugins/add/` and concatenates every `core/knowledge/*.md` file into the Codex `AGENTS.md` (previously only `global.md`).
+- `runtimes/codex/adapter.yaml` updated to glob all knowledge files and document the Codex hook-stderr limitation that blocks automatic warning surfacing for injection events.
 
 ### Planned for v0.9.0 — Pre-GA Hardening (M3 milestone)
 
