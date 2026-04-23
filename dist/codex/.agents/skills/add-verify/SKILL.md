@@ -408,7 +408,7 @@ After each gate's core checks, run maturity-scaled checks from the quality-gates
 **Execution Pattern** (repeat for each gate):
 
 1. **Read maturity level** from `.add/config.json` (default: alpha)
-2. **Load maturity-scaled checklist** from `rules/quality-gates.md` → Maturity-Scaled Checks section
+2. **Load maturity-scaled checklist** from `~/.codex/add/references/quality-checks-matrix.md` → Maturity-Scaled Checks section
 3. **Filter checks for this gate** using the Gate Distribution mapping:
    - **Gate 1:** Code quality (complexity, duplication, file/function length), secrets scan, readability (naming, nesting), branch naming
    - **Gate 2:** Dependency audit, OWASP review, docstrings on exports, N+1/blocking async detection, CHANGELOG/LICENSE
@@ -699,4 +699,4 @@ If `.add/observations.md` does not exist, create it with a `# Process Observatio
 
 ### 2. Learning Checkpoint
 
-Write a structured JSON learning entry per the checkpoint trigger in `rules/learning.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+Write a structured JSON learning entry per the checkpoint trigger in `~/.codex/add/references/learning-reference.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.

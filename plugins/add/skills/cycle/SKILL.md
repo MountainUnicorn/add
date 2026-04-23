@@ -2,6 +2,7 @@
 description: "[ADD v0.9.1] Plan and execute a work cycle — select features, assess parallelism, define validation"
 argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
+references: ["learning-reference.md", "swarm-protocol.md"]
 ---
 
 # ADD Cycle Command v0.9.1
@@ -451,7 +452,7 @@ Do NOT auto-promote. Promotion is applied through `/add:retro` which updates con
 
 ### Step 4: Archive Cycle & Checkpoint
 
-Write a structured JSON learning entry to the appropriate learnings file. Follow the checkpoint process in `rules/learning.md` (section: "How to Write a Checkpoint Entry"):
+Write a structured JSON learning entry to the appropriate learnings file. Follow the checkpoint process in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "How to Write a Checkpoint Entry"):
 
 1. **Classify scope** — cycle retrospective insights are typically `project` scope (specific to this project's milestone), but process insights may be `workstation` or `universal`
 2. **Write JSON entry** with:

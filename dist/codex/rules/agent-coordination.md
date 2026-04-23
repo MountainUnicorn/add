@@ -18,19 +18,9 @@ The orchestrator (primary Claude session) is responsible for:
 
 ## Sub-Agent Dispatching
 
-When dispatching work to a sub-agent, always provide:
+When dispatching work to a sub-agent, always provide: TASK, SCOPE, SPEC REFERENCE, SUCCESS CRITERIA, INPUT FILES, OUTPUT expectations, and RESTRICTIONS.
 
-```
-TASK: {what to do}
-SCOPE: {which files, which feature, what boundaries}
-SPEC REFERENCE: {specs/{feature}.md, acceptance criteria IDs}
-SUCCESS CRITERIA:
-  - {testable criterion 1}
-  - {testable criterion 2}
-INPUT FILES: {files the agent needs to read}
-OUTPUT: {what the agent should produce — files, test results, summary}
-RESTRICTIONS: {what the agent should NOT do}
-```
+Before dispatching, read all 3 knowledge tiers and include relevant lessons in context.
 
 ### Cache-Aware Dispatch Layout
 
@@ -59,296 +49,44 @@ Never skip verification. A sub-agent reporting "all tests pass" is necessary but
 
 ## Agent Isolation
 
-Sub-agents should have bounded scope to prevent unintended side effects:
-
-### Test Writer Agent
-- CAN: Read specs, read existing code, write test files
-- CANNOT: Modify implementation code, run deploy commands, modify configuration
-
-### Implementer Agent
-- CAN: Read specs, read tests, write/edit implementation files
-- CANNOT: Modify test files, deploy, change project configuration
-
-### Reviewer Agent
-- CAN: Read all files, run tests, run linters, produce review report
-- CANNOT: Modify any files
-
-### Deploy Agent
-- CAN: Run build commands, run deployment scripts, verify endpoints
-- CANNOT: Modify source code, modify tests
+| Agent | CAN | CANNOT |
+|-------|-----|--------|
+| Test Writer | Read specs/code, write test files | Modify implementation, deploy, change config |
+| Implementer | Read specs/tests, write implementation | Modify tests, deploy, change config |
+| Reviewer | Read all files, run tests/linters, produce reports | Modify any files |
+| Deploy | Run builds, deploy scripts, verify endpoints | Modify source code or tests |
 
 ## Parallel Execution
 
-When tasks are independent, dispatch them in parallel:
-
-```
-PARALLEL DISPATCH:
-  Agent A: Write unit tests for user service (specs/auth.md AC-001 through AC-004)
-  Agent B: Write unit tests for API routes (specs/auth.md AC-005 through AC-008)
-  Agent C: Write E2E test scaffolding (specs/auth.md TC-001 through TC-003)
-
-WAIT FOR ALL
-
-SEQUENTIAL:
-  Orchestrator: Run full test suite (verify all agents' tests coexist)
-  Orchestrator: Verify no conflicts or duplicate coverage
-```
+When tasks are independent, dispatch in parallel. After all complete, the orchestrator runs the full test suite to verify agents' work coexists without conflicts.
 
 ## Context Management
 
-- Each sub-agent starts with a clean context (no conversation history pollution)
-- Pass only the files and spec sections relevant to the task
-- Use `/clear` between major context switches in the orchestrator
-- When context gets long, summarize state and start a fresh session
+- Each sub-agent starts with a clean context
+- Pass only relevant files and spec sections
+- Use `/clear` between major context switches
 
-## Output Format
+## Sub-Agent Output Format
 
-Sub-agents must return structured output:
-
-```
-STATUS: success | partial | blocked
-FILES_CHANGED:
-  - path/to/file.ts (created | modified | deleted)
-TEST_RESULTS:
-  passed: N
-  failed: N
-  skipped: N
-SPEC_COMPLIANCE:
-  - AC-001: covered by test_user_login
-  - AC-002: covered by test_invalid_password
-SUMMARY: {1-2 sentence description of what was done}
-BLOCKERS: {any issues that prevented completion}
-```
+Sub-agents must return: STATUS (success/partial/blocked), FILES_CHANGED, TEST_RESULTS, SPEC_COMPLIANCE mapping, SUMMARY, and BLOCKERS.
 
 ## Escalation
 
-If a sub-agent encounters any of these, it must stop and report back:
-
-- Spec is ambiguous or contradictory
-- Required dependency or file doesn't exist
-- Tests reveal a design issue that needs spec revision
-- Task scope is larger than estimated (> 2x)
-- Security concern discovered
-
-The orchestrator then either resolves the issue or escalates to the human via a Decision Point.
+Sub-agents stop and report back when: spec is ambiguous, dependency missing, tests reveal design issues, scope is >2x estimate, or security concern found.
 
 ## Learning-on-Verify
 
-Verification is a learning opportunity. When the orchestrator verifies sub-agent work, it must record what happened — both successes and failures.
+When verification catches an error: fix it, write a checkpoint to `.add/learnings.json`, flag spec gaps for retro, and append an `[agent-retro]` observation to `.add/observations.md`.
 
-### When Verification Catches an Error
+When verification passes clean, record notable patterns worth reusing.
 
-1. Fix the issue
-2. Append a checkpoint to `.add/learnings.md`:
-   ```markdown
-   ## Checkpoint: Verification Catch — {date}
-   - **Agent:** {test-writer|implementer|other}
-   - **Error:** {what went wrong}
-   - **Correct approach:** {what should have been done}
-   - **Pattern to avoid:** {generalized lesson for future work}
-   ```
-3. If the error reveals a spec gap, flag it for the next retro
-4. Append a structured observation to `.add/observations.md` tagged `[agent-retro]`:
-   ```markdown
-   {YYYY-MM-DD HH:MM} | [agent-retro] | verify-catch | {what the sub-agent got wrong} | {process gap: why this wasn't caught earlier}
-   ```
-   This observation feeds into orchestrator micro-retros and `/add:retro` synthesis.
+## Swarm Coordination
 
-### When Verification Passes Clean
+For parallel multi-agent work (cycle plans with 2+ agents), see the full protocol at `${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md`. Key points:
 
-Still worth recording if something notable happened:
-- A non-obvious approach that worked well
-- A pattern that should be reused
-- Unexpectedly fast or slow execution
-
-### Before Dispatching Sub-Agents
-
-The orchestrator MUST read all 3 knowledge tiers and include relevant lessons in the dispatch context:
-
-1. **Tier 1:** `${CLAUDE_PLUGIN_ROOT}/knowledge/global.md` — universal ADD best practices
-2. **Tier 2:** `~/.claude/add/library.md` — user's cross-project wisdom (if exists)
-3. **Tier 3:** `.add/learnings.md` — project-specific discoveries (if exists)
-
-For example, if a Tier 3 checkpoint says "pymysql is not thread-safe," include that in the RESTRICTIONS when dispatching database-related work. If a Tier 1 entry says "always independently run tests after sub-agent work," ensure the verification step is in the dispatch plan.
-
-This is how the team gets smarter over time — past mistakes from all tiers inform future dispatches.
-
-## Agent Self-Retro Triggers
-
-Agents should run mini-retrospectives (write checkpoints to `.add/learnings.md`) automatically at these moments — NO human involvement needed:
-
-1. **After /add:verify completes** — Record pass/fail, what was fixed
-2. **After a TDD cycle completes** — Record velocity, spec quality, blockers
-3. **After /add:deploy completes** — Record environment, smoke test results
-4. **After /add:back processes an away session** — Record autonomous effectiveness
-5. **After a full spec implementation** — Record overall feature learnings
-6. **When a sub-agent error is caught** — Record the error and correction
-
-These checkpoints accumulate between human retrospectives. The human reviews them with `/add:retro --agent-summary` or during a full `/add:retro`.
-
-## Swarm Coordination Protocol
-
-When a cycle plan calls for parallel feature work, the orchestrator follows this protocol:
-
-### Conflict Assessment
-Before dispatching parallel agents, assess file conflict risk:
-
-1. Read specs for all parallel features
-2. Identify implementation file paths from each spec
-3. Build a conflict matrix — do any features touch the same files?
-4. Classify each feature pair as:
-   - **Independent** — no shared files → safe to parallelize
-   - **Low conflict** — shared read-only files (imports, types) → parallelize with file reservations
-   - **High conflict** — shared mutable files (same module, same DB migration) → serialize
-
-### Git Worktree Strategy (Recommended for beta/ga maturity)
-
-For parallel agents on independent features:
-
-```
-# Setup (orchestrator runs once)
-git worktree add ../project-feature-auth feature/auth
-git worktree add ../project-feature-billing feature/billing
-git worktree add ../project-feature-onboarding feature/onboarding
-
-# Each agent works in its own worktree
-Agent A → ../project-feature-auth/
-Agent B → ../project-feature-billing/
-Agent C → ../project-feature-onboarding/
-
-# Merge sequence (orchestrator manages)
-1. Merge feature with most shared infrastructure first
-2. Rebase remaining branches
-3. Merge next feature
-4. Repeat until all merged
-```
-
-### File Reservation Strategy (Simpler alternative for alpha maturity)
-
-When worktrees are overkill (alpha maturity, 1-2 parallel agents):
-
-```
-RESERVATIONS:
-  Agent A owns: src/auth/**, tests/auth/**
-  Agent B owns: src/billing/**, tests/billing/**
-  SHARED (serialize access): src/models/user.ts, src/db/migrations/**
-```
-
-Rules:
-- Agents must not write to files outside their reservation
-- Shared files require explicit handoff (Agent A finishes, then Agent B may modify)
-- The orchestrator tracks reservations in the cycle plan
-
-### WIP Limits
-
-Work-in-progress limits prevent coordination overhead from exceeding parallelism benefit:
-
-| Maturity | Max Parallel Agents | Max Features In-Progress | Max Cycle Items |
-|----------|--------------------|--------------------------|-|
-| poc | 1 | 1 | 2 |
-| alpha | 2 | 2 | 4 |
-| beta | 4 | 4 | 6 |
-| ga | 5 | 5 | 6 |
-
-If WIP limit is reached, new work must wait until an in-progress item is VERIFIED.
-
-### Sub-Agent Brief Template
-
-When dispatching a sub-agent for cycle work, provide this brief (keeps context focused):
-
-```
-## Agent Brief: {feature-name}
-
-CYCLE: cycle-{N}
-MILESTONE: M{N} — {milestone-name}
-MATURITY: {level}
-
-TASK: {what to do — e.g., "Advance from SPECCED to VERIFIED"}
-SPEC: specs/{feature}.md
-PLAN: docs/plans/{feature}-plan.md
-
-FILE RESERVATIONS:
-  OWNED: {files this agent may write}
-  READ-ONLY: {files this agent may read but not modify}
-  FORBIDDEN: {files owned by other agents}
-
-LEARNINGS TO APPLY:
-  Tier 1 (plugin-global): {relevant entries from knowledge/global.md}
-  Tier 2 (user-local): {relevant entries from ~/.claude/add/library.md}
-  Tier 3 (project): {relevant entries from .add/learnings.md}
-
-QUALITY GATES (per maturity):
-  {which gates must pass for this maturity level}
-
-VALIDATION CRITERIA:
-  {from cycle plan — what "done" means for this item}
-
-REPORT BACK:
-  STATUS: success | partial | blocked
-  FILES_CHANGED: {list}
-  TEST_RESULTS: {pass/fail counts}
-  BLOCKERS: {if any}
-```
-
-### Merge Coordination
-
-After parallel agents complete:
-
-1. **Identify merge order** — feature touching shared infrastructure merges first
-2. **Run integration tests** after each merge (not just after all merges)
-3. **If merge conflict**: orchestrator resolves, re-runs affected agent's tests
-4. **Final verification**: run full quality gates on merged main branch
-5. **Update cycle status**: mark items as VERIFIED or flag failures
-
-### Swarm State Coordination
-
-When multiple agents work in parallel, coordinate via `.add/swarm-state.md`:
-
-#### Claiming Work
-Before starting, each agent writes a status block:
-```
-## {agent-role} ({timestamp})
-status: active
-claimed: {what this agent is working on — spec, files, scope}
-depends-on: {other agent roles this work depends on, or "none"}
-```
-
-#### Reporting Results
-After completing, the agent updates its block:
-```
-## {agent-role} ({timestamp})
-status: complete
-claimed: {scope}
-result: {one-line summary of output}
-blockers: {anything that prevented full completion, or "none"}
-handoff: {what the next agent needs to know}
-```
-
-#### Rules
-- Check swarm-state BEFORE claiming work — if another agent has claimed overlapping scope, coordinate or wait
-- Status values: `active`, `complete`, `blocked`, `abandoned`
-- The orchestrator clears swarm-state at the start of each new multi-agent operation
-- Swarm-state is working state, not permanent record — cleared between cycles
-
-#### Micro-Retro After Multi-Agent Operations
-
-After ALL parallel agents complete and their work is merged, the orchestrator runs a micro-retro:
-
-1. **Collect observations** — Read all `[agent-retro]` tagged entries from `.add/observations.md` written during this operation
-2. **Synthesize** — Identify the single most impactful process insight from this batch of parallel work
-3. **Record** — Append one synthesis entry to `.add/observations.md`:
-   ```
-   {YYYY-MM-DD HH:MM} | [agent-retro] | micro-retro | {operation name} | {synthesized process insight}
-   ```
-4. **Apply immediately** — If the insight is actionable for the current session (e.g., "Agent B's tests duplicated Agent A's — add file reservation check"), apply it to remaining dispatches
-
-Micro-retros are lightweight — one observation, one insight. Full retrospectives happen during `/add:retro`.
-
-### Anti-Patterns
-
-- **Never** let two agents write to the same file simultaneously
-- **Never** go deeper than 2 levels of agent hierarchy (orchestrator → worker)
-- **Never** exceed WIP limits — coordination overhead grows exponentially
-- **Never** dispatch sub-agents without reading all 3 knowledge tiers first
-- **Never** merge without running integration tests after each merge
-- **Avoid** parallel work at poc maturity — overhead exceeds benefit
+- Assess file conflict risk before dispatching (independent / low conflict / high conflict)
+- Use git worktrees (beta/ga) or file reservations (alpha) for isolation
+- WIP limits: poc=1, alpha=2, beta=4, ga=5 parallel agents
+- Never let two agents write to the same file simultaneously
+- Run integration tests after each merge, not just after all merges
+- Write micro-retro to `.add/observations.md` after multi-agent operations complete

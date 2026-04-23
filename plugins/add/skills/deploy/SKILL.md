@@ -2,6 +2,7 @@
 description: "[ADD v0.9.1] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
+references: ["learning-reference.md"]
 ---
 
 # ADD Deploy Skill v0.9.1
@@ -857,4 +858,4 @@ If `.add/observations.md` does not exist, create it with a `# Process Observatio
 
 ### 2. Learning Checkpoint
 
-Write a structured JSON learning entry per the checkpoint trigger in `rules/learning.md` (section: "After Deployment"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+Write a structured JSON learning entry per the checkpoint trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "After Deployment"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.

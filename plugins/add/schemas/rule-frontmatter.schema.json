@@ -26,6 +26,12 @@
       "type": "array",
       "items": {"type": "string"},
       "description": "Optional glob list scoping the rule to specific files (used by scoped-application rules like design-system)."
+    },
+    "references": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true,
+      "description": "Optional list of reference files (relative to core/references/) loaded on demand by skills consuming this rule. Referenced files ship in the compiled runtime output but are not autoloaded."
     }
   }
 }
