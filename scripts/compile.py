@@ -92,8 +92,8 @@ def compile_claude(version: str) -> dict:
 
     counts = {"core": 0, "adapter": 0}
 
-    # Core content: rules, skills, templates, knowledge, schemas
-    for src_name in ("rules", "skills", "templates", "knowledge", "schemas"):
+    # Core content: rules, skills, templates, knowledge, schemas, security
+    for src_name in ("rules", "skills", "templates", "knowledge", "schemas", "security"):
         counts["core"] += copy_tree(CORE / src_name, output / src_name, version)
 
     # Adapter content: .claude-plugin, hooks, CLAUDE.md, README.md, LICENSE
@@ -170,6 +170,15 @@ def compile_codex(version: str) -> dict:
     agents_sections.append("## Global Knowledge\n")
     agents_sections.append(codex_substitute(global_knowledge))
     counts["agents_md_sections"] += 1
+
+    # Additional Tier-1 knowledge files (e.g. threat-model.md) — include each
+    # as its own section so the Codex agent sees them on load.
+    for kn_file in sorted((CORE / "knowledge").glob("*.md")):
+        if kn_file.name == "global.md":
+            continue
+        text = codex_substitute(kn_file.read_text())
+        agents_sections.append(f"\n---\n\n## Knowledge: {kn_file.stem}\n\n{text}")
+        counts["agents_md_sections"] += 1
 
     rules_dir = CORE / "rules"
     for rule_file in sorted(rules_dir.glob("*.md")):
