@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "version": "0.1.0",
+    "added": "v0.9.0",
+    "spec": "specs/test-deletion-guardrail.md",
+    "purpose": "Per-language regex catalog for discovering test functions inside test files. Used by test-surface-snapshot.sh and scripts/check-test-count.py. Users may extend for additional frameworks (bun:test, vitest variants, pytest plugins) by copying this file into their project's knowledge directory and PRing back.",
+    "notes": [
+      "Patterns match the *declaration line* of a test function; the body is then scanned until a dedent/close-brace.",
+      "`function_name_group` indexes the regex capture group that contains the function / describe / it name. 1-based.",
+      "`file_globs` filters files the catalog is considered for — a first-pass optimization.",
+      "Body normalization strips whitespace, line-comments (`#` or `//`), and the function-name token itself before SHA-1 hashing."
+    ]
+  },
+  "languages": {
+    "python": {
+      "file_globs": ["**/test_*.py", "**/*_test.py", "**/tests/**/*.py"],
+      "patterns": [
+        {
+          "regex": "^\\s*def\\s+(test_\\w+)\\s*\\(",
+          "function_name_group": 1,
+          "description": "pytest / unittest function"
+        },
+        {
+          "regex": "^\\s*async\\s+def\\s+(test_\\w+)\\s*\\(",
+          "function_name_group": 1,
+          "description": "pytest async function"
+        }
+      ],
+      "body_terminator": "dedent_to_def_level"
+    },
+    "typescript": {
+      "file_globs": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/__tests__/**/*.ts", "**/__tests__/**/*.tsx"],
+      "patterns": [
+        {
+          "regex": "\\bit\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]",
+          "function_name_group": 1,
+          "description": "jest/vitest/mocha it()"
+        },
+        {
+          "regex": "\\btest\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]",
+          "function_name_group": 1,
+          "description": "jest/vitest test()"
+        },
+        {
+          "regex": "\\bdescribe\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]",
+          "function_name_group": 1,
+          "description": "describe() block (counted for grouping, not as a leaf test)",
+          "is_group": true
+        }
+      ],
+      "body_terminator": "balanced_braces"
+    },
+    "javascript": {
+      "file_globs": ["**/*.test.js", "**/*.test.jsx", "**/*.spec.js", "**/*.spec.jsx", "**/__tests__/**/*.js", "**/__tests__/**/*.jsx"],
+      "patterns": [
+        {
+          "regex": "\\bit\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]",
+          "function_name_group": 1,
+          "description": "jest/vitest/mocha it()"
+        },
+        {
+          "regex": "\\btest\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]",
+          "function_name_group": 1,
+          "description": "jest/vitest test()"
+        },
+        {
+          "regex": "\\bdescribe\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]",
+          "function_name_group": 1,
+          "description": "describe() block",
+          "is_group": true
+        }
+      ],
+      "body_terminator": "balanced_braces"
+    },
+    "go": {
+      "file_globs": ["**/*_test.go"],
+      "patterns": [
+        {
+          "regex": "^func\\s+(Test\\w+)\\s*\\(",
+          "function_name_group": 1,
+          "description": "standard Go test function"
+        },
+        {
+          "regex": "^func\\s+(Benchmark\\w+)\\s*\\(",
+          "function_name_group": 1,
+          "description": "Go benchmark function"
+        }
+      ],
+      "body_terminator": "balanced_braces"
+    },
+    "ruby": {
+      "file_globs": ["**/test_*.rb", "**/*_test.rb", "**/*_spec.rb", "**/spec/**/*.rb", "**/test/**/*.rb"],
+      "patterns": [
+        {
+          "regex": "^\\s*def\\s+(test_\\w+)",
+          "function_name_group": 1,
+          "description": "Minitest / Test::Unit function"
+        },
+        {
+          "regex": "\\bit\\s+['\"]([^'\"]+)['\"]",
+          "function_name_group": 1,
+          "description": "RSpec it block"
+        }
+      ],
+      "body_terminator": "end_keyword"
+    },
+    "rust": {
+      "file_globs": ["**/*.rs"],
+      "patterns": [
+        {
+          "regex": "#\\[test\\]\\s*(?:\\n\\s*#\\[[^\\]]+\\])*\\s*\\n\\s*(?:pub\\s+)?(?:async\\s+)?fn\\s+(\\w+)",
+          "function_name_group": 1,
+          "description": "Rust #[test] attribute"
+        },
+        {
+          "regex": "#\\[tokio::test\\]\\s*\\n\\s*(?:pub\\s+)?async\\s+fn\\s+(\\w+)",
+          "function_name_group": 1,
+          "description": "Tokio async test attribute"
+        }
+      ],
+      "body_terminator": "balanced_braces"
+    }
+  },
+  "import_patterns": {
+    "python": [
+      {"regex": "^\\s*from\\s+([\\w\\.]+)\\s+import\\s+", "target_group": 1, "resolution": "dots_to_slashes_plus_py"},
+      {"regex": "^\\s*import\\s+([\\w\\.]+)", "target_group": 1, "resolution": "dots_to_slashes_plus_py"}
+    ],
+    "typescript": [
+      {"regex": "from\\s+['\"]([\\./][^'\"]+)['\"]", "target_group": 1, "resolution": "relative_path"},
+      {"regex": "require\\s*\\(\\s*['\"]([\\./][^'\"]+)['\"]\\s*\\)", "target_group": 1, "resolution": "relative_path"}
+    ],
+    "javascript": [
+      {"regex": "from\\s+['\"]([\\./][^'\"]+)['\"]", "target_group": 1, "resolution": "relative_path"},
+      {"regex": "require\\s*\\(\\s*['\"]([\\./][^'\"]+)['\"]\\s*\\)", "target_group": 1, "resolution": "relative_path"}
+    ],
+    "go": [
+      {"regex": "import\\s+['\"]([^'\"]+)['\"]", "target_group": 1, "resolution": "go_module"}
+    ],
+    "ruby": [
+      {"regex": "require(?:_relative)?\\s+['\"]([^'\"]+)['\"]", "target_group": 1, "resolution": "rb_require"}
+    ],
+    "rust": [
+      {"regex": "^\\s*use\\s+(crate::[\\w:]+)", "target_group": 1, "resolution": "rust_crate_path"}
+    ]
+  }
+}

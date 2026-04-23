@@ -92,9 +92,16 @@ def compile_claude(version: str) -> dict:
 
     counts = {"core": 0, "adapter": 0}
 
-    # Core content: rules, skills, templates, knowledge, schemas, security
-    for src_name in ("rules", "skills", "templates", "knowledge", "schemas", "security"):
+    # Core content: rules, skills, templates, knowledge, schemas, lib, security
+    for src_name in ("rules", "skills", "templates", "knowledge", "schemas", "lib", "security"):
         counts["core"] += copy_tree(CORE / src_name, output / src_name, version)
+
+    # Preserve executable bit on core/lib/*.sh shell helpers (compile.py uses shutil.copy2
+    # which preserves mode, but the text-substitution path above strips it). Re-apply.
+    lib_out = output / "lib"
+    if lib_out.exists():
+        for sh in lib_out.rglob("*.sh"):
+            sh.chmod(0o755)
 
     # Adapter content: .claude-plugin, hooks, CLAUDE.md, README.md, LICENSE
     adapter_src = RUNTIMES / "claude"
@@ -216,6 +223,19 @@ def compile_codex(version: str) -> dict:
     templates_out = output / "templates"
     templates_out.mkdir(parents=True, exist_ok=True)
     copy_tree(CORE / "templates", templates_out, version)
+
+    # 3b. Ship core/lib/ shell helpers (test-deletion guardrail etc.)
+    lib_src = CORE / "lib"
+    if lib_src.exists():
+        lib_out = output / "lib"
+        copy_tree(lib_src, lib_out, version)
+        for sh in lib_out.rglob("*.sh"):
+            sh.chmod(0o755)
+
+    # 3c. Ship core/knowledge/ verbatim so prompts can reference data files
+    knowledge_out = output / "knowledge"
+    knowledge_out.mkdir(parents=True, exist_ok=True)
+    copy_tree(CORE / "knowledge", knowledge_out, version)
 
     # 4. Emit a minimal config descriptor
     (output / "VERSION").write_text(version + "\n")
