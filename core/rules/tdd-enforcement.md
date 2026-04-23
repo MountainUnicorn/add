@@ -46,6 +46,63 @@ All implementation follows strict TDD. The cycle is RED → GREEN → REFACTOR �
 - When a sub-agent implements code, the orchestrator MUST run tests independently
 - Each TDD cycle should be a single, atomic commit
 
+## Test-Deletion Invariant (v0.9.0 / M3)
+
+**Tests added during RED MUST exist (passing) at the end of GREEN.** Test deletion during
+the cycle is forbidden without `--allow-test-rewrite` **and** explicit human approval.
+Test renames are permitted (same normalized body, different function name); test
+replacements (same name, rewritten body beyond the similarity threshold) require
+approval.
+
+This invariant is enforced at three points:
+
+1. **End of RED** — `/add:test-writer` writes a snapshot at
+   `.add/cycles/cycle-{N}/tdd-{slug}-red.json` capturing every test function's path,
+   name, and normalized body hash. The snapshot is committed (`test(red): snapshot N
+   tests for {slug}`). Failure mode: if RED produces zero new tests, the cycle halts —
+   RED with no new tests is itself a TDD violation.
+2. **End of GREEN** — `/add:implementer` re-runs discovery against the same files and
+   writes `.add/cycles/cycle-{N}/tdd-{slug}-green.json` with identical schema.
+3. **Gate 3.5 in `/add:verify`** — runs `scripts/check-test-count.py gate --red ... --green ...`.
+   If `tests_removed > 0` without an override, or `tests_replaced > 0` without
+   `--allow-test-rewrite`, the gate fails with a structured error listing each removed
+   or replaced test. The cycle does not advance to Gate 4.
+
+### Justification markers
+
+A test deletion or replacement is authorized by **either**:
+
+- A commit trailer in the range `base..HEAD` of the form
+  `[ADD-TEST-DELETE: <AC-id or reason>]`. Used for out-of-cycle rewrites or small
+  maintenance changes.
+- A file at `.add/cycles/cycle-{N}/overrides.json` of shape:
+
+  ```json
+  {
+    "kind": "test-rewrite",
+    "approved_by": "human",
+    "timestamp": "2026-04-22T14:32:00Z",
+    "affected_tests": ["tests/path.py::function_name"]
+  }
+  ```
+
+Either form is recorded in telemetry and surfaced in `/add:retro` for review.
+
+### Rationale
+
+The genie doesn't want to do TDD (Kent Beck, 2026) — the path of least resistance for a
+coding agent is to remove the failing test rather than satisfy it. The TDAD paper
+(arXiv 2603.17973) observed naive TDD-prompting *increased* regression rate to 9.94%
+because agents silently deleted tests they couldn't satisfy. ADD's separation of concerns
+(test-writer vs implementer) only matters if the tests written in RED survive GREEN.
+This invariant enforces that.
+
+### Why both markers are accepted
+
+Some TDD-cycle runs are fully scripted (`--allow-test-rewrite` with an `overrides.json`
+approval); others are ad-hoc developer work where a commit trailer is the lighter-weight
+signal. Both land in the same telemetry channel so retros can review legitimacy.
+
 ## Test Naming
 
 Tests must reference the spec:
