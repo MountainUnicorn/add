@@ -14,7 +14,7 @@
     "next_promotion_criteria": "Dog-food on 2+ existing projects, /cycle and /init --adopt working end-to-end, milestone tracking validated"
   },
   "planning": {
-    "current_milestone": "M2-install-and-safety",
+    "current_milestone": "M3-pre-ga-hardening",
     "current_cycle": null,
     "wip_limit": 4,
     "parallel_agents": 2,

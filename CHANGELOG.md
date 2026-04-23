@@ -13,11 +13,36 @@ For commit-level detail see `git log`.
 - `CONTRIBUTING.md` testing-changes section: replaced the long ad-hoc rsync example with the canonical `compile.py` + `sync-marketplace.sh` workflow plus the three CI-gate validation commands.
 - `scripts/sync-marketplace.sh`: dropped the now-unnecessary `--exclude='website/'`.
 
-Pending for v0.9.0:
+### Planned for v0.9.0 — Pre-GA Hardening (M3 milestone)
 
-- Per-skill Codex overrides for high-leak skills (`away`, `tdd-cycle`, `implementer`, `agent-coordination`)
-- Marketplace re-submission to the official Claude Code registry
-- `/add:cycle` rename to `/add:arc` (or similar) — 3 consecutive release arcs bypassed the command; gap needs addressing
+Five parallel research swarms (Anthropic direction, Codex/OpenAI direction, IDE competitive landscape, AI dev framework trends, production AI engineering) converged on the v0.9.0 scope. Seven specs drafted and entering parallel development under [`docs/milestones/M3-pre-ga-hardening.md`](docs/milestones/M3-pre-ga-hardening.md). Total: 207 acceptance criteria across 7 Draft specs.
+
+| Spec | Sizing | Cycle | Driver |
+|------|--------|-------|--------|
+| [`codex-native-skills`](specs/codex-native-skills.md) | Large | 2 | Codex shipped Skills/sub-agents/hooks; ADD compiles to deprecated path |
+| [`prompt-injection-defense`](specs/prompt-injection-defense.md) | Medium | 2 | OWASP A01 + Comment-and-Control attack — GA blocker |
+| [`secrets-handling`](specs/secrets-handling.md) | Small | 1 | GitGuardian: AI-tooled repos 40% more likely to leak — GA blocker |
+| [`telemetry-jsonl`](specs/telemetry-jsonl.md) | Medium | 3 | OTel GenAI semconv stabilizing; EU AI Act Aug 2026; audit/cost attribution |
+| [`test-deletion-guardrail`](specs/test-deletion-guardrail.md) | Medium | 3 | Kent Beck + TDAD paper: agents delete failing tests; defends signature TDD claim |
+| [`cache-discipline`](specs/cache-discipline.md) | Small | 1 | Anthropic's 90% cache discount needs structural discipline; depends on PR #6 |
+| [`agents-md-sync`](specs/agents-md-sync.md) | Small | 2 | AGENTS.md is now the cross-tool standard (Linux Foundation, 60k+ projects) |
+
+Other v0.9.0 work tracked in M3:
+
+- PR #6 merge (rules/knowledge on-demand loading from @tdmitruk) — foundation for cache-discipline
+- Marketplace re-submission to the official Claude Code registry (parallel external work)
+- Maturity promotion alpha → beta executed against the v0.9 release
+
+### Deferred to v0.9.x or v0.10
+
+- `/add:parallel` worktree-based parallel cycle execution
+- Routines/Loop integration adapter
+- Capability-based `/add:eval` skill
+- `/add:cycle` rename — defer to coincide with parallel-cycle redesign
+- Brownfield delta-spec mode
+- Architect/Editor model-role rule (v0.9.1 docs pass)
+- Cross-tool memory schema for `~/.claude/add/`
+- Governance maturity bands tied to autonomy ceilings
 
 ## [0.8.0] — 2026-04-22
 
