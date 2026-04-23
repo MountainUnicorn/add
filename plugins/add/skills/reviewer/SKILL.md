@@ -8,6 +8,8 @@ allowed-tools: [Read, Glob, Grep, Bash]
 
 Conduct a comprehensive code review focused on specification compliance, code quality, and ADD methodology adherence. This is a READ-ONLY skill that produces a detailed structured review report.
 
+<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add:tdd-cycle, which owns the cache-aware prompt layout. -->
+
 ## Overview
 
 The Reviewer analyzes implementation against the spec and quality standards without modifying code. It checks:

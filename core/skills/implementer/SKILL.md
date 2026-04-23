@@ -8,6 +8,8 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 
+<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add:tdd-cycle, which owns the cache-aware prompt layout. -->
+
 ## Overview
 
 The Implementer takes failing tests (from test-writer) and writes the smallest amount of code necessary to make them all pass. The goal is:

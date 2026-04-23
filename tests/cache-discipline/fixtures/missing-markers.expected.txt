@@ -1,0 +1,1 @@
+tests/cache-discipline/fixtures/missing-markers.md:8: warn: CACHE-001: Task dispatch present but no CACHE markers found

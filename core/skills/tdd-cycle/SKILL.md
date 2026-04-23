@@ -19,6 +19,28 @@ The TDD Cycle is the primary "do the work" skill in Agent Driven Development. It
 
 This skill coordinates sub-agents (test-writer, implementer, reviewer, verify) and maintains traceability between specs, tests, and implementation.
 
+## Sub-Agent Dispatch Prompt Template
+
+Every Task-tool dispatch from this skill (test-writer, implementer, reviewer,
+verify) MUST emit a prompt body laid out per `rules/cache-discipline.md`.
+Construct the prompt as follows — the STABLE block is byte-identical across
+every dispatch in a session; only the VOLATILE block changes per role.
+
+<!-- CACHE: STABLE -->
+- Active autoload:true rule bodies, in stable order
+- Tier-1 knowledge active view (`knowledge/global.md`)
+- Tier-2 active view (`~/.claude/add/library-active.md`) if present
+- Project identity summary from `.add/config.json`
+- Active learnings view (`.add/learnings-active.md`)
+- Full body of the current spec under work
+<!-- CACHE: VOLATILE -->
+- Role (test-writer | implementer | reviewer | verify)
+- Per-call TASK / SCOPE / SPEC REFERENCE / SUCCESS CRITERIA / RESTRICTIONS
+- AC subset for this dispatch
+- Per-call hints — recent edits, tool outputs, working-set diffs
+
+Validate compliance with `python3 scripts/validate-cache-discipline.py`.
+
 ## Pre-Flight Checks
 
 Before beginning, validate:

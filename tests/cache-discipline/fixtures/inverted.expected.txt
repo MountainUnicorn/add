@@ -1,0 +1,1 @@
+tests/cache-discipline/fixtures/inverted.md:14: warn: CACHE-002: VOLATILE marker precedes STABLE — inverted layout

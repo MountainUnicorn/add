@@ -32,6 +32,19 @@ OUTPUT: {what the agent should produce — files, test results, summary}
 RESTRICTIONS: {what the agent should NOT do}
 ```
 
+### Cache-Aware Dispatch Layout
+
+Every dispatched prompt body MUST follow the stable-prefix layout defined
+in `rules/cache-discipline.md`. Wrap the emitted prompt with
+`<!-- CACHE: STABLE -->` and `<!-- CACHE: VOLATILE -->` markers in that
+order. The STABLE region (active autoload rules, tier-1 knowledge active
+views, project identity, active learnings, current spec body) MUST be
+byte-identical across every sub-agent dispatch within a session. Only the
+VOLATILE suffix — role, per-call task, AC subset, hints — varies between
+test-writer, implementer, and reviewer dispatches. This keeps Anthropic's
+prompt cache warm and compounds hits across the TDD cycle (see
+`specs/cache-discipline.md § 5` for before/after example).
+
 ## Trust-But-Verify
 
 After any sub-agent completes work:

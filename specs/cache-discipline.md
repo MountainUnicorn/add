@@ -138,17 +138,52 @@ As an ADD agent dispatching sub-agents repeatedly across a session, I want every
 
 ## 4. Skill Audit Checklist
 
-To be populated during implementation. Schema:
+Populated during v0.9.0 implementation (Swarm A, 2026-04-22). Status values:
+
+- `compliant` — passes validator with zero findings today.
+- `remediated-v0.9` — was non-compliant; fixed in v0.9.0.
+- `non-dispatching` — skill does not emit prompts to sub-agents; cache
+  markers not required. Validator silently skips.
+- `deferred-v0.9.x` — known warning, fix scheduled for a v0.9.x patch.
 
 | Skill | Current Status | Deviation | Remediation | Target |
 |-------|---------------|-----------|-------------|--------|
-| tdd-cycle | non-compliant | Sub-agent prompts hand-rolled per phase, no shared prefix | Extract shared project-context block, mark with STABLE/VOLATILE | v0.9.0 |
-| implementer | non-compliant | TBD on audit | TBD | v0.9.0 |
-| reviewer | non-compliant | TBD on audit | TBD | v0.9.0 |
-| verify | non-compliant | TBD on audit | TBD | v0.9.0 |
-| (all other skills) | TBD | TBD | TBD | v0.9.x |
+| tdd-cycle | remediated-v0.9 | Dispatched sub-agent prompts (test-writer, implementer, reviewer, verify) had no shared prefix convention | Added "Sub-Agent Dispatch Prompt Template" section with STABLE/VOLATILE markers describing the cache-aware layout every Task-tool dispatch must follow | v0.9.0 |
+| implementer | non-dispatching | Invoked AS a sub-agent; does not itself dispatch via Task. Verified via `grep -n Task(` — zero hits. | Added `<!-- cache-discipline: non-dispatching skill --> ` inline note documenting the audit result | v0.9.0 |
+| reviewer | non-dispatching | Invoked AS a sub-agent; does not itself dispatch. Verified. | Added non-dispatching note | v0.9.0 |
+| verify | non-dispatching | Invoked AS a sub-agent; does not itself dispatch. Verified. | Added non-dispatching note | v0.9.0 |
+| init | deferred-v0.9.x | Validator false-positive: line 1039 lists `/add:verify    — run quality gates` in user-facing command tour. The "run" keyword trips dispatch heuristic. | Rephrase command tour to avoid dispatch verbs, or refine validator's pattern to require call-syntax | v0.9.x |
+| away | compliant | No Task dispatch. | None needed | v0.9.0 |
+| back | compliant | No Task dispatch. | None needed | v0.9.0 |
+| brand | compliant | No Task dispatch. | None needed | v0.9.0 |
+| brand-update | compliant | No Task dispatch. | None needed | v0.9.0 |
+| changelog | compliant | No Task dispatch. | None needed | v0.9.0 |
+| cycle | compliant | `Task` in `allowed-tools` but no actual dispatch emission detected. | Audit once cycle starts orchestrating parallel swarms; add markers at that point | v0.9.x |
+| dashboard | compliant | No Task dispatch. | None needed | v0.9.0 |
+| deploy | compliant | No Task dispatch. | None needed | v0.9.0 |
+| docs | compliant | No Task dispatch. | None needed | v0.9.0 |
+| infographic | compliant | No Task dispatch. | None needed | v0.9.0 |
+| learnings | compliant | No Task dispatch. | None needed | v0.9.0 |
+| milestone | compliant | `Task` in `allowed-tools`, no emission in current body. | Audit when milestone starts dispatching sub-agents | v0.9.x |
+| optimize | compliant | `Task` in `allowed-tools`, no emission in current body. | Audit when optimize starts dispatching sub-agents | v0.9.x |
+| plan | compliant | No Task dispatch. | None needed | v0.9.0 |
+| promote | compliant | `Task` in `allowed-tools`, no emission in current body. | Audit when promote starts dispatching sub-agents | v0.9.x |
+| retro | compliant | No Task dispatch. | None needed | v0.9.0 |
+| roadmap | compliant | `Task` in `allowed-tools`, no emission in current body. | Audit when roadmap starts dispatching sub-agents | v0.9.x |
+| spec | compliant | No Task dispatch. | None needed | v0.9.0 |
+| test-writer | non-dispatching | Invoked AS a sub-agent; does not itself dispatch. | None needed | v0.9.0 |
+| ux | compliant | No Task dispatch. | None needed | v0.9.0 |
+| version | compliant | No Task dispatch. | None needed | v0.9.0 |
+| **Telemetry fields wired** | deferred-v0.9.x | Requires Swarm F `feat/telemetry-jsonl` merge; integration belongs in a post-merge commit. | Post-merge commit adds `cache_read_input_tokens`, `cache_creation_input_tokens`, derived `cache_hit_ratio` to telemetry line | v0.9.x |
 
-The implementer of this spec fills in the remaining rows during the audit pass.
+All 26 skills accounted for. Validator run output (warn-only, 2026-04-22):
+
+```
+$ python3 scripts/validate-cache-discipline.py
+core/skills/init/SKILL.md:1039: warn: CACHE-001: Task dispatch present but no CACHE markers found
+```
+
+One advisory finding, documented above as `deferred-v0.9.x`.
 
 ## 5. Layout Invariant — Reference
 

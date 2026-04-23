@@ -1,0 +1,1 @@
+tests/cache-discipline/fixtures/volatile-in-stable.md:15: warn: CACHE-003: volatile placeholder '{user_message}' inside STABLE block
