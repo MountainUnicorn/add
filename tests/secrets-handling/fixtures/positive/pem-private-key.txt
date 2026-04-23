@@ -1,0 +1,5 @@
+# Positive fixture: PEM_PRIVATE_KEY
+# Matches regex: -----BEGIN (RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----
+# Test script synthesizes the header at runtime (avoid on-disk appearance
+# of a private-key block that scanners may treat as a leaked key).
+<SYNTHESIZED:PEM_PRIVATE_KEY>

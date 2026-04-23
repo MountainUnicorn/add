@@ -88,6 +88,117 @@ If any verification fails:
 - Do NOT proceed with deployment
 - Ask user to fix issues and re-run
 
+### Step 1.5: Pre-commit secrets gate
+
+Before composing the commit message, scan the staged diff for secrets.
+
+**Source of truth:** `~/.codex/add/knowledge/secret-patterns.md` (regex
+catalog + high-entropy heuristic + path-prefix deny list). The gate MUST use
+this catalog — do not duplicate the patterns inline.
+
+**Invocation (Bash):**
+
+```bash
+# 1. Collect staged, non-binary, non-ignored files.
+#    Respect .secretsignore: files matching those patterns should not be
+#    staged at all — if they appear, flag them as "should not be committed."
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+
+# 2. For each file: apply every regex from the catalog to the staged content
+#    (git diff --cached -- "$file"). Suppress matches that fall under the
+#    entropy heuristic's safe-context exceptions (lockfile path, commit SHA
+#    in a git-log block, UUID, content-addressed hash marker, build/trace id).
+
+# 3. On any match, emit:
+#    {file}:{line} — {PATTERN_NAME} pattern
+#    Do NOT echo the matched value itself; use the pattern name only.
+```
+
+**On match — abort the commit and print:**
+
+```
+SECRETS GATE — /add:deploy
+Scanning {N} staged files...
+
+  ✗ {file}:{line} — {PATTERN_NAME} pattern
+  ✗ {file}:{line} — {PATTERN_NAME} pattern
+
+Commit aborted. Two options:
+
+  1. Remove the secrets:
+       git restore --staged {file} {file}
+       Add {file} to .secretsignore (or .gitignore)
+       Rotate any real secrets immediately
+
+  2. False positive (test fixture, example, etc.):
+       /add:deploy --allow-secret
+       (you will be asked to type a confirmation phrase)
+```
+
+No commit is created. Preserve staged changes so the user can fix and retry.
+
+**`--allow-secret` flag (AC-016, AC-017):**
+
+If the user invokes `/add:deploy --allow-secret`, present:
+
+> "To override the secrets gate, type the following phrase EXACTLY
+> (case-sensitive, full string — no quotes, no abbreviation):
+>
+>     I have verified this is not a real secret
+>
+> Any other response cancels the override."
+
+Matching rules — implemented literally, not left to agent judgment:
+
+- The response MUST equal the string `I have verified this is not a real secret`
+  (no quotes, no leading/trailing whitespace other than a trailing newline).
+- Case-sensitive. `i have verified this is not a real secret` does NOT pass.
+- Must be the ENTIRE user response. Extra text, punctuation, or prefix/suffix
+  does NOT pass.
+- Must be the IMMEDIATELY NEXT message. Intervening clarifications reset the
+  gate; re-ask.
+
+On successful match, proceed to Step 2. Before proceeding, append a line to
+`.add/observations.md`:
+
+```
+{YYYY-MM-DD HH:MM} | deploy | secrets-gate override: {file}:{line} {PATTERN_NAME} | reason: {user's stated reason}
+```
+
+Also append the override record to `.add/redaction-log.json` under
+`{ "artifact": "deploy-gate-override", ... }` if the log exists.
+
+On any failing match: halt with:
+
+```
+Secrets gate override CANCELLED. No changes made. Run /add:deploy again when
+ready — the exact phrase is required to prevent automation or accidental
+consent from pushing secrets.
+```
+
+**`.secretsignore` handling (AC-018):**
+
+- Files matching `.secretsignore` patterns should not be in the staged set.
+- If one appears (because the user staged it with `git add -f` or before the
+  ignore file existed), flag separately:
+
+```
+  ✗ {file} — listed in .secretsignore; this file should not be committed at all
+```
+
+and treat it the same as a catalog match (abort unless `--allow-secret` with
+the full phrase).
+
+**Edge cases (from spec § 7):**
+
+| Case | Behavior |
+|------|----------|
+| Binary file staged | Skip content scan; still flag if filename matches `.secretsignore` |
+| Git not initialized | Skip gate silently; first-commit projects aren't blocked |
+| File path contains `test`, `fixture`, `example`, or `mock` | Still flag, but downgrade severity in the message and suggest `--allow-secret` |
+| `.env.example` with placeholder values | `.secretsignore` negation (`!.env.example`) allows it; content scan usually won't match because examples are placeholders |
+| Pattern catalog updated in plugin upgrade | Gate reads the latest catalog from `~/.codex/add/knowledge/secret-patterns.md`; existing `.secretsignore` files untouched |
+
 ### Step 2: Prepare Commit Message
 
 Compose a detailed commit message following conventions:
