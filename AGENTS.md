@@ -1,4 +1,4 @@
-<!-- ADD:MANAGED:START version=0.9.0 maturity=alpha generated=2026-04-22T12:00:00Z -->
+<!-- ADD:MANAGED:START version=0.9.1 maturity=beta generated=2026-04-23T14:35:33Z -->
 
 # ADD
 
@@ -11,6 +11,18 @@ The human is the architect and decision maker; the agent is the builder. Gather 
 ## Spec-First Invariants
 
 Every feature flows through the document hierarchy: PRD → Feature Spec → Implementation Plan → User Test Cases → Automated Tests → Implementation. No link may be skipped. Specs live in `specs/`, plans in `docs/plans/`. Code changes without a corresponding spec are rejected on review.
+
+## Maturity & Autonomy Ceiling
+
+Project maturity: **beta**.
+
+- **local**: auto-promotion not declared.
+
+Production deploys and merges to the default branch always require human approval.
+
+## Currently Active Spec
+
+- [`specs/plugin-family-release-hardening.md`](./specs/plugin-family-release-hardening.md)
 
 ## Pointers
 

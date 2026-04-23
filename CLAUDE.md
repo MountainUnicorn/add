@@ -51,8 +51,8 @@ Cut a signed release:
 
 ```
 core/                  # Source of truth (runtime-neutral)
-  skills/              #   26 skills — all slash commands
-  rules/               #   15 auto-loading behavioral rules
+  skills/              #   27 skills — all slash commands
+  rules/               #   19 auto-loading behavioral rules
   templates/           #   21 document templates
   knowledge/           #   2 Tier-1 knowledge files
   schemas/             #   2 JSON Schema validators

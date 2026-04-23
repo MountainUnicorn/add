@@ -449,7 +449,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 ---
 
 <details>
-<summary><strong>Commands &amp; Skills</strong> — 24 total (v0.8.0)</summary>
+<summary><strong>Commands &amp; Skills</strong> — 27 total (v0.9.1)</summary>
 
 **Core workflow:**
 
