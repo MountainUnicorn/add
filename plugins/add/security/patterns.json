@@ -1,0 +1,71 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/security-patterns.schema.json",
+  "version": "1.0.0",
+  "source": "default",
+  "patterns": [
+    {
+      "name": "ignore-previous",
+      "regex": "(?i)(ignore|disregard)[[:space:]]+(previous|prior|all[[:space:]]+prior|above|earlier)[[:space:]]+(instructions|directives|prompts|rules)?",
+      "severity": "high",
+      "description": "Classic override prelude — tells the model to throw out its current instructions.",
+      "source": "OWASP Top 10 for Agentic Applications 2026 (LLM01: Agent Goal Hijack)",
+      "enabled": true
+    },
+    {
+      "name": "system-tag",
+      "regex": "<[[:space:]]*system[[:space:]]*>",
+      "severity": "high",
+      "description": "Fake system tag — embeds content pretending to be a system instruction turn.",
+      "source": "OWASP Top 10 Agentic 2026; arXiv:2601.17548 (structural role confusion)",
+      "enabled": true
+    },
+    {
+      "name": "instruction-tag",
+      "regex": "<[[:space:]]*instruction[[:space:]]*>",
+      "severity": "medium",
+      "description": "Fake instruction tag — less common than system-tag but same family.",
+      "source": "arXiv:2601.17548",
+      "enabled": true
+    },
+    {
+      "name": "new-instructions-heading",
+      "regex": "(?m)^#{1,6}[[:space:]]+NEW[[:space:]]+INSTRUCTIONS\\b",
+      "severity": "high",
+      "description": "Markdown heading pretending to introduce a new authoritative block. Structural red flag.",
+      "source": "Snyk ToxicSkills 2026 audit — most common skill-marketplace payload",
+      "enabled": true
+    },
+    {
+      "name": "system-heading",
+      "regex": "(?m)^#{1,6}[[:space:]]+(SYSTEM|AGENT[[:space:]]+DIRECTIVE|INSTRUCTIONS)\\b",
+      "severity": "medium",
+      "description": "Heading that appears to assert system-level authority. Must be treated as content per Markdown guardrail.",
+      "source": "NVIDIA AGENTS.md guidance 2026; Snyk ToxicSkills",
+      "enabled": true
+    },
+    {
+      "name": "unicode-tag-block",
+      "regex": "[\\xF3\\xA0\\x80\\x80-\\xF3\\xA0\\x87\\xBF]{3,}",
+      "severity": "critical",
+      "description": "Three or more consecutive Unicode tag-channel characters (U+E0000-U+E007F). Used for invisible instruction injection.",
+      "source": "arXiv:2601.17548 (tag-channel injection); Riley Goodside 2024 POC",
+      "enabled": true
+    },
+    {
+      "name": "base64-blob-suspicious",
+      "regex": "[A-Za-z0-9+/]{60,}={0,2}",
+      "severity": "medium",
+      "description": "Long base64-like blob (>=60 chars). Often a disguised payload; benign uses exist so severity is medium.",
+      "source": "OWASP Top 10 Agentic 2026 (LLM02: Tool Misuse — opaque payload smuggling)",
+      "enabled": true
+    },
+    {
+      "name": "comment-and-control-marker",
+      "regex": "\\[[[:space:]]*CMD-AND-CTL-2026[[:space:]]*\\]",
+      "severity": "critical",
+      "description": "Signature from the Comment-and-Control attack demonstrated Jan 2026 against Claude Code Security Review, Gemini CLI, and Copilot Agent.",
+      "source": "VentureBeat 2026-01; SecurityWeek 2026-01",
+      "enabled": true
+    }
+  ]
+}

@@ -31,7 +31,9 @@ frontmatter:
 # ships with the ADD plugin install.
 output_shape:
   agents_md:
-    from: [core/knowledge/global.md, core/rules/*.md]
+    # All of core/knowledge/*.md (e.g. global.md, threat-model.md) and all
+    # core/rules/*.md land as sections in AGENTS.md.
+    from: [core/knowledge/*.md, core/rules/*.md]
     strategy: concatenate_with_headings
   prompts:
     from: core/skills/*/SKILL.md
@@ -44,3 +46,15 @@ output_shape:
 # Files specific to the Codex adapter
 adapter_files:
   - README.md          # Codex-specific usage instructions
+
+# Known runtime limitations (documented so agents and users understand the gap)
+limitations:
+  - name: hook-stderr-not-surfaced
+    description: >
+      Codex PostToolUse hooks run, but stderr is not automatically surfaced to
+      the agent's next turn (unlike Claude Code). The prompt-injection scan
+      hook still writes audit events to .add/security/injection-events.jsonl,
+      but the ADD-SEC warning is invisible until the user inspects the log
+      (manually or via /add:retro). Path to parity: an adapter-side polling
+      reader that tails injection-events.jsonl into each prompt turn; scheduled
+      for v1.0.

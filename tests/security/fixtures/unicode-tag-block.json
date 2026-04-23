@@ -1,0 +1,7 @@
+{
+  "tool_name": "WebFetch",
+  "tool_input": {"url": "https://example.com/hidden.html"},
+  "tool_response": {
+    "content": "Visible body text. __UNICODE_TAG_PAYLOAD__"
+  }
+}

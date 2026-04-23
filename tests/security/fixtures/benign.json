@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input": {"file_path": "docs/architecture.md"},
+  "tool_response": {
+    "file": {"content": "# Architecture\n\nThe system instructions clients to retry on 503. Our system includes an API gateway. The instructions for setup are in the README. Discussion of system design follows.\n"}
+  }
+}

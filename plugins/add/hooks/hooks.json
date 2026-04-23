@@ -20,11 +20,42 @@
         ]
       },
       {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-scan.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-scan.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-scan.sh\""
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "CMD=$(jq -r '.tool_input.command // empty'); if echo \"$CMD\" | grep -q 'git push' && [ -f CHANGELOG.md ]; then echo '[ADD] CHANGELOG.md exists — run /add:changelog to update it before pushing.'; fi"
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-scan.sh\""
           }
         ]
       }
