@@ -1,0 +1,116 @@
+name: Guardrail suites
+
+# Runs every local fixture-based test suite plus the marketplace + frontmatter
+# validators. Release-blocking: closes F-005 (beta promotion exemption) and
+# codifies the 90-test safety net that v0.8.x and v0.9.0 shipped with but had
+# never actually run in CI.
+#
+# Each suite is a single shell script that exits non-zero on failure. The
+# matrix runs them in parallel for speed and so one failure doesn't mask
+# another. The marketplace-validate job also asserts the CLI's human-readable
+# "Validation failed" text, because `claude plugin validate` returns exit 0
+# even when the schema rejects (caught during v0.8.1 — F-001).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  # ---------- Static validators (Python, no Claude/Codex CLI needed) ----------
+
+  frontmatter:
+    name: Frontmatter validator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/validate-frontmatter.py
+
+  cache-discipline:
+    name: Cache-discipline validator (strict, remediated skills)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python3 scripts/validate-cache-discipline.py
+          python3 scripts/validate-cache-discipline.py --strict \
+            core/skills/tdd-cycle/ \
+            core/skills/implementer/ \
+            core/skills/reviewer/ \
+            core/skills/verify/
+
+  # ---------- Fixture-based suites (bash + jq, no external tools) -------------
+
+  fixtures:
+    name: "Fixture suite: ${{ matrix.suite }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - hooks/test-filter-learnings.sh
+          - test-deletion-guardrail/test-test-deletion-guardrail.sh
+          - codex-install/test-install-paths.sh
+          - cache-discipline/test-cache-discipline.sh
+          - secrets-handling/test-secrets-handling.sh
+          - agents-md-sync/test-agents-md-sync.sh
+          - telemetry-jsonl/test-telemetry-jsonl.sh
+          - security/test-prompt-injection-defense.sh
+          - rule-parity/test-rule-parity.sh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install jq
+        run: sudo apt-get update -qq && sudo apt-get install -y jq
+      - name: Run tests/${{ matrix.suite }}
+        run: bash tests/${{ matrix.suite }}
+
+  # ---------- Marketplace validation -----------------------------------------
+  #
+  # `claude plugin validate` exits 0 even when validation fails (discovered via
+  # F-001). We grep the stdout for "Validation failed" to turn a silent failure
+  # into a red CI light.
+
+  marketplace-validate:
+    name: Claude marketplace manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Claude Code CLI
+        run: |
+          npm install -g @anthropic-ai/claude-code || {
+            echo "::warning::Claude CLI install failed — skipping marketplace validation."
+            echo "SKIP=1" >> "$GITHUB_ENV"
+          }
+
+      - name: Validate root marketplace manifest
+        if: env.SKIP != '1'
+        run: |
+          set +e
+          out=$(claude plugin validate . 2>&1)
+          rc=$?
+          echo "$out"
+          if echo "$out" | grep -q "Validation failed"; then
+            echo "::error::Root marketplace manifest validation failed"
+            exit 1
+          fi
+          exit "$rc"
+
+      - name: Validate plugin manifest
+        if: env.SKIP != '1'
+        run: |
+          set +e
+          out=$(claude plugin validate plugins/add 2>&1)
+          rc=$?
+          echo "$out"
+          if echo "$out" | grep -q "Validation failed"; then
+            echo "::error::Plugin manifest validation failed"
+            exit 1
+          fi
+          exit "$rc"

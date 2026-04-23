@@ -1,17 +1,22 @@
 ---
-description: "[ADD v0.9.0] Show installed version, project version, and upgrade status"
+description: "[ADD v0.9.1] Show installed version, project version, and upgrade status"
 argument-hint: "[--check]"
 allowed-tools: [Read, Glob, Grep, Bash]
 disable-model-invocation: true
 ---
 
-# ADD Version Command v0.9.0
+# ADD Version Command v0.9.1
 
 Show the current ADD version, compare project config version to plugin version, and flag drift.
 
 ## Execution
 
-1. **Read plugin version** from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` → `version` field
+1. **Read plugin version** from `${CLAUDE_PLUGIN_ROOT}/` — try sources in order, first hit wins:
+   1. `.claude-plugin/plugin.json` → `version` field (Claude runtime)
+   2. `plugin.toml` → `version` field (Codex runtime)
+   3. `VERSION` (plain-text, single line — fallback for both runtimes)
+
+   On the Claude runtime, source 1 is authoritative and sources 2–3 are absent. On the Codex runtime (`${CLAUDE_PLUGIN_ROOT}` resolves to `~/.codex/add`), source 1 is absent; read source 2 or 3. Never emit an error if source 1 is missing — fall through quietly.
 2. **Read project version** from `.add/config.json` → `version` field (if file exists)
 3. **Read core/VERSION** if accessible (development installs only)
 

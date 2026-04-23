@@ -33,11 +33,7 @@ pass() {
 #
 # Grepped fragments match "contains substring" against the captured path.
 ALLOWLIST=(
-  "~/.codex/add/../../scripts/"           # legacy ref into repo scripts — tracked separately
-  "~/.codex/add/.claude-plugin/plugin.json" # /add:version reads Claude manifest; Codex
-                                            # equivalent is add/plugin.toml or add/VERSION.
-                                            # Follow-up: teach /add:version to handle
-                                            # both runtimes (v0.8.2 micro-fix).
+  "~/.codex/add/../../scripts/"   # legacy ref into repo scripts — tracked separately
 )
 
 is_allowlisted() {

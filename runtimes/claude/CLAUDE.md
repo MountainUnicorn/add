@@ -19,7 +19,7 @@ The core principles:
 ```
 add/
 ├── skills/            # All slash commands and workflow skills (/add:init, /add:spec, /add:tdd-cycle, etc.)
-├── rules/             # Auto-loading behavioral rules (15 files)
+├── rules/             # Auto-loading behavioral rules (19 files)
 ├── hooks/             # PostToolUse automation
 ├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)
 │   └── global.md      # Universal learnings that ship with ADD for all users
@@ -102,6 +102,10 @@ ADD publishes a tool-portable [`AGENTS.md`](https://agents.md) at project root v
 @rules/design-system.md
 @rules/add-compliance.md
 @rules/registry-sync.md
+@rules/cache-discipline.md
+@rules/injection-defense.md
+@rules/secrets-handling.md
+@rules/telemetry.md
 
 ## Work Hierarchy
 

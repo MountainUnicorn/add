@@ -71,11 +71,17 @@ DISPATCH_PATTERNS = [
     (re.compile(r"\bTask\s*\("), "Task("),
     (re.compile(r"\bAgent\s*\("), "Agent("),
     (re.compile(r"\bTask tool\b"), "Task tool"),
+    # Heuristic for "dispatch <sub-agent> skill" phrasing. Matches if the line
+    # contains BOTH a /add:<subagent> reference AND a dispatch-specific verb,
+    # in either order. Verb list intentionally narrow: `run` and `call` are
+    # prose all over ADD skill docs ("run quality gates"), so they're excluded
+    # to avoid false positives like core/skills/init/SKILL.md's
+    # "/add:verify — run quality gates" prose (F-018, v0.9.1 fix).
     (re.compile(
-        r"/add:(?:test-writer|implementer|reviewer|verify|optimize)\b"
-        r".*\b(?:skill|invoke|dispatch|run|call)\b",
+        r"(?=.*/add:(?:test-writer|implementer|reviewer|verify|optimize)\b)"
+        r"(?=.*\b(?:invoke|dispatch|sub-?agent)\b)",
         re.IGNORECASE,
-    ), "/add:<subagent> skill/invoke/dispatch"),
+    ), "/add:<subagent> invoke/dispatch/sub-agent"),
 ]
 
 # Volatile placeholders — matched inside STABLE zone only.

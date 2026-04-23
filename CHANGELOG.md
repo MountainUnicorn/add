@@ -27,6 +27,25 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 _(Nothing yet — tracking items go here between releases.)_
 
+## [0.9.1] — 2026-04-23
+
+Beta-polish release. Closes the four follow-ups that accumulated after v0.9.0 shipped: the last plugin-family-review leak, the time-boxed beta-promotion CI exemption, the Claude rule-parity drift, and the cache-discipline validator false-positive that Swarm A flagged at M3 merge.
+
+### Fixed
+
+- **`/add:version` cross-runtime path resolution.** The skill only documented reading `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`, which has no Codex equivalent. Added a three-source fallback (`plugin.json` → `plugin.toml` → `VERSION`) so the same skill body works on both runtimes — first hit wins, silent fall-through when a source is absent. Removes the last F-002 allowlist entry in `tests/codex-install/test-install-paths.sh`.
+- **Claude rule-parity drift (F-011).** `runtimes/claude/CLAUDE.md` was importing 15 rules via `@rules/` — it's been stuck at that count since before M3. The four rules landed in v0.9.0 (`cache-discipline`, `injection-defense`, `secrets-handling`, `telemetry`) are now imported, and the "15 files" count in the Plugin Structure tree diagram is now "19 files". New regression test `tests/rule-parity/test-rule-parity.sh` prevents future drift: asserts every `core/rules/*.md` has a matching `@rules/` import and that the tree-diagram count matches reality.
+- **Cache-discipline validator false-positive on `core/skills/init/SKILL.md:1039` (F-018).** `scripts/validate-cache-discipline.py` was matching `/add:verify — run quality gates` (prose in `/add:init`'s output-preview block) as a sub-agent dispatch because its verb list included `run` and `call`. Tightened the 4th `DISPATCH_PATTERN` to require dispatch-specific verbs (`invoke`, `dispatch`, `sub-agent`) and made the regex order-agnostic so "Invoke the /add:test-writer skill" (verb-first prose in `/add:tdd-cycle`) still matches. Validator now passes clean on the full core tree and strict-mode passes on the four remediated skills.
+
+### Added
+
+- **Guardrail CI workflow** (`.github/workflows/guardrails.yml`) — closes the F-005 exemption from the v0.9.0 beta promotion. Runs every local fixture-based suite (93 tests across 10 suites) in parallel on PRs and pushes to main, plus frontmatter validation, cache-discipline validation (default + strict), and Claude marketplace manifest validation (with a grep guard because `claude plugin validate` exits 0 even on schema failure — discovered during v0.8.1 F-001).
+- **`tests/rule-parity/test-rule-parity.sh`** — drift guard for F-011. Three checks: every `core/rules/*.md` has a `@rules/` import in `runtimes/claude/CLAUDE.md`, every `@rules/` import points at a real file, and the tree-diagram count matches.
+
+### Changed
+
+- **Beta-promotion exemption cleared.** `.add/config.json` `maturity.exemptions` was holding `[F-005 guardrail CI wiring]` as a time-boxed promise from the v0.9.0 alpha→beta promotion. Now empty.
+
 ## [0.9.0] — 2026-04-23
 
 **Pre-GA hardening.** Ships the full M3 milestone in a single coordinated release: seven feature specs built in parallel by agent swarms during a `/add:away` session, squash-merged sequentially with rebase resolutions, and promoted through the v0.8.1 hotfix after the plugin-family review surfaced three shipping bugs. **Maturity: alpha → beta.** ADD is now production-credible for the methodology it prescribes: TDD guardrails that bite, secrets handling that gates deploy, prompt-injection defense with a scan hook and threat model, Codex-native skill emission, OTel-aligned telemetry, stable-prefix cache discipline, tool-portable AGENTS.md generation, and a test-deletion guardrail that defends the signature TDD claim.
