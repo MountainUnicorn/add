@@ -98,7 +98,7 @@ Sticky header with `backdrop-filter: blur(12px)`, `background: rgba(15,15,35,0.9
 - Project name from config
 - Maturity pill (color-coded)
 - "Generated: {ISO timestamp}" in muted text
-- 6 nav anchor links: Outcome Health | Hill Chart | Cycle Progress | Decision Queue | Intelligence | Timeline
+- 7 nav anchor links: Outcome Health | Hill Chart | Cycle Progress | Decision Queue | Intelligence | Cost & Velocity | Timeline
 - Small note: "Run /add:dashboard to regenerate"
 
 ### Panel 1 — Outcome Health
@@ -178,7 +178,59 @@ If `.add/retro-scores.json` exists with entries, render SVG line chart:
 - X-axis: dates, Y-axis: 0.0-9.0 scale
 - Dots on data points with `<title>` tooltips
 
-### Panel 6 — Project Timeline
+### Panel 6 — Cost & Velocity (Telemetry)
+
+Aggregates `.add/telemetry/*.jsonl` (OpenTelemetry GenAI-aligned structured trace — see `rules/telemetry.md`). **This is the only dashboard-side consumer of telemetry files; skills themselves never read them** (AC-004).
+
+**Read path (AC-020, AC-024):**
+
+1. Glob `.add/telemetry/*.jsonl`. If the directory is missing, render "Telemetry not enabled — run with `telemetry.enabled: true` in `.add/config.json` to capture per-skill cost/velocity."
+2. Stream each file **line-by-line**. `json.loads` per line.
+3. **Malformed lines MUST be skipped with a counter** — do not abort aggregation (AC-024). Surface `Parse warnings: {N} malformed telemetry lines skipped` in the Parse Warnings section at the bottom.
+4. Do not load telemetry into LLM context. Summarize and discard.
+
+**Aggregations (AC-021, AC-022):**
+
+- **Per-skill:** invocation count, total input tokens, total output tokens, total `gen_ai.usage.cache_read_input_tokens` (null-safe sum), total duration, success rate, mean `cache_hit_ratio` (ignore nulls).
+- **Per-cycle:** join on `spec_id` → cycle membership (read from `.add/cycles/*.md`). Totals: invocations, tokens, duration.
+- **Per-spec:** group by `spec_id`. Totals same as per-cycle.
+
+**Panel layout:**
+
+```
+━━━ COST & VELOCITY ━━━
+Period: last 30 days  |  Total invocations: N  |  Success rate: N.N%  |  Avg cache-hit ratio: N.NN
+
+Per Skill (top 5 by invocations)
+| Skill | Invocations | Input Tokens | Output Tokens | Cache Reads | Avg Duration | Cache-Hit Ratio |
+|-------|-------------|--------------|---------------|-------------|--------------|-----------------|
+| tdd-cycle | 42 | 521,400 | 134,820 | 398,200 | 38.1s | 0.76 |
+...
+
+[Inline SVG trend chart — tokens (left axis) & invocations (right axis) over 30 days]
+
+Per Cycle
+| Cycle | Invocations | Total Tokens | Duration | Success |
+|-------|-------------|--------------|----------|---------|
+...
+
+Per Spec
+| Spec | Invocations | Total Tokens |
+|------|-------------|--------------|
+...
+```
+
+**SVG trend chart (AC-023):** Inline `<svg>`, no `<script>`, no CDN. X-axis = day (last 30), left Y = tokens, right Y = invocations. Two `<polyline>` elements (tokens in `var(--accent)`, invocations in `var(--info)`). Dots with `<title>` tooltips per day.
+
+**Cache-hit ratio presentation:** if a skill's entries all have `cache_hit_ratio: null`, render "—" rather than `0.00` (distinguishes "unknown" from "no hits").
+
+**Export hint** (static text in the panel):
+
+> Export telemetry to an OTel-compatible collector:
+> `cat .add/telemetry/*.jsonl | jq -c '.' | vector --config otel.toml`
+> or any of: Datadog, Honeycomb, Helicone, Langfuse, Braintrust (no translation needed — field names match OTel GenAI conventions).
+
+### Panel 7 — Project Timeline
 
 Horizontal scrollable timeline with chronological events:
 - Vertical line running left to right
