@@ -78,13 +78,20 @@ expect_exit "empty-before" 0 "$exit_code"
 exit_code=$(run_gate "rename")
 expect_exit "rename (body-hash match under new name)" 0 "$exit_code"
 
-# Test 7: replacement without approval -> FAIL
+# Test 7: replacement without --allow-test-rewrite (no flag) -> FAIL
 exit_code=$(run_gate "replacement-without-approval")
-expect_exit "replacement-without-approval" 1 "$exit_code"
+expect_exit "replacement-without-approval (no flag)" 1 "$exit_code"
 
-# Test 8: replacement with approval -> PASS
-exit_code=$(run_gate "replacement-with-approval")
-expect_exit "replacement-with-approval" 0 "$exit_code"
+# Test 7b (regression for F-003): --allow-test-rewrite alone without a recorded
+# override must FAIL. The flag acknowledges intent but does not bypass approval.
+# NOTE: reuses the 'replacement-without-approval' fixture (no overrides.json),
+# just adds the flag — proves the flag alone is insufficient.
+exit_code=$(run_gate "replacement-without-approval" "--allow-test-rewrite")
+expect_exit "replacement-with-flag-no-override (F-003 bypass closed)" 1 "$exit_code"
+
+# Test 8: replacement with --allow-test-rewrite AND recorded override -> PASS
+exit_code=$(run_gate "replacement-with-approval" "--allow-test-rewrite")
+expect_exit "replacement-with-approval (flag + override)" 0 "$exit_code"
 
 # Test 9: missing GREEN snapshot -> FAIL with canonical message
 missing_tmp="$(mktemp -d)"

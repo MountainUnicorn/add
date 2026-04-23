@@ -499,24 +499,39 @@ def apply_gate(
                 ".add/cycles/cycle-{N}/overrides.json"
             )
 
-    if replaced and not allow_test_rewrite:
-        # Replacements: same name, body hash differs. Any replacement without override fails.
-        covered_names: set[str] = set()
-        for ov in overrides:
-            for aff in ov.get("affected_tests", []):
-                covered_names.add(aff)
-        uncovered_rep = [
-            r for r in replaced
-            if f"{r['path']}::{r['name']}" not in covered_names
-        ]
-        if uncovered_rep:
+    if replaced:
+        # Replacements: same name, body hash differs. Require BOTH the explicit
+        # --allow-test-rewrite acknowledgment AND a recorded override/trailer.
+        # The flag alone does not bypass approval — it only acknowledges that a
+        # replacement was intentional. Coverage still must be explicit.
+        if not allow_test_rewrite:
             fail = True
             reasons.append(
-                f"tests_replaced={len(uncovered_rep)} without --allow-test-rewrite + "
-                "recorded approval — same-name body rewrite is a TDD-cycle violation"
+                f"tests_replaced={len(replaced)} — same-name body rewrite is a "
+                "TDD-cycle violation. Rerun with --allow-test-rewrite AND record "
+                "an override in .add/cycles/cycle-{N}/overrides.json (or add an "
+                "[ADD-TEST-DELETE: <reason>] commit trailer in the range)."
             )
-            for r in uncovered_rep:
+            for r in replaced:
                 reasons.append(f"  replaced: {r['path']}::{r['name']}")
+        else:
+            covered_names: set[str] = set()
+            for ov in overrides:
+                for aff in ov.get("affected_tests", []):
+                    covered_names.add(aff)
+            uncovered_rep = [
+                r for r in replaced
+                if f"{r['path']}::{r['name']}" not in covered_names
+            ]
+            # Commit trailer is a blanket cover (same policy as removals above).
+            if uncovered_rep and not commit_trailer_reasons:
+                fail = True
+                reasons.append(
+                    f"tests_replaced={len(uncovered_rep)} — --allow-test-rewrite "
+                    "set but no matching override record or commit trailer found"
+                )
+                for r in uncovered_rep:
+                    reasons.append(f"  replaced: {r['path']}::{r['name']}")
 
     return (not fail, reasons)
 
