@@ -781,40 +781,47 @@
     <h2>Skills</h2>
     <p class="section-desc">26 skills for orchestration and execution. 15 rules for behavior. <a href="/docs/skills" style="color: var(--accent);">Full reference &rarr;</a></p>
 
-    <h3 style="font-size: 18px; margin-bottom: 16px;">Setup &amp; Orchestration</h3>
+    <h3 style="font-size: 18px; margin-bottom: 16px;">Project Setup, Cycles &amp; Workflow</h3>
     <table class="commands-table">
       <thead>
         <tr><th>Skill</th><th>Purpose</th><th>Output</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>/add:init</code></td><td>Bootstrap ADD via structured interview</td><td>.add/ directory, config, PRD</td></tr>
+        <tr><td><code>/add:init</code></td><td>Bootstrap ADD via structured PRD interview</td><td>.add/ directory, config, PRD</td></tr>
         <tr><td><code>/add:spec</code></td><td>Create feature specification through interview</td><td>specs/{feature}.md</td></tr>
+        <tr><td><code>/add:plan</code></td><td>Implementation plan from spec</td><td>docs/plans/{feature}-plan.md</td></tr>
+        <tr><td><code>/add:ux</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.6+</span></td><td>UX design sign-off gate before implementation</td><td>docs/ux/{feature}-design.md</td></tr>
         <tr><td><code>/add:cycle</code></td><td>Plan, track, and complete work cycles</td><td>.add/cycles/cycle-{N}.md</td></tr>
+        <tr><td><code>/add:retro</code></td><td>Retrospective — auto-gathered metrics + scoring</td><td>.add/retros/retro-{date}.md</td></tr>
         <tr><td><code>/add:away</code></td><td>Declare absence — get autonomous work plan</td><td>Away log + work plan</td></tr>
-        <tr><td><code>/add:back</code></td><td>Return from absence — get briefing</td><td>Status report + decisions</td></tr>
-        <tr><td><code>/add:retro</code></td><td>Retrospective — capture and promote learnings</td><td>Updated learnings + archive</td></tr>
-        <tr><td><code>/add:brand</code></td><td>View branding — drift detection, image gen status</td><td>Branding report</td></tr>
-        <tr><td><code>/add:brand-update</code></td><td>Update branding — new colors, fonts, tone</td><td>Updated config + artifacts</td></tr>
-        <tr><td><code>/add:changelog</code></td><td>Generate CHANGELOG from conventional commits</td><td>CHANGELOG.md</td></tr>
-        <tr><td><code>/add:dashboard</code></td><td>Generate visual HTML project dashboard</td><td>HTML dashboard</td></tr>
+        <tr><td><code>/add:back</code></td><td>Return briefing from autonomous session</td><td>Status report + decisions</td></tr>
+        <tr><td><code>/add:roadmap</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.6+</span></td><td>Roadmap horizon management — Now / Next / Later</td><td>Roadmap state</td></tr>
+        <tr><td><code>/add:milestone</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.6+</span></td><td>Milestone operations — list, switch, split, rescope</td><td>docs/milestones/M{N}.md</td></tr>
+        <tr><td><code>/add:promote</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.6+</span></td><td>Maturity promotion — 14-category gap analysis</td><td>Maturity bump + report</td></tr>
+        <tr><td><code>/add:learnings</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.8+</span></td><td>Learning lifecycle — migrate / archive / stats</td><td>.add/learnings-active.md</td></tr>
+        <tr><td><code>/add:version</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.7+</span></td><td>Show installed + project version, upgrade status</td><td>Version status report</td></tr>
       </tbody>
     </table>
 
-    <h3 style="font-size: 18px; margin-bottom: 16px;">Development &amp; Execution</h3>
+    <h3 style="font-size: 18px; margin-bottom: 16px; margin-top: 32px;">TDD Cycle, Delivery &amp; Visual</h3>
     <table class="commands-table">
       <thead>
-        <tr><th>Skill</th><th>Purpose</th><th>Phase</th></tr>
+        <tr><th>Skill</th><th>Purpose</th><th>Phase / Output</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>/add:plan</code></td><td>Create implementation plan from spec</td><td>Planning</td></tr>
         <tr><td><code>/add:tdd-cycle</code></td><td>Complete RED &rarr; GREEN &rarr; REFACTOR &rarr; VERIFY</td><td>Full TDD</td></tr>
-        <tr><td><code>/add:test-writer</code></td><td>Write failing tests from spec acceptance criteria</td><td>RED</td></tr>
+        <tr><td><code>/add:test-writer</code></td><td>Write failing tests from acceptance criteria</td><td>RED</td></tr>
         <tr><td><code>/add:implementer</code></td><td>Minimal code to pass tests</td><td>GREEN</td></tr>
-        <tr><td><code>/add:reviewer</code></td><td>Code review for spec compliance</td><td>REFACTOR</td></tr>
-        <tr><td><code>/add:verify</code></td><td>Run quality gates (lint, types, tests, coverage)</td><td>VERIFY</td></tr>
-        <tr><td><code>/add:optimize</code></td><td>Performance optimization pass</td><td>Optimization</td></tr>
-        <tr><td><code>/add:deploy</code></td><td>Environment-aware deployment</td><td>Deployment</td></tr>
-        <tr><td><code>/add:infographic</code></td><td>Generate project infographic SVG</td><td>Documentation</td></tr>
+        <tr><td><code>/add:reviewer</code></td><td>Spec compliance + code review</td><td>REFACTOR</td></tr>
+        <tr><td><code>/add:verify</code></td><td>5-level quality gates (lint, types, tests, spec, smoke)</td><td>VERIFY</td></tr>
+        <tr><td><code>/add:optimize</code></td><td>Performance optimization pass with TDD discipline</td><td>Perf tests + optimized code</td></tr>
+        <tr><td><code>/add:deploy</code></td><td>Environment-aware deployment, autonomous through staging</td><td>Commit, push, deploy</td></tr>
+        <tr><td><code>/add:changelog</code></td><td>CHANGELOG from conventional commits</td><td>CHANGELOG.md</td></tr>
+        <tr><td><code>/add:brand</code></td><td>View branding — drift detection, image-gen status</td><td>Branding report</td></tr>
+        <tr><td><code>/add:brand-update</code></td><td>Update branding — colors, fonts, tone, artifacts</td><td>Updated config</td></tr>
+        <tr><td><code>/add:infographic</code></td><td>Project infographic SVG from PRD + branding</td><td>docs/infographic.svg</td></tr>
+        <tr><td><code>/add:docs</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.6+</span></td><td>Architecture diagrams, API docs, README drift detection</td><td>Architecture + API docs</td></tr>
+        <tr><td><code>/add:dashboard</code> <span style="font-size:10px; padding:1px 6px; background: rgba(176,1,73,0.15); color: var(--accent-light); border-radius: 4px; font-weight: 600;">v0.6+</span></td><td>Self-contained HTML project dashboard</td><td>reports/dashboard.html</td></tr>
       </tbody>
     </table>
     </div>

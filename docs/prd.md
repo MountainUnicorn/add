@@ -584,6 +584,8 @@ This PRD was created *using* ADD methodology:
 
 ## Appendix B: Success Criteria for v0.1.0 Completion
 
+> **Historical record.** These were the launch criteria for v0.1.0 (2026-02-07). All were met. They describe the v0.1.0 surface area, not current state — today's plugin (v0.8.0) ships 26 skills, 15 rules, 21 templates, 2 hook scripts, and supports both Claude Code and Codex CLI runtimes. See [README.md](../README.md) and [/docs/skills](https://getadd.dev/docs/skills) for the current reference.
+
 - ✓ 5 commands implemented and working
 - ✓ 8 skills implemented and composable
 - ✓ 9 rules enforcing ADD principles
