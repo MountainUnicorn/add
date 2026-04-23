@@ -925,6 +925,10 @@ If CLAUDE.md already exists, ask before overwriting. Offer to append ADD-specifi
 
 Read ~/.codex/add/templates/learnings.md.template and fill in the project name. This is the knowledge base that agents build over time through automatic checkpoints. Committed to git so it transfers between devices.
 
+### Step 3.6: Generate AGENTS.md
+
+Invoke `/add:agents-md` to generate a portable `AGENTS.md` at project root. This is the cross-tool open standard — any agent (Cursor, Codex CLI, Copilot, Windsurf, etc.) reading the repo will pick it up. Generation is maturity-aware: POC projects get a minimal bullet summary, Alpha+ projects get a sectioned doc. If an `AGENTS.md` already exists without the ADD marker block, skip this step and recommend the user run `/add:agents-md --merge` after init completes.
+
 ## Phase 4: Cross-Project Persistence
 
 ### Step 4.1: User Profile

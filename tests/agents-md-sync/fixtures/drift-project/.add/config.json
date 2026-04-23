@@ -1,0 +1,19 @@
+{
+  "version": "0.9.0",
+  "project": {
+    "name": "DriftCo",
+    "description": "A project whose AGENTS.md has drifted from source."
+  },
+  "maturity": {
+    "level": "alpha"
+  },
+  "architecture": {
+    "languages": [
+      {"name": "Go", "version": "1.22", "role": "backend"}
+    ]
+  },
+  "environments": {
+    "tier": 1,
+    "local": {"run": "go run ."}
+  }
+}

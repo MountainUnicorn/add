@@ -33,3 +33,17 @@ case "$FILE" in
     "$SCRIPT_DIR/filter-learnings.sh" "$FILE" "$MAX" 2>/dev/null || true
     ;;
 esac
+
+# agents-md-sync: mark AGENTS.md stale when source inputs change.
+# Silent no-op when the project has no AGENTS.md (not every consumer opts in).
+case "$FILE" in
+  *.add/config.json|*core/rules/*.md|*core/skills/*/SKILL.md)
+    if [ -f AGENTS.md ] && [ -d .add ]; then
+      REL="${FILE#"$PWD/"}"
+      TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+      # Atomic write — touch is idempotent; concurrent fires are safe.
+      printf '{"timestamp":"%s","changed":["%s"]}\n' "$TS" "$REL" \
+        > .add/agents-md.stale 2>/dev/null || true
+    fi
+    ;;
+esac

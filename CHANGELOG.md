@@ -6,6 +6,11 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+### Added
+
+- **`/add:agents-md` skill** — generates a tool-portable `AGENTS.md` at project root from `.add/` state. Maturity-aware verbosity (POC bullets → Alpha sectioned → Beta full → GA full + team conventions). ADD-managed content wrapped in `<!-- ADD:MANAGED:START … -->` markers so user-authored sections survive regeneration. Modes: `--write` (default), `--check` (CI drift gate, exit 1 on drift), `--merge` / `--import` (absorb hand-curated files). Implemented as `scripts/generate-agents-md.py` plus `core/skills/agents-md/SKILL.md`; fixture tests cover POC/Alpha/Beta render, drift detection, merge flow, idempotency, and staleness-marker clearing. Integrated into `/add:init` (initial generation) and `/add:spec` (active-spec pointer update). Opt-in `agentsMd.gateOnVerify` in `.add/config.json` enables Gate 4.5 in `/add:verify`.
+- **PostToolUse staleness hook for AGENTS.md** — `runtimes/claude/hooks/post-write.sh` now writes `.add/agents-md.stale` when `.add/config.json`, `core/rules/*.md`, or `core/skills/*/SKILL.md` changes and an `AGENTS.md` exists at root. The hook never auto-rewrites AGENTS.md — the human triggers regen.
+
 ### Changed
 
 - **Marketing site extracted to a separate repo** ([`MountainUnicorn/getadd.dev`](https://github.com/MountainUnicorn/getadd.dev)) so future commercial elements can land there without touching the open-source plugin. Full git history (38 commits) preserved via `git filter-repo`. Domain `getadd.dev` re-claimed on the new repo with the existing TLS cert. The plugin repo no longer contains `website/`, `.github/workflows/pages.yml`, or `scripts/deploy-website.sh`. The architecture SVG used by the README moved from `website/images/` to `docs/`.

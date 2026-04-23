@@ -24,6 +24,11 @@ frontmatter:
 # Codex consumes content in two shapes:
 #   1. AGENTS.md — root context, auto-loaded. Built from concat(knowledge, rules).
 #   2. ~/.codex/prompts/add-{skill}.md — custom prompts, invoked explicitly.
+#
+# Note: The AGENTS.md emitted here is ADD's own runtime plumbing for the Codex
+# CLI — it is NOT the project-level AGENTS.md produced by the `/add:agents-md`
+# skill. The skill's output lives at the consuming project's root; this file
+# ships with the ADD plugin install.
 output_shape:
   agents_md:
     from: [core/knowledge/global.md, core/rules/*.md]
