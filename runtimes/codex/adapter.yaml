@@ -29,9 +29,9 @@ path_vars:
 # Codex prompts have no frontmatter — the Claude extensions get stripped.
 frontmatter:
   skills:
-    strip: [description, argument-hint, allowed-tools, disable-model-invocation]
+    strip: [description, argument-hint, allowed-tools, disable-model-invocation, references]
   rules:
-    strip: [autoload, maturity, description, globs]
+    strip: [autoload, maturity, description, globs, references]
 
 # Codex consumes content in the native layout:
 #   1. AGENTS.md                                     — root context, slim manifest (≤500 lines)
@@ -42,10 +42,14 @@ frontmatter:
 #   6. .codex/hooks.json                             — hook registration
 #   7. .codex/hooks/*.sh                             — hook shell scripts (mode 0755)
 #   8. plugin.toml                                   — Codex plugin manifest
+#   9. references/*.md                               — on-demand reference content (PR #6).
+#      Prompts read these via the shell sandbox (e.g., `cat ~/.codex/add/references/learning-reference.md`).
+#      Mirrors the Claude runtime's on-demand loading; token savings symmetric across both runtimes.
 output_shape:
   agents_md:
     from: [core/knowledge/global.md, core/rules/*.md]
-    strategy: slim_manifest            # autoload: always only; skills table generated
+    filter: "autoload != false"        # rules with autoload:false skip the concat — loaded on demand
+    strategy: slim_manifest            # autoload: true only; skills table generated
     max_lines: 500                     # compile fails above this
   skills:
     from: core/skills/*/SKILL.md
@@ -67,6 +71,10 @@ output_shape:
     emit_to: .codex/hooks/
     mode: "0755"
     manifest: .codex/hooks.json
+  references:
+    from: core/references/
+    emit_to: references/
+    copy_verbatim: true             # shipped alongside skills; prompts read these on demand
   templates:
     from: core/templates/
     copy_verbatim: true

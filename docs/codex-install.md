@@ -62,6 +62,7 @@ Same methodology, same spec/plan/TDD/verify flow. The only differences from the 
 2. **Free-text confirmations.** Codex has no structured `AskUserQuestion` equivalent, so the Confusion Protocol and Confirmation Gate use plain prompts instead of clickable popups. Read the rule in `~/.codex/add/AGENTS.md` > "Confirmation Gate" if you want the same discipline.
 3. **Un-namespaced prompts.** Claude Code uses `/add:spec`; Codex uses `/add-spec`. The prompts are invoked via Codex's custom-prompt mechanism.
 4. **Flat autoload.** Claude Code selectively loads rules by maturity. Codex concatenates all rules into one `AGENTS.md`. The `maturity-loader.md` rule is preserved so the agent still filters behaviorally — it just loads the full text.
+5. **On-demand references** (v0.9.0+). Both runtimes ship `references/*.md` files — full learning-system reference, swarm protocol, design system, quality-checks matrix, image-gen detection — that are *not* autoloaded. Skills that need them read the file at runtime. On Codex, `AGENTS.md` omits any rule marked `autoload: false`, and prompts invoke e.g. `cat ~/.codex/add/references/learning-reference.md` when they need the full template set. Token savings from on-demand loading are preserved symmetrically across both runtimes.
 
 ## Staying In Sync
 
