@@ -1,6 +1,8 @@
 {
   "name": "add-marketplace",
-  "description": "Agent Driven Development — AI-native SDLC methodology plugin for Claude Code",
+  "metadata": {
+    "description": "Agent Driven Development — AI-native SDLC methodology plugin for Claude Code and Codex CLI."
+  },
   "owner": {
     "name": "MountainUnicorn",
     "email": "anthony@getadd.dev"
@@ -8,7 +10,7 @@
   "plugins": [
     {
       "name": "add",
-      "description": "Agent Driven Development (ADD) — Coordinated AI agent teams: test-writers, implementers, reviewers, deployers. Spec-driven TDD, trust-but-verify orchestration, maturity lifecycle, away mode, cross-project learning. 13 commands, 12 skills, 15 rules. Zero dependencies.",
+      "description": "Agent Driven Development (ADD) — AI-native SDLC methodology. Coordinated agent teams: test-writers, implementers, reviewers, deployers. Spec-driven TDD, trust-but-verify orchestration, maturity lifecycle, away mode, cross-project learning. Multi-runtime (Claude Code + Codex CLI), zero dependencies.",
       "author": {
         "name": "MountainUnicorn"
       },
