@@ -65,6 +65,7 @@ jobs:
           - telemetry-jsonl/test-telemetry-jsonl.sh
           - security/test-prompt-injection-defense.sh
           - rule-parity/test-rule-parity.sh
+          - jq-dependency/test-jq-claim-qualified.sh
     steps:
       - uses: actions/checkout@v4
       - name: Install jq
