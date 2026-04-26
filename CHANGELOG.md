@@ -25,7 +25,15 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
-_(Nothing yet — tracking items go here between releases.)_
+### Changed
+
+- **`jq` declared as a documented runtime dependency (F-017).** The "zero runtime dependencies" claim in `README.md`, `CONTRIBUTING.md`, `docs/prd.md`, and `.claude-plugin/marketplace.json` was technically inaccurate — runtime hook scripts shipped since v0.7 invoke `jq`. Each of those four prose sites is now qualified ("zero agent-side runtime dependencies; `jq` required for hook scripts") and links to a new canonical reference doc. Hook code is unchanged — Strategy A from [`specs/jq-dependency-declaration.md`](specs/jq-dependency-declaration.md). Historical text in `docs/milestones/`, prior `CHANGELOG.md` entries, and earlier specs is preserved untouched.
+
+### Added
+
+- **`docs/runtime-dependencies.md`** — canonical reference for runtime dependencies. Documents `jq`'s role across the six hook invocation sites, install commands for macOS, Debian/Ubuntu, Fedora/RHEL, Arch, Alpine, openSUSE, Windows (Chocolatey + scoop + WSL), and Nix, the verification one-liner, and the per-site degradation behavior when `jq` is absent (2 hard-fail sites, 3 soft-fail sites).
+- **`tests/jq-dependency/test-jq-claim-qualified.sh`** — fixture-based regression guard. Greps the four in-scope prose files for the bare claim, asserts `docs/runtime-dependencies.md` exists and is referenced from each claim site, and verifies historical text was preserved untouched.
+- **Dependency-claim guard** in `.github/workflows/guardrails.yml` — runs the new test on every PR / `main` push so the bare phrasing cannot regress silently.
 
 ## [0.9.2] — 2026-04-26
 

@@ -71,7 +71,7 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 - ✓ 2 manifests: plugin.json, marketplace.json
 
 **Delivered via**:
-- Pure markdown + JSON (no compiled code, no runtime dependencies)
+- Pure markdown + JSON (no compiled code, no agent-side runtime dependencies; `jq` required for hook scripts — see [`docs/runtime-dependencies.md`](runtime-dependencies.md))
 - Claude Code plugin format (`.claude-plugin/plugin.json`)
 - Local-only Tier 1 environment
 
@@ -505,7 +505,7 @@ $ /add:init --adopt
 
 ### 7.3 Maintainability
 
-- **Code-free design**: No compiled code, no runtime dependencies, pure markdown + JSON
+- **Code-free design**: No compiled code, no agent-side runtime dependencies, pure markdown + JSON (`jq` required for hook scripts — see [`docs/runtime-dependencies.md`](runtime-dependencies.md))
 - **Template portability**: All templates use {PLACEHOLDER} syntax (portable across projects)
 - **Version compatibility**: Backward-compatible minor versions; migration guide for major versions
 - **Documentation**: README + getting started guide + per-command docs

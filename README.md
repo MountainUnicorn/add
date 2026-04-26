@@ -88,7 +88,7 @@ This installs ADD as Codex custom prompts + AGENTS.md template. See [Codex insta
 
 Hitting issues? See [TROUBLESHOOTING.md](https://github.com/MountainUnicorn/add/blob/main/TROUBLESHOOTING.md) for stale-cache recovery, rule-loading verification, and common first-run errors.
 
-ADD has **zero runtime dependencies** and **no build step** on the consumer side — it's pure markdown and JSON.
+ADD has **zero agent-side runtime dependencies** and **no build step** on the consumer side — it's pure markdown and JSON. The hook scripts shipped with the Claude Code adapter require `jq` (`brew install jq` on macOS, `apt install jq` on Debian/Ubuntu); see [docs/runtime-dependencies.md](https://github.com/MountainUnicorn/add/blob/main/docs/runtime-dependencies.md) for the full per-OS install matrix and what degrades if `jq` is absent.
 
 ---
 
@@ -389,7 +389,7 @@ Retrospectives update `.add/learnings.md`, promote patterns to `~/.claude/add/li
 
 ADD is intentionally simple:
 
-- **No runtime dependencies** — Pure markdown and JSON files
+- **No agent-side runtime dependencies** — Pure markdown and JSON files (the Claude hook scripts require `jq`; see [docs/runtime-dependencies.md](https://github.com/MountainUnicorn/add/blob/main/docs/runtime-dependencies.md))
 - **No build step** — Install and use immediately
 - **No backend** — Everything lives in your git repo (`.add/`) or locally (`~/.claude/add/`)
 - **No vendor lock-in** — Standard markdown specs and plans work with any tool
