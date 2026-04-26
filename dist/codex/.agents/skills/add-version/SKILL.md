@@ -1,10 +1,10 @@
 ---
 name: add-version
-description: "[ADD v0.9.1] Show installed version, project version, and upgrade status"
+description: "[ADD v0.9.2] Show installed version, project version, and upgrade status"
 argument-hint: "[--check]"
 ---
 
-# ADD Version Command v0.9.1
+# ADD Version Command v0.9.2
 
 Show the current ADD version, compare project config version to plugin version, and flag drift.
 

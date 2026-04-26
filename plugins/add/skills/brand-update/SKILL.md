@@ -1,10 +1,10 @@
 ---
-description: "[ADD v0.9.1] Update project branding — new colors, fonts, tone, audit artifacts"
+description: "[ADD v0.9.2] Update project branding — new colors, fonts, tone, audit artifacts"
 allowed-tools: [Read, Write, Edit, Glob, Grep, AskUserQuestion]
 references: ["design-system.md"]
 ---
 
-# ADD Brand Update Command v0.9.1
+# ADD Brand Update Command v0.9.2
 
 Update the project's branding configuration with new materials and audit existing generated artifacts for brand consistency. Optionally apply fixes to bring artifacts in line with the new brand.
 

@@ -1,6 +1,6 @@
 ---
 name: add-init
-description: "[ADD v0.9.1] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v0.9.2] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 
 ---
 
-# ADD Init Command v0.9.1
+# ADD Init Command v0.9.2
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 

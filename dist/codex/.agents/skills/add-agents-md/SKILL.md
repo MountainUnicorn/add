@@ -1,10 +1,10 @@
 ---
 name: add-agents-md
-description: "[ADD v0.9.1] Generate or sync a portable AGENTS.md from ADD project state — writes, checks drift, or merges with hand-curated content"
+description: "[ADD v0.9.2] Generate or sync a portable AGENTS.md from ADD project state — writes, checks drift, or merges with hand-curated content"
 argument-hint: "[--write|--check|--merge|--import] [--dry-run]"
 ---
 
-# ADD AGENTS.md Skill v0.9.1
+# ADD AGENTS.md Skill v0.9.2
 
 Generate a portable [`AGENTS.md`](https://agents.md) at project root from the project's `.add/` state. `AGENTS.md` is the cross-tool open standard for project-level agent instructions — any agent (Claude Code, Cursor, Codex CLI, Windsurf, Amp, Devin, Copilot) will read it on session start. Publishing one lets mixed-toolchain teams respect the same invariants without installing ADD.
 

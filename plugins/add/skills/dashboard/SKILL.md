@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.9.1] Generate a visual HTML project dashboard from .add/ project files"
+description: "[ADD v0.9.2] Generate a visual HTML project dashboard from .add/ project files"
 argument-hint: "[--open]"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 references: ["design-system.md"]
 ---
 
-# ADD Dashboard Command v0.9.1
+# ADD Dashboard Command v0.9.2
 
 Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading the project's `.add/` directory, specs, docs, and config. The file opens in the browser and gives anyone — developer, PM, or founder — a real-time picture of the project's state.
 
