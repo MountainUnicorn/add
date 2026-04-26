@@ -57,10 +57,19 @@ break: "Context may contain leaked credentials from `{path}`. Consider `/clear`.
 - **`.secretsignore` template** — `/add:init` copies `templates/.secretsignore.template`
   to project root only if absent. Never overwrite. On create, print:
   `Wrote .secretsignore (commit this — your team shares the policy).`
-- **Pre-commit secrets gate** — `/add:deploy` scans staged content against the
-  catalog. Match aborts the commit. `--allow-secret` requires typing
-  `I have verified this is not a real secret` exactly (case-sensitive, full
-  string). Override logged to `.add/observations.md`. Details in
+- **Pre-commit gate is enforced by `lib/scan-secrets.sh`.** Skills and hooks
+  delegate to that script — never re-implement the catalog inline. The
+  scanner reads `core/security/secret-patterns.json` (executable catalog,
+  kept in sync with `core/knowledge/secret-patterns.md` by
+  `scripts/validate-secret-patterns.py`), scans `git diff --cached` against
+  every pattern, respects `.secretsignore`, honors a
+  `[ADD-SECRET-OVERRIDE: SEC-NNN (reason)]` commit-message trailer, and
+  exits non-zero on any unsuppressed match. `/add:deploy` invokes it at
+  Step 1.5; `/add:verify --level deploy` invokes it as Gate 4.6.
+- **Interactive `--allow-secret` confirmation** — when the human is in the
+  loop, `/add:deploy --allow-secret` requires typing `I have verified this
+  is not a real secret` exactly (case-sensitive, full string). Override
+  logged to `.add/observations.md`. Details in
   `core/skills/deploy/SKILL.md` § Pre-commit secrets gate.
 
 ## Boundary
