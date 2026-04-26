@@ -578,4 +578,4 @@ If `.add/observations.md` does not exist, create it with a `# Process Observatio
 
 ### 2. Learning Checkpoint
 
-Write a structured JSON learning entry per the checkpoint trigger in `rules/learning.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+Write a structured JSON learning entry per the checkpoint trigger in `~/.codex/add/references/learning-reference.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.

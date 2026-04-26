@@ -25,7 +25,7 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 
 **Step 1.3: Load template and design system**
 - Read `~/.codex/add/templates/infographic.svg.template`
-- Read `~/.codex/add/rules/design-system.md` for aesthetic guidance
+- Read `~/.codex/add/references/design-system.md` for aesthetic guidance
 - If template missing, HALT with error (plugin installation issue)
 
 **Step 1.4: Check for PRD (optional)**

@@ -253,7 +253,7 @@ Scores must be justified by evidence. If the agent detects its own score seems i
    Create the file with `# ADD Methodology Feedback` header if it doesn't exist.
 
 4. **Update learnings:**
-   Write new learning entries from the retro as structured JSON to the appropriate file (`.add/learnings.json` or `~/.claude/add/library.json`). Follow the checkpoint process in `rules/learning.md`:
+   Write new learning entries from the retro as structured JSON to the appropriate file (`.add/learnings.json` or `~/.claude/add/library.json`). Follow the checkpoint process in `~/.codex/add/references/learning-reference.md`:
    - Classify scope for each new learning
    - Write to the appropriate JSON file
    - Regenerate the corresponding markdown view

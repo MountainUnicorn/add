@@ -122,7 +122,7 @@ cp "$DIST_DIR/plugin.toml" "$ADD_HOME/plugin.toml"
 cp "$DIST_DIR/VERSION" "$ADD_HOME/VERSION"
 
 shared_count=0
-for shared_dir in templates knowledge rules lib security; do
+for shared_dir in templates knowledge rules lib security references; do
   if [ -d "$DIST_DIR/$shared_dir" ]; then
     rm -rf "$ADD_HOME/$shared_dir"
     cp -r "$DIST_DIR/$shared_dir" "$ADD_HOME/$shared_dir"

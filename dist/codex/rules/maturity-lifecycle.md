@@ -49,82 +49,15 @@ Production-grade, long-term support expected. High stability demands. Change vel
 
 ---
 
-## Work Hierarchy: Roadmap → Milestones → Cycles → Features → Tasks
+## Work Hierarchy
 
-The structure that governs all ADD work:
+Roadmap → Milestones → Cycles → Features → Tasks. For full hierarchy definitions (locations, ownership, formats), see `project-structure.md`.
 
-### Roadmap
-**Location:** PRD, `## Roadmap` section  
-**Framing:** Now / Next / Later (no fake dates, no hard commitments)
+Key maturity scaling for the hierarchy:
 
-Each roadmap entry = milestone placeholder:
-- **Name:** M{N} — {SHORT_NAME}
-- **Goal:** 1-2 sentences of what "done" looks like
-- **Success Criteria:** 3-5 checkboxes (not estimates, completion signals)
-- **Target Maturity:** The maturity level this milestone advances toward
-- **Effort Appetite:** How much runway we burn (e.g., "2 weeks" not "3 commits")
-
-### Milestones
-**Location:** `docs/milestones/M{N}-{name}.md`  
-**Ownership:** Human (primary roadmap driver) + agents (execution)
-
-Milestones are the container for related features. Each milestone:
-- **Goal & Success Criteria:** Clear definition of done
-- **Appetite:** Budget (not estimate) for completing the milestone
-- **Hill Chart:** Visual progress map (see below for format)
-- **Features:** Linked list with position tracking (SHAPED → SPECCED → PLANNED → IN_PROGRESS → VERIFIED → DONE)
-- **Dependencies:** What must come first from other milestones
-- **Risks:** Known challenges with mitigation plans
-- **Cycles:** Batches of work (see below)
-- **Retrospective:** Filled in at completion — learnings to capture
-
-### Hill Chart Positions
-Features move through these positions as they progress:
-
-1. **SHAPED** — Idea is roughed out, knows basic problem/solution, uncertain on scope/approach
-2. **SPECCED** — Behavior fully specified, acceptance criteria written, design sketched
-3. **PLANNED** — Assigned to a cycle, dependencies mapped, effort estimated
-4. **IN_PROGRESS** — Active work, code/tests advancing, open PRs
-5. **VERIFIED** — Code complete, tests pass, acceptance criteria checked, QA signed off
-6. **DONE** — Merged to main, deployed to ceiling tier, milestone chart updated
-
-**Hill Metaphor:** Uphill = figuring it out (SHAPED → SPECCED). Downhill = executing (PLANNED → DONE).
-
-### Cycles
-**Location:** `.add/cycles/cycle-{N}.md`  
-**Ownership:** Agents (planning + execution)
-
-A cycle is the next batch of work before human checkpoint. It picks features from the current milestone, assesses dependencies, plans parallelism, and defines validation criteria.
-
-Each cycle:
-- **Work Items:** Features + target positions + effort estimates
-- **Dependency Graph:** Which items must serialize (blocked by what)
-- **Parallel Strategy:** Which items can run simultaneously, file reservations, merge sequence
-- **Validation Criteria:** Per-item acceptance, overall cycle success signals
-- **Cycle Success Criteria:** What "done" means for this cycle (all items verified, QA passed, etc.)
-
-**Cycle Length:** Varies by maturity:
-- POC/Alpha: 1-2 days (rapid iteration, fast checkpoints)
-- Beta: 3-5 days (balanced execution, mid-cycle review)
-- GA: 5-7 days (deeper testing, slower deliberation)
-
-### Features
-**Location:** `specs/{feature}.md`  
-**Ownership:** Agents (implementation) + human (acceptance)
-
-Existing ADD concept. Specs define:
-- **User Story:** Who, what, why
-- **Acceptance Criteria:** Testable conditions (especially important in Beta/GA)
-- **Edge Cases:** Known gotchas
-- **Test Scenarios:** User test cases (Beta/GA only)
-
-### Tasks
-**Location:** TDD cycle execution (inside the feature's test suite)  
-**Ownership:** Agents
-
-Existing ADD concept. Tasks emerge from test-first cycles:
-- Each failing test = a task to make it pass
-- Red → Green → Refactor loop drives discovery
+- **Cycle Length:** POC/Alpha: 1-2 days | Beta: 3-5 days | GA: 5-7 days
+- **Hill Chart Positions:** SHAPED → SPECCED → PLANNED → IN_PROGRESS → VERIFIED → DONE
+- Documentation depth per level is governed by the cascade matrix rows: Milestone Docs, Cycle Planning, Features Per Cycle
 
 ---
 
@@ -156,69 +89,24 @@ Promotion milestones are treated like any other milestone: they advance the proj
 
 ---
 
-## Reading the Room: Context Awareness
+## Agent Mindset by Maturity
 
-**Before any significant action, agents check `.add/config.json` maturity field.**
+Before any significant action, read `.add/config.json` maturity field and adopt the appropriate mindset:
 
-Example behavior shifts:
-
-```json
-{
-  "maturity": "poc"
-}
-```
-→ **Agent mindset:** Move fast, ask forgiveness not permission, skip reviews, TDD is "nice to have"
-
-```json
-{
-  "maturity": "alpha"
-}
-```
-→ **Agent mindset:** Plan ahead, flag blockers early, TDD on critical paths, expect async review
-
-```json
-{
-  "maturity": "beta"
-}
-```
-→ **Agent mindset:** Comprehensive specs, full TDD, all PRs reviewed, pre-deploy QA, parallel features OK
-
-```json
-{
-  "maturity": "ga"
-}
-```
-→ **Agent mindset:** Move deliberately, two reviewers, SLA monitoring, deployment planning, risk assessment per change
+- **POC:** Move fast, skip reviews, TDD optional, freeform commits
+- **Alpha:** Plan ahead, flag blockers, TDD on critical paths, conventional commits
+- **Beta:** Full specs, strict TDD, all PRs reviewed, pre-deploy QA
+- **GA:** Move deliberately, two reviewers, SLA monitoring, risk assessment per change
 
 ### Conflict Resolution
-When another rule says one thing and maturity-lifecycle says another, **maturity wins.**
 
-Examples:
-- TDD rule says "always write tests first" but maturity is POC → TDD is optional
-- Commit discipline rule says "conventional commits required" but maturity is POC → freeform OK
-- Parallel agents rule suggests "run 4 agents in parallel" but maturity is Alpha → max 2, avoid serialization
-
----
+When another rule conflicts with maturity-lifecycle, **maturity wins.** Examples: TDD rule says "always test first" but maturity is POC → TDD optional. Parallel agents suggests 4 agents but maturity is Alpha → max 2.
 
 ## Using This Rule
 
-### For Agents
-Every action starts here:
-1. Read `.add/config.json` and find maturity level
-2. Cross-reference this rule's cascade matrix
+1. Read `.add/config.json` maturity level before every action
+2. Cross-reference the cascade matrix above
 3. Adjust behavior: relaxed for POC/Alpha, strict for Beta/GA
 4. When in doubt, escalate to human
-
-### For Humans
-Every cycle, every milestone, ask:
-1. "Are we still at {current maturity}?"
-2. "Should we promote based on stability/completeness?"
-3. "Should we demote based on new uncertainty/discovery?" (rare but possible)
-
-### For Roadmap Planning
-When sketching the roadmap, label each milestone with its target maturity. This clarifies:
-- What "done" means (maturity governs completeness bar)
-- When humans can step back (maturity governs autonomy)
-- What safety protocols engage (maturity governs gates)
 
 **Maturity lifecycle is the single most important rule in ADD.** Everything else cascades from it.

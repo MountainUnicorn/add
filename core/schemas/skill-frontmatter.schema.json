@@ -48,6 +48,12 @@
         ]
       },
       "description": "Claude Code tool names this skill may invoke. MUST be restricted to what the skill actually uses — reviewers check for scope creep. Adding Bash/Write/Edit to a previously-read-only skill requires CODEOWNER approval (see SECURITY.md)."
+    },
+    "references": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true,
+      "description": "Optional list of reference files (relative to ${CLAUDE_PLUGIN_ROOT}/references/) this skill must load on demand. Makes the load contract machine-checkable — audits can verify the skill actually reads what it declares."
     }
   }
 }

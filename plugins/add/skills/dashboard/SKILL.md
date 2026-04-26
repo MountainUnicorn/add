@@ -2,6 +2,7 @@
 description: "[ADD v0.9.1] Generate a visual HTML project dashboard from .add/ project files"
 argument-hint: "[--open]"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
+references: ["design-system.md"]
 ---
 
 # ADD Dashboard Command v0.9.1
