@@ -1,0 +1,2 @@
+# JWT — fixture only.
+Authorization: Bearer <SYNTHESIZED:JWT>

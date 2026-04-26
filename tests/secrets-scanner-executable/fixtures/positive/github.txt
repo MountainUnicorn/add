@@ -1,0 +1,2 @@
+# GitHub PAT — fixture only.
+GITHUB_TOKEN=<SYNTHESIZED:GITHUB_TOKEN>

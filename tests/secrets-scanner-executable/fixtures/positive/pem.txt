@@ -1,0 +1,4 @@
+# PEM private key (header line only triggers the regex).
+<SYNTHESIZED:PEM_PRIVATE_KEY>
+MIIEpAIBAAKCAQEAvB7...truncated...
+-----END OPENSSH PRIVATE KEY-----
