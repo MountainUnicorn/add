@@ -2,7 +2,7 @@
 description: "[ADD v0.9.2] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
-references: ["design-system.md", "image-gen-detection.md"]
+references: ["design-system.md", "image-gen-detection.md", "rules/telemetry.md"]
 ---
 
 # ADD Infographic Skill v0.9.2

@@ -2,7 +2,7 @@
 description: "[ADD v0.9.2] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Agent]
-references: ["learning-reference.md"]
+references: ["learning-reference.md", "rules/telemetry.md"]
 ---
 
 # ADD Docs Skill v0.9.2

@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Write failing tests from spec (TDD RED phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Test Writer Skill v0.9.2

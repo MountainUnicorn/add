@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Create implementation plan from a feature spec"
 argument-hint: "specs/{feature}.md"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Plan Skill v0.6.0

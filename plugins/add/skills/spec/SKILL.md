@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Create a feature specification through structured interview"
 argument-hint: "[feature-name] [--from-prd-section N]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Spec Command v0.9.2

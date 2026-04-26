@@ -2,7 +2,7 @@
 description: "[ADD v0.9.2] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
-references: ["learning-reference.md", "quality-checks-matrix.md"]
+references: ["learning-reference.md", "quality-checks-matrix.md", "rules/telemetry.md"]
 ---
 
 # ADD Verify Skill v0.9.2

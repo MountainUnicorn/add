@@ -1,7 +1,7 @@
 ---
 description: "[ADD v0.9.2] Update project branding — new colors, fonts, tone, audit artifacts"
 allowed-tools: [Read, Write, Edit, Glob, Grep, AskUserQuestion]
-references: ["design-system.md"]
+references: ["design-system.md", "rules/telemetry.md"]
 ---
 
 # ADD Brand Update Command v0.9.2

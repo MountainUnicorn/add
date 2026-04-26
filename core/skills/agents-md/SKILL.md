@@ -2,6 +2,7 @@
 description: "[ADD v0.8.0] Generate or sync a portable AGENTS.md from ADD project state — writes, checks drift, or merges with hand-curated content"
 argument-hint: "[--write|--check|--merge|--import] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD AGENTS.md Skill v0.8.0

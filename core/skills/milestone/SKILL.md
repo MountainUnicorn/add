@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Manage milestones — list, switch, split, rescope, create"
 argument-hint: "[--list | --switch <id> | --split <id> | --rescope <id> | --create]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Milestone Command v0.6.0

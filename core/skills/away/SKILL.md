@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Declare absence — get autonomous work plan for the duration"
 argument-hint: "[duration, e.g. '4 hours', '30 minutes', 'end of day']"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, TodoWrite]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Away Command v0.6.0

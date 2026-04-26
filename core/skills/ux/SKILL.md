@@ -2,7 +2,7 @@
 description: "[ADD v0.6.0] Iterate on UI/UX design before implementation — wireframes, flow validation, and design sign-off"
 argument-hint: "<spec-file> [--figma <url-or-frame-id>]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
-references: ["design-system.md"]
+references: ["design-system.md", "rules/telemetry.md"]
 ---
 
 # ADD UX Command v0.6.0

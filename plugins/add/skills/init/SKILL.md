@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
+references: ["rules/telemetry.md"]
 disable-model-invocation: true
 ---
 
