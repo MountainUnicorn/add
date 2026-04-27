@@ -1,6 +1,6 @@
 # Contributing to ADD
 
-ADD (Agent Driven Development) is a pure markdown/JSON Claude Code plugin with zero dependencies. Contributions are welcome — no CLA required.
+ADD (Agent Driven Development) is a pure markdown/JSON Claude Code plugin with no agent-side runtime dependencies. The hook scripts and the local fixture test suites under `tests/` shell out to `jq`, so a contributor will need `jq` on `PATH` to run the test suites locally — `brew install jq` on macOS, `apt install jq` on Debian/Ubuntu, or see [docs/runtime-dependencies.md](docs/runtime-dependencies.md) for the full per-OS install matrix. Contributions are welcome — no CLA required.
 
 ## Local Development Setup
 
