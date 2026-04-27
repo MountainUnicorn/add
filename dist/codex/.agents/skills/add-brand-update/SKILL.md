@@ -1,6 +1,6 @@
 ---
 name: add-brand-update
-description: "[ADD v0.9.2] Update project branding — new colors, fonts, tone, audit artifacts"
+description: "[ADD v0.9.3] Update project branding — new colors, fonts, tone, audit artifacts"
 ---
 
 <!-- ADD AskUserQuestion shim (Codex) -->
@@ -25,7 +25,7 @@ description: "[ADD v0.9.2] Update project branding — new colors, fonts, tone, 
 
 ---
 
-# ADD Brand Update Command v0.9.2
+# ADD Brand Update Command v0.9.3
 
 Update the project's branding configuration with new materials and audit existing generated artifacts for brand consistency. Optionally apply fixes to bring artifacts in line with the new brand.
 

@@ -25,6 +25,12 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
+_(Nothing yet — tracking items go here between releases.)_
+
+## [0.9.3] — 2026-04-26
+
+**v0.9.x polish bundle.** Closes the three plugin-family-review follow-ups that landed as drafts on 2026-04-26 (F-013, F-014, F-017) plus the lessons from a cross-OS portability bug caught in the secrets-scanner CI gate. All three features ship in one signed release rather than three back-to-back tags.
+
 ### Changed
 
 - **`jq` declared as a documented runtime dependency (F-017).** The "zero runtime dependencies" claim in `README.md`, `CONTRIBUTING.md`, `docs/prd.md`, and `.claude-plugin/marketplace.json` was technically inaccurate — runtime hook scripts shipped since v0.7 invoke `jq`. Each of those four prose sites is now qualified ("zero agent-side runtime dependencies; `jq` required for hook scripts") and links to a new canonical reference doc. Hook code is unchanged — Strategy A from [`specs/jq-dependency-declaration.md`](specs/jq-dependency-declaration.md). Historical text in `docs/milestones/`, prior `CHANGELOG.md` entries, and earlier specs is preserved untouched.

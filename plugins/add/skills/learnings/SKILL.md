@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.9.2] Manage learnings — generate active views, archive old entries, show stats"
+description: "[ADD v0.9.3] Manage learnings — generate active views, archive old entries, show stats"
 argument-hint: "[migrate|archive|stats] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 references: ["rules/telemetry.md"]
 ---
 
-# ADD Learnings Skill v0.9.2
+# ADD Learnings Skill v0.9.3
 
 Manage the learnings knowledge base: generate optimized active views, archive stale entries, and report statistics.
 

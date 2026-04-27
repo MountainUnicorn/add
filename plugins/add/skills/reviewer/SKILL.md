@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.9.2] Review code for spec compliance and quality — produces review report"
+description: "[ADD v0.9.3] Review code for spec compliance and quality — produces review report"
 argument-hint: "specs/{feature}.md [--scope backend|frontend|full]"
 allowed-tools: [Read, Glob, Grep, Bash]
 references: ["rules/telemetry.md"]
 ---
 
-# ADD Reviewer Skill v0.9.2
+# ADD Reviewer Skill v0.9.3
 
 Conduct a comprehensive code review focused on specification compliance, code quality, and ADD methodology adherence. This is a READ-ONLY skill that produces a detailed structured review report.
 

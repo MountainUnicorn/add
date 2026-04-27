@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.9.2] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+description: "[ADD v0.9.3] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite]
 references: ["learning-reference.md", "rules/telemetry.md"]
 ---
 
-# ADD Retro Command v0.9.2
+# ADD Retro Command v0.9.3
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 

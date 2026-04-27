@@ -1,10 +1,10 @@
 ---
 name: add-optimize
-description: "[ADD v0.9.2] Performance optimization pass — identify and fix bottlenecks"
+description: "[ADD v0.9.3] Performance optimization pass — identify and fix bottlenecks"
 argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 ---
 
-# ADD Optimize Skill v0.9.2
+# ADD Optimize Skill v0.9.3
 
 Identify and fix performance bottlenecks. This skill profiles code to find slow operations, suggests optimizations, and implements them with test-driven discipline.
 

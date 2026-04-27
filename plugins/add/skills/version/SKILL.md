@@ -1,12 +1,12 @@
 ---
-description: "[ADD v0.9.2] Show installed version, project version, and upgrade status"
+description: "[ADD v0.9.3] Show installed version, project version, and upgrade status"
 argument-hint: "[--check]"
 allowed-tools: [Read, Glob, Grep, Bash]
 references: ["rules/telemetry.md"]
 disable-model-invocation: true
 ---
 
-# ADD Version Command v0.9.2
+# ADD Version Command v0.9.3
 
 Show the current ADD version, compare project config version to plugin version, and flag drift.
 
