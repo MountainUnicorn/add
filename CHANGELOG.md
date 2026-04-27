@@ -27,6 +27,18 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 _(Nothing yet — tracking items go here between releases.)_
 
+## [0.9.4] — 2026-04-27
+
+**Hotfix.** Completes the migration chain from v0.8.0 onward. Surfaced when a project at v0.5.0 updated to v0.9.3 and Claude Code reported: _"Plugin manifest covers up to 0.8.0; plugin is now 0.9.3 … no 0.8 → 0.9 hop exists."_ The version field on the consumer's `.add/config.json` was bumping past 0.8.0 without any migration hop being traversed — a silent gap that's harmless today (v0.8 → v0.9.x had no required config-schema changes) but would silently skip future migrations that DO have steps.
+
+### Fixed
+
+- **`core/templates/migrations.json`** — manifest's `plugin_version` field advanced from 0.8.0 to 0.9.4. Six new hops added: `0.8.0 → 0.8.1`, `0.8.1 → 0.9.0`, `0.9.0 → 0.9.1`, `0.9.1 → 0.9.2`, `0.9.2 → 0.9.3`, `0.9.3 → 0.9.4` (sequential), plus a `0.8.0 → 0.9.3` skip hop so consumers on v0.8.0 jump straight to current. All hops are no-op (`steps: []`) since v0.8 → v0.9.x changes were plugin-internal — rules, skills, scripts, and hooks flow through `claude plugin update` automatically. The hops exist so the runner can traverse the chain without "no path found" gaps.
+
+### Process learning
+
+The version-bump checklist in maintainer memory now includes `core/templates/migrations.json` as a step. Across v0.8.1, v0.9.0, v0.9.1, v0.9.2, and v0.9.3 the manifest was not advanced; this release patches all five at once. Future releases must add a migration entry (even an empty one) when bumping `core/VERSION`.
+
 ## [0.9.3] — 2026-04-26
 
 **v0.9.x polish bundle.** Closes the three plugin-family-review follow-ups that landed as drafts on 2026-04-26 (F-013, F-014, F-017) plus the lessons from a cross-OS portability bug caught in the secrets-scanner CI gate. All three features ship in one signed release rather than three back-to-back tags.

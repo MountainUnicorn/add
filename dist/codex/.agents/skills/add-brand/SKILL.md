@@ -1,9 +1,9 @@
 ---
 name: add-brand
-description: "[ADD v0.9.3] View project branding — accent color, palette, drift detection, image gen status"
+description: "[ADD v0.9.4] View project branding — accent color, palette, drift detection, image gen status"
 ---
 
-# ADD Brand Command v0.9.3
+# ADD Brand Command v0.9.4
 
 Display the current branding configuration for this ADD-managed project. Shows accent color, palette, fonts, tone, where branding is applied, detects brand drift in generated artifacts, and reports image generation capability status.
 

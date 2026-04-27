@@ -1,10 +1,10 @@
 ---
 name: add-docs
-description: "[ADD v0.9.3] Generate and sync project documentation — architecture diagrams, API docs, README"
+description: "[ADD v0.9.4] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 ---
 
-# ADD Docs Skill v0.9.3
+# ADD Docs Skill v0.9.4
 
 Generate, update, and verify project documentation. Uses a discovery-first approach: the skill learns your codebase structure on first run, caches that knowledge in a manifest, and uses it for fast, accurate doc generation on every subsequent run.
 
