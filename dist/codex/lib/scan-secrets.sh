@@ -32,7 +32,14 @@
 #   2  — invocation error (bad flag, missing file with --paths)
 #   3  — configuration error (catalog missing or unparseable)
 
-set -euo pipefail
+# NOTE: intentionally NOT using `set -e`. The script has explicit exit-code
+# semantics (0=clean, 1=finding, 2=invocation-error, 3=config-error) managed
+# by its own logic. With -e enabled, common patterns like `[ -s "$X" ] && grep`
+# fired set-e on Linux bash 5+ when the test failed (a perfectly valid empty-set
+# case), producing spurious exit 1 in CI even when no findings existed. -u
+# (unbound-variable) and pipefail are kept; explicit `if/exit N` blocks the
+# script's own error paths.
+set -uo pipefail
 
 # ---------------------------------------------------------------------------
 # Defaults
