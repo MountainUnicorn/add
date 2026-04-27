@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Generate or refresh CHANGELOG.md from conventional commits"
 argument-hint: "[--from-scratch]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
+references: ["rules/telemetry.md"]
 disable-model-invocation: true
 ---
 

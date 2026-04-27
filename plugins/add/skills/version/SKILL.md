@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Show installed version, project version, and upgrade status"
 argument-hint: "[--check]"
 allowed-tools: [Read, Glob, Grep, Bash]
+references: ["rules/telemetry.md"]
 disable-model-invocation: true
 ---
 

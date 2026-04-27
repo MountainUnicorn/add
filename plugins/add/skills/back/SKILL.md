@@ -1,6 +1,7 @@
 ---
 description: "[ADD v0.9.2] Return from absence — get briefing on autonomous work"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
+references: ["rules/telemetry.md"]
 disable-model-invocation: true
 ---
 

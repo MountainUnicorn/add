@@ -2,7 +2,7 @@
 description: "[ADD v0.6.0] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
-references: ["learning-reference.md"]
+references: ["learning-reference.md", "rules/telemetry.md"]
 ---
 
 # ADD Deploy Skill v0.6.0

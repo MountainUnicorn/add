@@ -3,8 +3,8 @@
 **Version:** 0.1.0
 **Created:** 2026-04-26
 **PRD Reference:** docs/prd.md
-**Status:** Draft
-**Target Release:** v0.9.2
+**Status:** Shipped (Path A)
+**Target Release:** v0.9.3
 **Milestone:** none (standalone v0.9.x)
 **Depends-on:** `specs/telemetry-jsonl.md` (parent contract)
 **Coordinates-with:** PR #6 — `references:` frontmatter mechanism for skills
@@ -216,35 +216,35 @@ Populated during implementation. Status values:
 
 | # | Skill | Status | Notes |
 |---|-------|--------|-------|
-| 1 | agents-md | pending | |
-| 2 | away | pending | |
-| 3 | back | pending | |
-| 4 | brand | pending | |
-| 5 | brand-update | pending | |
-| 6 | changelog | pending | |
-| 7 | cycle | pending | |
-| 8 | dashboard | pending | dashboard READS telemetry; still emits its own invocation line per parent AC-004 (telemetry never read INTO context — but the dashboard skill itself running is a skill invocation that emits) |
-| 9 | deploy | pending | |
-| 10 | docs | pending | |
-| 11 | implementer | pending | sub-agent only; emits nested line |
-| 12 | infographic | pending | |
-| 13 | init | pending | bootstrap skill — runs in projects that do not yet have `.add/`; rule honours that case (no directory until first emission) |
-| 14 | learnings | pending | `learnings archive` triggers retention pruning of telemetry per parent AC-028 — still emits its own line |
-| 15 | milestone | pending | |
-| 16 | optimize | pending | |
-| 17 | plan | pending | |
-| 18 | promote | pending | |
-| 19 | retro | pending | |
-| 20 | reviewer | pending | sub-agent only; emits nested line; AC-016 forbids double-emit by parent |
-| 21 | roadmap | pending | |
-| 22 | spec | pending | |
-| 23 | tdd-cycle | pending | dispatches multiple sub-agents; outer line + N nested lines |
-| 24 | test-writer | pending | sub-agent only; emits nested line |
-| 25 | ux | pending | |
-| 26 | verify | pending | sub-agent only when invoked from tdd-cycle; emits nested. Top-level `/add:verify` emits outer |
-| 27 | version | pending | |
+| 1 | agents-md | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 2 | away | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 3 | back | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 4 | brand | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 5 | brand-update | swept | Path A — appended to existing `references:` (had `design-system.md`) |
+| 6 | changelog | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 7 | cycle | swept | Path A — appended to existing `references:` (had `learning-reference.md`, `swarm-protocol.md`) |
+| 8 | dashboard | swept | Path A — appended to existing (had `design-system.md`). dashboard READS telemetry but never INTO LLM context; the skill invocation still emits |
+| 9 | deploy | swept | Path A — appended to existing `references:` |
+| 10 | docs | swept | Path A — appended to existing `references:` |
+| 11 | implementer | swept | Path A — fresh; sub-agent only, emits nested line |
+| 12 | infographic | swept | Path A — appended to existing (had `design-system.md`, `image-gen-detection.md`) |
+| 13 | init | swept | Path A — fresh. Bootstrap skill — runs before `.add/` exists; rule creates the telemetry dir on first emission |
+| 14 | learnings | swept | Path A — fresh. `learnings archive` triggers telemetry retention pruning per parent AC-028; still emits its own line |
+| 15 | milestone | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 16 | optimize | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 17 | plan | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 18 | promote | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 19 | retro | swept | Path A — appended to existing (had `learning-reference.md`) |
+| 20 | reviewer | swept | Path A — fresh; sub-agent only, emits nested line; AC-016 forbids double-emit by parent |
+| 21 | roadmap | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 22 | spec | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
+| 23 | tdd-cycle | swept | Path A — appended to existing `references:` (dispatches multiple sub-agents; outer line + N nested) |
+| 24 | test-writer | swept | Path A — fresh; sub-agent only, emits nested line |
+| 25 | ux | swept | Path A — appended to existing (had `design-system.md`) |
+| 26 | verify | swept | Path A — appended to existing (had `learning-reference.md`, `quality-checks-matrix.md`). Sub-agent when invoked from tdd-cycle; top-level `/add:verify` emits outer |
+| 27 | version | swept | Path A — fresh `references: ["rules/telemetry.md"]` |
 
-All 27 accounted for. None skipped at draft time.
+All 27 swept via Path A (PR #6 `references:` mechanism) on 2026-04-26. None skipped. 17 fresh entries; 10 appended to existing `references:` lists (cycle, verify, deploy, docs, retro, tdd-cycle, infographic, dashboard, brand-update, ux). Coverage enforced by `tests/telemetry-sweep/test-skill-reference-coverage.sh`.
 
 ## 8. Non-Goals
 
@@ -308,3 +308,4 @@ agents × 9 skills each) or a single mechanical pass.
 | Date | Version | Author | Changes |
 |------|---------|--------|---------|
 | 2026-04-26 | 0.1.0 | abrooke + Claude | Initial spec — closes Swarm F's M3-deferred per-skill reference sweep; articulates path-A (PR #6) and path-B (fallback) |
+| 2026-04-26 | 1.0.0 | abrooke + Claude | Shipped via Path A. PR #6 merged at `3522a8f`, unblocking the `references:` frontmatter mechanism. All 27 SKILL.md files swept; § 7 audit checklist filled; coverage test `tests/telemetry-sweep/test-skill-reference-coverage.sh` passes. Closes F-013. |

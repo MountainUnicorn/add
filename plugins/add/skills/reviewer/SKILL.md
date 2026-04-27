@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Review code for spec compliance and quality — produces review report"
 argument-hint: "specs/{feature}.md [--scope backend|frontend|full]"
 allowed-tools: [Read, Glob, Grep, Bash]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Reviewer Skill v0.9.2

@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Maturity promotion — gap analysis and level-up workflow"
 argument-hint: "[--check | --execute] [--target poc|alpha|beta|ga]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Promote Command v0.6.0

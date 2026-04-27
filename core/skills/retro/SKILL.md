@@ -2,7 +2,7 @@
 description: "[ADD v0.6.0] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite]
-references: ["learning-reference.md"]
+references: ["learning-reference.md", "rules/telemetry.md"]
 ---
 
 # ADD Retro Command v0.6.0

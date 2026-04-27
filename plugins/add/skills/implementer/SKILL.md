@@ -2,6 +2,7 @@
 description: "[ADD v0.9.2] Write minimal implementation to pass tests (TDD GREEN phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Implementer Skill v0.9.2

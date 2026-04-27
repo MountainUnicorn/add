@@ -2,7 +2,7 @@
 description: "[ADD v0.9.2] Plan and execute a work cycle — select features, assess parallelism, define validation"
 argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
-references: ["learning-reference.md", "swarm-protocol.md"]
+references: ["learning-reference.md", "swarm-protocol.md", "rules/telemetry.md"]
 ---
 
 # ADD Cycle Command v0.9.2

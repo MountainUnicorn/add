@@ -1,6 +1,7 @@
 ---
 description: "[ADD v0.9.2] View project branding — accent color, palette, drift detection, image gen status"
 allowed-tools: [Read, Glob, Grep, AskUserQuestion]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Brand Command v0.9.2

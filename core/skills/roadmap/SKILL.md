@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] View and manage project roadmap — milestones, horizons, reordering"
 argument-hint: "[--view | --edit | --reorder]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Roadmap Command v0.6.0

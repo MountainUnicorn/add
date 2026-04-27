@@ -2,6 +2,7 @@
 description: "[ADD v0.6.0] Performance optimization pass — identify and fix bottlenecks"
 argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Task]
+references: ["rules/telemetry.md"]
 ---
 
 # ADD Optimize Skill v0.6.0
