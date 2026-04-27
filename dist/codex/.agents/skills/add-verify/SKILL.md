@@ -356,6 +356,60 @@ Gate 4.5: AGENTS.md Drift
 - Status: ✓ PASS
 ```
 
+### Gate 4.6: Staged-Secret Scan
+
+**Purpose**: Block commits that contain secrets before they reach the remote
+git history. Closes F-014 (the v0.9.0 secrets gate was prose-only).
+
+**When it runs**: At `--level deploy` (and any superset). Skipped at `--level
+local|ci|smoke` because no commit is being prepared at those levels.
+
+**Source of truth**: `core/security/secret-patterns.json` — the executable
+catalog. The companion `core/knowledge/secret-patterns.md` is the human
+reference; CI's `validate-secret-patterns.py` keeps the two in sync.
+
+**Steps**:
+
+1. **Invoke the scanner** with the staged-diff default:
+   ```bash
+   "~/.codex/add/lib/scan-secrets.sh"
+   ```
+   The scanner reads `git diff --cached`, applies every catalog regex,
+   skips binaries and `.secretsignore`-matched paths, and honors any
+   `[ADD-SECRET-OVERRIDE: SEC-NNN]` trailer in the commit message.
+
+2. **Interpret exit code**:
+   - `0`: PASS. No findings (or every finding overridden by a trailer).
+   - `1`: FAIL. At least one unsuppressed finding. Block the gate.
+   - `2`: Invocation error — gate FAIL with remediation note.
+   - `3`: Catalog missing/unparseable — gate FAIL (defense-in-depth: never
+     silently disable enforcement).
+
+3. **Report findings verbatim**. The scanner already redacts every preview
+   per AC-013 — never paste the matched value into the report.
+
+**Pass/Fail criteria**:
+- PASS: Scanner exit code 0
+- FAIL: Scanner exit code != 0
+- SKIP: `--level` is `local`, `ci`, or `smoke` (no staged commit context)
+
+**Report**:
+
+```
+━━━ GATE 4.6 — STAGED-SECRET SCAN ━━━
+Scanning 12 staged files...
+
+  ✗ config/api.py:8 — SEC-002: GITHUB_TOKEN
+  ✗ scripts/seed.py:42 — SEC-001: AWS_ACCESS_KEY
+
+Gate 4.6: FAIL (2 findings)
+
+Run `/add:deploy` and choose remediation, or commit with
+[ADD-SECRET-OVERRIDE: SEC-001 SEC-002 (reason)] for a non-commit override.
+```
+
+Maps to AC-021 of `specs/secrets-scanner-executable.md`.
+
 ### Gate 5: Smoke Tests (Post-Deploy)
 
 **Purpose**: Quick health check after deployment to catch obvious breakage.
@@ -483,12 +537,14 @@ Runs Gates 1-3 (Gate 3.5 runs if cycle snapshots present):
 Typical use: CI/CD pipeline on every push
 
 ### Level: deploy (production deploy)
-Runs Gates 1-4:
+Runs Gates 1-4 (plus 3.5, 4.5 opt-in, 4.6):
 1. Lint & formatting
 2. Type checking
 3. Unit tests & coverage
 3.5 Test Surface Integrity (test-deletion guardrail)
 4. Spec compliance & integration tests
+4.5 AGENTS.md drift (opt-in via config)
+4.6 Staged-secret scan (always)
 
 Typical use: Before deploying to production
 
@@ -522,6 +578,7 @@ Overall Status: ✓ ALL GATES PASSED [or ✗ GATES FAILED]
 | 3 | Tests & Coverage | ✓ PASS | 32/32 tests, 87% coverage |
 | 3.5 | Test Surface Integrity | ✓ PASS | 4 added, 0 removed, 1 renamed |
 | 4 | Spec Compliance | ✓ PASS | 5/5 ACs tested |
+| 4.6 | Staged-Secret Scan | ✓ PASS | 0 findings |
 | 5 | Smoke Tests | ⊘ SKIPPED | Not applicable at this level |
 
 ## Gate 1: Lint & Formatting
@@ -596,6 +653,7 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create
 | Gate 3 | Tests and coverage | Running tests and checking coverage... |
 | Gate 3.5 | Test surface integrity | Checking test-deletion guardrail... |
 | Gate 4 | Spec compliance | Verifying spec compliance... |
+| Gate 4.6 | Staged-secret scan | Scanning staged content for secrets... |
 | Gate 5 | Smoke tests | Running smoke tests... |
 | Maturity | Maturity-scaled checks | Running maturity-scaled checks... |
 | Report | Generating verification report | Generating verification report... |

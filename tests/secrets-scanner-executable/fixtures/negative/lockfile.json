@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "dependencies": {
+    "lodash": {
+      "integrity": "sha256-9e7e4e34f1234567890abcdef1234567890abcdef1234567890abcdef1234"
+    },
+    "express": {
+      "integrity": "sha256-aaaaaaaa1111222233334444555566667777888899990000aaaabbbbccccdddd"
+    }
+  }
+}

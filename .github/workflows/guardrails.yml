@@ -47,6 +47,16 @@ jobs:
             core/skills/reviewer/ \
             core/skills/verify/
 
+  secret-patterns-drift:
+    name: Secret-patterns drift (markdown vs JSON)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/validate-secret-patterns.py
+
   # ---------- Fixture-based suites (bash + jq, no external tools) -------------
 
   fixtures:
@@ -61,6 +71,7 @@ jobs:
           - codex-install/test-install-paths.sh
           - cache-discipline/test-cache-discipline.sh
           - secrets-handling/test-secrets-handling.sh
+          - secrets-scanner-executable/test-scan-secrets.sh
           - agents-md-sync/test-agents-md-sync.sh
           - telemetry-jsonl/test-telemetry-jsonl.sh
           - security/test-prompt-injection-defense.sh

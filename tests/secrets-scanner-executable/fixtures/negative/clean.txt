@@ -1,0 +1,3 @@
+# A perfectly clean text file.
+This is a line of prose.
+And another line, no secrets here.

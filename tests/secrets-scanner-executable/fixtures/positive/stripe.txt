@@ -1,0 +1,2 @@
+# Stripe live secret — fixture only.
+STRIPE_SECRET=<SYNTHESIZED:STRIPE_LIVE_SECRET>

@@ -1,0 +1,2 @@
+# Anthropic key — fixture only.
+ANTHROPIC_API_KEY=<SYNTHESIZED:ANTHROPIC_API_KEY>

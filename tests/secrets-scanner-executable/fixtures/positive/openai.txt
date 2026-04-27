@@ -1,0 +1,2 @@
+# OpenAI key — fixture only.
+OPENAI_API_KEY=<SYNTHESIZED:OPENAI_API_KEY>

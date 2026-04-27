@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "CMD=$(jq -r '.tool_input.command // empty' 2>/dev/null || true); if echo \"$CMD\" | grep -q 'git push'; then OUT=$(\"${CLAUDE_PLUGIN_ROOT}/lib/scan-secrets.sh\" 2>&1); RC=$?; if [ $RC -ne 0 ]; then echo \"[ADD-SEC advisory] scan-secrets exit=$RC — review before pushing:\" >&2; echo \"$OUT\" >&2; fi; fi; exit 0"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write",

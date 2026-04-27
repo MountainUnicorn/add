@@ -1,0 +1,11 @@
+commit 1234567890abcdef1234567890abcdef12345678
+Author: A. Dev <dev@example.com>
+Date:   Mon Jan 1 12:00:00 2026 +0000
+
+    feat: a thing
+
+commit fedcba0987654321fedcba0987654321fedcba09
+Author: A. Dev <dev@example.com>
+Date:   Sun Dec 31 12:00:00 2025 +0000
+
+    docs: update notes

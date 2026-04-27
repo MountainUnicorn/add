@@ -96,29 +96,35 @@ If any verification fails:
 
 ### Step 1.5: Pre-commit secrets gate
 
-Before composing the commit message, scan the staged diff for secrets.
+Before composing the commit message, run the executable scanner against the
+staged diff. The scanner is the single point of truth — do NOT re-implement
+the catalog inline.
 
-**Source of truth:** `~/.codex/add/knowledge/secret-patterns.md` (regex
-catalog + high-entropy heuristic + path-prefix deny list). The gate MUST use
-this catalog — do not duplicate the patterns inline.
+**Source of truth:** `~/.codex/add/security/secret-patterns.json`
+(executable catalog) and `~/.codex/add/knowledge/secret-patterns.md`
+(human-readable reference). Both are kept in sync by
+`scripts/validate-secret-patterns.py` (CI drift check).
 
 **Invocation (Bash):**
 
 ```bash
-# 1. Collect staged, non-binary, non-ignored files.
-#    Respect .secretsignore: files matching those patterns should not be
-#    staged at all — if they appear, flag them as "should not be committed."
-staged=$(git diff --cached --name-only --diff-filter=ACM)
-
-# 2. For each file: apply every regex from the catalog to the staged content
-#    (git diff --cached -- "$file"). Suppress matches that fall under the
-#    entropy heuristic's safe-context exceptions (lockfile path, commit SHA
-#    in a git-log block, UUID, content-addressed hash marker, build/trace id).
-
-# 3. On any match, emit:
-#    {file}:{line} — {PATTERN_NAME} pattern
-#    Do NOT echo the matched value itself; use the pattern name only.
+# Run the scanner. Default mode reads `git diff --cached`.
+"~/.codex/add/lib/scan-secrets.sh"
+# Exit 0 → clean. Exit 1 → at least one unsuppressed finding (block the
+# commit). Exit 2 → invocation error. Exit 3 → catalog missing/unparseable
+# (treat as a hard fail).
 ```
+
+The scanner emits findings to stdout in the form:
+
+```
+{file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
+```
+
+The matched value never appears verbatim in any output stream (AC-013/AC-015
+of `specs/secrets-scanner-executable.md`). On a hard fail, also note any
+`SEC-998` lines: those are paths listed in `.secretsignore` that were staged
+anyway (the file should not be committed at all).
 
 **On match — abort the commit and print:**
 
@@ -126,24 +132,31 @@ staged=$(git diff --cached --name-only --diff-filter=ACM)
 SECRETS GATE — /add:deploy
 Scanning {N} staged files...
 
-  ✗ {file}:{line} — {PATTERN_NAME} pattern
-  ✗ {file}:{line} — {PATTERN_NAME} pattern
+  ✗ {file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
+  ✗ {file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
 
-Commit aborted. Two options:
+Commit aborted. Three options:
 
   1. Remove the secrets:
        git restore --staged {file} {file}
        Add {file} to .secretsignore (or .gitignore)
        Rotate any real secrets immediately
 
-  2. False positive (test fixture, example, etc.):
+  2. False positive (test fixture, example, etc.) — interactive override:
        /add:deploy --allow-secret
        (you will be asked to type a confirmation phrase)
+
+  3. Automation-friendly override — commit-message trailer:
+       Add a [ADD-SECRET-OVERRIDE: {SEC-NNN} (reason)] trailer to your
+       commit message and re-run. The scanner accepts the override when
+       --commit-msg-file points at the message and the trailer enumerates
+       the SEC codes being overridden.
 ```
 
 No commit is created. Preserve staged changes so the user can fix and retry.
 
-**`--allow-secret` flag (AC-016, AC-017):**
+**`--allow-secret` flag (AC-016, AC-017 of `specs/secrets-handling.md`;
+AC-019 of `specs/secrets-scanner-executable.md`):**
 
 If the user invokes `/add:deploy --allow-secret`, present:
 

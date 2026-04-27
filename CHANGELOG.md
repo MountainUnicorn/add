@@ -32,6 +32,14 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ### Added
 
+- **F-014 — executable secrets scanner.** Closes the v0.9.0 declarative-gate gap (`specs/secrets-scanner-executable.md`). Adds:
+  - **`core/lib/scan-secrets.sh`** — POSIX-shell scanner. No `jq` in the hot path. Reads `git diff --cached` (or `--paths`/`--all`), respects `.secretsignore`, honors `[ADD-SECRET-OVERRIDE: SEC-NNN (reason)]` commit-message trailers, redacts every preview, exits non-zero on any unsuppressed match. Performance budget: < 2s on a 1k-file diff (1k clean files complete in ~4s on a 2024 laptop; the spec target is < 2s — sub-second on Linux CI).
+  - **`core/security/secret-patterns.json`** — executable catalog. 8 patterns (AWS, GitHub, Stripe, OpenAI, Anthropic, JWT, password-KV, PEM private key). Mirror of `core/knowledge/secret-patterns.md` § 1; drift fails CI.
+  - **`scripts/validate-secret-patterns.py`** — drift checker. Wired into `.github/workflows/guardrails.yml`.
+  - **Gate 4.6 in `/add:verify`** — staged-secret scan. Always runs at `--level deploy`.
+  - **Step 1.5 of `/add:deploy`** — rewrites the previously-prose secrets gate to invoke `scan-secrets.sh`. The interactive `--allow-secret` confirm-phrase wrapper is preserved.
+  - **Advisory `PreToolUse` hook on `Bash` matching `git push`** — runs the scanner and emits findings to stderr without blocking. Hard-block deferred to v0.10 pending F-012 hook-feedback semantics.
+  - **`tests/secrets-scanner-executable/`** — fixture suite with synth-at-runtime placeholders (mirrors v0.9.0's GitHub-Advanced-Security-safe pattern). 23 test cases covering exit codes, redaction integrity, override trailers, binary skipping, sorted output, perf budget.
 - **`docs/runtime-dependencies.md`** — canonical reference for runtime dependencies. Documents `jq`'s role across the six hook invocation sites, install commands for macOS, Debian/Ubuntu, Fedora/RHEL, Arch, Alpine, openSUSE, Windows (Chocolatey + scoop + WSL), and Nix, the verification one-liner, and the per-site degradation behavior when `jq` is absent (2 hard-fail sites, 3 soft-fail sites).
 - **`tests/jq-dependency/test-jq-claim-qualified.sh`** — fixture-based regression guard. Greps the four in-scope prose files for the bare claim, asserts `docs/runtime-dependencies.md` exists and is referenced from each claim site, and verifies historical text was preserved untouched.
 - **`tests/telemetry-sweep/test-skill-reference-coverage.sh`** — gates against future skills shipping without the `rules/telemetry.md` reference.

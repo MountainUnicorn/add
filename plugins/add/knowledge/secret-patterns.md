@@ -9,6 +9,11 @@
 > All three surfaces MUST reference the same names so an override flag in
 > `/add:deploy` and a redaction tag in `.add/learnings.json` use the same vocabulary.
 
+> **Executable source:** `core/security/secret-patterns.json`. This file is
+> the human-readable reference; the JSON is what `lib/scan-secrets.sh` parses
+> at runtime. Drift between the two fails CI
+> (`scripts/validate-secret-patterns.py`).
+
 ## 1. Catalog Entries
 
 Each entry lists the stable `name` (used in error messages and `[REDACTED:{name}]`
