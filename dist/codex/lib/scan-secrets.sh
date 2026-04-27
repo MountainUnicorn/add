@@ -600,7 +600,7 @@ if [ "$TRAILER_BARE" = "1" ] && [ "$TRAILER_PRESENT" = "1" ] && [ "${#FINDINGS[@
   exit 1
 fi
 
-if [ "${#ACCEPTED_OVERRIDES[@]:-0}" -gt 0 ]; then
+if [ "${#ACCEPTED_OVERRIDES[@]}" -gt 0 ]; then
   uniq_codes=$(printf '%s\n' "${ACCEPTED_OVERRIDES[@]}" | sort -u | tr '\n' ' ' | sed 's/ $//')
   printf 'OVERRIDE ACCEPTED: %s\n' "$uniq_codes"
 fi
