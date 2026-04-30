@@ -1,5 +1,7 @@
 # Plan: jq Dependency Declaration
 
+> Status: Complete (v0.9.3) — superseded by shipped feature.
+
 **Spec:** specs/jq-dependency-declaration.md
 **Created:** 2026-04-26
 **Estimated Effort:** Tiny (~half a day)

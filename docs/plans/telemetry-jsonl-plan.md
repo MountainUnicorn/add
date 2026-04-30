@@ -1,5 +1,7 @@
 # Implementation Plan: Telemetry JSONL — Per-Skill Trace Recording
 
+> Status: Complete (v0.9.0) — superseded by shipped feature.
+
 **Spec Version:** 0.1.0
 **Spec:** specs/telemetry-jsonl.md
 **Created:** 2026-04-22

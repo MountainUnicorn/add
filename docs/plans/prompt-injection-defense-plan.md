@@ -1,5 +1,7 @@
 # Implementation Plan: Prompt Injection Defense
 
+> Status: Complete (v0.9.0) — superseded by shipped feature.
+
 **Spec:** `specs/prompt-injection-defense.md` (v0.1.0)
 **Target Release:** v0.9.0
 **Milestone:** M3-pre-ga-hardening (Cycle 2)

@@ -1,5 +1,7 @@
 # Implementation Plan: Project Dashboard
 
+> Status: Complete (v0.3.0) — superseded by shipped feature.
+
 **Spec Version:** 0.1.0
 **Created:** 2026-02-19
 **Team Size:** Solo

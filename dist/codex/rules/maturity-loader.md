@@ -38,10 +38,14 @@ A project at `alpha` loads `poc` + `alpha` rules. A project at `beta` loads `poc
 | `quality-gates` | dormant | **active** | active | active |
 | `human-collaboration` | dormant | **active** | active | active |
 | `add-compliance` | dormant | **active** | active | active |
+| `secrets-handling` | dormant | **active** | active | active |
 | `tdd-enforcement` | dormant | dormant | **active** | active |
 | `agent-coordination` | dormant | dormant | **active** | active |
 | `environment-awareness` | dormant | dormant | **active** | active |
 | `maturity-lifecycle` | dormant | dormant | **active** | active |
+| `cache-discipline` | dormant | dormant | **active** | active |
+| `injection-defense` | dormant | dormant | **active** | active |
+| `telemetry` | dormant | dormant | **active** | active |
 | `design-system` | dormant | dormant | dormant | **active** |
 
 ## Agent Instructions
@@ -52,7 +56,7 @@ A project at `alpha` loads `poc` + `alpha` rules. A project at `beta` loads `poc
 2. If a rule's `maturity:` level is ABOVE the project's level, **treat that rule as non-existent** — do not follow its instructions, do not reference it, do not enforce it
 3. If no `.add/config.json` exists, assume `alpha` maturity (reasonable default)
 
-**Example:** A project at `alpha` maturity has 6 active rules (project-structure, learning, source-control, maturity-loader, spec-driven, quality-gates, human-collaboration). The agent should NOT enforce TDD cycles, agent coordination protocols, environment-awareness tiers, or design system rules — those are dormant until the project promotes to beta or ga.
+**Example:** A project at `alpha` maturity loads its 6 poc rules plus 5 alpha rules (spec-driven, quality-gates, human-collaboration, add-compliance, secrets-handling). The agent should NOT enforce TDD cycles, agent coordination protocols, environment-awareness tiers, cache-discipline, injection-defense, telemetry, or design-system rules — those are dormant until the project promotes to beta or ga.
 
 ## Why This Matters
 

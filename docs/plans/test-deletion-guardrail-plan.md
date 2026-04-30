@@ -1,5 +1,7 @@
 # Implementation Plan: Test Deletion Guardrail
 
+> Status: Complete (v0.9.0) — superseded by shipped feature.
+
 **Spec:** `specs/test-deletion-guardrail.md`
 **Target Release:** v0.9.0
 **Milestone:** M3-pre-ga-hardening

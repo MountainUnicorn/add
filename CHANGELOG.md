@@ -27,6 +27,33 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 _(Nothing yet — tracking items go here between releases.)_
 
+## [0.9.5] — 2026-04-22
+
+**Hygiene + truth pass.** Doc-only release. Removes the smokescreen between what the docs claim and what's actually shipped, so the v1.0 credibility cycle (v0.9.6 → v1.0.0) starts from honest ground. No consumer config or plugin-runtime changes.
+
+### Changed
+
+- **Spec/plan frontmatter sweep.** Ten specs flipped from `Draft`/`Implementing` to `Complete` with `Shipped-In: vX.Y.Z` recorded: `agents-md-sync`, `cache-discipline`, `prompt-injection-defense`, `secrets-handling`, `telemetry-jsonl`, `test-deletion-guardrail`, `codex-native-skills` (all v0.9.0); `jq-dependency-declaration`, `secrets-scanner-executable` (v0.9.3); `project-dashboard` (v0.3.0). Eighteen plan files in `docs/plans/` got `> Status: Complete (vX.Y.Z) — superseded by shipped feature.` close-out headers. `specs/timeline-events.md` marked `Superseded` (replaced by telemetry-jsonl + dashboard).
+- **PRD refresh.** `docs/prd.md` header bumped to v0.9.5 / 2026-04-22. § 4 v1.0 reframed to point at `docs/milestones/v1.0-ga.md` (canonical) and `docs/v1.0-roadmap.md` (synthesis), with the 6 reworded GA criteria from `.add/config.json:next_promotion_criteria` listed inline. § 3 metrics qualified — telemetry-derived measurements depend on dog-food emission verification (v0.9.7 milestone).
+- **Maturity cascade matrix.** `core/rules/maturity-loader.md` updated for the four v0.9.0-shipped rules: `secrets-handling` (alpha+ active), `cache-discipline`, `injection-defense`, `telemetry` (beta+ active).
+- **README + CLAUDE.md counts.** README rules count corrected to 19 (was 11). CLAUDE.md, runtimes/claude/CLAUDE.md, CONTRIBUTING.md repository-structure blocks updated to include `core/lib/`, `core/security/`, `core/references/`, `core/schemas/` and current template/knowledge counts.
+- **README intro.** Lead paragraph reframed methodology-first ("ADD is a methodology"); the Claude/Codex plugin is the canonical implementation. Seed for the D5 brand-split direction (methodology authoritative at `docs/methodology.md` mirror, plugin as one runtime).
+- **Roadmap section.** README's stale "v0.4.0 — Next" historic block replaced with a one-line pointer to `docs/v1.0-roadmap.md` and `CHANGELOG.md`.
+
+### Added
+
+- **`core/rules/model-roles.md`** — Architect / Editor model-role guidance. One-paragraph rule distinguishing planning-shaped work (Opus, spec authoring, decision walkthroughs) from mechanical-shaped work (Sonnet/Haiku, file rewrites, frontmatter sweeps). Guidance, not enforcement; ties back to `agent-coordination.md` for swarm dispatch. M3 deferral closed.
+- **`docs/milestones/v1.0-ga.md`** — Canonical v1.0 milestone document. Goal, driving context, the 6 reworded success criteria, 8–10 week appetite, hill chart, per-release feature detail (v0.9.5 → v1.0.0), parallelism analysis, risks register, out-of-scope list, open questions, validation gates per release.
+- **`docs/v1.0-roadmap.md`** — Synthesis of three parallel v1.0 research swarms (current state, unimplemented inventory, market review). Six-release path, capability-family architecture, four moats, four abandon recommendations, eight risks, decisions D1–D7 locked.
+
+### Retargeted
+
+- **`specs/plugin-family-release-hardening.md`** — F-006 (host-neutral kernel) and F-007 (adapter contracts) target moved from `v1.0.0` to `v1.1.0`. Acceptance criteria AC-010/AC-011/AC-012 retagged to `v1.1.0` to match. Per D2 lock in `docs/v1.0-roadmap.md`: full architectural close is M4 work; v0.9.7 will ship Tier 1 substitution-only fix (~80% of leak) for v1.0 GA.
+
+### Maturity criteria reworded
+
+- `.add/config.json:next_promotion_criteria` updated per D1 lock. The 60-day calendar floor — generic, not project-shaped — is replaced by engineering evidence: ≥3 minor/patch releases past v0.9.0 with no post-tag rollback, ≥1 community PR merged during the beta cycle, AC-025 release-evidence bundle generated for the v1.0 candidate. Criterion 6 ("verified in active use") rewords the unmeasurable "20+ projects" claim to maintainer attestation via private signal — adopter naming only with explicit consent. See `docs/v1.0-roadmap.md` § D1 for rationale.
+
 ## [0.9.4] — 2026-04-27
 
 **Hotfix.** Completes the migration chain from v0.8.0 onward. Surfaced when a project at v0.5.0 updated to v0.9.3 and Claude Code reported: _"Plugin manifest covers up to 0.8.0; plugin is now 0.9.3 … no 0.8 → 0.9 hop exists."_ The version field on the consumer's `.add/config.json` was bumping past 0.8.0 without any migration hop being traversed — a silent gap that's harmless today (v0.8 → v0.9.x had no required config-schema changes) but would silently skip future migrations that DO have steps.

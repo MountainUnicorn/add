@@ -4,8 +4,8 @@
 **Author**: abrooke
 **Organization**: MountainUnicorn
 **Repository**: https://github.com/MountainUnicorn/add
-**Document Version**: 1.0
-**Last Updated**: 2026-02-07
+**Document Version**: v0.9.5
+**Last Updated**: 2026-04-22
 
 ---
 
@@ -54,6 +54,8 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 | **Quality gates efficacy** | 90%+ of gate violations caught pre-deploy | Project retrospectives |
 | **Knowledge persistence** | ≥70% learned patterns reapplied cross-project | Learnings library analysis |
 | **Adoption gradient** | 50% adoption on legacy projects (via /add:init --adopt) | Tracked adoptions |
+
+> **Note on telemetry-derived metrics:** Several measurements above depend on the OpenTelemetry GenAI JSONL stream specified by `core/rules/telemetry.md`. Telemetry emission verification is a v0.9.7 milestone item; current claim reflects the spec, not yet validated dog-food output.
 
 ---
 
@@ -131,21 +133,22 @@ This PRD dog-foods ADD on itself: the ADD plugin is being built using ADD princi
 
 ---
 
-### v1.0.0: Marketplace Ready (Q2 2026)
+### v1.0.0: Production-Credible GA (target ~2026-07-18)
 
-**Goal**: Production-grade plugin, ready for broad distribution.
+**Goal**: Earn the GA tag. v1.0 is a credibility cycle, not a feature cycle — the methodology surface is broad enough; v1.0's job is to make the public claim surface match reality, prove the install path actually works on both runtimes, and reposition around ADD's durable moats (maturity ladder, multi-runtime methodology, TDD-deletion guardrail).
 
-**Features**:
-- Marketplace submission package (fully compliant)
-- Multi-environment Tier 2/Tier 3 support (prod deployment workflows)
-- Advanced learnings system: agent auto-checkpoints + human retros
-- CI/CD hooks: pre-commit lint, pre-push gate, test automation
-- Quality gates dashboard (status per project + org-wide metrics)
-- Template marketplace (community-contributed templates)
-- Profile system: team conventions auto-loaded on project init
-- Enhanced verify skill: semantic testing, regression detection
+The v1.0 plan that originally lived in this section is largely shipped (multi-environment support, advanced learnings with auto-checkpoints, CI/CD hooks, template/profile coverage all landed across v0.7.x–v0.9.x). The canonical, current scope is owned by [`docs/milestones/v1.0-ga.md`](milestones/v1.0-ga.md); the synthesis that produced it — three parallel research swarms across current state, unimplemented inventory, and market review — lives at [`docs/v1.0-roadmap.md`](v1.0-roadmap.md). The path is six releases over 8–10 weeks (v0.9.5 → v0.9.6 → v0.9.7 → v0.10.0 → v0.11.0 → v1.0.0), with seven decisions (D1–D7) locked on 2026-04-30.
 
-**Success**: Marketplace approval + 500+ installs in first month
+**v1.0 GA criteria** (from `.add/config.json:next_promotion_criteria`, reworded per D1):
+
+1. **Guardrail suite running in CI and release-blocking.**
+2. **Real Claude + Codex install smoke in CI.**
+3. **Per-runtime capability matrix in release notes.**
+4. **Beta exercise evidence:** ≥3 minor or patch releases past v0.9.0 shipped with no post-tag rollback; ≥1 community PR merged during the beta cycle; AC-025 release-evidence bundle generated for the v1.0 candidate release.
+5. **Marketplace submission approved.**
+6. **ADD verified in active use beyond the maintainer's solo work** — maintainer attests via private signal (direct contact, observed adoption, adopter feedback) that ADD methodology is in production on multiple external projects. Adopter naming only with explicit consent.
+
+See the milestone doc for per-release scope, hill chart, parallelism analysis, and risks. See the roadmap synthesis for the Part 4 capability-family architecture (what stays in ADD, what delegates to external tools, what gets added) and the M4 / v1.1 deferrals (host-neutral kernel, Cursor + Cline runtime adapters, ADD as MCP server).
 
 ---
 

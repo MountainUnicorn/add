@@ -1,5 +1,7 @@
 # Implementation Plan: Point-of-Use Image Generation Detection
 
+> Status: Complete (v0.3.0) — superseded by shipped feature.
+
 **Spec Version**: 0.1.0
 **Spec File**: specs/image-gen-detection.md
 **Created**: 2026-02-14

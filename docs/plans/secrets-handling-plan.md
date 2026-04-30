@@ -1,5 +1,7 @@
 # Plan: Secrets Handling
 
+> Status: Complete (v0.9.0) — superseded by shipped feature.
+
 **Spec:** specs/secrets-handling.md
 **Created:** 2026-04-22
 **Estimated Effort:** Small (1-1.5 days)

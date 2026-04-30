@@ -1,9 +1,9 @@
 ---
 name: add-back
-description: "[ADD v0.9.4] Return from absence — get briefing on autonomous work"
+description: "[ADD v0.9.5] Return from absence — get briefing on autonomous work"
 ---
 
-# ADD Back Command v0.9.4
+# ADD Back Command v0.9.5
 
 The human has returned. Provide a concise briefing on what happened during their absence.
 

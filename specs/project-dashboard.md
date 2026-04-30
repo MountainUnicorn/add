@@ -3,7 +3,9 @@
 **Version:** 0.1.0
 **Created:** 2026-02-19
 **PRD Reference:** docs/prd.md
-**Status:** Implementing
+**Status:** Complete
+**Shipped-In:** v0.3.0
+**Last-Updated:** 2026-04-22
 
 ## 1. Overview
 

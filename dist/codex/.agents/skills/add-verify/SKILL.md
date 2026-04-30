@@ -1,10 +1,10 @@
 ---
 name: add-verify
-description: "[ADD v0.9.4] Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v0.9.5] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 ---
 
-# ADD Verify Skill v0.9.4
+# ADD Verify Skill v0.9.5
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 

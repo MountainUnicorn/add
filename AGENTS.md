@@ -1,4 +1,4 @@
-<!-- ADD:MANAGED:START version=0.9.1 maturity=beta generated=2026-04-23T14:35:33Z -->
+<!-- ADD:MANAGED:START version=0.9.4 maturity=beta generated=2026-04-30T17:34:32Z -->
 
 # ADD
 

@@ -1,6 +1,6 @@
 ---
 name: add-away
-description: "[ADD v0.9.4] Declare absence — get autonomous work plan for the duration"
+description: "[ADD v0.9.5] Declare absence — get autonomous work plan for the duration"
 argument-hint: "[duration, e.g. '4 hours', '30 minutes', 'end of day']"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[duration, e.g. '4 hours', '30 minutes', 'end of day']"
 
 ---
 
-# ADD Away Command v0.9.4
+# ADD Away Command v0.9.5
 
 The human is stepping away. Establish what work can proceed autonomously and what must wait.
 

@@ -3,8 +3,10 @@
 **Version:** 0.1.0
 **Created:** 2026-04-22
 **PRD Reference:** docs/prd.md
-**Status:** Draft
+**Status:** Complete
 **Target Release:** v0.9.0
+**Shipped-In:** v0.9.0
+**Last-Updated:** 2026-04-22
 **Milestone:** M3-pre-ga-hardening
 **Depends-on:** PR #6 (rules/knowledge on-demand loading) — sets the mechanism this rule formalizes
 

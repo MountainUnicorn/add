@@ -1,5 +1,7 @@
 # Implementation Plan: Legacy Adoption (Version Migration)
 
+> Status: Complete (v0.4.0) — superseded by shipped feature.
+
 **Spec Version:** 0.1.0
 **Created:** 2026-02-18
 **Team Size:** Solo

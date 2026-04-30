@@ -3,14 +3,14 @@
 <p align="center">
   <strong>AI agents write code fast. Without structure, they ship chaos.</strong>
   <br>
-  ADD is coordinated agent swarms — test-writers, implementers, reviewers, deployers — that ship verified software as a team. Spec-driven. Test-first. Independently verified. Human-validated.
+  ADD is a methodology for AI-native software development — spec-driven, test-first, independently verified, human-validated — implemented as a Claude Code plugin (with a Codex CLI adapter) that coordinates specialized agent swarms.
   <br>
   <br>
   <a href="https://getadd.dev">Website</a> · <a href="#install">Install</a> · <a href="#quick-start">Quick Start</a> · <a href="#coordinated-agent-teams">Agent Teams</a> · <a href="#human-in-the-loop">Human-in-the-Loop</a> · <a href="#for-product-managers">For PMs</a> · <a href="#cross-project-learning">Learning</a>
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.9.4-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.9.5-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -449,7 +449,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 ---
 
 <details>
-<summary><strong>Commands &amp; Skills</strong> — 27 total (v0.9.1)</summary>
+<summary><strong>Commands &amp; Skills</strong> — 27 total</summary>
 
 **Core workflow:**
 
@@ -498,7 +498,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 </details>
 
 <details>
-<summary><strong>Rules</strong> — 11 auto-loaded behavioral rules</summary>
+<summary><strong>Rules</strong> — 19 auto-loaded behavioral rules</summary>
 
 | Rule | What it enforces |
 |------|-----------------|
@@ -512,7 +512,15 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 | `learning` | Automatic checkpoints, knowledge persistence, retro integration |
 | `project-structure` | Standard `.add/` layout, cross-project persistence paths |
 | `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level |
+| `maturity-loader` | Loads the per-maturity preset that gates other rules |
 | `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals |
+| `add-compliance` | ADD methodology compliance checks |
+| `cache-discipline` | Marketplace/cache hygiene and stale-cache recovery |
+| `injection-defense` | Prompt-injection defense for untrusted content |
+| `registry-sync` | Keep manifests/registries in sync after edits |
+| `secrets-handling` | Never commit secrets; redaction patterns |
+| `telemetry` | Structured telemetry events from skills/hooks |
+| `version-migration` | Multi-hop version migration ladder |
 
 </details>
 
@@ -554,10 +562,7 @@ Cross-project persistence (machine-local, not committed):
 
 ## Roadmap
 
-- **v0.1.0** — Complete. Core infrastructure — 6 commands, 8 skills, 10 rules, 10 templates.
-- **v0.2.0** — Complete. Branding system, image gen detection, auto-changelog, infographic generation.
-- **v0.4.0** — Next. Adoption & polish — `/add:init --adopt`, enhanced interviews, cross-project sync.
-- **v1.0.0** — Planned. Marketplace ready — CI/CD hooks, advanced learnings, team profiles.
+See [docs/v1.0-roadmap.md](docs/v1.0-roadmap.md) for the current path to v1.0 (GA). Release history lives in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

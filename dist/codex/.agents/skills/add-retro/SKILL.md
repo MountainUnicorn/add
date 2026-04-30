@@ -1,6 +1,6 @@
 ---
 name: add-retro
-description: "[ADD v0.9.4] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+description: "[ADD v0.9.5] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|s
 
 ---
 
-# ADD Retro Command v0.9.4
+# ADD Retro Command v0.9.5
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 

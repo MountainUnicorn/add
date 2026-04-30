@@ -25,28 +25,28 @@ As an ADD maintainer shipping a plugin family for Claude Code and Codex, I want 
 
 The review used five perspectives: product/adoption, architecture/modularity, Codex-native support, Claude/distribution compatibility, and security/ops. Findings below are deduplicated and assigned to the earliest release that should address them.
 
-| ID | Severity | Finding | Evidence | Target |
-|----|----------|---------|----------|--------|
-| F-001 | P0 | Claude marketplace manifest is invalid. Root marketplace validation fails on top-level `description`. | `.claude-plugin/marketplace.json`; `claude plugin validate .` | v0.8.1 |
-| F-002 | P0 | Codex install paths do not match generated skill references. Skills reference `~/.codex/templates`, `~/.codex/knowledge`, `~/.codex/rules`, and `~/.codex/lib`; installer stages only some shared assets under `~/.codex/add`. | `scripts/install-codex.sh`, `scripts/compile.py`, `dist/codex/.agents/skills/*/SKILL.md` | v0.8.1 |
-| F-003 | P1 | Test rewrite guardrail can be bypassed with `--allow-test-rewrite` and no recorded human override. | `scripts/check-test-count.py` | v0.8.1 |
-| F-004 | P1 | Public Codex docs describe legacy prompts and wrong minimum version. | `README.md`, `docs/codex-install.md`, `dist/codex/plugin.toml` | v0.8.1 |
-| F-005 | P1 | CI does not run the new guardrail suites or post-install smoke tests. | `.github/workflows/*.yml`, `tests/*` | v0.8.1 then v1.0 |
-| F-006 | P1 | ADD core remains Claude-shaped: `CLAUDE.md`, `.claude`, `~/.claude/add`, and Claude command syntax appear in core skills and Codex output. | `core/skills/init/SKILL.md`, generated Codex skills | v0.9.0 |
-| F-007 | P1 | Runtime adapter YAML files are descriptive, not authoritative. Compile and installer scripts hard-code output contracts. | `runtimes/*/adapter.yaml`, `scripts/compile.py`, `scripts/install-codex.sh` | v0.9.0 |
-| F-008 | P1 | Codex marketplace/package format is incomplete or speculative for the current CLI. | `dist/codex/plugin.toml`, missing `.codex-plugin/plugin.json`, missing `.agents/plugins/marketplace.json` | v0.9.0 |
-| F-009 | P1 | Codex skill policy metadata may not match local Codex conventions. | `dist/codex/.agents/skills/*/agents/openai.yaml` | v0.9.0 |
-| F-010 | P1 | Hooks and config are staged but not necessarily enabled; hook paths may miss depending on global vs plugin-relative install. | `scripts/install-codex.sh`, `dist/codex/.codex/hooks.json` | v0.9.0 |
-| F-011 | P1 | Claude rule distribution has drifted. `/add:init` and Claude runtime references include fewer rules than `core/rules/`. | `core/skills/init/SKILL.md`, `runtimes/claude/CLAUDE.md`, `core/rules/` | v0.8.1 |
-| F-012 | P1 | Prompt-injection hook warnings may be audited but not surfaced through the current Claude feedback path. | `runtimes/claude/hooks/posttooluse-scan.sh`, `runtimes/claude/hooks/hooks.json` | v0.8.1 |
-| F-013 | P1 | Telemetry is specified but not emitted by skills through a shared operational writer. | `core/rules/telemetry.md`, `core/skills/*` | v0.9.0 |
-| F-014 | P1 | Secrets gate remains mostly declarative; tests prove regex fixtures but not staged commit blocking behavior. | `core/skills/deploy/SKILL.md`, `tests/secrets-handling/` | v0.9.0 |
-| F-015 | P1 | Config schema and migration graph are under-specified. Template version and migration paths do not line up cleanly with current version. | `core/templates/config.json.template`, `core/templates/migrations.json`, `core/schemas/` | v0.9.0 |
-| F-016 | P2 | Installer ownership/collision story is weak. It deletes/replaces `add-*` skills and generic agents without an ownership manifest. | `scripts/install-codex.sh` | v0.9.0 |
-| F-017 | P2 | `jq` dependency contradicts zero-dependency messaging unless guarded or documented. | `runtimes/claude/hooks/*`, `README.md` | v0.8.1 |
-| F-018 | P2 | Cache-discipline strict mode is not yet enforceable across `core/skills`. | `scripts/validate-cache-discipline.py --strict core/skills` | v0.9.0 |
-| F-019 | P2 | Version and command catalog drift confuse users. Counts, names, and release markers disagree across README, marketplace, AGENTS, and dist. | `README.md`, `.claude-plugin/marketplace.json`, `AGENTS.md`, `dist/codex/AGENTS.md` | v0.9.0 |
-| F-020 | P2 | Website/report/infographic assets are stale or detached from the runtime catalog. | `reports/`, `docs/infographic.svg`, website repo pointer | v1.0.0 |
+| ID | Severity | Finding | Evidence | Target | Rationale |
+|----|----------|---------|----------|--------|-----------|
+| F-001 | P0 | Claude marketplace manifest is invalid. Root marketplace validation fails on top-level `description`. | `.claude-plugin/marketplace.json`; `claude plugin validate .` | v0.8.1 | |
+| F-002 | P0 | Codex install paths do not match generated skill references. Skills reference `~/.codex/templates`, `~/.codex/knowledge`, `~/.codex/rules`, and `~/.codex/lib`; installer stages only some shared assets under `~/.codex/add`. | `scripts/install-codex.sh`, `scripts/compile.py`, `dist/codex/.agents/skills/*/SKILL.md` | v0.8.1 | |
+| F-003 | P1 | Test rewrite guardrail can be bypassed with `--allow-test-rewrite` and no recorded human override. | `scripts/check-test-count.py` | v0.8.1 | |
+| F-004 | P1 | Public Codex docs describe legacy prompts and wrong minimum version. | `README.md`, `docs/codex-install.md`, `dist/codex/plugin.toml` | v0.8.1 | |
+| F-005 | P1 | CI does not run the new guardrail suites or post-install smoke tests. | `.github/workflows/*.yml`, `tests/*` | v0.8.1 then v1.0 | |
+| F-006 | P1 | ADD core remains Claude-shaped: `CLAUDE.md`, `.claude`, `~/.claude/add`, and Claude command syntax appear in core skills and Codex output. | `core/skills/init/SKILL.md`, generated Codex skills | v1.1.0 | Architectural — deferred per D2 to post-GA v1.1.0. v0.9.7 ships Tier 1 substitution-only close (~80% of leak); full host-neutral kernel is M4 work. |
+| F-007 | P1 | Runtime adapter YAML files are descriptive, not authoritative. Compile and installer scripts hard-code output contracts. | `runtimes/*/adapter.yaml`, `scripts/compile.py`, `scripts/install-codex.sh` | v1.1.0 | Architectural — deferred per D2 to post-GA v1.1.0. AC-010 may land conditionally in v0.10 if capacity allows; full close belongs to the M4 architectural cycle alongside Cursor/Cline adapters. |
+| F-008 | P1 | Codex marketplace/package format is incomplete or speculative for the current CLI. | `dist/codex/plugin.toml`, missing `.codex-plugin/plugin.json`, missing `.agents/plugins/marketplace.json` | v0.9.0 | |
+| F-009 | P1 | Codex skill policy metadata may not match local Codex conventions. | `dist/codex/.agents/skills/*/agents/openai.yaml` | v0.9.0 | |
+| F-010 | P1 | Hooks and config are staged but not necessarily enabled; hook paths may miss depending on global vs plugin-relative install. | `scripts/install-codex.sh`, `dist/codex/.codex/hooks.json` | v0.9.0 | |
+| F-011 | P1 | Claude rule distribution has drifted. `/add:init` and Claude runtime references include fewer rules than `core/rules/`. | `core/skills/init/SKILL.md`, `runtimes/claude/CLAUDE.md`, `core/rules/` | v0.8.1 | |
+| F-012 | P1 | Prompt-injection hook warnings may be audited but not surfaced through the current Claude feedback path. | `runtimes/claude/hooks/posttooluse-scan.sh`, `runtimes/claude/hooks/hooks.json` | v0.8.1 | |
+| F-013 | P1 | Telemetry is specified but not emitted by skills through a shared operational writer. | `core/rules/telemetry.md`, `core/skills/*` | v0.9.0 | |
+| F-014 | P1 | Secrets gate remains mostly declarative; tests prove regex fixtures but not staged commit blocking behavior. | `core/skills/deploy/SKILL.md`, `tests/secrets-handling/` | v0.9.0 | |
+| F-015 | P1 | Config schema and migration graph are under-specified. Template version and migration paths do not line up cleanly with current version. | `core/templates/config.json.template`, `core/templates/migrations.json`, `core/schemas/` | v0.9.0 | |
+| F-016 | P2 | Installer ownership/collision story is weak. It deletes/replaces `add-*` skills and generic agents without an ownership manifest. | `scripts/install-codex.sh` | v0.9.0 | |
+| F-017 | P2 | `jq` dependency contradicts zero-dependency messaging unless guarded or documented. | `runtimes/claude/hooks/*`, `README.md` | v0.8.1 | |
+| F-018 | P2 | Cache-discipline strict mode is not yet enforceable across `core/skills`. | `scripts/validate-cache-discipline.py --strict core/skills` | v0.9.0 | |
+| F-019 | P2 | Version and command catalog drift confuse users. Counts, names, and release markers disagree across README, marketplace, AGENTS, and dist. | `README.md`, `.claude-plugin/marketplace.json`, `AGENTS.md`, `dist/codex/AGENTS.md` | v0.9.0 | |
+| F-020 | P2 | Website/report/infographic assets are stale or detached from the runtime catalog. | `reports/`, `docs/infographic.svg`, website repo pointer | v1.0.0 | |
 
 ## 3. Acceptance Criteria
 
@@ -66,20 +66,20 @@ The review used five perspectives: product/adoption, architecture/modularity, Co
 
 ### B. v0.9.0 Architecture: Runtime Contracts and Host-Neutral Kernel
 
-| ID | Criterion | Priority |
-|----|-----------|----------|
-| AC-010 | `runtimes/*/adapter.yaml` becomes an executable contract for output roots, path variables, copied assets, manifest shape, hooks, skill policy schema, and runtime-specific substitutions. Compile/install scripts read this contract or drift tests fail when they disagree. | Must |
-| AC-011 | ADD introduces neutral path variables such as `${ADD_HOME}`, `${ADD_RUNTIME_ROOT}`, and `${ADD_USER_LIBRARY}`. Core skills stop using `${CLAUDE_PLUGIN_ROOT}` for host-neutral assets. | Must |
-| AC-012 | Core skill content is split into host-neutral methodology plus runtime overlays. Claude owns `CLAUDE.md`, `.claude`, `~/.claude/add`, `/add:skill`, Claude tool names, and Claude hook feedback. Codex owns `AGENTS.md`, `.codex`, `~/.codex/add`, `/add-skill`, Codex skill metadata, and Codex hook behavior. | Must |
-| AC-013 | Codex plugin packaging matches the pinned Codex CLI's actual marketplace/plugin conventions, including manifest name, marketplace entry, skill paths, agent paths, hooks, and UI metadata. | Must |
-| AC-014 | Codex `agents/openai.yaml` shape matches the pinned Codex convention and is validated in CI. High-leak skills remain explicit-only. | Must |
-| AC-015 | Codex config and hooks are either installed plugin-relative and enabled by the plugin mechanism, or safely merged into global config with backup, detection, and clear user instructions. | Must |
-| AC-016 | Installers maintain an ownership manifest, avoid clobbering non-ADD files, namespace agents where needed, support `--dry-run`, and uninstall only owned files. | Must |
-| AC-017 | Config schema exists and validates `.add/config.json`. Migration graph tests prove every supported historical version can migrate to `core/VERSION`. | Must |
-| AC-018 | Telemetry has a shared append helper or generated post-flight block, and skills emit success, failure, abort, and partial outcomes when telemetry is enabled. | Must |
-| AC-019 | Secrets handling has an executable staged-content scanner that reads the shared catalog, respects `.secretsignore`, redacts matched values, and blocks deploy/verify when configured. | Must |
-| AC-020 | Cache-discipline strict mode passes for intended dispatching skills or false positives are explicitly suppressed with documented markers. | Should |
-| AC-021 | Command catalog is generated from the source of truth and renders Claude syntax, Codex syntax, implicit-dispatch policy, risk level, and skill count consistently across README, marketplace metadata, runtime AGENTS/CLAUDE docs, and website inputs. | Must |
+| ID | Criterion | Priority | Target |
+|----|-----------|----------|--------|
+| AC-010 | `runtimes/*/adapter.yaml` becomes an executable contract for output roots, path variables, copied assets, manifest shape, hooks, skill policy schema, and runtime-specific substitutions. Compile/install scripts read this contract or drift tests fail when they disagree. | Must | v1.1.0 (D2 deferral; conditional Tier 2 land in v0.10 if capacity allows) |
+| AC-011 | ADD introduces neutral path variables such as `${ADD_HOME}`, `${ADD_RUNTIME_ROOT}`, and `${ADD_USER_LIBRARY}`. Core skills stop using `${CLAUDE_PLUGIN_ROOT}` for host-neutral assets. | Must | v1.1.0 (D2 deferral; conditional Tier 2 land in v0.10 if capacity allows) |
+| AC-012 | Core skill content is split into host-neutral methodology plus runtime overlays. Claude owns `CLAUDE.md`, `.claude`, `~/.claude/add`, `/add:skill`, Claude tool names, and Claude hook feedback. Codex owns `AGENTS.md`, `.codex`, `~/.codex/add`, `/add-skill`, Codex skill metadata, and Codex hook behavior. | Must | v1.1.0 (D2 Tier 3 — full host-neutral methodology + runtime overlay split is M4 work) |
+| AC-013 | Codex plugin packaging matches the pinned Codex CLI's actual marketplace/plugin conventions, including manifest name, marketplace entry, skill paths, agent paths, hooks, and UI metadata. | Must | v0.9.0 |
+| AC-014 | Codex `agents/openai.yaml` shape matches the pinned Codex convention and is validated in CI. High-leak skills remain explicit-only. | Must | v0.9.0 |
+| AC-015 | Codex config and hooks are either installed plugin-relative and enabled by the plugin mechanism, or safely merged into global config with backup, detection, and clear user instructions. | Must | v0.9.0 |
+| AC-016 | Installers maintain an ownership manifest, avoid clobbering non-ADD files, namespace agents where needed, support `--dry-run`, and uninstall only owned files. | Must | v0.9.0 |
+| AC-017 | Config schema exists and validates `.add/config.json`. Migration graph tests prove every supported historical version can migrate to `core/VERSION`. | Must | v0.9.0 |
+| AC-018 | Telemetry has a shared append helper or generated post-flight block, and skills emit success, failure, abort, and partial outcomes when telemetry is enabled. | Must | v0.9.0 |
+| AC-019 | Secrets handling has an executable staged-content scanner that reads the shared catalog, respects `.secretsignore`, redacts matched values, and blocks deploy/verify when configured. | Must | v0.9.0 |
+| AC-020 | Cache-discipline strict mode passes for intended dispatching skills or false positives are explicitly suppressed with documented markers. | Should | v0.9.0 |
+| AC-021 | Command catalog is generated from the source of truth and renders Claude syntax, Codex syntax, implicit-dispatch policy, risk level, and skill count consistently across README, marketplace metadata, runtime AGENTS/CLAUDE docs, and website inputs. | Must | v0.9.0 |
 
 ### C. v1.0.0 Release Confidence: End-to-End Proof
 

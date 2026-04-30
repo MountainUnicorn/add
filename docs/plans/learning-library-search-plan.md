@@ -1,5 +1,7 @@
 # Implementation Plan: Cross-Project Learning Library Search
 
+> Status: Complete (v0.4.0) — superseded by shipped feature.
+
 **Spec Version:** 0.1.0
 **Spec:** specs/learning-library-search.md
 **Created:** 2026-02-17

@@ -1,5 +1,7 @@
 # Implementation Plan: Codex-Native Skills
 
+> Status: Complete (v0.9.0) — superseded by shipped feature.
+
 **Spec:** `specs/codex-native-skills.md`
 **Target:** v0.9.0 (M3 pre-GA hardening)
 **Status:** In progress

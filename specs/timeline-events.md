@@ -3,8 +3,11 @@
 **Version:** 0.1.0
 **Created:** 2026-02-21
 **PRD Reference:** docs/prd.md
-**Status:** Draft
+**Status:** Superseded
 **Target Release:** v0.5.0
+**Last-Updated:** 2026-04-22
+
+> **Superseded** by `specs/telemetry-jsonl.md` and the dashboard implementation. Retained for historical reference.
 
 ## 1. Overview
 

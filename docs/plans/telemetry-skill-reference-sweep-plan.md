@@ -1,5 +1,7 @@
 # Implementation Plan: Telemetry — Per-Skill Reference Sweep (F-013)
 
+> Status: Complete (v0.9.3) — superseded by shipped feature.
+
 **Spec:** `specs/telemetry-skill-reference-sweep.md`
 **Spec Version:** 0.1.0
 **Created:** 2026-04-26

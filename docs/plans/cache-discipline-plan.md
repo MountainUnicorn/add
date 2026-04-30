@@ -1,5 +1,7 @@
 # Implementation Plan: cache-discipline
 
+> Status: Complete (v0.9.0) — superseded by shipped feature.
+
 **Spec:** `specs/cache-discipline.md`
 **Target Release:** v0.9.0 (milestone M3-pre-ga-hardening)
 **Branch:** `feat/cache-discipline`

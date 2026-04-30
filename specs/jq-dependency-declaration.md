@@ -3,8 +3,10 @@
 **Version:** 0.1.0
 **Created:** 2026-04-26
 **PRD Reference:** docs/prd.md
-**Status:** Draft
+**Status:** Complete
 **Target Release:** v0.9.2
+**Shipped-In:** v0.9.3
+**Last-Updated:** 2026-04-22
 **Milestone:** none
 **Depends-on:** none
 

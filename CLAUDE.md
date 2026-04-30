@@ -53,8 +53,11 @@ Cut a signed release:
 core/                  # Source of truth (runtime-neutral)
   skills/              #   27 skills — all slash commands
   rules/               #   19 auto-loading behavioral rules
-  templates/           #   21 document templates
-  knowledge/           #   2 Tier-1 knowledge files
+  references/          #   non-autoloaded reference rules (loaded on-demand)
+  templates/           #   23 document templates
+  knowledge/           #   4 Tier-1 knowledge files
+  lib/                 #   shared library functions used by hooks/skills
+  security/            #   security-related artifacts (threat model, redaction)
   schemas/             #   2 JSON Schema validators
   VERSION              #   Canonical version string
 

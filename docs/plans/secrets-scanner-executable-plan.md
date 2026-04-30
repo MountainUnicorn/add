@@ -1,5 +1,7 @@
 # Plan: Executable Secrets Scanner (F-014)
 
+> Status: Complete (v0.9.3) — superseded by shipped feature.
+
 **Spec:** `specs/secrets-scanner-executable.md`
 **Created:** 2026-04-26
 **Estimated Effort:** Small to Medium (1.5–2 days)

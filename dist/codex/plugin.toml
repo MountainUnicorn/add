@@ -3,7 +3,7 @@
 # plugin marketplace during `codex plugin install`.
 
 name = "add"
-version = "0.9.4"
+version = "0.9.5"
 description = "Agent Driven Development (ADD) — spec-driven, test-first SDLC methodology for AI agent teams."
 min_codex_version = "0.122.0"
 
