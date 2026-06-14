@@ -141,6 +141,35 @@ handoff: {what the next agent needs to know}
 - The orchestrator clears swarm-state at the start of each new multi-agent operation
 - Swarm-state is working state, not permanent record — cleared between cycles
 
+### Format Contract
+
+`.add/swarm-state.md` is a **machine-readable** coordination log so any consumer
+— a human, the orchestrator, or a native Workflow's journaled state — can parse
+it the same way. The contract:
+
+- **Entry delimiter:** each claim/report is one Markdown `## ` (H2) block. The
+  heading is exactly `## {agent-role} ({timestamp})`.
+- **agent-role:** kebab-case, matches a defined role (`test-writer`,
+  `implementer`, `reviewer`, `verify`, `explorer`, or `orchestrator`).
+- **timestamp:** ISO 8601 (`YYYY-MM-DDTHH:MM:SSZ`). The latest block per
+  agent-role is authoritative.
+- **fields:** one `key: value` per line within a block; unknown keys are
+  ignored by parsers (forward-compatible).
+
+| Field | Required when | Type | Notes |
+|-------|---------------|------|-------|
+| `status` | always | enum | `active` \| `complete` \| `blocked` \| `abandoned` |
+| `claimed` | always | string | the scope (spec, files, or area) this agent owns |
+| `depends-on` | claiming | string | other agent-roles, or `none` |
+| `result` | `complete` | string | one-line output summary |
+| `blockers` | `complete`/`blocked` | string | what prevented completion, or `none` |
+| `handoff` | `complete` | string | what the next agent needs to know |
+
+A parser reads the file, splits on `^## `, takes the last block per agent-role,
+and reads `key: value` lines. This contract is stable: fields may be *added*
+(consumers ignore unknown keys) but existing field names and the `status` enum
+must not change meaning without a version bump to this section.
+
 ## Micro-Retro After Multi-Agent Operations
 
 After ALL parallel agents complete and their work is merged:
