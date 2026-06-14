@@ -1,12 +1,15 @@
 <h1 align="center">ADD — Agent Driven Development</h1>
 
 <p align="center">
-  <strong>AI agents write code fast. Without structure, they ship chaos.</strong>
+  <strong>One dial scales the rigor. Trust your agents as much as your project has earned.</strong>
   <br>
-  ADD is a methodology for AI-native software development — spec-driven, test-first, independently verified, human-validated — implemented as a Claude Code plugin (with a Codex CLI adapter) that coordinates specialized agent swarms.
+  ADD is a methodology for AI-native software development built around a single control: the <strong>maturity ladder</strong> (poc → alpha → beta → ga). The ladder governs everything — how deep your specs go, whether TDD is enforced, how many agents run in parallel, which quality gates block. A throwaway prototype gets near-zero ceremony; production infrastructure gets exhaustive verification. You turn one dial; ADD cascades the rest.
   <br>
   <br>
-  <a href="https://getadd.dev">Website</a> · <a href="#install">Install</a> · <a href="#quick-start">Quick Start</a> · <a href="#coordinated-agent-teams">Agent Teams</a> · <a href="#human-in-the-loop">Human-in-the-Loop</a> · <a href="#for-product-managers">For PMs</a> · <a href="#cross-project-learning">Learning</a>
+  <em>AI agents write code fast. Without structure, they ship chaos.</em> ADD brings the structure — spec-driven, test-first, independently verified, human-validated — implemented as a Claude Code plugin (with a Codex CLI adapter).
+  <br>
+  <br>
+  <a href="https://getadd.dev">Website</a> · <a href="#the-maturity-ladder--one-dial-for-the-trust-gradient">Maturity Ladder</a> · <a href="#install">Install</a> · <a href="#quick-start">Quick Start</a> · <a href="#coordinated-agent-teams">Agent Teams</a> · <a href="#human-in-the-loop">Human-in-the-Loop</a> · <a href="#for-product-managers">For PMs</a> · <a href="#cross-project-learning">Learning</a>
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
@@ -16,6 +19,21 @@
 
 ---
 
+## The Maturity Ladder — one dial for the trust gradient
+
+Autonomous agents need a trust gradient: how much you let them do should scale with how much your project has earned. ADD makes that gradient the master control. Every project declares a maturity level, and that level cascades to **every** process decision — no per-rule debates, just one dial.
+
+| Stage | What it means | What ADD does |
+|-------|---------------|---------------|
+| **POC**   | Validate an idea. Learning > completeness.       | Paragraph PRD. Optional specs/TDD. Pre-commit gate only. 1 agent, serial. |
+| **Alpha** | Building toward MVP. Surviving first real usage. | 1-page PRD. Critical-path specs + TDD. Adds CI gate. Up to 2 agents. |
+| **Beta**  | Broader audience. Stabilize, reduce defects.     | Full PRD. All specs required, strict TDD. Adds pre-deploy gate. 2–4 agents. |
+| **GA**    | Production-grade, long-term support.             | Full PRD + architecture. Exhaustive ACs. All 5 gates blocking. 3–5 agents via worktrees. |
+
+Promotion is **deliberate, not automatic** — `/add:promote --check` runs an evidence-based gap analysis (specs, coverage, CI, branch protection) and tells you exactly what's missing before you level up. You don't graduate to GA by wishing; you graduate when the evidence says you're ready.
+
+> This is the trust-gradient problem the 2026 agentic-coding discourse names as the central challenge of autonomous development — and ADD shipped an implementation of it.
+
 ## The Problem
 
 AI code generation has changed how software gets built, but development practices haven't kept up. Developers and agents operate without structure, leading to specification drift, unpredictable quality, lost knowledge, and unclear handoffs.
@@ -24,11 +42,11 @@ AI code generation has changed how software gets built, but development practice
 
 ## What is Agent Driven Development?
 
-**TDD** gave us tests before code. **BDD** gave us behavior before tests. **ADD** gives us *coordinated agent teams before everything*.
+**TDD** gave us tests before code. **BDD** gave us behavior before tests. **ADD** gives us *maturity-governed agent teams* — process rigor that scales with the trust your project has earned.
 
 ADD is a structured SDLC methodology where AI agents do the development work — writing tests, implementing features, reviewing code, deploying — while humans architect, decide, and verify the user experience. It's not a tool. It's a way of working.
 
-**The six principles:**
+**Maturity governs everything** — one dial (poc → alpha → beta → ga) scales all process rigor. On top of that master control, six principles:
 
 1. **Specs before code** — Every feature starts as a specification. No spec, no code.
 2. **Tests before implementation** — Strict TDD: RED → GREEN → REFACTOR → VERIFY.

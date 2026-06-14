@@ -58,7 +58,7 @@ Never skip verification. A sub-agent reporting "all tests pass" is necessary but
 
 ## Parallel Execution
 
-When tasks are independent, dispatch in parallel. After all complete, the orchestrator runs the full test suite to verify agents' work coexists without conflicts.
+When tasks are independent, ADD expresses them as a parallel group and lets the runtime dispatch them (Claude Dynamic Workflows / Codex sub-agents; manual fallback if neither is present). Concurrency is capped by the maturity WIP limit. After the runtime returns, the orchestrator independently runs the full test suite to verify the agents' work coexists — delegation never replaces trust-but-verify.
 
 ## Context Management
 
@@ -82,11 +82,11 @@ When verification passes clean, record notable patterns worth reusing.
 
 ## Swarm Coordination
 
-For parallel multi-agent work (cycle plans with 2+ agents), see the full protocol at `${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md`. Key points:
+For parallel multi-agent work (cycle plans with 2+ agents), ADD owns the *policy* and delegates the *mechanism* to the runtime. See the full protocol at `${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md`. Key points:
 
-- Assess file conflict risk before dispatching (independent / low conflict / high conflict)
-- Use git worktrees (beta/ga) or file reservations (alpha) for isolation
-- WIP limits: poc=1, alpha=2, beta=4, ga=5 parallel agents
+- Assess file conflict risk before declaring the parallel group (independent / low conflict / high conflict)
+- WIP limits — poc=1, alpha=2, beta=4, ga=5 — compile to the runtime's concurrency config (Claude Workflow concurrency / Codex sub-agent pool); identical in the manual fallback
+- Isolation is delegated to the runtime at beta/ga (worktrees); file reservations are the alpha/fallback policy
 - Never let two agents write to the same file simultaneously
-- Run integration tests after each merge, not just after all merges
+- Run integration tests after each merge; trust-but-verify is never delegated
 - Write micro-retro to `.add/observations.md` after multi-agent operations complete

@@ -1,8 +1,22 @@
 # Swarm Coordination Protocol Reference
 
-> Full reference for parallel multi-agent work. Loaded by `/add:cycle` when
-> dispatching parallel agents. Core agent coordination rules are in
-> `rules/agent-coordination.md`.
+> ADD's **policy layer** for parallel multi-agent work. ADD owns the *policy* —
+> concurrency limits, conflict assessment, role briefs, merge ordering,
+> trust-but-verify gates, swarm-state. The *mechanism* — parallel dispatch,
+> worktree isolation, step-output schemas, budgets — is delegated to the runtime
+> when it provides one:
+>
+> - **Claude Code:** ADD's policy maps onto native **Dynamic Workflows**
+>   (`parallel()`/`pipeline()`, schema-validated output, per-step budgets,
+>   worktree isolation).
+> - **Codex CLI:** maps onto native **TOML sub-agents**.
+> - **No native orchestration:** the manual recipes in this file are the
+>   fallback. Policy is identical in all three paths.
+>
+> **Litmus test:** if a paragraph describes *how* to run agents in parallel, it's
+> mechanism (delegate it). If it describes *whether, how many, in what order, and
+> whether to trust the result*, it's policy (ADD owns it). Loaded by `/add:cycle`.
+> Core coordination rules are in `rules/agent-coordination.md`.
 
 ## Conflict Assessment
 
@@ -16,9 +30,16 @@ Before dispatching parallel agents, assess file conflict risk:
    - **Low conflict** — shared read-only files (imports, types) → parallelize with file reservations
    - **High conflict** — shared mutable files (same module, same DB migration) → serialize
 
-## Git Worktree Strategy (Recommended for beta/ga maturity)
+## Worktree Isolation — delegated to the runtime (manual recipe = fallback)
 
-For parallel agents on independent features:
+> **MECHANISM (runtime-owned).** ADD's *policy* is only: beta/ga ⇒ isolation
+> REQUIRED; alpha ⇒ file reservations acceptable; poc ⇒ serial, no isolation.
+> *How* isolation happens is the runtime's job — Claude Workflows create per-step
+> worktrees (set isolation on the parallel group; ADD does not run `git worktree
+> add` by hand), Codex provisions a worktree per sub-agent. The recipe below is
+> the **manual fallback** for runtimes with no native orchestration.
+
+Manual fallback — for parallel agents on independent features:
 
 ```
 # Setup (orchestrator runs once)
@@ -55,6 +76,12 @@ Rules:
 - The orchestrator tracks reservations in the cycle plan
 
 ## WIP Limits
+
+> **POLICY (ADD-owned) — the single most important swarm input.** These limits
+> are invariant across native and manual paths. Where a runtime orchestrates,
+> they become its concurrency config (Claude Workflow parallel-group concurrency
+> / Codex sub-agent pool size); in the manual fallback they cap how many agents
+> the orchestrator dispatches at once.
 
 | Maturity | Max Parallel Agents | Max Features In-Progress | Max Cycle Items |
 |----------|--------------------|--------------------------|-|
@@ -187,3 +214,5 @@ After ALL parallel agents complete and their work is merged:
 - **Never** dispatch sub-agents without reading all 3 knowledge tiers first
 - **Never** merge without running integration tests after each merge
 - **Avoid** parallel work at poc maturity — overhead exceeds benefit
+- **Never** re-implement parallel dispatch or worktree setup inline when the runtime provides native orchestration — delegate the mechanism, keep the policy
+- **Never** let delegation skip trust-but-verify — a runtime reporting "success" is necessary but not sufficient; the orchestrator still independently verifies
