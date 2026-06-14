@@ -552,6 +552,58 @@
       "date": "2026-06-14",
       "classified_by": "agent",
       "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-043",
+      "title": "A high-false-positive security control is a liability, not a weak asset",
+      "body": "ADD's unicode-tag-block injection detector ran at 'critical' severity with a ~100% false-positive rate (652/652 sampled events benign, 0 real attacks) for months \u2014 a broken byte character-class regex matching almost any multibyte UTF-8. Worse than no detector: it habituates humans and the system to treat output as noise, so a real hit is indistinguishable and dismissed. Treat false-positive rate as a first-class health metric; a detector that never fires correctly is security theater. Fixed in Wave 2 with an evidence-derived precise regex.",
+      "scope": "project",
+      "stack": [],
+      "category": "security",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-044",
+      "title": "Committing an append-only audit/telemetry trail to git is what makes its bugs invisible",
+      "body": "The 6990-line injection-events.jsonl lived in version control. A file that large and noisy becomes scenery \u2014 reviewers scroll past it every diff \u2014 so the evidence (every event was a benign em-dash) sat in plain sight yet unread. Detectability and hygiene were the same problem. Runtime audit/telemetry trails belong gitignored and local. Fixed: gitignore .add/security/ + untrack.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-045",
+      "title": "A security-pattern fix is only as good as its tests' NEGATIVE and BOUNDARY coverage",
+      "body": "The D3 regex fix initially passed because fixtures exercised only the middle of the U+E0000-E007F range (one third-byte branch, neither boundary) and the negative control was pure ASCII \u2014 containing none of the multibyte bytes that caused the bug. The green suite could NOT detect a revert. Closed by adding benign-multibyte.json (em-dash/arrow/box/CJK/emoji) asserted to NOT fire, mutation-verified to go red on the old regex. For detectors, the proof-of-fix MUST reproduce the old failure mode. Reinforces L-041.",
+      "scope": "project",
+      "stack": [],
+      "category": "testing",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-046",
+      "title": "Re-derive a spec's premises from the live system before implementing; risk is dominated, not averaged, across a batch",
+      "body": "D3's spec claimed 33 events; reality was ~690 \u2014 the cohesion review caught this before code, and the re-derivation is what surfaced the 652 false positives. Trusting the document over the running system means implementing the wrong thing correctly. Separately: batching one critical security fix with three trivial items into one wave/commit let it ride the credibility of 'all 15 suites pass' when 14 were irrelevant \u2014 isolate highest-risk items for scrutiny proportional to THEIR blast radius.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
     }
   ]
 }
