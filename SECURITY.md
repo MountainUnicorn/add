@@ -36,7 +36,7 @@ For clarity:
 
 ## Dogfooded Injection-Defense
 
-ADD ships skills, rules, and templates that a runtime auto-loads as behavioral instructions — so a poisoned ADD artifact is itself an injection vector. To guard against that (and against shipping a skill that trips its own detection), `scripts/self-scan-skills.py` runs ADD's distributed injection patterns (`core/security/patterns.json`) against ADD's own shipped artifacts on every CI run (the `skill-self-scan` guardrail). It uses the same detection engine as the runtime hook (`grep -E` for ERE patterns, byte-mode regex for Unicode tag-channel patterns) and **fails the build** if any shipped artifact trips a `critical`/`high` pattern. As of v0.9.6, **0 of ~60 shipped artifacts** trip any pattern.
+ADD ships skills, rules, and templates that a runtime auto-loads as behavioral instructions — so a poisoned ADD artifact is itself an injection vector. To guard against that (and against shipping a skill that trips its own detection), `scripts/self-scan-skills.py` runs ADD's distributed injection patterns (`core/security/patterns.json`) against ADD's own shipped artifacts on every CI run (the `skill-self-scan` guardrail). It uses the same detection engine as the runtime hook (`grep -E` for ERE patterns, byte-mode regex for Unicode tag-channel patterns) and **fails the build** if any shipped artifact trips a `critical`/`high` pattern (outside a small, per-pattern waiver list for the two files that *document* the attacks). It also fails loudly if any catalog pattern is itself malformed, so a pattern can't silently stop gating. As of v0.9.6, **0 of ~64 shipped artifacts** trip an un-waived pattern.
 
 ## How to Spot a Malicious PR
 
