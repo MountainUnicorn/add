@@ -513,6 +513,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 | `project-structure` | Standard `.add/` layout, cross-project persistence paths |
 | `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level |
 | `maturity-loader` | Loads the per-maturity preset that gates other rules |
+| `model-roles` | Architect vs Editor model-role guidance — match agent capability to task shape |
 | `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals |
 | `add-compliance` | ADD methodology compliance checks |
 | `cache-discipline` | Marketplace/cache hygiene and stale-cache recovery |

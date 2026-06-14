@@ -223,7 +223,10 @@ def compile_claude(version: str) -> dict:
         counts["adapter"] += copy_tree(adapter_src / name, output / name, version)
 
     rules_block = autoload_rules_block(CORE / "rules")
-    rule_count = str(len(list((CORE / "rules").glob("*.md"))))
+    # Count must match the "Auto-loading behavioral rules" label: count rules that
+    # actually autoload (autoload != false), i.e. the same population as rules_block,
+    # NOT every *.md file. Keeps the number honest if a rule ever sets autoload:false.
+    rule_count = str(len([ln for ln in rules_block.splitlines() if ln.strip()]))
     for file in ("CLAUDE.md", "README.md", "LICENSE"):
         src = adapter_src / file
         if src.exists():
