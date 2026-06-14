@@ -223,6 +223,10 @@ def compile_claude(version: str) -> dict:
         counts["adapter"] += copy_tree(adapter_src / name, output / name, version)
 
     rules_block = autoload_rules_block(CORE / "rules")
+    # Count must match the "Auto-loading behavioral rules" label: count rules that
+    # actually autoload (autoload != false), i.e. the same population as rules_block,
+    # NOT every *.md file. Keeps the number honest if a rule ever sets autoload:false.
+    rule_count = str(len([ln for ln in rules_block.splitlines() if ln.strip()]))
     for file in ("CLAUDE.md", "README.md", "LICENSE"):
         src = adapter_src / file
         if src.exists():
@@ -230,6 +234,7 @@ def compile_claude(version: str) -> dict:
             if src.suffix in {".md"} or src.name == "LICENSE":
                 text = substitute_version(src.read_text(), version)
                 text = text.replace("{{AUTOLOAD_RULES}}", rules_block)
+                text = text.replace("{{RULE_COUNT}}", rule_count)
                 out.write_text(text)
             else:
                 shutil.copy2(src, out)
@@ -529,6 +534,7 @@ def emit_codex_manifest_agents_md(
     lines.append("- `test-writer` — TDD RED phase (workspace-write, high reasoning)")
     lines.append("- `implementer` — TDD GREEN phase (workspace-write, high reasoning)")
     lines.append("- `reviewer` — spec-compliance review (read-only, high reasoning)")
+    lines.append("- `verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)")
     lines.append("- `explorer` — broad codebase discovery (read-only, medium reasoning)")
     lines.append("")
 
@@ -792,7 +798,7 @@ That script installs:
 - `.agents/skills/` → `~/.codex/.agents/skills/` — native Codex Skills, each
   with preserved YAML frontmatter for description-matched dispatch.
 - `.codex/agents/` → `~/.codex/agents/` — sub-agent TOML definitions
-  (test-writer, implementer, reviewer, explorer).
+  (test-writer, implementer, reviewer, verify, explorer).
 - `.codex/hooks/` → `~/.codex/hooks/` — POSIX shell hook scripts
   (SessionStart, Stop, UserPromptSubmit).
 - `.codex/hooks.json` → `~/.codex/hooks.json` — hook registration.

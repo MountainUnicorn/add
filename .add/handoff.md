@@ -1,105 +1,51 @@
-# Session Handoff
-**Written:** 2026-04-23 (end of multi-release session)
-**Arc:** /add:away M3 swarms → 7 PRs merged → plugin-family review pivot → v0.8.1 → v0.9.0 + alpha→beta promotion → v0.9.1 beta-polish → CI guardrails live and green
+# Handoff — v1.0 GA wave execution (2026-06-14)
 
-## Where We Are
+## Where things stand
+Branch **`wave-exec-v096`** (off `main` @ 0896bc0). The **v0.9.6 batch (Waves 0–2) is complete and fully verified** — 9 commits, 35 files, all 15 fixture suites green, `compile --check` clean. Not pushed; no release cut (those are human/keychain-gated).
 
-**main is at `59e6005`.** Three signed releases tagged this session, maturity promoted, 93 tests running green in CI on every push and PR.
+Executed under ADD's own SDLC: RED-first tests where applicable, an **independent verifier agent** + an **agent-to-agent retro** per wave, learnings captured to `.add/learnings.json` (L-035…L-046).
 
-```
-59e6005  fix(ci): install pyyaml+jsonschema for guardrails frontmatter job
-465a2c6  chore: bump to v0.9.1 — beta-polish release      [tag: v0.9.1]
-9d9a987  chore: bump to v0.9.0 + promote alpha → beta     [tag: v0.9.0]
-0168af1  chore: handoff for v0.8.0 → v0.8.1 hotfix arc
-dd102fc  chore: bump to v0.8.1 — plugin-family hotfix    [tag: v0.8.1]
-```
+## Done
 
-## Session Summary
+### Wave 0 — unblock `main` (P0)
+- **C1**: rule count was 19, reality 20 → guardrails red. Made the count **compile-derived** (`{{RULE_COUNT}}` in `runtimes/claude/CLAUDE.md`, filled from the autoload-filtered set in `compile.py`). Strengthened `rule-parity` to read the compiled artifact + assert all prose surfaces (CLAUDE.md/README.md/CONTRIBUTING.md). Now 9/9.
+- **C3**: bumped `checkout v4→v5`, `setup-python v5→v6`, `github-script v7→v8` across all 4 workflows (Node-20 deprecation).
+- Verifier caught 3 missed surfaces + a semantic bug ({{RULE_COUNT}} counted all files, not autoload) — all fixed before commit.
 
-1. **10h `/add:away` session** shipped all 7 M3 specs as worktree-isolated agent swarms → 7 PRs (#8–#14) merged to main with rebase resolutions on #12/#13/#14.
-2. **Plugin-family review** from another agent surfaced 20 findings. I verified the 3 shipping-blockers were real (F-001 marketplace schema, F-002 Codex install path mismatch, F-003 test-rewrite bypass), pushed back on architectural overreach (host-neutral kernel + adapter contracts sold as v0.9 Must — parked as M4).
-3. **v0.8.1 hotfix** cut before v0.9.0 to close F-001/F-002/F-003. F-002 would have shipped broken Codex installs to every v0.9.0 user.
-4. **v0.9.0 + alpha→beta promotion** bundled in one commit. Readiness ~92% (12/13 applicable cascade requirements), single exemption was the F-005 CI wiring.
-5. **v0.9.1 beta-polish** closed the remaining plugin-family items that were small: F-011 Claude rule parity drift (15→19 rules), F-018 cache-discipline validator false-positive, /add:version cross-runtime path, and F-005 (the beta exemption). Exemptions list now empty.
-6. **Guardrails workflow live and green in CI.** 12 jobs on every PR/push: 9 fixture suites, frontmatter + cache-discipline validators, and Claude marketplace manifest (with grep guard because `claude plugin validate` exits 0 on schema failure — lesson learned from v0.8.1 F-001).
+### Wave 1 — release tooling (P0)
+- **C2 / #18**: `release.sh` could exit 0 without publishing. Added array-based gh flags + a post-create `gh release view` assertion that fails loud with a recovery command. Behavioral regression test (mock git/gh/python3) — **mutation-verified** to go red when the fix is reverted.
 
-## Releases Shipped
+### Wave 2 — v0.9.6 truth-pass
+- **C5**: CONTRIBUTING "three checks"→four; documented community-PR strategy.
+- **D1**: `model-roles.md` capability-tier table (Opus 4.8/Sonnet 4.6/Haiku 4.5; gpt-5.5/gpt-5.x-codex).
+- **B3**: added missing Codex `verify` sub-agent (`verify.toml` + 2 compile.py enums + test). 5 agents now; codex suite 58/58.
+- **D3 (P0/1)** — found a real **security bug**: the `unicode-tag-block` regex was a broken byte-class matching ~any multibyte UTF-8 (652/652 sampled events were benign false positives, 0 real attacks). Replaced with a precise `(?:\xF3\xA0[\x80\x81][\x80-\xBF]){3,}` — verifier independently confirmed it covers all 128 tag codepoints and rejects benign chars; AC-028 real attack still fires. Switched the JSONL audit writer to `jq -cn` (atomic single-line). Gitignored + untracked `.add/security/`. Documented the audit trail in SECURITY.md. Added a **mutation-verified** benign-multibyte regression fixture.
 
-| Tag | Commit | Summary |
-|---|---|---|
-| v0.8.1 | dd102fc | Plugin-family hotfix: F-001 (marketplace), F-002 (Codex paths), F-003 (test-rewrite bypass) |
-| v0.9.0 | 9d9a987 | M3 pre-GA hardening — 7 specs, 207 ACs, maturity alpha→beta |
-| v0.9.1 | 465a2c6 | Beta-polish: /add:version cross-runtime, F-011 rule parity, F-018 validator false-positive, F-005 CI guardrails wired |
+## Next: the boundary
 
-All three GPG-signed with key `040C002AB5A0E55246B35D2F8C4D802093066794`. Marketplace cache synced.
+### Wave 3 (v0.9.7 methodology) — NEEDS HUMAN DIRECTION before auto-execution
+These are subjective positioning/voice decisions, not mechanical:
+- **A1** swarm-protocol → layer over native Workflows (the strategic reframe — wording matters; affects ADD's market story).
+- **A3** swarm-state machine-readable format contract (small, do first — A1 depends on it).
+- **C4** GA launch plan / `/add:announce` (marketing strategy; partly the separate `getadd.dev` repo).
+- **D4** lead README with the maturity ladder (positioning/voice).
+- **A2** `core/workflows/` scaffolding (spec+infra only pre-GA; Claude-specific — needs a home that compile-drift tolerates).
+- **D3 P2** skill self-scan + CI gate.
 
-## Project State
+### Wave 4 (v0.10) — automatable later
+A3 panel impl; **B4** F-012 spike (now consumes the fixed regex/writer from D3); D3 self-scan CI enforcement.
 
-- **Version:** 0.9.1
-- **Maturity:** beta (promoted 2026-04-23, zero exemptions)
-- **Rules:** 19 (was 15 pre-M3)
-- **Skills:** 27 (agents-md added in M3)
-- **Tests:** 93 passing across 10 suites, all running in CI
-- **PRD/specs/milestones:** M1, M2, M3-pre-ga-hardening complete; M3-marketplace-ready still open
-- **Open PRs:** only #6 (@tdmitruk community rebase)
+### Wave 5 (v0.11) — BLOCKED on a live spike
+Unified **B1+B2** Codex re-baseline is gated on **Q-001**: a live spike against the current Codex CLI (the 0.122 pin is stale). Can't be done without running the real CLI.
 
-## Next-Promotion Criteria (beta → GA)
+### GA tag — externally/human gated (cannot be automated)
+- Anthropic marketplace approval (filed 2026-02-14, status unknown — external).
+- 60-day beta calendar gate (earliest honest tag ~2026-06-22).
+- A real GPG-signed release cut (keychain/pinentry — interactive).
+- ADD's own `beta→ga` self-promotion + release-evidence bundle (currently unowned per cohesion review).
 
-Logged in `.add/config.json:maturity.next_promotion_criteria`:
+## Acceptance test for Wave 1 (do this at the real v0.9.6 cut)
+Judge success from the new `published and verified` line + a manual `gh release view` — **not** from exit 0 (the habit being retired). See L-042.
 
-- Guardrail suite running in CI and release-blocking ✓ (just done, but should be branch-protected before GA)
-- Real Claude + Codex install smoke in CI (needs containerized runtimes)
-- Per-runtime capability matrix in release notes
-- 60-day stability at beta
-- Marketplace submission approved
-- 20+ projects using ADD
-
-## Open Items / Next Cycle
-
-### Still tracked from plugin-family review
-
-- **F-014** executable secrets scanner — current gate is declarative markdown, regex fixtures match, but no pre-commit hook blocks staged leaks. v0.9.x candidate.
-- **F-013** per-skill `@reference core/rules/telemetry.md` sweep — Swarm F's own deferral from v0.9.0. Cross-cutting SKILL.md edit, can now land without conflict since M3 merged.
-- **F-017** `jq` dependency — either guard soft-fail or document requirement. Low priority.
-
-### Deferred to M4 (architectural, explicitly out of v0.9 scope)
-
-- **F-006/AC-011/AC-012** Host-neutral kernel + runtime overlays + `${ADD_HOME}`/`${ADD_USER_LIBRARY}` path variables
-- **AC-010** adapter contract schema driving compile output
-- **AC-016** installer ownership manifest with backup/uninstall
-- **AC-017** config schema + migration graph validator
-- **AC-021** command-catalog generator (single source → README, marketplace, AGENTS, runtime docs)
-
-### Deferred to v1.0.0
-
-- **AC-022/AC-023** real Claude + Codex install smoke in CI (containerized runtime infra)
-- **AC-028** tag-pinned / signed install URL (drop `curl main | bash` as recommended path)
-
-### External (unchanged)
-
-- **PR #6** — community, rebase-paced
-
-## Decisions Made (with rationale)
-
-- **Pivoted v0.9.0 → v0.8.1 mid-ceremony** — F-002 was a shipping blocker; pushing v0.9.0 with it would have broken every Codex install. Right call despite arc disruption.
-- **Three releases in one session, bundled intentionally** — v0.8.1 because hotfix; v0.9.0 + promotion because the release IS the promotion's evidence; v0.9.1 because batching four small items is cleaner than four tags.
-- **Kept `~/.codex/add/` namespaced install path** over bare `~/.codex/` root. Avoids collision with other Codex plugins and with Codex's own directories. The bug was the compile-time substitution, not the install layout.
-- **Hooks live at `$CODEX_HOME/hooks/`**, not `$CODEX_HOME/add/hooks/` — Codex CLI loads hooks from that exact path. Required separate `${CLAUDE_PLUGIN_ROOT}/hooks` substitution (longest-prefix-first ordering).
-- **Rejected host-neutral kernel as v0.9 scope** — architectural rewrite dressed up as release criteria. Saved for M4.
-- **`--allow-test-rewrite` is acknowledgment, not bypass** — flag alone now insufficient, override/trailer still required. Matches documented intent.
-- **`claude plugin validate` exits 0 on schema failure** — worked around with grep for "Validation failed" in the CI job.
-- **Frontmatter validator needs `pyyaml`+`jsonschema`** — caught by first CI run on v0.9.1, fixed in `59e6005`.
-
-## Resume Command
-
-If next session opens cold:
-
-```bash
-cat .add/handoff.md
-git log --oneline -10
-gh release list --repo MountainUnicorn/add --limit 5
-gh pr list --repo MountainUnicorn/add
-gh run list --repo MountainUnicorn/add --workflow guardrails.yml --limit 3
-```
-
-No immediate action needed — beta is clean, CI is green, three releases are out. Next work picks from the "Open Items" list above based on priority.
+## Suggested follow-up rule (from Wave 1 retro, L-039)
+"Verify the side effect, never trust the exit code" is now a twice-proven bug class (F-001 + #18). Worth encoding as a rule near `core/rules/quality-gates.md`.

@@ -112,7 +112,8 @@ if [ "$DRY_RUN" = true ]; then
   echo "==> DRY RUN — would execute:"
   echo "    git tag -s $TAG -m 'Release $TAG'"
   echo "    git push origin $TAG"
-  echo "    gh release create $TAG --verify-tag $([ "$DRAFT" = true ] && echo '--draft') --title '...' --notes '...'"
+  echo "    gh release create $TAG --verify-tag $([ "$DRAFT" = true ] && echo '--draft') --title '$TAG' --notes '...'"
+  echo "    gh release view $TAG --json url   # verify the page exists (#18 guard)"
   exit 0
 fi
 
@@ -129,21 +130,32 @@ echo "==> Pushing tag..."
 git push origin "$TAG"
 
 # 10. Create GitHub release
+# Build flags as an array so an absent --draft can't word-split into a silent
+# arg the way the old unquoted $DRAFT_FLAG could (a suspected #18 contributor).
 echo "==> Creating GitHub release..."
-TITLE=$(echo "$NOTES" | head -1 | sed 's/^## //; s/^\[//; s/\].*//')
-if [ -z "$TITLE" ] || [ "$TITLE" = "$VERSION_NO_V" ]; then
-  TITLE="$TAG"
+GH_FLAGS=(--verify-tag --title "$TAG" --notes "$NOTES")
+[ "$DRAFT" = true ] && GH_FLAGS+=(--draft)
+
+if ! gh release create "$TAG" "${GH_FLAGS[@]}"; then
+  echo "ERROR: 'gh release create' failed for $TAG." >&2
+  echo "       The signed tag was pushed but the release page was NOT created." >&2
+  exit 1
 fi
 
-DRAFT_FLAG=""
-[ "$DRAFT" = true ] && DRAFT_FLAG="--draft"
-
-gh release create "$TAG" \
-  --verify-tag \
-  $DRAFT_FLAG \
-  --title "$TAG" \
-  --notes "$NOTES"
+# 11. Verify the release page actually exists.
+# Issue #18: gh release create could leave the script at exit 0 without ever
+# publishing a release page (the signed tag pushed fine). Same class as F-001.
+# Treat "no release page" as a hard failure and print the recovery command.
+echo "==> Verifying the release page exists..."
+if ! RELEASE_URL=$(gh release view "$TAG" --json url --jq '.url' 2>/dev/null) || [ -z "$RELEASE_URL" ]; then
+  echo "ERROR: release $TAG is not published — 'gh release view' found no release page." >&2
+  echo "       This is issue #18: the tag pushed but the release was skipped." >&2
+  echo "       Recover with:" >&2
+  echo "         gh release create $TAG --verify-tag --title '$TAG' \\" >&2
+  echo "           --notes-file <(awk -v ver='[${VERSION_NO_V}]' 'index(\$0,\"## \"ver)==1{c=1;next} c&&/^## \\[/{exit} c{print}' CHANGELOG.md)" >&2
+  exit 1
+fi
 
 echo ""
-echo "✓ Release $TAG published"
-echo "  https://github.com/MountainUnicorn/add/releases/tag/$TAG"
+echo "✓ Release $TAG published and verified"
+echo "  $RELEASE_URL"

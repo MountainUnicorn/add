@@ -119,18 +119,52 @@ else
   done
 fi
 
-# ---- 5. tree-diagram count matches actual file count -------------------------
+# ---- 5. tree-diagram count is compile-substituted and matches reality --------
+# The source CLAUDE.md carries a {{RULE_COUNT}} placeholder (like {{AUTOLOAD_RULES}});
+# compile.py fills it from the live core/rules/*.md count so the number can never
+# drift out of sync by hand. We assert the placeholder is intact in source AND that
+# the COMPILED artifact (what ships) resolves it to the real file count.
 
-actual=$(find "$RULES_DIR" -maxdepth 1 -name "*.md" | wc -l | tr -d ' ')
-declared=$(grep -oE 'Auto-loading behavioral rules \([0-9]+ files\)' "$SOURCE_CLAUDE_MD" | grep -oE '[0-9]+')
+if grep -q "{{RULE_COUNT}}" "$SOURCE_CLAUDE_MD"; then
+  pass "source CLAUDE.md uses {{RULE_COUNT}} placeholder (count is compile-derived)"
+else
+  fail "source CLAUDE.md hardcodes the rule count instead of using {{RULE_COUNT}}"
+fi
+
+# `actual` counts rules that actually AUTOLOAD (autoload != false) — the same
+# population the "Auto-loading behavioral rules" label and {{AUTOLOAD_RULES}}
+# describe — so the number stays honest if a rule ever sets autoload:false.
+actual=0
+for f in "$RULES_DIR"/*.md; do
+  [ "$(rule_autoload_value "$f")" = "false" ] || actual=$((actual + 1))
+done
+
+declared=$(grep -oE 'Auto-loading behavioral rules \([0-9]+ files\)' "$COMPILED_CLAUDE_MD" | grep -oE '[0-9]+')
 
 if [ -z "$declared" ]; then
-  fail "could not find 'Auto-loading behavioral rules (N files)' count in CLAUDE.md"
+  fail "compiled CLAUDE.md did not resolve {{RULE_COUNT}} to a number — run scripts/compile.py"
 elif [ "$declared" = "$actual" ]; then
-  pass "tree-diagram rule count matches reality ($declared files)"
+  pass "compiled tree-diagram rule count matches reality ($declared autoloaded rules)"
 else
-  fail "tree-diagram claims $declared rule files; actual count is $actual"
+  fail "compiled tree-diagram claims $declared rules; actual autoloaded count is $actual"
 fi
+
+# ---- 6. hand-authored prose counts stay in sync with reality -----------------
+# These developer/landing surfaces are NOT compiled, so they can drift the same
+# way the tree diagram did. Assert every "N auto-load(ed|ing) behavioral rules"
+# claim in the top-level docs equals the real autoloaded count.
+for doc in CLAUDE.md README.md CONTRIBUTING.md; do
+  path="$REPO_ROOT/$doc"
+  [ -f "$path" ] || continue
+  while IFS= read -r n; do
+    [ -n "$n" ] || continue
+    if [ "$n" = "$actual" ]; then
+      pass "$doc rule count ($n) matches reality"
+    else
+      fail "$doc claims $n auto-loaded behavioral rules; actual is $actual"
+    fi
+  done < <(grep -oiE '[0-9]+ auto-load(ed|ing) behavioral rules' "$path" | grep -oE '^[0-9]+')
+done
 
 echo ""
 echo "=== Results: $PASS passed, $FAIL failed ==="

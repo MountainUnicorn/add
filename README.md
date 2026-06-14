@@ -10,7 +10,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.9.5-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.9.6-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -498,7 +498,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 </details>
 
 <details>
-<summary><strong>Rules</strong> — 19 auto-loaded behavioral rules</summary>
+<summary><strong>Rules</strong> — 20 auto-loaded behavioral rules</summary>
 
 | Rule | What it enforces |
 |------|-----------------|
@@ -513,6 +513,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 | `project-structure` | Standard `.add/` layout, cross-project persistence paths |
 | `maturity-lifecycle` | **Master dial** — governs ALL ADD behavior per maturity level |
 | `maturity-loader` | Loads the per-maturity preset that gates other rules |
+| `model-roles` | Architect vs Editor model-role guidance — match agent capability to task shape |
 | `design-system` | Silicon Valley Unicorn aesthetic for all generated visuals |
 | `add-compliance` | ADD methodology compliance checks |
 | `cache-discipline` | Marketplace/cache hygiene and stale-cache recovery |

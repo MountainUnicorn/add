@@ -23,6 +23,7 @@ ADD does not call external APIs, does not transmit telemetry, and does not conta
 | **Learning checkpoint PII leak** — agent writes sensitive data (API keys, customer names) to `.add/learnings.json` and you commit it | Medium | Medium — data in git history is hard to fully remove | PII heuristic warning before learning writes (v0.7.1); `.gitignore` patterns for secrets |
 | **Production deploy jailbreak** — agent promotes past the maturity gate | Low | Critical — unapproved production deploy | Maturity-lifecycle rule + `autoPromote: false` + `/add:deploy` confirm-phrase gate (v0.7.1) |
 | **Supply-chain: fake marketplace** — attacker publishes a typosquat marketplace | Low | High — users install a trojan | Install only from `MountainUnicorn/add`; verify marketplace.json contents; GPG-signed release tags (v0.7.0+) |
+| **Prompt injection via untrusted content** — a fetched file, command output, or pasted text carries hidden instructions (e.g. Unicode tag-channel characters) | Medium | High — agent follows attacker-planted instructions | PostToolUse scanner (`hooks/posttooluse-scan.sh`) flags injection patterns from `core/security/patterns.json`; detections are appended to a **local-only** audit trail at `.add/security/injection-events.jsonl` (gitignored — never committed, never sent anywhere) |
 
 ## What ADD Does NOT Do
 

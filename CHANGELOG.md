@@ -4,6 +4,29 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.9.6] — 2026-06-14
+
+CI/release hardening + truth-pass, opening the v1.0 credibility cycle. Turns a red `main` green, makes the release tool trustworthy, and fixes a real injection-defense bug surfaced during the pass.
+
+### Fixed
+
+- **CI unblocked (C1).** `core/rules/` holds 20 rules but the tree diagram hardcoded 19, failing the `rule-parity` guardrail on `main`. The count is now **compile-derived** — `runtimes/claude/CLAUDE.md` carries a `{{RULE_COUNT}}` placeholder that `scripts/compile.py` fills from the live autoload-rule set, so it can't drift by hand again. `rule-parity` was strengthened to read the compiled artifact and to assert the count in every prose surface (CLAUDE.md, README.md, CONTRIBUTING.md).
+- **`release.sh` could publish nothing and still exit 0 (C2, closes #18).** The signed tag pushed but `gh release create` could be skipped silently. The script now builds its flags as an array and **verifies the release page exists** via `gh release view` after creating it, failing loudly with a recovery command. Same failure class as F-001 — a command that "succeeds" without doing the thing.
+- **Injection-defense false positives (D3).** The `unicode-tag-block` pattern was a malformed byte character-class whose range matched almost any multibyte UTF-8 — em-dashes, arrows, box-drawing characters all tripped a `critical` event (~100% false-positive rate; 0 real attacks in the audit trail). Replaced with a precise pattern matching exactly U+E0000–U+E007F; verified the real tag-channel attack fixture still fires. The JSONL audit writer now emits compact single-line records (`jq -cn`) so concurrent hook runs can't corrupt the file.
+
+### Changed
+
+- **CI actions bumped to Node-24 runtimes (C3)** across all four workflows: `actions/checkout` v4→v5, `actions/setup-python` v5→v6, `actions/github-script` v7→v8.
+- **`model-roles` rule (D1)** gained a capability-tier table mapping role shapes to the current lineup — Architect: Opus 4.8 / gpt-5.5; Editor: Sonnet 4.6 / gpt-5.x-codex; Fast: Haiku 4.5 / gpt-5.x-codex-mini — while keeping the guidance-not-enforcement framing.
+- **CONTRIBUTING (C5)** now lists all four CI workflows (was "three checks") and documents the community-PR strategy (merge-as-is + co-authored refactor follow-up).
+- **Audit-trail hygiene (D3).** `.add/security/` is now gitignored and untracked; the local-only injection audit trail is documented in SECURITY.md's threat model.
+
+### Added
+
+- **Codex `verify` sub-agent (B3).** ADD's 4th role was missing from the Codex adapter — added `runtimes/codex/agents/verify.toml` (workspace-write, high reasoning) and the two `compile.py` enumerations that omitted it. The Codex adapter now emits five sub-agents.
+- **`tests/release-tooling/test-release-verify.sh`** — behavioral regression guard for #18 (mocks git/gh/python3, asserts the script exits non-zero when no release page exists), registered in the guardrail matrix.
+- **`tests/security/fixtures/benign-multibyte.json`** — regression guard for the unicode-tag-block false-positive bug; asserts dense benign multibyte content does not fire (mutation-verified to go red against the old regex).
+
 ## [0.8.1] — 2026-04-23
 
 Hotfix. Fixes three findings from the plugin-family release-hardening review before v0.9.0 ships. The M3 feature set (agents-md, cache-discipline, secrets-handling, telemetry-jsonl, prompt-injection-defense, test-deletion-guardrail, codex-native-skills) has already merged to main; this release makes that merge actually installable and makes the test-deletion guardrail actually enforce.

@@ -23,8 +23,8 @@ jobs:
     name: Frontmatter validator
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Install validator dependencies
@@ -35,8 +35,8 @@ jobs:
     name: Cache-discipline validator (strict, remediated skills)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: |
@@ -51,8 +51,8 @@ jobs:
     name: Secret-patterns drift (markdown vs JSON)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: python3 scripts/validate-secret-patterns.py
@@ -77,8 +77,9 @@ jobs:
           - security/test-prompt-injection-defense.sh
           - rule-parity/test-rule-parity.sh
           - jq-dependency/test-jq-claim-qualified.sh
+          - release-tooling/test-release-verify.sh
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install jq
         run: sudo apt-get update -qq && sudo apt-get install -y jq
       - name: Run tests/${{ matrix.suite }}
@@ -94,7 +95,7 @@ jobs:
     name: Claude marketplace manifest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Claude Code CLI
         run: |

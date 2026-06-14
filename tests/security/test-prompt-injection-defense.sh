@@ -215,6 +215,12 @@ run_fires "AC-028 base64-blob-suspicious"   base64-blob.json              base64
 run_fires "AC-028 comment-and-control"      comment-and-control.json      comment-and-control-marker
 
 run_benign "AC-029 benign prose negative control" benign.json
+# Regression guard for the unicode-tag-block false-positive bug (Wave 2 / D3):
+# this fixture is dense with benign multibyte UTF-8 (em-dash, arrow →, box-
+# drawing ├──, ≥, ✓, ✅, CJK, emoji) — exactly the bytes the old broken byte-
+# class regex matched ~100% of the time. It MUST NOT fire. If the regex is ever
+# reverted to a character class spanning 0x80-0xF3, this test goes red.
+run_benign "AC-029 benign multibyte (em-dash/arrow/box/CJK/emoji) does not fire" benign-multibyte.json
 
 run_no_add_dir "AC-017 .add/ missing → no-op" no-add-dir.json
 

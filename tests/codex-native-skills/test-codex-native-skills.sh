@@ -110,7 +110,7 @@ check_grep "AC-013 AGENTS.md has skills table header" "$DIST/AGENTS.md" "## Skil
 check_grep "AC-013 AGENTS.md references add-verify"   "$DIST/AGENTS.md" "/add-verify"
 
 # --- AC-015/016/017: sub-agent TOMLs ----------------------------------------
-for role in test-writer implementer reviewer explorer; do
+for role in test-writer implementer reviewer verify explorer; do
   check_exists "AC-015 $role.toml" "$DIST/.codex/agents/$role.toml"
 done
 check_grep "AC-016 test-writer reasoning high" \
@@ -121,6 +121,10 @@ check_grep "AC-017 test-writer workspace-write" \
   "$DIST/.codex/agents/test-writer.toml" 'sandbox_mode = "workspace-write"'
 check_grep "AC-017 reviewer read-only" \
   "$DIST/.codex/agents/reviewer.toml" 'sandbox_mode = "read-only"'
+check_grep "AC-017 verify workspace-write" \
+  "$DIST/.codex/agents/verify.toml" 'sandbox_mode = "workspace-write"'
+check_grep "AC-020 verify prompt_skill" \
+  "$DIST/.codex/agents/verify.toml" 'prompt_skill = "add-verify"'
 
 # --- AC-018/019: global config.toml ----------------------------------------
 check_exists "AC-018 .codex/config.toml" "$DIST/.codex/config.toml"
