@@ -6,7 +6,7 @@
     {
       "id": "L-001",
       "title": "GitHub Pages deployment uses Actions workflow serving website/ directory",
-      "body": "GitHub Pages for this project uses Actions workflow at .github/workflows/pages.yml serving website/ directory — live at mountainunicorn.github.io/add/. Set build_type: workflow via gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow.",
+      "body": "GitHub Pages for this project uses Actions workflow at .github/workflows/pages.yml serving website/ directory \u2014 live at mountainunicorn.github.io/add/. Set build_type: workflow via gh api repos/{owner}/{repo}/pages -X POST -f build_type=workflow.",
       "scope": "project",
       "stack": [],
       "category": "technical",
@@ -97,7 +97,7 @@
     {
       "id": "L-008",
       "title": "Environment promotion ladder with autoPromote per-env config",
-      "body": "Agents autonomously climb local → dev → staging when verification passes at each level, with automatic rollback on failure. Production always requires human. autoPromote flag controls the ceiling. Ladder stops on first failure — no retries, log and move on. Two rollback strategies: revert-commit (dev) and redeploy-previous-tag (staging/production).",
+      "body": "Agents autonomously climb local \u2192 dev \u2192 staging when verification passes at each level, with automatic rollback on failure. Production always requires human. autoPromote flag controls the ceiling. Ladder stops on first failure \u2014 no retries, log and move on. Two rollback strategies: revert-commit (dev) and redeploy-previous-tag (staging/production).",
       "scope": "project",
       "stack": [],
       "category": "architecture",
@@ -136,7 +136,7 @@
     {
       "id": "L-011",
       "title": "Hill chart concept maps perfectly to ADD feature positions",
-      "body": "Hill chart from Shape Up (uphill = figuring out, downhill = executing) maps perfectly to ADD: SHAPED → SPECCED → PLANNED → IN_PROGRESS → VERIFIED → DONE.",
+      "body": "Hill chart from Shape Up (uphill = figuring out, downhill = executing) maps perfectly to ADD: SHAPED \u2192 SPECCED \u2192 PLANNED \u2192 IN_PROGRESS \u2192 VERIFIED \u2192 DONE.",
       "scope": "project",
       "stack": [],
       "category": "architecture",
@@ -266,7 +266,7 @@
     {
       "id": "L-021",
       "title": "Maturity + chunking + swarm added in one session",
-      "body": "Added maturity lifecycle rule, work hierarchy (Roadmap → Milestones → Cycles → Features → Tasks), /add:cycle command, swarm coordination protocol, milestone template. Promoted ADD from POC to Alpha.",
+      "body": "Added maturity lifecycle rule, work hierarchy (Roadmap \u2192 Milestones \u2192 Cycles \u2192 Features \u2192 Tasks), /add:cycle command, swarm coordination protocol, milestone template. Promoted ADD from POC to Alpha.",
       "scope": "project",
       "stack": [],
       "category": "process",
@@ -279,7 +279,7 @@
     {
       "id": "L-022",
       "title": "Dog-food trial on dossierFYI validated adoption mode",
-      "body": "Plugin installed successfully. Hooks format was wrong (Claude Code expects {hooks: {EventType: [{matcher, hooks}]}}). Phase 0 Discovery worked end-to-end. Maturity detection assessed Alpha→Beta (5/5 alpha, 4.5/5 beta). Catch-up spike identified 5 items. No conflicts with existing rules/skills.",
+      "body": "Plugin installed successfully. Hooks format was wrong (Claude Code expects {hooks: {EventType: [{matcher, hooks}]}}). Phase 0 Discovery worked end-to-end. Maturity detection assessed Alpha\u2192Beta (5/5 alpha, 4.5/5 beta). Catch-up spike identified 5 items. No conflicts with existing rules/skills.",
       "scope": "project",
       "stack": [],
       "category": "process",
@@ -318,7 +318,7 @@
     {
       "id": "L-025",
       "title": "First retro: spec-before-code promoted to Tier 1",
-      "body": "5/5 specs marked Complete (4 were Draft despite implementations — spec-after-code violation). Dog-food the methodology or lose credibility. Feedback filtering posture: accept gems from criticism, maintain independent view.",
+      "body": "5/5 specs marked Complete (4 were Draft despite implementations \u2014 spec-after-code violation). Dog-food the methodology or lose credibility. Feedback filtering posture: accept gems from criticism, maintain independent view.",
       "scope": "project",
       "stack": [],
       "category": "process",
@@ -331,7 +331,7 @@
     {
       "id": "L-026",
       "title": "Namespace fix: 205 bare references across 30 files",
-      "body": "Created README.md, SVG infographic, HTML overview report. Website built with raspberry palette. Critical: namespaced all 205 bare command references. Plugin files are Claude's instructions — whatever pattern is in the files, Claude reproduces it.",
+      "body": "Created README.md, SVG infographic, HTML overview report. Website built with raspberry palette. Critical: namespaced all 205 bare command references. Plugin files are Claude's instructions \u2014 whatever pattern is in the files, Claude reproduces it.",
       "scope": "project",
       "stack": [],
       "category": "technical",
@@ -344,7 +344,7 @@
     {
       "id": "L-027",
       "title": "First away session: 4 tasks completed in ~10 minutes",
-      "body": "45-minute window, all 4 tasks done in ~10 min. Parallel subagents for HTML report + SVG infographic. SVG expanded 1800→2100px for promotion ladder. Away log + archive pattern works well.",
+      "body": "45-minute window, all 4 tasks done in ~10 min. Parallel subagents for HTML report + SVG infographic. SVG expanded 1800\u21922100px for promotion ladder. Away log + archive pattern works well.",
       "scope": "project",
       "stack": [],
       "category": "process",
@@ -356,7 +356,7 @@
     },
     {
       "id": "L-028",
-      "title": "GitHub README strips CSS/JS — SVG is only rich visual option",
+      "title": "GitHub README strips CSS/JS \u2014 SVG is only rich visual option",
       "body": "GitHub README renders SVG inline but strips all CSS/JS. The SVG infographic is the only way to get rich visuals in a README. GitHub Pages is the solution for the full website experience.",
       "scope": "workstation",
       "stack": [],
@@ -370,7 +370,7 @@
     {
       "id": "L-029",
       "title": "Feature complete: cross-project learning library search",
-      "body": "Total ACs: 29. Migrated learnings to structured JSON (28 project entries, 4 workstation entries). Smart filtering pipeline: stack overlap → category match → rank by severity → cap at 10. Dual-format: JSON primary, markdown generated. Scope classification (project/workstation/universal) with conservative default.",
+      "body": "Total ACs: 29. Migrated learnings to structured JSON (28 project entries, 4 workstation entries). Smart filtering pipeline: stack overlap \u2192 category match \u2192 rank by severity \u2192 cap at 10. Dual-format: JSON primary, markdown generated. Scope classification (project/workstation/universal) with conservative default.",
       "scope": "project",
       "stack": [],
       "category": "technical",
@@ -383,7 +383,7 @@
     {
       "id": "L-030",
       "title": "Feature complete: legacy adoption (version migration)",
-      "body": "Total ACs: 22. Auto-loading rule detects stale projects on session start. Chained migrations (v0.1→v0.2→v0.3→v0.4) via version manifest (templates/migrations.json). 5 migration actions: add_fields, convert_md_to_json, restructure, rename_fields, remove_fields. Safety: backup before modify, skip on failure, never update version if anything breaks.",
+      "body": "Total ACs: 22. Auto-loading rule detects stale projects on session start. Chained migrations (v0.1\u2192v0.2\u2192v0.3\u2192v0.4) via version manifest (templates/migrations.json). 5 migration actions: add_fields, convert_md_to_json, restructure, rename_fields, remove_fields. Safety: backup before modify, skip on failure, never update version if anything breaks.",
       "scope": "project",
       "stack": [],
       "category": "technical",
@@ -409,7 +409,7 @@
     {
       "id": "L-032",
       "title": "Version bump across 30+ files needs automation",
-      "body": "v0.4.0 bump touched 30+ files. Missed 3 commands (brand, brand-update, changelog) because they were at v0.2.0 not v0.3.0 — the bump script only replaced the most recent version. Future: search ALL version patterns, not just latest.",
+      "body": "v0.4.0 bump touched 30+ files. Missed 3 commands (brand, brand-update, changelog) because they were at v0.2.0 not v0.3.0 \u2014 the bump script only replaced the most recent version. Future: search ALL version patterns, not just latest.",
       "scope": "project",
       "stack": [],
       "category": "anti-pattern",
@@ -422,7 +422,7 @@
     {
       "id": "L-033",
       "title": "Away session: 8/8 tasks completed in ~10 minutes",
-      "body": "Duration: 45min planned → 10min actual. Completed: retro templates, retro command rewrite, CLAUDE.md update, spec status, M2 milestone marked COMPLETE, commit/push/sync. Effectiveness: 100%. All implementation was already nearly done before away started.",
+      "body": "Duration: 45min planned \u2192 10min actual. Completed: retro templates, retro command rewrite, CLAUDE.md update, spec status, M2 milestone marked COMPLETE, commit/push/sync. Effectiveness: 100%. All implementation was already nearly done before away started.",
       "scope": "project",
       "stack": [],
       "category": "process",
@@ -444,6 +444,60 @@
       "date": "2026-02-19",
       "classified_by": "agent",
       "checkpoint_type": "feature-complete"
+    },
+    {
+      "id": "L-035",
+      "title": "Derive-don't-declare must derive from the MEANING, not a convenient proxy",
+      "body": "When replacing a hardcoded value with a computed one, the computation must match the label. Wave 0's {{RULE_COUNT}} was first sourced from len(glob('core/rules/*.md')) but labelled 'Auto-loading behavioral rules' \u2014 two populations equal today but that silently diverge the moment a rule sets autoload:false. Fixed to count the autoload-filtered set (same population as {{AUTOLOAD_RULES}}). A drift fix that computes the wrong quantity hides drift behind a green check \u2014 worse than the original hardcode because no human watches it anymore.",
+      "scope": "project",
+      "stack": [],
+      "category": "architecture",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-036",
+      "title": "A drift guardrail only covers the surface it reads \u2014 enumerate the others",
+      "body": "C1 made runtimes/claude/CLAUDE.md auto-derive, but CLAUDE.md, README.md and CONTRIBUTING.md still hardcoded the count and were synced by hand; the rule-parity suite watched none of them. Before closing a 'fix the drift' task, grep the whole repo for the stale value and either bring every occurrence under the guardrail or explicitly record the uncovered ones. Wave 0 extended rule-parity to assert the count in all three prose surfaces. Partial coverage plus a confident guardrail name ('rule-parity') creates false assurance.",
+      "scope": "project",
+      "stack": [],
+      "category": "testing",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-037",
+      "title": "Editing a test to pass is legitimate when it moves the assertion to the correct layer and GAINS failure modes",
+      "body": "rule-parity was repointed from the source template (which now holds a literal {{RULE_COUNT}} placeholder) to the compiled artifact (what ships), plus a new assertion that the placeholder survives in source. The tell that it's honest, not gaming CI: the test ended up with MORE ways to fail, not fewer. In a source->compile->artifact repo, assertions about shipped behavior belong on the artifact; assertions about the mechanism belong on the source.",
+      "scope": "project",
+      "stack": [],
+      "category": "testing",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-038",
+      "title": "'CI was green' proves the triggered jobs, not the bumped dependency or untriggered paths",
+      "body": "Major-version Action bumps (checkout v4->v5, setup-python v5->v6, github-script v7->v8) clear deprecations but carry SemVer breaking changes. A green PR validates only pull_request-triggered jobs; jobs gated to push-on-main, tags, schedule, or release signing run under the new versions for the FIRST time after merge. For first-party simple-usage actions the empirical bump is proportionate, but explicitly watch the first main push and first signed release post-merge (relevant to release.sh / #18).",
+      "scope": "project",
+      "stack": [
+        "github-actions"
+      ],
+      "category": "ci-cd",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
     }
   ]
 }
