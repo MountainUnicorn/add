@@ -498,7 +498,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 </details>
 
 <details>
-<summary><strong>Rules</strong> — 19 auto-loaded behavioral rules</summary>
+<summary><strong>Rules</strong> — 20 auto-loaded behavioral rules</summary>
 
 | Rule | What it enforces |
 |------|-----------------|

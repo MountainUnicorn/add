@@ -19,7 +19,7 @@ The core principles:
 ```
 add/
 ├── skills/            # All slash commands and workflow skills (/add:init, /add:spec, /add:tdd-cycle, etc.)
-├── rules/             # Auto-loading behavioral rules (19 files)
+├── rules/             # Auto-loading behavioral rules ({{RULE_COUNT}} files)
 ├── references/        # Non-autoloaded reference rules (loaded on-demand)
 ├── hooks/             # PostToolUse automation
 ├── knowledge/         # Tier 1: Plugin-global curated best practices (read-only in consumer projects)

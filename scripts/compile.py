@@ -223,6 +223,7 @@ def compile_claude(version: str) -> dict:
         counts["adapter"] += copy_tree(adapter_src / name, output / name, version)
 
     rules_block = autoload_rules_block(CORE / "rules")
+    rule_count = str(len(list((CORE / "rules").glob("*.md"))))
     for file in ("CLAUDE.md", "README.md", "LICENSE"):
         src = adapter_src / file
         if src.exists():
@@ -230,6 +231,7 @@ def compile_claude(version: str) -> dict:
             if src.suffix in {".md"} or src.name == "LICENSE":
                 text = substitute_version(src.read_text(), version)
                 text = text.replace("{{AUTOLOAD_RULES}}", rules_block)
+                text = text.replace("{{RULE_COUNT}}", rule_count)
                 out.write_text(text)
             else:
                 shutil.copy2(src, out)

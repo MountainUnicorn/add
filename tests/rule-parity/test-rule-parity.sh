@@ -119,17 +119,27 @@ else
   done
 fi
 
-# ---- 5. tree-diagram count matches actual file count -------------------------
+# ---- 5. tree-diagram count is compile-substituted and matches reality --------
+# The source CLAUDE.md carries a {{RULE_COUNT}} placeholder (like {{AUTOLOAD_RULES}});
+# compile.py fills it from the live core/rules/*.md count so the number can never
+# drift out of sync by hand. We assert the placeholder is intact in source AND that
+# the COMPILED artifact (what ships) resolves it to the real file count.
+
+if grep -q "{{RULE_COUNT}}" "$SOURCE_CLAUDE_MD"; then
+  pass "source CLAUDE.md uses {{RULE_COUNT}} placeholder (count is compile-derived)"
+else
+  fail "source CLAUDE.md hardcodes the rule count instead of using {{RULE_COUNT}}"
+fi
 
 actual=$(find "$RULES_DIR" -maxdepth 1 -name "*.md" | wc -l | tr -d ' ')
-declared=$(grep -oE 'Auto-loading behavioral rules \([0-9]+ files\)' "$SOURCE_CLAUDE_MD" | grep -oE '[0-9]+')
+declared=$(grep -oE 'Auto-loading behavioral rules \([0-9]+ files\)' "$COMPILED_CLAUDE_MD" | grep -oE '[0-9]+')
 
 if [ -z "$declared" ]; then
-  fail "could not find 'Auto-loading behavioral rules (N files)' count in CLAUDE.md"
+  fail "compiled CLAUDE.md did not resolve {{RULE_COUNT}} to a number — run scripts/compile.py"
 elif [ "$declared" = "$actual" ]; then
-  pass "tree-diagram rule count matches reality ($declared files)"
+  pass "compiled tree-diagram rule count matches reality ($declared files)"
 else
-  fail "tree-diagram claims $declared rule files; actual count is $actual"
+  fail "compiled tree-diagram claims $declared rule files; actual count is $actual"
 fi
 
 echo ""

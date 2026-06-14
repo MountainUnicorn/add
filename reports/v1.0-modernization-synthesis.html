@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADD v1.0 GA — Modernization Synthesis</title>
+<style>
+  :root{
+    --rasp:#b00149; --rasp-d:#7d0034; --rasp-l:#e8628f; --rasp-bg:#fdf0f5;
+    --ink:#1d1d22; --mut:#5d5d68; --line:#ede0e6; --card:#fff; --bg:#faf7f8;
+    --crit:#b00149; --high:#d2691e; --med:#3a7ca5; --low:#6b7280;
+    --ok:#2e7d4f; --warn:#c9970a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+  header{background:linear-gradient(135deg,var(--rasp) 0%,var(--rasp-d) 100%);color:#fff;padding:46px 0 38px;margin-bottom:8px}
+  header .wrap{padding-bottom:0}
+  h1{margin:0 0 6px;font-size:32px;letter-spacing:-.4px}
+  .sub{opacity:.92;font-size:16px;margin:0}
+  .meta{margin-top:18px;font-size:13px;opacity:.85;display:flex;gap:18px;flex-wrap:wrap}
+  .meta span{background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px}
+  h2{font-size:23px;margin:46px 0 6px;letter-spacing:-.3px;border-left:5px solid var(--rasp);padding-left:12px}
+  h3{font-size:18px;margin:30px 0 8px}
+  p{margin:10px 0}
+  .lead{font-size:17px;color:var(--mut)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:18px 0;box-shadow:0 1px 3px rgba(125,0,52,.04)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .stat .n{font-size:26px;font-weight:700;color:var(--rasp)}
+  .stat .l{font-size:13px;color:var(--mut);margin-top:2px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.5px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--rasp-bg);color:var(--rasp-d);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;color:#fff;white-space:nowrap}
+  .p-crit{background:var(--crit)} .p-high{background:var(--high)} .p-med{background:var(--med)} .p-low{background:var(--low)}
+  .b-ok{color:var(--ok);font-weight:700} .b-warn{color:var(--warn);font-weight:700} .b-bad{color:var(--crit);font-weight:700}
+  code{background:#f3e9ee;color:var(--rasp-d);padding:1px 6px;border-radius:5px;font-size:13px;font-family:"SF Mono",Menlo,Consolas,monospace}
+  .rec{border:1px solid var(--line);border-left:5px solid var(--rasp);border-radius:10px;padding:18px 20px;margin:16px 0;background:var(--card)}
+  .rec.crit{border-left-color:var(--crit)} .rec.high{border-left-color:var(--high)} .rec.med{border-left-color:var(--med)} .rec.low{border-left-color:var(--low)}
+  .rec h4{margin:0 0 4px;font-size:16.5px}
+  .rec .tag{font-size:12px;color:var(--mut);font-weight:600;letter-spacing:.3px}
+  .val{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+  .val div{flex:1;min-width:120px;background:var(--rasp-bg);border-radius:8px;padding:8px 12px;font-size:13px}
+  .val .k{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+  .val .v{font-weight:700;font-size:15px;color:var(--ink)}
+  .score{font-size:15px;font-weight:800;color:var(--rasp)}
+  .note{font-size:14px;color:var(--mut);margin-top:8px}
+  ul{margin:8px 0 8px;padding-left:22px}
+  li{margin:4px 0}
+  .legend{font-size:13px;color:var(--mut);margin:8px 0 0}
+  footer{margin-top:60px;padding-top:24px;border-top:2px solid var(--rasp-bg);font-size:13px;color:var(--mut)}
+  a{color:var(--rasp)}
+  .callout{background:var(--rasp-bg);border:1px solid var(--rasp-l);border-radius:10px;padding:16px 20px;margin:16px 0}
+  .callout strong{color:var(--rasp-d)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>ADD → v1.0 GA: Modernization Synthesis</h1>
+    <p class="sub">Riding Claude Workflows &amp; modern Codex — closing GA blockers — with a valuation per change</p>
+    <div class="meta">
+      <span>Date: 2026-06-14</span>
+      <span>Current: v0.9.5 (beta)</span>
+      <span>Target: v1.0.0 GA (~2026-07-11)</span>
+      <span>Sources: 4 research swarms + repo audit</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2>The one-paragraph read</h2>
+<p class="lead">
+Two ecosystem shifts now bear directly on ADD's identity. <strong>Claude Code shipped Dynamic Workflows</strong> — a deterministic JS runtime that fans out subagents (<code>parallel()</code>/<code>pipeline()</code>, schema-validated output, budgets, worktree isolation) — which structurally replicates ADD's hand-rolled <em>swarm</em> orchestration. <strong>Codex deprecated custom prompts</strong> in favor of Skills + a <code>.codex-plugin</code> format that mirrors Claude's. Net: ADD should stop owning <em>orchestration mechanics</em> and double down on its durable moat — <em>maturity-aware methodology</em> that rides on top of both runtimes' native primitives. Meanwhile, three small-but-real GA blockers (a <span class="b-bad">red CI on <code>main</code></span>, open release-tooling bug #18, deprecated CI action) must clear before the v1.0 tag is credible.
+</p>
+
+<div class="grid">
+  <div class="stat"><div class="n">2</div><div class="l">P0 blockers to a credible v1.0 tag</div></div>
+  <div class="stat"><div class="n">14</div><div class="l">Valued modifications proposed</div></div>
+  <div class="stat"><div class="n">11★ / 6⑂</div><div class="l">GitHub traction — launch plan needed</div></div>
+  <div class="stat"><div class="n">~6 wk</div><div class="l">Roadmap runway to GA (per v1.0-roadmap.md)</div></div>
+</div>
+
+<h2>How "valuation" is scored</h2>
+<div class="card">
+<p>Each recommendation carries a <strong>Value Score / 100</strong> = GA-impact weighted against effort and strategic durability. Inputs:</p>
+<ul>
+  <li><strong>GA Impact</strong> — does it gate, harden, or merely polish the v1.0 tag?</li>
+  <li><strong>Effort</strong> — S (&lt;½ day) · M (1–3 days) · L (multi-day / cross-runtime).</li>
+  <li><strong>Durability</strong> — does it survive host runtimes absorbing features (the central market risk, E1/E8)?</li>
+</ul>
+<p class="legend">Priority chips: <span class="pill p-crit">P0</span> blocks the tag · <span class="pill p-high">P1</span> ship before GA · <span class="pill p-med">P2</span> GA-window nice-to-have · <span class="pill p-low">P3</span> post-GA.</p>
+</div>
+
+<!-- ============ TRACK A ============ -->
+<h2>Track A — Workflows vs. Swarms (the headline)</h2>
+<p>ADD's swarm is a <em>formal</em> feature: <code>core/references/swarm-protocol.md</code> + the autoloaded <code>core/rules/agent-coordination.md</code>, with maturity-scaled WIP limits (poc=1 → ga=5), worktree/file-reservation isolation, and <code>.add/swarm-state.md</code> coordination. Claude's native Workflows now provide the orchestration <em>mechanism</em> for free. The move is to <strong>delegate mechanism, keep methodology.</strong></p>
+
+<div class="callout">
+<strong>Overlap verdict:</strong> Native Workflows make ADD's <em>manual fan-out + in-conversation synthesis</em> redundant. What stays uniquely ADD: maturity-aware concurrency policy, role briefs (test-writer / implementer / reviewer / verify), trust-but-verify merge gates, and the spec→TDD→retro lifecycle the fan-out serves. Rebuild swarm-protocol as a <em>thin policy layer that emits / configures Workflows</em>, not a parallel orchestrator.
+</div>
+
+<div class="rec crit">
+  <span class="tag">A1 · Workflows alignment</span>
+  <h4>Reframe the swarm protocol as a layer over native Workflows</h4>
+  <p>Rewrite <code>swarm-protocol.md</code> + <code>agent-coordination.md</code> to (a) detect Workflows availability, (b) express maturity WIP limits as Workflow concurrency/budget config, and (c) reserve ADD's prose for role briefs and merge/verify gates — not for re-explaining how to spawn parallel agents. Removes maintenance of a mechanism the host now owns and resolves the E1 "native absorption" risk head-on.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-crit">P1</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Strategic / positioning</div></div>
+    <div><div class="k">Value Score</div><div class="v score">88 / 100</div></div>
+  </div>
+  <p class="note">Highest strategic ROI: it's the difference between "a plugin that reinvents orchestration" and "the methodology layer on top of it."</p>
+</div>
+
+<div class="rec high">
+  <span class="tag">A2 · Workflows alignment</span>
+  <h4>Ship <code>core/workflows/</code> — ADD lifecycle as deterministic Workflow scripts</h4>
+  <p>Author <code>cycle.js</code>, <code>tdd-cycle.js</code>, <code>review.js</code> that encode ADD's maturity-aware fan-out (RED→GREEN→REFACTOR→VERIFY; spec→plan→implement→review) as schema-validated Workflow pipelines. <code>/add:cycle</code> and <code>/add:tdd-cycle</code> invoke a Workflow rather than narrating a swarm. Gives ADD reproducible, resumable, budget-bounded execution for free.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-high">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">L</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Feature credibility</div></div>
+    <div><div class="k">Value Score</div><div class="v score">76 / 100</div></div>
+  </div>
+  <p class="note">Big payoff but L-effort and partly Claude-specific — pilot one (<code>tdd-cycle.js</code>) before GA, complete the set in v1.1. Compile step keeps Codex on its subagent equivalent (B3).</p>
+</div>
+
+<div class="rec med">
+  <span class="tag">A3 · Workflows alignment</span>
+  <h4>Surface live fleet/swarm progress in the dashboard</h4>
+  <p>Swarm 3 flagged that multi-agent UX went visual (Cursor 3 Agents Window, Windsurf tiled panes) while ADD's worktrees stay invisible. Extend <code>/add:dashboard</code> to render Workflow phase/agent progress and <code>.add/swarm-state.md</code>. Closes the visibility gap competitors now lead on.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P3</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Differentiation</div></div>
+    <div><div class="k">Value Score</div><div class="v score">58 / 100</div></div>
+  </div>
+  <p class="note">Post-GA: valuable for parity, but doesn't gate the tag.</p>
+</div>
+
+<!-- ============ TRACK B ============ -->
+<h2>Track B — Codex adapter modernization</h2>
+<p>Codex moved on. Custom prompts are <strong>officially deprecated</strong>; the modern surface is AGENTS.md + Skills (<code>SKILL.md</code>) + a <code>.codex-plugin</code> package whose manifest mirrors <code>.claude-plugin</code>. Codex also added first-class TOML subagents and lifecycle hooks. ADD's Codex output should track this or it ships a legacy integration at GA.</p>
+
+<div class="rec high">
+  <span class="tag">B1 · Codex</span>
+  <h4>Stop emitting deprecated custom prompts → emit <code>SKILL.md</code> per command</h4>
+  <p>Have <code>compile.py</code> render each <code>core/skills/&lt;name&gt;</code> as a Codex <code>skills/&lt;name&gt;/SKILL.md</code> with a trigger-optimized <code>description</code> (gains both <code>$name</code> explicit and implicit invocation). Directly parallels the existing source-of-truth layout, so it's a compile-target change, not a content rewrite.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-high">P1</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Avoids shipping legacy</div></div>
+    <div><div class="k">Value Score</div><div class="v score">82 / 100</div></div>
+  </div>
+  <p class="note">Roadmap already lists Codex coherence (F-008/9/10) for v0.11 — this is the concrete first step.</p>
+</div>
+
+<div class="rec high">
+  <span class="tag">B2 · Codex</span>
+  <h4>Package a <code>.codex-plugin/plugin.json</code> for install parity</h4>
+  <p>The Codex plugin format is structurally near-identical to <code>.claude-plugin</code> and installable via git marketplace (<code>codex plugin marketplace add owner/repo</code>). One unified compile pipeline can emit both manifests, so ADD installs the same way on both runtimes — a strong "multi-runtime, really" GA proof point (moat #3).</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-high">P1</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Multi-runtime credibility</div></div>
+    <div><div class="k">Value Score</div><div class="v score">80 / 100</div></div>
+  </div>
+  <p class="note">Feeds the AC-023 "real Codex install smoke" GA criterion the roadmap already requires.</p>
+</div>
+
+<div class="rec med">
+  <span class="tag">B3 · Codex</span>
+  <h4>Map ADD roles → <code>.codex/agents/*.toml</code> subagents</h4>
+  <p>Codex now has TOML subagents (<code>name</code>/<code>description</code>/<code>developer_instructions</code>, built-ins <code>worker</code>/<code>explorer</code>). Emit implementer / reviewer / test-writer / verify as Codex agents with per-role <code>model</code>/<code>sandbox_mode</code> — the cross-runtime equivalent of A2's Workflow scripts.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Runtime parity</div></div>
+    <div><div class="k">Value Score</div><div class="v score">66 / 100</div></div>
+  </div>
+</div>
+
+<div class="rec med">
+  <span class="tag">B4 · Codex</span>
+  <h4>Resolve F-012 hook-feedback via Codex's new lifecycle hooks</h4>
+  <p>The roadmap's D3 decision assumed Codex hook stderr can't reach the agent (hence the JSONL polling adapter now visible in the untracked <code>.add/security/injection-events.jsonl</code>). Codex now exposes <code>hooks/hooks.json</code> lifecycle hooks — re-spike whether native hooks close F-012 directly, potentially retiring the polling workaround.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S (spike) </div></div>
+    <div><div class="k">GA Impact</div><div class="v">Removes a known gap</div></div>
+    <div><div class="k">Value Score</div><div class="v score">64 / 100</div></div>
+  </div>
+  <p class="note">Low-effort spike that could upgrade a documented limitation into a solved feature before GA.</p>
+</div>
+
+<!-- ============ TRACK C ============ -->
+<h2>Track C — GA blockers (repo &amp; community)</h2>
+<p>These are small but they gate credibility. <strong>Verified live</strong> during this synthesis.</p>
+
+<div class="rec crit">
+  <span class="tag">C1 · Blocker · VERIFIED</span>
+  <h4>Fix red CI on <code>main</code> — rule count is 19→20</h4>
+  <p><code>core/rules/</code> now holds <strong>20</strong> files (injection-defense + secrets-handling added via PRs), but <code>CLAUDE.md:55</code> still says "19 auto-loading behavioral rules" and the <strong>Guardrail suite is FAILING</strong> on the latest <code>main</code> run (rule-parity fixture). Tagging v1.0 on a red default branch is a non-starter. One-line fix + re-run guardrails.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-crit">P0</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S (trivial)</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Hard gate</div></div>
+    <div><div class="k">Value Score</div><div class="v score">99 / 100</div></div>
+  </div>
+  <p class="note">Highest value/effort ratio on the board: ~10 minutes turns the default branch green.</p>
+</div>
+
+<div class="rec crit">
+  <span class="tag">C2 · Blocker</span>
+  <h4>Fix &amp; close release-tooling bug #18 before cutting v1.0</h4>
+  <p><code>release.sh</code> can exit 0 while silently skipping <code>gh release create</code> (keychain-cached signing path). It bit v0.9.5 (manually recovered). This is the exact tool that will cut the flagship v1.0 tag — add a post-step <code>gh release view</code> verification + explicit error handling, then close #18 in the v0.9.6 cycle. Also label it <code>bug</code>/<code>release-tooling</code>.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-crit">P0</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Protects the GA tag</div></div>
+    <div><div class="k">Value Score</div><div class="v score">94 / 100</div></div>
+  </div>
+</div>
+
+<div class="rec high">
+  <span class="tag">C3 · CI hygiene</span>
+  <h4>Bump <code>actions/checkout@v4 → v5</code> across all 4 workflows</h4>
+  <p>GitHub's Node 20 deprecation is active as of June 2026; v4 checkout will break. Trivial bump across <code>compile-drift</code>, <code>guardrails</code>, <code>rule-boundary-check</code>, <code>schema-check</code>.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-high">P1</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Prevents CI break</div></div>
+    <div><div class="k">Value Score</div><div class="v score">78 / 100</div></div>
+  </div>
+</div>
+
+<div class="rec high">
+  <span class="tag">C4 · Launch</span>
+  <h4>GA discoverability plan — traction is ~zero and "ADD" has prior art</h4>
+  <p>No findable external mentions today; "Agent Driven Development / ADD" already collides with <code>agentdriven.dev</code> and a ranking dev.to article. Before GA: submit to plugin directories (claude-plugins.dev, claudepluginhub, claudex.directory), seed a Discussions "Announcements"/"v1.0 roadmap" thread, and lean on the getadd.dev brand + raspberry identity to differentiate. Pair with an <code>/add:announce</code> skill (already on the roadmap for v0.9.7).</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-high">P1</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Launch outcome</div></div>
+    <div><div class="k">Value Score</div><div class="v score">72 / 100</div></div>
+  </div>
+  <p class="note">A v1.0 GA that nobody can find isn't a GA. This is the difference between a tag and a launch.</p>
+</div>
+
+<div class="rec med">
+  <span class="tag">C5 · Docs</span>
+  <h4>Fix stale <code>CONTRIBUTING.md</code> + publish the community-PR strategy</h4>
+  <p>Line 57 says "three CI checks" — there are now four (guardrails added). While editing, surface the "merge as-is, refactor in follow-up with co-authorship" strategy publicly to scale contributor onboarding (4 community contributors already merged; the strategy lives only in memory today).</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Public doc accuracy</div></div>
+    <div><div class="k">Value Score</div><div class="v score">61 / 100</div></div>
+  </div>
+</div>
+
+<!-- ============ TRACK D ============ -->
+<h2>Track D — Roadmap truth &amp; moat reinforcement</h2>
+<p>Aligning what ADD <em>says</em> with what the ecosystem now <em>is</em> — the roadmap's own thesis ("the path to v1.0 is truth-pass + closing GA gates, not more features").</p>
+
+<div class="rec high">
+  <span class="tag">D1 · Roadmap</span>
+  <h4>Refresh <code>model-roles.md</code> to the current lineup</h4>
+  <p>Encode the live model tiers — Opus 4.8 (premium reasoning), Sonnet 4.6 (production default, ~40% cheaper), Haiku 4.5 (fast extraction/routing), Fable 5 — into role assignments, and the Codex equivalents (gpt-5.5 / gpt-5.x-codex). A stale model map in a methodology that <em>prescribes model roles</em> is a credibility tax at GA.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-high">P1</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Accuracy</div></div>
+    <div><div class="k">Value Score</div><div class="v score">74 / 100</div></div>
+  </div>
+</div>
+
+<div class="rec med">
+  <span class="tag">D2 · Roadmap</span>
+  <h4>Cloud/scheduled execution adapter — <code>/add:routine</code></h4>
+  <p>Swarm 3's #1 MUST: cloud/scheduled execution went mainstream (Claude Routines, Cursor cloud agents) while <code>/add:cycle</code> and <code>/add:away</code> stay local-only. Ship a thin adapter that maps ADD cycles onto Claude Code Routines / scheduled agents rather than building an execution backend.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">L</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Keeps pace with market</div></div>
+    <div><div class="k">Value Score</div><div class="v score">62 / 100</div></div>
+  </div>
+  <p class="note">Roadmap targets v0.11/v1.0; an adapter (not a backend) keeps it durable against E1.</p>
+</div>
+
+<div class="rec med">
+  <span class="tag">D3 · Moat</span>
+  <h4>Formalize skill-security scoring on the injection-defense audit trail</h4>
+  <p>Skill security is now a category (Snyk ToxicSkills: 36% of ~3,984 skills flawed). ADD already logs detections to <code>.add/security/injection-events.jsonl</code> (19 entries captured). Promote this into a publishable signal — self-scan + a SECURITY.md section + Tessl/Snyk submission — turning a defensive rule into a marketed moat (#4 / E6).</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">M</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Differentiation + trust</div></div>
+    <div><div class="k">Value Score</div><div class="v score">63 / 100</div></div>
+  </div>
+  <p class="note">Decide whether to commit <code>.add/security/</code> or gitignore it — it's currently untracked and contains a session audit trail.</p>
+</div>
+
+<div class="rec low">
+  <span class="tag">D4 · Positioning</span>
+  <h4>Lead the v1.0 README with the maturity ladder</h4>
+  <p>The one feature host runtimes have <em>not</em> absorbed is the poc→alpha→beta→ga trust gradient and its rule cascade. Make it the headline of the GA README and expose it via <code>/add:promote --check</code>. Zero new code — pure narrative repositioning that maps to the 2026 "trust-gradient" theme.</p>
+  <div class="val">
+    <div><div class="k">Priority</div><div class="v"><span class="pill p-med">P2</span></div></div>
+    <div><div class="k">Effort</div><div class="v">S</div></div>
+    <div><div class="k">GA Impact</div><div class="v">Positioning</div></div>
+    <div><div class="k">Value Score</div><div class="v score">69 / 100</div></div>
+  </div>
+</div>
+
+<!-- ============ SUMMARY TABLE ============ -->
+<h2>Valuation summary — sequenced for GA</h2>
+<table>
+  <thead>
+    <tr><th>ID</th><th>Modification</th><th>Pri</th><th>Effort</th><th>Value</th><th>When</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>C1</td><td>Fix red CI — rule count 19→20</td><td><span class="pill p-crit">P0</span></td><td>S</td><td class="score">99</td><td>Now</td></tr>
+    <tr><td>C2</td><td>Fix &amp; close release.sh #18</td><td><span class="pill p-crit">P0</span></td><td>S</td><td class="score">94</td><td>v0.9.6</td></tr>
+    <tr><td>A1</td><td>Swarm protocol → layer over Workflows</td><td><span class="pill p-high">P1</span></td><td>M</td><td class="score">88</td><td>v0.9.7–v0.10</td></tr>
+    <tr><td>B1</td><td>Codex: prompts → SKILL.md</td><td><span class="pill p-high">P1</span></td><td>M</td><td class="score">82</td><td>v0.11</td></tr>
+    <tr><td>B2</td><td>Codex: .codex-plugin package</td><td><span class="pill p-high">P1</span></td><td>M</td><td class="score">80</td><td>v0.11</td></tr>
+    <tr><td>C3</td><td>Bump checkout@v4→v5</td><td><span class="pill p-high">P1</span></td><td>S</td><td class="score">78</td><td>Now</td></tr>
+    <tr><td>A2</td><td>core/workflows/ lifecycle scripts</td><td><span class="pill p-high">P2</span></td><td>L</td><td class="score">76</td><td>Pilot pre-GA, full v1.1</td></tr>
+    <tr><td>D1</td><td>Refresh model-roles to current lineup</td><td><span class="pill p-high">P1</span></td><td>S</td><td class="score">74</td><td>v0.9.7</td></tr>
+    <tr><td>C4</td><td>GA discoverability / launch plan</td><td><span class="pill p-high">P1</span></td><td>M</td><td class="score">72</td><td>v0.9.7→GA</td></tr>
+    <tr><td>D4</td><td>Lead README with maturity ladder</td><td><span class="pill p-med">P2</span></td><td>S</td><td class="score">69</td><td>v1.0</td></tr>
+    <tr><td>B3</td><td>Codex role subagents (.toml)</td><td><span class="pill p-med">P2</span></td><td>M</td><td class="score">66</td><td>v0.11</td></tr>
+    <tr><td>B4</td><td>F-012 via Codex lifecycle hooks (spike)</td><td><span class="pill p-med">P2</span></td><td>S</td><td class="score">64</td><td>v0.10</td></tr>
+    <tr><td>D3</td><td>Skill-security scoring on audit trail</td><td><span class="pill p-med">P2</span></td><td>M</td><td class="score">63</td><td>v0.10</td></tr>
+    <tr><td>D2</td><td>/add:routine cloud adapter</td><td><span class="pill p-med">P2</span></td><td>L</td><td class="score">62</td><td>v0.11/v1.0</td></tr>
+    <tr><td>C5</td><td>Fix CONTRIBUTING + publish PR strategy</td><td><span class="pill p-med">P2</span></td><td>S</td><td class="score">61</td><td>v0.9.6</td></tr>
+    <tr><td>A3</td><td>Live fleet/swarm dashboard</td><td><span class="pill p-med">P3</span></td><td>M</td><td class="score">58</td><td>Post-GA</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+<strong>Recommended next move:</strong> knock out C1 + C3 today (both trivial, both un-break <code>main</code>), fold C2/C5 into the v0.9.6 cycle, then make <strong>A1</strong> the strategic centerpiece of v0.9.7 — it's where the Workflows shift converts from threat to positioning. Everything else slots into the existing roadmap dates without moving the ~2026-07-11 GA target.
+</div>
+
+<h2>What this does <em>not</em> recommend</h2>
+<div class="card">
+<ul>
+  <li><strong>Don't rebuild orchestration from scratch.</strong> Workflows exist; wrap them (A1/A2), don't compete.</li>
+  <li><strong>Don't add net-new features to reach v1.0.</strong> The roadmap is explicit: GA = truth-pass + closing the six published criteria, not feature count. Most Track D items are v0.10/v1.1.</li>
+  <li><strong>Don't defer the host-neutral kernel (F-006/F-007) into v1.0.</strong> Decision D2 stands — that's architectural v1.1 work; v1.0 is a credibility release.</li>
+  <li><strong>Don't rename to dodge the "ADD" collision.</strong> Brand split is a post-v1.0 marketing track (D5); ship the tag clean first.</li>
+</ul>
+</div>
+
+<footer>
+  <p><strong>ADD v1.0 GA Modernization Synthesis</strong> · generated 2026-06-14 · raspberry #b00149</p>
+  <p>Built from four parallel research streams: Claude Workflows/subagents, Codex CLI state, GitHub/community audit (live-verified), and a codebase swarm + v1.0-roadmap map. Source detail: <code>reports/workflows-swarm-research-2026.md</code>, <code>docs/v1.0-roadmap.md</code>, <code>docs/research/v1.0-swarms/</code>.</p>
+  <p>Key references — Claude: <a href="https://claude.com/blog/introducing-dynamic-workflows-in-claude-code">Dynamic Workflows</a>, <a href="https://code.claude.com/docs/en/sub-agents.md">Subagents</a>. Codex: <a href="https://developers.openai.com/codex/skills">Skills</a>, <a href="https://developers.openai.com/codex/plugins">Plugins</a>, <a href="https://developers.openai.com/codex/subagents">Subagents</a>. Repo: <a href="https://github.com/MountainUnicorn/add/issues/18">#18</a>.</p>
+</footer>
+
+</div>
+</body>
+</html>
