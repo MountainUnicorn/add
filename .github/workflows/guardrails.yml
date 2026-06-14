@@ -57,6 +57,16 @@ jobs:
           python-version: '3.12'
       - run: python3 scripts/validate-secret-patterns.py
 
+  skill-self-scan:
+    name: Skill self-scan (ADD's own artifacts vs its injection patterns)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/self-scan-skills.py
+
   # ---------- Fixture-based suites (bash + jq, no external tools) -------------
 
   fixtures:
