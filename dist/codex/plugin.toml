@@ -42,6 +42,7 @@ agents = [
   ".codex/agents/implementer.toml",
   ".codex/agents/reviewer.toml",
   ".codex/agents/test-writer.toml",
+  ".codex/agents/verify.toml",
 ]
 
 hooks = ".codex/hooks.json"

@@ -70,6 +70,7 @@ Registered in `.codex/agents/`. Active when `[features] collab = true` (set in e
 - `test-writer` — TDD RED phase (workspace-write, high reasoning)
 - `implementer` — TDD GREEN phase (workspace-write, high reasoning)
 - `reviewer` — spec-compliance review (read-only, high reasoning)
+- `verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)
 - `explorer` — broad codebase discovery (read-only, medium reasoning)
 
 ## Hooks

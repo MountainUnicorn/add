@@ -45,7 +45,7 @@
     },
     {
       "name": "unicode-tag-block",
-      "regex": "[\\xF3\\xA0\\x80\\x80-\\xF3\\xA0\\x87\\xBF]{3,}",
+      "regex": "(?:\\xF3\\xA0[\\x80\\x81][\\x80-\\xBF]){3,}",
       "severity": "critical",
       "description": "Three or more consecutive Unicode tag-channel characters (U+E0000-U+E007F). Used for invisible instruction injection.",
       "source": "arXiv:2601.17548 (tag-channel injection); Riley Goodside 2024 POC",

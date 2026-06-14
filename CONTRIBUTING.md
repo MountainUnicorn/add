@@ -54,7 +54,11 @@ python3 scripts/compile.py --check
 bash tests/hooks/test-filter-learnings.sh
 ```
 
-All three CI checks (compile-drift, frontmatter-validate, rule-boundary) must pass before merge.
+All four CI workflows must pass before merge: **compile-drift** (committed `plugins/add/` + `dist/codex/` match `compile.py`), **schema-check** (frontmatter validation), **rule-boundary-check** (no weakening of NEVER/MUST NOT markers), and the **guardrail suite** (every fixture-based test under `tests/`, plus the marketplace-manifest and secret-pattern validators).
+
+## Pull Requests
+
+We welcome community PRs. To keep momentum, maintainers may **merge a sound contribution as-is and refactor it in a follow-up commit**, crediting you as co-author (`Co-Authored-By:`) on that follow-up — so your change lands quickly without a long review back-and-forth. If you'd prefer to iterate the PR to completion yourself instead, just say so in the PR description. Either way, the four CI workflows above must be green before merge.
 
 ## Commit Convention
 

@@ -534,6 +534,7 @@ def emit_codex_manifest_agents_md(
     lines.append("- `test-writer` — TDD RED phase (workspace-write, high reasoning)")
     lines.append("- `implementer` — TDD GREEN phase (workspace-write, high reasoning)")
     lines.append("- `reviewer` — spec-compliance review (read-only, high reasoning)")
+    lines.append("- `verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)")
     lines.append("- `explorer` — broad codebase discovery (read-only, medium reasoning)")
     lines.append("")
 
@@ -797,7 +798,7 @@ That script installs:
 - `.agents/skills/` → `~/.codex/.agents/skills/` — native Codex Skills, each
   with preserved YAML frontmatter for description-matched dispatch.
 - `.codex/agents/` → `~/.codex/agents/` — sub-agent TOML definitions
-  (test-writer, implementer, reviewer, explorer).
+  (test-writer, implementer, reviewer, verify, explorer).
 - `.codex/hooks/` → `~/.codex/hooks/` — POSIX shell hook scripts
   (SessionStart, Stop, UserPromptSubmit).
 - `.codex/hooks.json` → `~/.codex/hooks.json` — hook registration.

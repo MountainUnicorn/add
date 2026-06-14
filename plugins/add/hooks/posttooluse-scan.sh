@@ -188,7 +188,7 @@ normalize_regex() {
 # --- Binary short-circuit ---------------------------------------------------
 
 if [ "$BINARY" = "true" ]; then
-  event=$(jq -n \
+  event=$(jq -cn \
     --arg ts "$(iso_now)" \
     --arg tool "$TOOL" \
     --arg source "$SOURCE" \
@@ -282,7 +282,7 @@ PYEOF
     "$NAME" "$SEVERITY" "$TOOL" "$SOURCE" >&2
 
   # Append audit event
-  EVENT=$(jq -n \
+  EVENT=$(jq -cn \
     --arg ts "$(iso_now)" \
     --arg tool "$TOOL" \
     --arg source "${TOOL}:${SOURCE}" \

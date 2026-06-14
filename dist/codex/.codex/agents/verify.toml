@@ -1,0 +1,12 @@
+# ADD sub-agent — verify
+#
+# Behavioral source: core/skills/verify/SKILL.md
+# Runs ADD's quality gates — lint, types, tests, coverage, spec compliance —
+# and produces a pass/fail report. Executes checks (may write coverage/build
+# artifacts) but does not modify source. See spec AC-015..AC-020.
+
+name = "verify"
+description = "Runs quality gates — lint, types, tests, coverage, spec compliance. Produces a pass/fail report."
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+prompt_skill = "add-verify"

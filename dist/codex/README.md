@@ -12,7 +12,7 @@ That script installs:
 - `.agents/skills/` → `~/.codex/.agents/skills/` — native Codex Skills, each
   with preserved YAML frontmatter for description-matched dispatch.
 - `.codex/agents/` → `~/.codex/agents/` — sub-agent TOML definitions
-  (test-writer, implementer, reviewer, explorer).
+  (test-writer, implementer, reviewer, verify, explorer).
 - `.codex/hooks/` → `~/.codex/hooks/` — POSIX shell hook scripts
   (SessionStart, Stop, UserPromptSubmit).
 - `.codex/hooks.json` → `~/.codex/hooks.json` — hook registration.
