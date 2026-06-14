@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.9.5",
+  "plugin_version": "0.9.6",
   "migrations": [
     {
       "from": "0.1.0",
@@ -248,6 +248,12 @@
       "to": "0.9.5",
       "steps": [],
       "description": "v0.9.5 hygiene \u2014 doc-only truth pass before the v1.0 credibility cycle. Spec/plan frontmatter flipped from Draft/Implementing to Complete for already-shipped work; PRD reframed to reference docs/milestones/v1.0-ga.md and docs/v1.0-roadmap.md as canonical v1.0 sources; maturity-loader cascade matrix completed for the four v0.9.0 rules (cache-discipline, injection-defense, secrets-handling, telemetry); plugin-family-release-hardening F-006/F-007 retargeted to v1.1.0 (architectural, post-GA). New core/rules/model-roles.md adds Architect/Editor guidance. No consumer config changes."
+    },
+    {
+      "from": "0.9.5",
+      "to": "0.9.6",
+      "steps": [],
+      "description": "v0.9.6 \u2014 CI/release hardening + truth-pass. Rule count made compile-derived ({{RULE_COUNT}}); CI actions bumped to Node-24 (checkout v5/setup-python v6/github-script v8); release.sh now verifies the published release page (closes #18); CONTRIBUTING CI-count + community-PR strategy; model-roles capability-tier table (Opus 4.8/Sonnet 4.6/Haiku 4.5, gpt-5.5/gpt-5.x-codex); added Codex 'verify' sub-agent; injection-defense unicode-tag-block regex corrected (was ~100% false-positive), JSONL audit writer made atomic, .add/security/ gitignored. No consumer config changes."
     }
   ]
 }
