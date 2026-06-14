@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input": {"file_path": "docs/notes.md"},
+  "tool_response": {
+    "file": {"content": "# Release notes — v0.9.6\n\nThe pipeline runs local → dev → staging. Promotion requires ≥ 3 green checks.\n\n```\ncore/\n├── skills/\n├── rules/\n└── templates/\n```\n\nStatus: shipped ✓ — see the roadmap → milestones. CJK sample: 日本語のテキスト. Emoji: 🚀 ✅.\n"}
+  }
+}
