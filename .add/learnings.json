@@ -498,6 +498,60 @@
       "date": "2026-06-14",
       "classified_by": "agent",
       "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-039",
+      "title": "Verify the side effect, never trust the exit code \u2014 for ANY outward-facing command",
+      "body": "Second occurrence of this bug class in ADD's own tooling: F-001 (`claude plugin validate` exits 0 on schema failure) and #18 (`gh release create` exits 0 without publishing). Both were patched locally and independently. Doctrine: for any irreversible/outward command (validate, publish, deploy, release), assert the OBSERVABLE result (page exists, file validates, deploy is live) and treat a missing side effect as hard failure regardless of exit status. CANDIDATE: encode as a rule near core/rules/quality-gates.md (Gate 5) citing F-001 + #18. Paying for the same lesson twice without writing it down means a third time.",
+      "scope": "project",
+      "stack": [],
+      "category": "anti-pattern",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-040",
+      "title": "Static-assertion tests pin STRUCTURE, not BEHAVIOR \u2014 and can silently pass when the fix is reverted",
+      "body": "Wave 1's first regression test grepped release.sh with `grep | head -1`, which latched onto the --dry-run ECHO lines (not the real commands) and passed even with the whole fix deleted. For a 'command succeeds without doing the thing' bug, a string-presence test reintroduces the exact false-green it's meant to guard. Fix: behavioral harness (mock git/gh/python3 on PATH, run the script, assert exit codes) + a MUTATION CHECK proving the test fails when the fix is removed. If a regression test can't fail, it isn't one.",
+      "scope": "project",
+      "stack": [
+        "bash"
+      ],
+      "category": "testing",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-041",
+      "title": "Always run a mutation check on a new regression test",
+      "body": "The cheapest way to prove a regression guard has teeth: revert the fix (or mutate the guarded code) and confirm the test goes red, then restore. Wave 0's strengthened rule-parity and Wave 1's release test were both validated this way; Wave 1's FIRST test would have been caught immediately by this step (it stayed green when the fix was stripped).",
+      "scope": "project",
+      "stack": [],
+      "category": "testing",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-042",
+      "title": "Some fixes can only be validated in production \u2014 name the first real run as the acceptance test",
+      "body": "The #18 fix cannot be exercised in CI (CI never pushes a signed tag or calls gh release create). Honest confidence path: treat the next real release (v0.9.6) as Wave 1's acceptance test, and judge success from the new 'published and verified' line + a manual `gh release view`, NEVER from exit 0 (the habit we're retiring). The printed recovery command makes a first-run failure a soft landing. Record outcome in the handoff.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
     }
   ]
 }
