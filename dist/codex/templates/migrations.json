@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.9.6",
+  "plugin_version": "0.9.7",
   "migrations": [
     {
       "from": "0.1.0",
@@ -254,6 +254,12 @@
       "to": "0.9.6",
       "steps": [],
       "description": "v0.9.6 \u2014 CI/release hardening + truth-pass. Rule count made compile-derived ({{RULE_COUNT}}); CI actions bumped to Node-24 (checkout v5/setup-python v6/github-script v8); release.sh now verifies the published release page (closes #18); CONTRIBUTING CI-count + community-PR strategy; model-roles capability-tier table (Opus 4.8/Sonnet 4.6/Haiku 4.5, gpt-5.5/gpt-5.x-codex); added Codex 'verify' sub-agent; injection-defense unicode-tag-block regex corrected (was ~100% false-positive), JSONL audit writer made atomic, .add/security/ gitignored. No consumer config changes."
+    },
+    {
+      "from": "0.9.6",
+      "to": "0.9.7",
+      "steps": [],
+      "description": "v0.9.7 \u2014 methodology reframe. swarm-protocol.md + agent-coordination.md reframed as policy-over-native-Workflows (manual fallback retained; WIP semantics invariant); swarm-state machine-readable format contract pinned; README leads with the maturity ladder; skill self-scan CI gate added (scripts/self-scan-skills.py + skill-self-scan guardrail); runtimes/claude/workflows/ scaffold (inert). No consumer config changes."
     }
   ]
 }

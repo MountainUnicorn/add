@@ -4,6 +4,25 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.9.7] — 2026-06-18
+
+Methodology reframe + a security trust signal. Positions ADD as the policy layer over native orchestration, leads with the maturity-ladder moat, and dogfoods the injection defense.
+
+### Changed
+
+- **Swarm protocol reframed as policy over native Workflows.** `core/references/swarm-protocol.md` and `core/rules/agent-coordination.md` now draw a clear policy/mechanism line: ADD owns the *policy* (maturity-aware WIP/concurrency, conflict assessment, role briefs, merge ordering, trust-but-verify gates, swarm-state), and delegates the orchestration *mechanism* (parallel dispatch, worktree isolation, step schemas, budgets) to the runtime — native Claude Dynamic Workflows / Codex TOML sub-agents — with the manual recipes retained as the fallback. Positioning: "ADD configures native orchestration with maturity-aware policy," not "ADD re-implements orchestration." WIP semantics (poc=1…ga=5) and trust-but-verify are invariant; actual Workflow-descriptor emission is deferred to v1.1.
+- **README leads with the maturity ladder.** The hero is now the poc→alpha→beta→ga trust-gradient dial ("One dial scales the rigor") — the moat host runtimes haven't absorbed — with the prior framing kept as a secondary line.
+
+### Added
+
+- **Skill self-scan (`scripts/self-scan-skills.py`).** Runs ADD's distributed injection patterns (`core/security/patterns.json`) against ADD's own shipped artifacts on every CI run (the `skill-self-scan` guardrail), using the same detection engine as the runtime hook. Fails the build on any un-waived `critical`/`high` match and surfaces malformed patterns loudly so a pattern can't silently stop gating. Documented as a trust signal in SECURITY.md; guarded by `tests/security/test-self-scan.sh` (mutation-verified).
+- **Swarm-state format contract.** A machine-readable contract for `.add/swarm-state.md` (entry delimiter, field table, status enum, forward-compatible parsing) so humans, the orchestrator, and native-Workflow state all parse it the same way.
+- **`runtimes/claude/workflows/` scaffold** + `specs/workflow-lifecycle-scripts.md` (Draft) — the planned home for native Workflow lifecycle scripts. Inert in v0.9.7 (zero behavior change); pilot lands in v1.1.
+
+### Changed (project governance)
+
+- **GA gate updated:** the arbitrary 60-day beta calendar floor is dropped; v1.0 now gates on Anthropic marketplace approval plus the substantive promotion criteria (roadmap D7 override). See `docs/v1.0-roadmap.md` and `docs/milestones/v1.0-ga.md`.
+
 ## [0.9.6] — 2026-06-14
 
 CI/release hardening + truth-pass, opening the v1.0 credibility cycle. Turns a red `main` green, makes the release tool trustworthy, and fixes a real injection-defense bug surfaced during the pass.

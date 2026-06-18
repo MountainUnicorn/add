@@ -1,51 +1,43 @@
 # Handoff — v1.0 GA wave execution (2026-06-14)
 
-## Where things stand
-Branch **`wave-exec-v096`** (off `main` @ 0896bc0). The **v0.9.6 batch (Waves 0–2) is complete and fully verified** — 9 commits, 35 files, all 15 fixture suites green, `compile --check` clean. Not pushed; no release cut (those are human/keychain-gated).
+## Shipped this session
+- **v0.9.6 RELEASED** (signed, verified, on the marketplace cache). Waves 0–2:
+  CI unblocked (rule count compile-derived; Node-24 actions), release.sh #18
+  fixed (verified live — "published and verified"), truth-pass, and a real
+  injection-defense regex fix. PR #19 merged to `main`.
+- **Wave 3 (v0.9.7) — done on branch `wave3-v097`, NOT yet pushed/released:**
+  - A3 — swarm-state machine-readable format contract.
+  - D3-P2 — skill self-scan CI gate (`scripts/self-scan-skills.py` + `skill-self-scan`
+    guardrail + SECURITY.md trust signal). Verifier caught a real hole (a `(?m)`
+    pattern was silently never gating); fixed + mutation-guarded
+    (`tests/security/test-self-scan.sh`).
+  - A2 — `runtimes/claude/workflows/` scaffold + `specs/workflow-lifecycle-scripts.md`
+    (inert; zero behavior change).
+  - A1 — swarm-protocol + agent-coordination reframed as policy-over-native-Workflows
+    (manual fallback retained; WIP semantics invariant; emission deferred to v1.1).
+  - D4 — README now leads with the maturity ladder ("One dial scales the rigor").
+- **GA-gate decision (overrides roadmap D7):** the arbitrary 60-day beta floor is
+  dropped; v1.0 gates on **Anthropic marketplace approval** + the substantive
+  criteria. Recorded in v1.0-roadmap.md and milestones/v1.0-ga.md.
 
-Executed under ADD's own SDLC: RED-first tests where applicable, an **independent verifier agent** + an **agent-to-agent retro** per wave, learnings captured to `.add/learnings.json` (L-035…L-046).
+## State
+- Every wave: independent verifier + agent-to-agent retro; learnings L-035…L-049.
+- All 16 fixture suites green; `compile --check` clean; self-scan clean.
+- `wave3-v097` is 6 commits ahead of `main`, local only.
 
-## Done
+## Open / next
+1. **Wave 3 release:** push `wave3-v097`, open a PR, then version-bump to v0.9.7
+   (VERSION, CHANGELOG, migrations hop, README badge) and cut the release — same
+   flow as v0.9.6.
+2. **C4 launch plan** is preserved as a tracked doc (`docs/wave3-drafts/C4-launch-plan.md`)
+   but NOT applied — `/add:announce` skill not built yet; pending a decision on
+   one-skill-with-`--target` vs two, and the brand strategy.
+3. **A1/A2 emission** (actual Workflow descriptor scripts) deferred to v1.1.
+4. **Waves 4–5** (v0.10/v0.11): B4 F-012 spike now consumes the fixed
+   regex/writer; B1+B2 Codex re-baseline still needs the live Q-001 CLI spike.
+5. **GA tag:** gated on marketplace approval (filed 2026-02-14) + install smoke +
+   release-evidence bundle + ADD's own beta→ga self-promotion.
 
-### Wave 0 — unblock `main` (P0)
-- **C1**: rule count was 19, reality 20 → guardrails red. Made the count **compile-derived** (`{{RULE_COUNT}}` in `runtimes/claude/CLAUDE.md`, filled from the autoload-filtered set in `compile.py`). Strengthened `rule-parity` to read the compiled artifact + assert all prose surfaces (CLAUDE.md/README.md/CONTRIBUTING.md). Now 9/9.
-- **C3**: bumped `checkout v4→v5`, `setup-python v5→v6`, `github-script v7→v8` across all 4 workflows (Node-20 deprecation).
-- Verifier caught 3 missed surfaces + a semantic bug ({{RULE_COUNT}} counted all files, not autoload) — all fixed before commit.
-
-### Wave 1 — release tooling (P0)
-- **C2 / #18**: `release.sh` could exit 0 without publishing. Added array-based gh flags + a post-create `gh release view` assertion that fails loud with a recovery command. Behavioral regression test (mock git/gh/python3) — **mutation-verified** to go red when the fix is reverted.
-
-### Wave 2 — v0.9.6 truth-pass
-- **C5**: CONTRIBUTING "three checks"→four; documented community-PR strategy.
-- **D1**: `model-roles.md` capability-tier table (Opus 4.8/Sonnet 4.6/Haiku 4.5; gpt-5.5/gpt-5.x-codex).
-- **B3**: added missing Codex `verify` sub-agent (`verify.toml` + 2 compile.py enums + test). 5 agents now; codex suite 58/58.
-- **D3 (P0/1)** — found a real **security bug**: the `unicode-tag-block` regex was a broken byte-class matching ~any multibyte UTF-8 (652/652 sampled events were benign false positives, 0 real attacks). Replaced with a precise `(?:\xF3\xA0[\x80\x81][\x80-\xBF]){3,}` — verifier independently confirmed it covers all 128 tag codepoints and rejects benign chars; AC-028 real attack still fires. Switched the JSONL audit writer to `jq -cn` (atomic single-line). Gitignored + untracked `.add/security/`. Documented the audit trail in SECURITY.md. Added a **mutation-verified** benign-multibyte regression fixture.
-
-## Next: the boundary
-
-### Wave 3 (v0.9.7 methodology) — NEEDS HUMAN DIRECTION before auto-execution
-These are subjective positioning/voice decisions, not mechanical:
-- **A1** swarm-protocol → layer over native Workflows (the strategic reframe — wording matters; affects ADD's market story).
-- **A3** swarm-state machine-readable format contract (small, do first — A1 depends on it).
-- **C4** GA launch plan / `/add:announce` (marketing strategy; partly the separate `getadd.dev` repo).
-- **D4** lead README with the maturity ladder (positioning/voice).
-- **A2** `core/workflows/` scaffolding (spec+infra only pre-GA; Claude-specific — needs a home that compile-drift tolerates).
-- **D3 P2** skill self-scan + CI gate.
-
-### Wave 4 (v0.10) — automatable later
-A3 panel impl; **B4** F-012 spike (now consumes the fixed regex/writer from D3); D3 self-scan CI enforcement.
-
-### Wave 5 (v0.11) — BLOCKED on a live spike
-Unified **B1+B2** Codex re-baseline is gated on **Q-001**: a live spike against the current Codex CLI (the 0.122 pin is stale). Can't be done without running the real CLI.
-
-### GA tag — externally/human gated (cannot be automated)
-- Anthropic marketplace approval (filed 2026-02-14, status unknown — external).
-- 60-day beta calendar gate (earliest honest tag ~2026-06-22).
-- A real GPG-signed release cut (keychain/pinentry — interactive).
-- ADD's own `beta→ga` self-promotion + release-evidence bundle (currently unowned per cohesion review).
-
-## Acceptance test for Wave 1 (do this at the real v0.9.6 cut)
-Judge success from the new `published and verified` line + a manual `gh release view` — **not** from exit 0 (the habit being retired). See L-042.
-
-## Suggested follow-up rule (from Wave 1 retro, L-039)
-"Verify the side effect, never trust the exit code" is now a twice-proven bug class (F-001 + #18). Worth encoding as a rule near `core/rules/quality-gates.md`.
+## Acceptance test reminder (release tooling)
+Judge any release by the `published and verified` line + a manual `gh release
+view`, never bare exit 0 (L-042). v0.9.6 passed this live.

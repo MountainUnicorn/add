@@ -604,6 +604,45 @@
       "date": "2026-06-14",
       "classified_by": "agent",
       "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-047",
+      "title": "A security self-scan can have the exact bug it exists to catch \u2014 validate the detector, not just the content",
+      "body": "ADD's new skill self-scan (D3-P2) shipped with a (?m)-prefixed pattern handed to grep -E, which rejects it as invalid (rc=2); file_matches treated rc=2 as 'no match', so the most common documented payload (new-instructions-heading, HIGH) silently never gated \u2014 the precise 'check that doesn't check' failure the scan exists to prevent. Independent verification caught it post-commit (my own probe happened to use a casing that masked it). Fix: validate every pattern is live at startup and WARN loudly if grep rejects it; mutation-test that the gate fires on EACH engine path (ERE, (?m), byte-mode). Reinforces L-039/L-040/L-041.",
+      "scope": "project",
+      "stack": [],
+      "category": "security",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-048",
+      "title": "Whole-file allowlists in a security scan are blind spots; over-broad ones manufacture risk",
+      "body": "The self-scan's first allowlist exempted 5 whole files \u2014 but 3 tripped nothing (pure blind spots) and the 2 real ones were auto-loaded behavioral content, so a critical payload planted in them would be BOTH invisible to the gate and injected into the agent. Fix: precise per-(file,pattern) waivers derived from a no-waiver scan, waiving only the exact patterns a file legitimately documents. An allowlist entry that waives more than what actually fires is a latent hole.",
+      "scope": "project",
+      "stack": [],
+      "category": "security",
+      "severity": "high",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-049",
+      "title": "Independent per-wave verification catches what implementer self-testing structurally cannot",
+      "body": "Across all waves the fresh adversarial verifier found real defects the implementer's own green tests missed: Wave 1's false-confidence string-match test, Wave 2's missing negative regression fixture, Wave 3's silently-disabled (?m) pattern. The implementer tests what they thought to test; the verifier tests the documented/boundary cases and reasons structurally. Keep the separate-verifier-per-wave discipline \u2014 it is not ceremony, it pays out every time.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "medium",
+      "source": "ADD",
+      "date": "2026-06-14",
+      "classified_by": "agent",
+      "checkpoint_type": "retro"
     }
   ]
 }
