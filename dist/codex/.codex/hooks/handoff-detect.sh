@@ -31,13 +31,13 @@ lc=$(printf "%s" "$PROMPT" | tr '[:upper:]' '[:lower:]')
 
 case "$lc" in
   *"i'm back"*|*"im back"*|*"i am back"*)
-    echo "[ADD] Detected return. Consider running /add:back for a session briefing."
+    echo "[ADD] Detected return. Consider running /add-back for a session briefing."
     ;;
   *"stepping away"*|*"going away"*|*"be back later"*)
-    echo "[ADD] Detected departure. Consider running /add:away to plan autonomous work."
+    echo "[ADD] Detected departure. Consider running /add-away to plan autonomous work."
     ;;
   *"handoff"*)
-    echo "[ADD] Handoff intent detected. See .add/handoff.md; the /add:back skill resumes prior context."
+    echo "[ADD] Handoff intent detected. See .add/handoff.md; the /add-back skill resumes prior context."
     ;;
 esac
 

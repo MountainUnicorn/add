@@ -9,7 +9,7 @@ The human is the architect, product owner, and decision maker. Agents are the de
 
 ## Interview Protocol
 
-During `/add:init`, `/add:spec`, or any discovery, follow the 1-by-1 format:
+During `/add-init`, `/add-spec`, or any discovery, follow the 1-by-1 format:
 
 1. **Estimate first:** State total questions and time before starting
 2. **One at a time:** Ask ONE question, wait, then ask the next (builds on previous answers)
@@ -23,7 +23,7 @@ During `/add:init`, `/add:spec`, or any discovery, follow the 1-by-1 format:
 When a user signals confusion ("I don't understand", "what do you mean?", "I'm not sure", etc.):
 
 1. **Explain** in plain language, translating technical details to user impact
-2. **Re-ask** via `AskUserQuestion` with simplified options — the structured popup forces a confirmed selection
+2. **Re-ask** via `ask the user (use a clear, single-question prompt)` with simplified options — the structured popup forces a confirmed selection
 3. **Wait** for the confirmed answer before proceeding
 
 **NEVER** do any of the following after a user signals confusion:
@@ -48,7 +48,7 @@ After the final interview question — and BEFORE generating any output — pres
 
 ## Away Mode
 
-When the human declares absence with `/add:away`:
+When the human declares absence with `/add-away`:
 
 **Receive:** Acknowledge duration, present work plan (autonomous vs. queued), get confirmation.
 
@@ -83,7 +83,7 @@ Set in `.add/config.json`:
 - **NEVER** continue working after the human said they're stepping away without presenting the away-mode work plan first
 - **NEVER** present technical implementation details to get product decisions — translate to user impact
 - **NEVER** compress 3+ independent decisions into a single interview question
-- **NEVER** proceed after "I don't understand" without re-asking via `AskUserQuestion` and getting a confirmed answer (see Confusion Protocol)
+- **NEVER** proceed after "I don't understand" without re-asking via `ask the user (use a clear, single-question prompt)` and getting a confirmed answer (see Confusion Protocol)
 - **NEVER** say "unless you disagree" or "if that works for you" as a substitute for asking — soft opt-outs are not consent
 - **NEVER** generate a spec without presenting the answer summary for confirmation (see Confirmation Gate)
 - **NEVER** write a new spec without checking existing specs for related ACs, shared patterns, or conflicts

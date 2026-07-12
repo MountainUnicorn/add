@@ -1,10 +1,10 @@
 ---
 name: add-plan
-description: "[ADD v0.9.7] Create implementation plan from a feature spec"
+description: "[ADD v0.9.8] Create implementation plan from a feature spec"
 argument-hint: "specs/{feature}.md"
 ---
 
-# ADD Plan Skill v0.9.7
+# ADD Plan Skill v0.9.8
 
 Create a detailed implementation plan from a feature specification. This skill analyzes acceptance criteria, breaks down work into manageable tasks, identifies parallelizable work, and estimates effort.
 
@@ -477,7 +477,7 @@ docs/plans/{feature}-plan.md
 2. Assign team members to phases
 3. Begin Phase 0: Preparation
 4. Schedule daily standup
-5. Run /add:tdd-cycle to execute plan
+5. Run /add-tdd-cycle to execute plan
 ```
 
 ## Progress Tracking
@@ -515,7 +515,7 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 ## Integration with Other Skills
 
 - Spec (input) comes from specs/{feature}.md
-- Plan (output) guides /add:tdd-cycle execution
+- Plan (output) guides /add-tdd-cycle execution
 - Effort estimates inform scheduling
 - Risk assessment informs quality gate thresholds
 - Task breakdown guides parallel work dispatch

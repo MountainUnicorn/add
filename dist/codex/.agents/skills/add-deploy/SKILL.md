@@ -1,10 +1,10 @@
 ---
 name: add-deploy
-description: "[ADD v0.9.7] Environment-aware commit, push, and deploy workflow"
+description: "[ADD v0.9.8] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 ---
 
-# ADD Deploy Skill v0.9.7
+# ADD Deploy Skill v0.9.8
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 
@@ -27,7 +27,7 @@ Deployment flows:
 ## Pre-Flight Checks
 
 1. **Verify code quality**
-   - Run /add:verify --level deploy (unless --skip-verify)
+   - Run /add-verify --level deploy (unless --skip-verify)
    - Halt if quality gates fail
    - Ensure all tests passing
 
@@ -129,7 +129,7 @@ anyway (the file should not be committed at all).
 **On match — abort the commit and print:**
 
 ```
-SECRETS GATE — /add:deploy
+SECRETS GATE — /add-deploy
 Scanning {N} staged files...
 
   ✗ {file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
@@ -143,7 +143,7 @@ Commit aborted. Three options:
        Rotate any real secrets immediately
 
   2. False positive (test fixture, example, etc.) — interactive override:
-       /add:deploy --allow-secret
+       /add-deploy --allow-secret
        (you will be asked to type a confirmation phrase)
 
   3. Automation-friendly override — commit-message trailer:
@@ -158,7 +158,7 @@ No commit is created. Preserve staged changes so the user can fix and retry.
 **`--allow-secret` flag (AC-016, AC-017 of `specs/secrets-handling.md`;
 AC-019 of `specs/secrets-scanner-executable.md`):**
 
-If the user invokes `/add:deploy --allow-secret`, present:
+If the user invokes `/add-deploy --allow-secret`, present:
 
 > "To override the secrets gate, type the following phrase EXACTLY
 > (case-sensitive, full string — no quotes, no abbreviation):
@@ -190,7 +190,7 @@ Also append the override record to `.add/redaction-log.json` under
 On any failing match: halt with:
 
 ```
-Secrets gate override CANCELLED. No changes made. Run /add:deploy again when
+Secrets gate override CANCELLED. No changes made. Run /add-deploy again when
 ready — the exact phrase is required to prevent automation or accidental
 consent from pushing secrets.
 ```
@@ -482,7 +482,7 @@ If the match fails for any reason: halt and output:
 ```
 Production deployment CANCELLED. No changes made.
 
-Re-run /add:deploy --env production when ready to deploy.
+Re-run /add-deploy --env production when ready to deploy.
 The confirm-phrase gate exists to prevent automation, rushed approvals,
 and ambiguous consent from deploying to production.
 ```
@@ -676,7 +676,7 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 - Report which gates fail
 - Do NOT proceed with deployment
 - Ask user to fix issues
-- Run /add:verify to see detailed failures
+- Run /add-verify to see detailed failures
 
 **Uncommitted changes detected**
 - List uncommitted changes
@@ -725,7 +725,7 @@ When invoked with `--promote` (or during away mode), the skill climbs the promot
 4. If verification fails at any level → **rollback that environment** to last known good, log failure, stop
 
 ```
-/add:deploy --promote --env dev
+/add-deploy --promote --env dev
   → deploys to dev
   → runs dev verifyCommand (integration tests)
   → PASS → auto-promotes to staging
@@ -754,8 +754,8 @@ During away mode, the deploy skill automatically uses `--promote` behavior:
 
 ## Integration with Other Skills
 
-- Called after /add:tdd-cycle and /add:verify succeed
-- Triggers /add:verify --level smoke after deployment
+- Called after /add-tdd-cycle and /add-verify succeed
+- Triggers /add-verify --level smoke after deployment
 - Supports `--promote` for automatic environment ladder climbing
 - Final step in development workflow
 - Completes the cycle: Spec → Plan → Code → Deploy

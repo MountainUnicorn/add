@@ -56,14 +56,14 @@ approval.
 
 This invariant is enforced at three points:
 
-1. **End of RED** — `/add:test-writer` writes a snapshot at
+1. **End of RED** — `/add-test-writer` writes a snapshot at
    `.add/cycles/cycle-{N}/tdd-{slug}-red.json` capturing every test function's path,
    name, and normalized body hash. The snapshot is committed (`test(red): snapshot N
    tests for {slug}`). Failure mode: if RED produces zero new tests, the cycle halts —
    RED with no new tests is itself a TDD violation.
-2. **End of GREEN** — `/add:implementer` re-runs discovery against the same files and
+2. **End of GREEN** — `/add-implementer` re-runs discovery against the same files and
    writes `.add/cycles/cycle-{N}/tdd-{slug}-green.json` with identical schema.
-3. **Gate 3.5 in `/add:verify`** — runs `scripts/check-test-count.py gate --red ... --green ...`.
+3. **Gate 3.5 in `/add-verify`** — runs `scripts/check-test-count.py gate --red ... --green ...`.
    If `tests_removed > 0` without an override, or `tests_replaced > 0` without
    `--allow-test-rewrite`, the gate fails with a structured error listing each removed
    or replaced test. The cycle does not advance to Gate 4.
@@ -86,7 +86,7 @@ A test deletion or replacement is authorized by **either**:
   }
   ```
 
-Either form is recorded in telemetry and surfaced in `/add:retro` for review.
+Either form is recorded in telemetry and surfaced in `/add-retro` for review.
 
 ### Rationale
 

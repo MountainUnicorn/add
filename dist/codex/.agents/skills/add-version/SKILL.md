@@ -1,10 +1,10 @@
 ---
 name: add-version
-description: "[ADD v0.9.7] Show installed version, project version, and upgrade status"
+description: "[ADD v0.9.8] Show installed version, project version, and upgrade status"
 argument-hint: "[--check]"
 ---
 
-# ADD Version Command v0.9.7
+# ADD Version Command v0.9.8
 
 Show the current ADD version, compare project config version to plugin version, and flag drift.
 
@@ -33,9 +33,9 @@ ADD Version
 | Condition | Status | Action |
 |---|---|---|
 | project == plugin | `✓ Up to date` | None |
-| project < plugin | `⚠ Project config is behind — migration will run on next skill invocation` | Suggest: "Run any /add: command to trigger auto-migration, or /add:init --reconfigure for a full refresh." |
+| project < plugin | `⚠ Project config is behind — migration will run on next skill invocation` | Suggest: "Run any /add- command to trigger auto-migration, or /add-init --reconfigure for a full refresh." |
 | project > plugin | `⚠ Project config is ahead of plugin — you may be on an older plugin version` | Suggest: "Run: claude plugin update add@add-marketplace" |
-| No .add/config.json | `○ Not an ADD project — run /add:init to get started` | — |
+| No .add/config.json | `○ Not an ADD project — run /add-init to get started` | — |
 
 ### --check flag
 
@@ -60,7 +60,7 @@ ADD Version
   What changed since v0.5.0:
     v0.6.0 — Community release (3 new skills: docs, ux, milestone/roadmap/promote)
     v0.7.0 — Multi-runtime architecture (Claude + Codex), security hardening
-    v0.7.1 — Deploy confirm-phrase gate, /add:init --quick, PII heuristic
+    v0.7.1 — Deploy confirm-phrase gate, /add-init --quick, PII heuristic
     v0.7.2 — GPG signing infrastructure
     v0.7.3 — First GitHub-Verified signed release
     v0.8.0 — Pre-filtered active learning views (62-82% context reduction)

@@ -26,12 +26,15 @@ tool_mapping:
 path_vars:
   CLAUDE_PLUGIN_ROOT: "~/.codex"
 
-# Codex prompts have no frontmatter — the Claude extensions get stripped.
+# Skill frontmatter is REWRITTEN for the native Skills layout: only `name`
+# (namespaced add-<dirname>), `description`, and `argument-hint` are emitted.
+# Rules ship VERBATIM (frontmatter preserved) — the maturity-loader rule reads
+# each rule's `maturity:` key at runtime, so stripping would break it.
 frontmatter:
   skills:
-    strip: [description, argument-hint, allowed-tools, disable-model-invocation, references]
+    emit: [name, description, argument-hint]
   rules:
-    strip: [autoload, maturity, description, globs, references]
+    preserve: true
 
 # Codex consumes content in the native layout:
 #   1. AGENTS.md                                     — root context, slim manifest (≤500 lines)
@@ -47,9 +50,10 @@ frontmatter:
 #      Mirrors the Claude runtime's on-demand loading; token savings symmetric across both runtimes.
 output_shape:
   agents_md:
-    from: [core/knowledge/global.md, core/rules/*.md]
-    filter: "autoload != false"        # rules with autoload:false skip the concat — loaded on demand
-    strategy: slim_manifest            # autoload: true only; skills table generated
+    from: [core/rules/*.md]
+    filter: "autoload == true"         # shared predicate with the Claude @rules list (rule_autoloads)
+    strategy: slim_manifest            # rule names + summaries only; skills table generated;
+                                       # pointer to knowledge/global.md (read before skills, not inlined)
     max_lines: 500                     # compile fails above this
   skills:
     from: core/skills/*/SKILL.md
@@ -74,10 +78,27 @@ output_shape:
   references:
     from: core/references/
     emit_to: references/
-    copy_verbatim: true             # shipped alongside skills; prompts read these on demand
+    substitute: codex               # path vars + /add: namespace rewritten; read on demand
   templates:
     from: core/templates/
-    copy_verbatim: true
+    emit_to: templates/
+    substitute: codex
+  rules_files:
+    from: core/rules/
+    emit_to: rules/                 # individual rule files for path references from skills
+    substitute: codex
+  knowledge:
+    from: core/knowledge/
+    emit_to: knowledge/
+    substitute: codex
+  lib:
+    from: core/lib/
+    emit_to: lib/                   # shared shell helpers; .sh shipped byte-identical, mode 0755
+    substitute: codex
+  security:
+    from: core/security/
+    emit_to: security/              # injection pattern catalog, secret patterns
+    substitute: codex
   plugin_manifest:
     emit_to: plugin.toml
 
@@ -87,12 +108,22 @@ adapter_files:
 
 # Known runtime limitations (documented so agents and users understand the gap)
 limitations:
+  - name: no-injection-scan-hook
+    description: >
+      The Claude runtime registers a PostToolUse prompt-injection scanner
+      (posttooluse-scan.sh). NO equivalent hook ships or registers on Codex —
+      .codex/hooks.json carries only the three handoff hooks. Injection
+      defense on Codex is ADVISORY-ONLY: the rules/injection-defense.md text
+      that the model reads. No audit events are written. Path to parity: port
+      the scanner to a Codex-compatible trigger; scheduled for v1.0.
+  - name: no-learnings-filter-hook
+    description: >
+      filter-learnings.sh ships in ~/.codex/hooks/ but is NOT registered in
+      hooks.json — learnings-active.md is regenerated only when a skill invokes
+      the script imperatively (per the learning rule), not automatically on
+      write as in Claude Code.
   - name: hook-stderr-not-surfaced
     description: >
       Codex PostToolUse hooks run, but stderr is not automatically surfaced to
-      the agent's next turn (unlike Claude Code). The prompt-injection scan
-      hook still writes audit events to .add/security/injection-events.jsonl,
-      but the ADD-SEC warning is invisible until the user inspects the log
-      (manually or via /add:retro). Path to parity: an adapter-side polling
-      reader that tails injection-events.jsonl into each prompt turn; scheduled
-      for v1.0.
+      the agent's next turn (unlike Claude Code). Warnings from hook scripts
+      are invisible until the user inspects logs manually.

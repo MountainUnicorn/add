@@ -1,4 +1,5 @@
 ---
+autoload: true
 description: "Design system for visual artifacts — loads full reference on demand"
 maturity: ga
 globs: ["docs/infographic.svg", "reports/*.html"]

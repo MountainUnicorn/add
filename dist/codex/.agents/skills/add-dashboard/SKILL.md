@@ -1,16 +1,16 @@
 ---
 name: add-dashboard
-description: "[ADD v0.9.7] Generate a visual HTML project dashboard from .add/ project files"
+description: "[ADD v0.9.8] Generate a visual HTML project dashboard from .add/ project files"
 argument-hint: "[--open]"
 ---
 
-# ADD Dashboard Command v0.9.7
+# ADD Dashboard Command v0.9.8
 
 Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading the project's `.add/` directory, specs, docs, and config. The file opens in the browser and gives anyone — developer, PM, or founder — a real-time picture of the project's state.
 
 ## Pre-Flight
 
-1. Read `.add/config.json` — if not found, abort: "No ADD project found. Run /add:init first."
+1. Read `.add/config.json` — if not found, abort: "No ADD project found. Run /add-init first."
 2. Read `.add/handoff.md` if it exists — note current state.
 
 ## Data Gathering
@@ -105,7 +105,7 @@ Sticky header with `backdrop-filter: blur(12px)`, `background: rgba(15,15,35,0.9
 - Maturity pill (color-coded)
 - "Generated: {ISO timestamp}" in muted text
 - 7 nav anchor links: Outcome Health | Hill Chart | Cycle Progress | Decision Queue | Intelligence | Cost & Velocity | Timeline
-- Small note: "Run /add:dashboard to regenerate"
+- Small note: "Run /add-dashboard to regenerate"
 
 ### Panel 1 — Outcome Health
 
@@ -150,7 +150,7 @@ Past cycles as collapsed `<details>` accordion:
 - Cycle number, features, VALIDATED (green) or INCOMPLETE (red) badge
 - Click to expand details
 
-If no cycles: "No cycles yet — run /add:cycle to plan your first work batch."
+If no cycles: "No cycles yet — run /add-cycle to plan your first work batch."
 
 ### Panel 4 — Decision Queue
 
@@ -165,7 +165,7 @@ Each item as a card:
 - Bold action label in accent color
 - Item name
 - One-line description
-- Suggested command (e.g., "Run /add:spec to refine")
+- Suggested command (e.g., "Run /add-spec to refine")
 
 If empty: green card "All clear — no decisions pending."
 

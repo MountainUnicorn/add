@@ -11,7 +11,7 @@
 > 3. **Tier 3: Project-Specific** (this file) — discoveries specific to this project
 >
 > **Agents:** Read ALL three tiers before starting any task.
-> **Humans:** Review with `/add:retro --agent-summary` or during full `/add:retro`.
+> **Humans:** Review with `/add-retro --agent-summary` or during full `/add-retro`.
 
 ## Technical Discoveries
 <!-- Things learned about the tech stack, libraries, APIs, infrastructure -->
@@ -29,8 +29,8 @@
 
 ## Agent Checkpoints
 <!-- Automatic entries from verification, TDD cycles, deploys, away sessions -->
-<!-- These are processed and archived during /add:retro -->
+<!-- These are processed and archived during /add-retro -->
 
 ## Profile Update Candidates
 <!-- Cross-project patterns flagged for promotion to ~/.claude/add/profile.md -->
-<!-- Only promoted during /add:retro with human confirmation -->
+<!-- Only promoted during /add-retro with human confirmation -->

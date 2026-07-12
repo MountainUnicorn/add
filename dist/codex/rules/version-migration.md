@@ -19,7 +19,7 @@ On **every session start**, before any other work:
 
 ## Migration Process
 
-1. **Build path:** Read `${CLAUDE_PLUGIN_ROOT}/templates/migrations.json`. Chain hops from project version to plugin version (skip missing hops).
+1. **Build path:** Read `~/.codex/add/templates/migrations.json`. Chain hops from project version to plugin version (skip missing hops).
 
 2. **Back up:** Before modifying ANY file, copy to `{file}.pre-migration.bak`. If backup fails, abort entirely.
 

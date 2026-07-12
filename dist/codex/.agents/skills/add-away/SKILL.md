@@ -1,6 +1,6 @@
 ---
 name: add-away
-description: "[ADD v0.9.7] Declare absence — get autonomous work plan for the duration"
+description: "[ADD v0.9.8] Declare absence — get autonomous work plan for the duration"
 argument-hint: "[duration, e.g. '4 hours', '30 minutes', 'end of day']"
 ---
 
@@ -26,14 +26,14 @@ argument-hint: "[duration, e.g. '4 hours', '30 minutes', 'end of day']"
 
 ---
 
-# ADD Away Command v0.9.7
+# ADD Away Command v0.9.8
 
 The human is stepping away. Establish what work can proceed autonomously and what must wait.
 
 ## Phase 1: Understand the Absence
 
 Parse the duration from $ARGUMENTS. If not provided, default to **2 hours**. Do not ask — just acknowledge the default:
-"No duration specified — I'll plan for a 2-hour session. Say `/add:away 4 hours` next time to adjust."
+"No duration specified — I'll plan for a 2-hour session. Say `/add-away 4 hours` next time to adjust."
 
 ## Phase 2: Assess Available Work
 

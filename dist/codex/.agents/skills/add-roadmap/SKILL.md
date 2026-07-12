@@ -1,18 +1,18 @@
 ---
 name: add-roadmap
-description: "[ADD v0.9.7] View and manage project roadmap — milestones, horizons, reordering"
+description: "[ADD v0.9.8] View and manage project roadmap — milestones, horizons, reordering"
 argument-hint: "[--view | --edit | --reorder]"
 ---
 
-# ADD Roadmap Command v0.9.7
+# ADD Roadmap Command v0.9.8
 
 View, edit, and reorder project milestones across roadmap horizons (Now / Next / Later). This skill manages the strategic layer of ADD's work hierarchy — bridging the PRD roadmap table and individual milestone files.
 
 ```
 Roadmap (Now / Next / Later)        ← this skill
-  → Milestones (/add:milestone)     ← tactical operations
-    → Cycles (/add:cycle)           ← execution
-      → Features (/add:spec)        ← specification
+  → Milestones (/add-milestone)     ← tactical operations
+    → Cycles (/add-cycle)           ← execution
+      → Features (/add-spec)        ← specification
 ```
 
 ---
@@ -22,9 +22,9 @@ Roadmap (Now / Next / Later)        ← this skill
 All subcommands begin here:
 
 1. **Read `.add/config.json`** — extract `maturity.level`, `planning.current_milestone`
-   - If not found: abort with "No ADD project found. Run `/add:init` first."
+   - If not found: abort with "No ADD project found. Run `/add-init` first."
 2. **Read `docs/prd.md`** — locate Section 6 ("Milestones & Roadmap"), parse the roadmap table and milestone detail blocks
-   - If `docs/prd.md` missing: abort with "No PRD found. Run `/add:init` first."
+   - If `docs/prd.md` missing: abort with "No PRD found. Run `/add-init` first."
 3. **Glob `docs/milestones/M*.md`** — for each, parse: Status, Goal, feature count, feature positions (hill chart data), success criteria progress
 4. **Read `.add/handoff.md`** if it exists — note any in-progress decisions relevant to roadmap changes
 5. **Build roadmap model** — merge PRD table (source of truth for horizons) with milestone files (source of truth for status/content). Flag discrepancies.
@@ -119,7 +119,7 @@ Ask which milestone, then which horizon. Handle these cases:
 
 ### Action 2: Add New Milestone
 
-Follow the same interview steps as documented in `/add:milestone --create` (3-8 questions scaled by maturity). Do not invoke the milestone skill directly — replicate the interview inline so changes can be batched with other roadmap edits.
+Follow the same interview steps as documented in `/add-milestone --create` (3-8 questions scaled by maturity). Do not invoke the milestone skill directly — replicate the interview inline so changes can be batched with other roadmap edits.
 
 ### Action 3: Archive Milestone
 
@@ -179,7 +179,7 @@ Roadmap updated.
   M3 (Auth Overhaul) → Next
   M7 (Notification System) added to Later
 
-Next: /add:cycle --plan to start work on M4
+Next: /add-cycle --plan to start work on M4
 ```
 
 ---
@@ -245,7 +245,7 @@ Show proposed layout. On confirmation, apply same logic as `--edit` Step 4.
 
 | Skill | Relationship |
 |-------|-------------|
-| `/add:init` | Creates initial milestones. Roadmap manages them afterward. |
-| `/add:milestone` | Tactical ops (switch, split, rescope). Roadmap does strategic horizon planning. |
-| `/add:cycle` | Reads `planning.current_milestone` set by roadmap changes. |
-| `/add:dashboard` | Reads milestone data. Roadmap ensures consistency. |
+| `/add-init` | Creates initial milestones. Roadmap manages them afterward. |
+| `/add-milestone` | Tactical ops (switch, split, rescope). Roadmap does strategic horizon planning. |
+| `/add-cycle` | Reads `planning.current_milestone` set by roadmap changes. |
+| `/add-dashboard` | Reads milestone data. Roadmap ensures consistency. |

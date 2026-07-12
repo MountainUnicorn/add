@@ -4,6 +4,22 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.9.8] — 2026-07-12
+
+P0 correctness patch from a full token-sensitivity audit (four parallel deep-dives across rules, skills, the Codex runtime, and the operational machinery). Fixes cross-runtime divergence and fail-open security behavior; opens the three-release path to v1.0 (v0.9.9 token architecture, v0.9.10 dedup + hygiene).
+
+### Fixed
+
+- **Codex substitution leaks.** The compiler applied `codex_substitute` only to skill bodies and references — `rules/`, `knowledge/`, `templates/`, `security/`, `lib/` docs and agent TOMLs shipped with raw `${CLAUDE_PLUGIN_ROOT}` paths and **286 `/add:` Claude-namespace command references** (Codex commands are `/add-<name>`). `copy_tree` now takes a transform; a `/add:` → `/add-` substitution rule was added; `.template`/`.toml` files joined the substitution set; `handoff-detect.sh` messages corrected at source. `scan-secrets.sh` additionally resolves its catalog at `~/.codex/add/security/` when env/script-relative resolution misses.
+- **Claude/Codex autoload divergence.** The Claude `@rules` list included a rule unless `autoload: false`; the Codex AGENTS.md invariants required `autoload: true` — `design-system.md` (no key) autoloaded on Claude but was missing from Codex invariants. Both runtimes now share one `rule_autoloads()` predicate, and **every rule must declare `autoload:` explicitly** (compile hard-fails otherwise).
+- **Critical injection detector failed open.** Hex-escape patterns (incl. the `critical` `unicode-tag-block` invisible-injection detector) silently no-op'd when `python3` was absent. The scanner now emits an `ADD-SEC … action=skipped-no-python3` warning and a `skipped:"no-python3"` audit event.
+- **`compile.py --check` could false-pass on a pre-drifted tree** (it compared before-vs-after `git status --porcelain` strings, identical either way). Now snapshots the output dirs and content-diffs after recompile — git-independent, works uncommitted.
+- **Codex sessions never saw `knowledge/global.md`.** `adapter.yaml` claimed AGENTS.md was built from it, but the compiler never read it. The slim manifest now carries the read-before-work pointer to Tier-1 global learnings + `.add/learnings-active.md`.
+
+### Changed
+
+- **`adapter.yaml` truth-pass.** The `limitations` section previously described an injection-scan hook writing audit events on Codex — no such hook ships. It now states plainly: injection defense on Codex is **advisory-only** (no scanner hook, no audit events; parity targeted at v1.0), `filter-learnings.sh` ships but is not auto-registered, and hook stderr is not surfaced. `output_shape` now documents all real emit targets (`rules/`, `knowledge/`, `lib/`, `security/`); the false `rules.strip` frontmatter claim replaced with `preserve: true` (the maturity-loader reads rule `maturity:` keys at runtime).
+
 ## [0.9.7] — 2026-06-18
 
 Methodology reframe + a security trust signal. Positions ADD as the policy layer over native orchestration, leads with the maturity-ladder moat, and dogfoods the injection defense.

@@ -59,7 +59,7 @@ All learning entries (Tier 2 and Tier 3) use a structured JSON format:
 
 ## Checkpoint Templates
 
-### After Verification (`/add:verify` completes)
+### After Verification (`/add-verify` completes)
 
 ```json
 {
@@ -257,7 +257,7 @@ Learnings flow upward through tiers during retrospectives.
 
 ### Tier 3 → Tier 2 (Project → User Library)
 
-During `/add:retro`, entries with scope `workstation` or `universal` are promotion candidates.
+During `/add-retro`, entries with scope `workstation` or `universal` are promotion candidates.
 
 **Promote when:** pattern applies across projects, technical insight transfers, anti-pattern would harm any project.
 

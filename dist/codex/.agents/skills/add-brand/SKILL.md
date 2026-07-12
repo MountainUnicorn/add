@@ -1,17 +1,17 @@
 ---
 name: add-brand
-description: "[ADD v0.9.7] View project branding — accent color, palette, drift detection, image gen status"
+description: "[ADD v0.9.8] View project branding — accent color, palette, drift detection, image gen status"
 ---
 
-# ADD Brand Command v0.9.7
+# ADD Brand Command v0.9.8
 
 Display the current branding configuration for this ADD-managed project. Shows accent color, palette, fonts, tone, where branding is applied, detects brand drift in generated artifacts, and reports image generation capability status.
 
 ## Pre-Flight
 
-1. Check if `.add/config.json` exists. If not, tell the user to run `/add:init` first.
+1. Check if `.add/config.json` exists. If not, tell the user to run `/add-init` first.
 2. Read `.add/config.json` and extract the `branding` section.
-3. If no `branding` section exists, inform the user: "No branding configured. Run `/add:brand-update` to set up branding, or re-run `/add:init --reconfigure` to add it during setup."
+3. If no `branding` section exists, inform the user: "No branding configured. Run `/add-brand-update` to set up branding, or re-run `/add-init --reconfigure` to add it during setup."
 
 ## Phase 1: Display Current Branding
 
@@ -75,7 +75,7 @@ BRAND DRIFT DETECTED
   reports/spike-2026-02-14.html
     ⚠ CSS --accent: #6366f1 — configured accent is #b00149
 
-  Run /add:brand-update to fix these artifacts.
+  Run /add-brand-update to fix these artifacts.
 ```
 
 If no drift:
@@ -86,7 +86,7 @@ BRAND CONSISTENCY: ✓ All artifacts match configured branding.
 If no artifacts found:
 ```
 GENERATED ARTIFACTS: None found yet.
-  Run /add:infographic to generate a project infographic.
+  Run /add-infographic to generate a project infographic.
 ```
 
 ## Phase 3: Image Generation Status
@@ -108,7 +108,7 @@ IMAGE GENERATION: Not configured
 
   To set up:
     1. Configure a Vertex AI MCP server in your .mcp.json
-    2. Run any visual skill (/add:infographic) — detection is automatic
+    2. Run any visual skill (/add-infographic) — detection is automatic
 ```
 
 **If imageGeneration section doesn't exist in config:**
@@ -124,6 +124,6 @@ BRANDING SUMMARY
   Image Gen:  {Configured | Not configured}
 
   Commands:
-    /add:brand-update    Update branding and audit artifacts
-    /add:infographic     Generate project infographic
+    /add-brand-update    Update branding and audit artifacts
+    /add-infographic     Generate project infographic
 ```

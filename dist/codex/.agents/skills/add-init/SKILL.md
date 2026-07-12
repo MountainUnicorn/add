@@ -1,6 +1,6 @@
 ---
 name: add-init
-description: "[ADD v0.9.7] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v0.9.8] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 
 ---
 
-# ADD Init Command v0.9.7
+# ADD Init Command v0.9.8
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 
@@ -63,7 +63,7 @@ Everything else that the full interview asks is defaulted:
 | Commit convention | Conventional commits |
 | Protected branches | `[main]` |
 | Coverage threshold | 80% at beta/ga, 50% at alpha, 0 at poc |
-| Branding palette | Default ADD raspberry (`#b00149`) until `/add:brand` is run |
+| Branding palette | Default ADD raspberry (`#b00149`) until `/add-brand` is run |
 | Image generation | `enabled: false, nudged: false` |
 
 ### What `--quick` skips
@@ -83,7 +83,7 @@ Everything else that the full interview asks is defaulted:
 
 ### Upgrade path
 
-After quick init, the user can always run `/add:init --reconfigure` for the full interview, or run `/add:spec` to start formalizing features. Specs created under a quick-init project are no different from specs created under full init.
+After quick init, the user can always run `/add-init --reconfigure` for the full interview, or run `/add-spec` to start formalizing features. Specs created under a quick-init project are no different from specs created under full init.
 
 ## Sync Registry Mode (`--sync-registry`)
 
@@ -225,18 +225,18 @@ MATURITY ASSESSMENT (evidence-based):
 
   GAP TO NEXT LEVEL (Beta):
     To promote from Alpha → Beta, you need:
-    □ Feature specs for all user-facing features (create with /add:spec)
+    □ Feature specs for all user-facing features (create with /add-spec)
     □ Test coverage above 50% (currently 47%)
     □ PR workflow with code review
     □ At least 2 deployment environments
     □ TDD evidence (tests before implementation)
 
   This assessment is based on observed project behavior, not aspiration.
-  Maturity can be promoted later via /add:retro or /add:cycle --complete
+  Maturity can be promoted later via /add-retro or /add-cycle --complete
   when evidence supports the next level.
 ```
 
-If the user disagrees with the assessment, explain that ADD maturity is evidence-based and that promotion happens through `/add:retro` when criteria are met. The user can start at the detected level and promote quickly if the project genuinely meets higher criteria.
+If the user disagrees with the assessment, explain that ADD maturity is evidence-based and that promotion happens through `/add-retro` when criteria are met. The user can start at the detected level and promote quickly if the project genuinely meets higher criteria.
 
 ```
 I've scanned your project and detected existing ADD-like methodology.
@@ -261,7 +261,7 @@ WHAT ADD WOULD ADD (non-destructive):
   ✚ .add/learnings.md — agent knowledge base (auto-checkpoints)
   ✚ ADD-specific rules — human collaboration, source control, environment awareness
   ✚ Quality gate system — 5-level verification gates
-  ✚ /add:retro command — retrospectives and learning promotion
+  ✚ /add-retro command — retrospectives and learning promotion
   ✚ Cross-project persistence — ~/.claude/add/ for preferences and history
 
 WHAT ADD WOULD PRESERVE (untouched):
@@ -334,7 +334,7 @@ For each ADD rule, check for equivalent coverage in `.claude/rules/`:
 
 ### Handling Existing Skills
 
-For each ADD skill (e.g., `/add:spec`, `/add:plan`, `/add:away`, `/add:back`, `/add:retro`):
+For each ADD skill (e.g., `/add-spec`, `/add-plan`, `/add-away`, `/add-back`, `/add-retro`):
 
 - **If project has equivalent skill:** Ask:
   ```
@@ -361,8 +361,8 @@ This project follows Agent Driven Development (ADD) for structured code generati
 
 **Configuration:** `.add/config.json`
 **Knowledge Base:** `.add/learnings.md` (auto-populated during development)
-**Quality Gates:** Enforced via `/add:verify` command
-**Workflow:** `/add:spec` → `/add:plan` → `/add:tdd-cycle` → `/add:retro`
+**Quality Gates:** Enforced via `/add-verify` command
+**Workflow:** `/add-spec` → `/add-plan` → `/add-tdd-cycle` → `/add-retro`
 
 See `.add/config.json` for detailed settings.
 ```
@@ -486,8 +486,8 @@ Next steps:
   1. Review .add/config.json and adjust if needed
   2. Review .add/learnings.md and add any missing patterns
   3. Continue using your existing /commands and /skills
-  4. Try /add:spec to create ADD-formatted specs alongside your existing ones
-  5. Run /add:retro to checkpoint learnings and refine methodology
+  4. Try /add-spec to create ADD-formatted specs alongside your existing ones
+  5. Run /add-retro to checkpoint learnings and refine methodology
 ```
 
 ## Phase 1: The Interview
@@ -731,7 +731,7 @@ Use ask the user (use a clear, single-question prompt) with options:
 
 → Captures: branding configuration (accentColor, palette, fonts, tone, logoPath, styleGuideSource, presetName)
 
-Note: Branding can always be updated later with `/add:brand-update`.
+Note: Branding can always be updated later with `/add-brand-update`.
 
 ### Section 3: Process & Collaboration (5 questions, ~4 min)
 
@@ -753,12 +753,12 @@ Use ask the user (use a clear, single-question prompt) with options:
   - "Alpha — building toward MVP, some structure from the start"
 
 Note: Beta and GA require evidence (specs, test coverage, CI/CD, PR workflow).
-Promote via `/add:retro` when your project meets the criteria.
+Promote via `/add-retro` when your project meets the criteria.
 
 → Captures: maturity level (cascades into all ADD behavior via maturity-lifecycle rule)
 
 If POC selected, inform user:
-"Great — POC maturity means relaxed process. Specs are optional, TDD is encouraged but not enforced, and we'll use informal cycle planning. You can promote to Alpha anytime with /add:cycle --promote."
+"Great — POC maturity means relaxed process. Specs are optional, TDD is encouraged but not enforced, and we'll use informal cycle planning. You can promote to Alpha anytime with /add-cycle --promote."
 
 **Q15:** "How much autonomy should I have?"
 Use ask the user (use a clear, single-question prompt) with options:
@@ -826,7 +826,7 @@ If `CHANGELOG.md` does not already exist in the project root, create it from the
 1. Read `~/.codex/add/templates/changelog.md.template`
 2. Write it to `CHANGELOG.md` in the project root
 
-This gives the project a Keep a Changelog-formatted changelog from day one. The `/add:changelog` command and the push hook will populate it automatically as development proceeds.
+This gives the project a Keep a Changelog-formatted changelog from day one. The `/add-changelog` command and the push hook will populate it automatically as development proceeds.
 
 ### Step 2.2: Create Cross-Project Directories (machine-local)
 
@@ -955,7 +955,7 @@ Read ~/.codex/add/templates/learnings.md.template and fill in the project name. 
 
 ### Step 3.6: Generate AGENTS.md
 
-Invoke `/add:agents-md` to generate a portable `AGENTS.md` at project root. This is the cross-tool open standard — any agent (Cursor, Codex CLI, Copilot, Windsurf, etc.) reading the repo will pick it up. Generation is maturity-aware: POC projects get a minimal bullet summary, Alpha+ projects get a sectioned doc. If an `AGENTS.md` already exists without the ADD marker block, skip this step and recommend the user run `/add:agents-md --merge` after init completes.
+Invoke `/add-agents-md` to generate a portable `AGENTS.md` at project root. This is the cross-tool open standard — any agent (Cursor, Codex CLI, Copilot, Windsurf, etc.) reading the repo will pick it up. Generation is maturity-aware: POC projects get a minimal bullet summary, Alpha+ projects get a sectioned doc. If an `AGENTS.md` already exists without the ADD marker block, skip this step and recommend the user run `/add-agents-md --merge` after init completes.
 
 ## Phase 4: Cross-Project Persistence
 
@@ -964,7 +964,7 @@ Invoke `/add:agents-md` to generate a portable `AGENTS.md` at project root. This
 If `~/.claude/add/profile.md` does NOT exist and the user agreed to create one:
 Read ~/.codex/add/templates/profile.md.template, fill in preferences from the interview, and write to `~/.claude/add/profile.md`.
 
-If profile already exists, do NOT modify it — profile updates only happen during `/add:retro`.
+If profile already exists, do NOT modify it — profile updates only happen during `/add-retro`.
 
 ### Step 4.2: Project Index Entry
 
@@ -983,13 +983,13 @@ Write a snapshot to `~/.claude/add/projects/{project-name}.json`:
 }
 ```
 
-This lets future `/add:init` calls on new projects reference your history:
+This lets future `/add-init` calls on new projects reference your history:
 "I see you worked on {project} with {stack}. Similar setup here?"
 
 ### Step 4.3: Cross-Project Library
 
 If `~/.claude/add/library.md` does NOT exist, create it from ~/.codex/add/templates/library.md.template.
-If it exists, leave it alone — it's updated during `/add:retro`.
+If it exists, leave it alone — it's updated during `/add-retro`.
 
 ## Phase 5: Summary
 
@@ -1044,7 +1044,7 @@ WHAT'S COMMITTED (ports between devices via git):
 
 WHAT'S LOCAL (stays on this machine):
   ~/.claude/add/ (profile, library, project index)
-  Run /add:init --import on a new device to rebuild from committed state.
+  Run /add-init --import on a new device to rebuild from committed state.
 
 ```
 
@@ -1060,12 +1060,12 @@ WHAT TO DO NEXT (prototype mode — lightweight):
   You're at POC maturity. Specs are optional. TDD is recommended but not enforced.
   The fastest path to your first working feature:
 
-  1. /add:tdd-cycle — jump straight into coding with tests (~20 min for a small feature)
-  2. /add:verify    — run quality gates to check your work (~2 min)
+  1. /add-tdd-cycle — jump straight into coding with tests (~20 min for a small feature)
+  2. /add-verify    — run quality gates to check your work (~2 min)
 
   Optional (when you want more structure):
-  • /add:spec "feature name"  — define a feature before coding (~5 min)
-  • /add:retro                — capture what you learned after a session
+  • /add-spec "feature name"  — define a feature before coding (~5 min)
+  • /add-retro                — capture what you learned after a session
 
   Estimated time to first feature: ~25 minutes.
 ```
@@ -1075,21 +1075,21 @@ WHAT TO DO NEXT (prototype mode — lightweight):
 ```
 WHAT TO DO NEXT:
 
-  1. /add:spec "your first feature"   — define one feature through a short interview (~5 min)
+  1. /add-spec "your first feature"   — define one feature through a short interview (~5 min)
      This produces specs/{feature}.md with acceptance criteria and test cases.
 
-  2. /add:plan specs/{feature}.md     — break it into implementation tasks (~3 min)
+  2. /add-plan specs/{feature}.md     — break it into implementation tasks (~3 min)
 
-  3. /add:tdd-cycle specs/{feature}.md — build it with tests: RED → GREEN → REFACTOR → VERIFY (~20 min)
+  3. /add-tdd-cycle specs/{feature}.md — build it with tests: RED → GREEN → REFACTOR → VERIFY (~20 min)
 
-  4. /add:verify                      — confirm all quality gates pass (~2 min)
+  4. /add-verify                      — confirm all quality gates pass (~2 min)
 
   First feature end-to-end: ~30 minutes. Second feature: faster (patterns learned).
 
   Other useful commands:
-  • /add:away      — hand off to the agent for autonomous work
-  • /add:retro     — run a retrospective to capture learnings
-  • /add:cycle     — plan a batch of features with milestone tracking
+  • /add-away      — hand off to the agent for autonomous work
+  • /add-retro     — run a retrospective to capture learnings
+  • /add-cycle     — plan a batch of features with milestone tracking
 ```
 
 **If the user appears to be a PM / non-engineer** (detected by: `collaboration.team_size` > 1, OR user said "PM" or "product manager" during the interview, OR autonomy = "guided"):
@@ -1099,15 +1099,15 @@ YOUR ROLE IN ADD:
 
   As a product person, you'll primarily use two commands:
 
-  1. /add:spec "feature name"   — define what you want built (~5 min interview)
+  1. /add-spec "feature name"   — define what you want built (~5 min interview)
      ADD captures your requirements as acceptance criteria. Your dev team
      builds from these specs — no ambiguity, no telephone game.
 
-  2. /add:verify                — check if a feature meets the spec you defined
+  2. /add-verify                — check if a feature meets the spec you defined
 
-  You don't need to run /add:plan, /add:tdd-cycle, or /add:deploy — those
+  You don't need to run /add-plan, /add-tdd-cycle, or /add-deploy — those
   are for the engineering workflow. Your specs are the source of truth.
 
-  Try it now: /add:spec "your most important feature"
+  Try it now: /add-spec "your most important feature"
 ```
 ```

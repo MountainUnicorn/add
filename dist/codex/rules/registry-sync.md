@@ -5,7 +5,7 @@ maturity: poc
 
 # ADD Rule: Project Registry Sync
 
-The cross-project registry at `~/.claude/add/projects/{name}.json` is how `/add:init` on new projects and `/add:retro` cross-project promotion find prior work. When it drifts from the project's ground truth, those workflows silently degrade.
+The cross-project registry at `~/.claude/add/projects/{name}.json` is how `/add-init` on new projects and `/add-retro` cross-project promotion find prior work. When it drifts from the project's ground truth, those workflows silently degrade.
 
 ## When This Runs
 
@@ -33,7 +33,7 @@ Emit ONE compact drift notice at session start. Do not re-emit during the sessio
 📋 Registry drift detected for {project}:
    • learnings_count: registry 5 vs actual 55
    • last_retro: registry null vs 2026-04-12
-   Run /add:init --sync-registry to reconcile. (Safe: read-only comparison,
+   Run /add-init --sync-registry to reconcile. (Safe: read-only comparison,
    no project files modified.)
 ```
 
@@ -41,7 +41,7 @@ Do not block. Do not auto-update the registry without user approval — the regi
 
 ## Sync Command
 
-When the user runs `/add:init --sync-registry`:
+When the user runs `/add-init --sync-registry`:
 
 1. Read ground truth (learnings count, latest retro, maturity, tier, stack)
 2. Compute a diff against the current registry
@@ -60,7 +60,7 @@ When any skill writes to `.add/learnings.json`, `.add/retros/retro-*.md`, or pro
    - After maturity promotion → update `maturity`
 3. Write the registry back
 
-If the registry does not exist, skip silently (no auto-creation — that's `/add:init`'s job).
+If the registry does not exist, skip silently (no auto-creation — that's `/add-init`'s job).
 
 ## Why This Exists
 
@@ -68,6 +68,6 @@ Evidence from the agentVoice dog-food project:
 
 - Registry `learnings_count: 5` vs actual 55 (11× drift)
 - Registry `last_retro: null` vs actual 2026-04-12 (missed entirely)
-- Result: `/add:init` on a sister project would have said "agentVoice has 5 learnings, alpha maturity" — wrong on both counts, reducing the value of cross-project memory to zero.
+- Result: `/add-init` on a sister project would have said "agentVoice has 5 learnings, alpha maturity" — wrong on both counts, reducing the value of cross-project memory to zero.
 
 The registry should be a trusted, auto-maintained mirror of ground truth. This rule keeps it one.

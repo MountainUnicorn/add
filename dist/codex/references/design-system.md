@@ -160,8 +160,8 @@ const palette = config.branding?.palette || ['#b00149', '#d4326d', '#ff6b9d'];
 ```
 
 ### Branding Command
-Generate infographics via `/add:infographic` (applies design system automatically).
-Update branding via `/add:brand` (modifies config, regenerates artifacts).
+Generate infographics via `/add-infographic` (applies design system automatically).
+Update branding via `/add-brand` (modifies config, regenerates artifacts).
 
 ## Maturity Awareness
 
@@ -222,13 +222,13 @@ Update branding via `/add:brand` (modifies config, regenerates artifacts).
 ### Command Usage
 ```bash
 # Generate infographic for project
-/add:infographic
+/add-infographic
 
 # Update branding colors
-/add:brand
+/add-brand
 
 # Regenerate all visual artifacts after branding change
-/add:infographic && npm run build:reports
+/add-infographic && npm run build:reports
 ```
 
 ### When to Apply

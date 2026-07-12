@@ -9,7 +9,7 @@ Every skill invocation appends one JSONL line to `.add/telemetry/{YYYY-MM-DD}.js
 
 ## Context Boundary (AC-004)
 
-Never `Read` `.add/telemetry/*` from any skill body. The file is produced by skills, consumed only by `/add:dashboard`, external collectors, and auditors.
+Never `Read` `.add/telemetry/*` from any skill body. The file is produced by skills, consumed only by `/add-dashboard`, external collectors, and auditors.
 
 ## File Location & Rotation (AC-001, AC-005, AC-006)
 
@@ -81,7 +81,7 @@ POSIX `O_APPEND`: line-buffered writes under 4KB are atomic on macOS/Linux. Entr
 
 ## Retention (AC-028)
 
-Files older than `telemetry.retention_days` (default 90) are deleted during the canonical archive pass (e.g. `/add:learnings archive`). Boundary is inclusive.
+Files older than `telemetry.retention_days` (default 90) are deleted during the canonical archive pass (e.g. `/add-learnings archive`). Boundary is inclusive.
 
 ## Git Semantics (AC-029)
 

@@ -1,14 +1,14 @@
 ---
 name: add-verify
-description: "[ADD v0.9.7] Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v0.9.8] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 ---
 
-# ADD Verify Skill v0.9.7
+# ADD Verify Skill v0.9.8
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 
-<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add:tdd-cycle, which owns the cache-aware prompt layout. -->
+<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add-tdd-cycle, which owns the cache-aware prompt layout. -->
 
 ## Overview
 
@@ -218,13 +218,13 @@ silently deleted failing tests to reach green.
 
 **When it runs**: After Gate 3 (tests pass), before Gate 4 (spec compliance). Only
 applicable when running within a TDD cycle context (i.e. `.add/cycles/cycle-{N}/`
-snapshots exist). For standalone `/add:verify` runs, the gate is SKIPPED with an
+snapshots exist). For standalone `/add-verify` runs, the gate is SKIPPED with an
 advisory note.
 
 **Steps**:
 
 1. **Locate snapshots**
-   - Determine the current cycle id (from `/add:cycle` context or the most recent
+   - Determine the current cycle id (from `/add-cycle` context or the most recent
      `.add/cycles/cycle-*/` directory)
    - Determine the spec slug (from the cycle's spec argument)
    - Expected paths:
@@ -279,7 +279,7 @@ Gate 3.5: Test Surface Integrity
 - Error: GREEN snapshot not found — cycle is incomplete or
          test-writer/implementer skipped snapshotting.
 
-Remediation: Rerun `/add:tdd-cycle` from RED to regenerate snapshots.
+Remediation: Rerun `/add-tdd-cycle` from RED to regenerate snapshots.
 ```
 
 See `core/rules/tdd-enforcement.md` "Test-Deletion Invariant" for the justification
@@ -346,7 +346,7 @@ All requirements traced and verified.
 2. Run `python3 scripts/generate-agents-md.py --check` from the project root.
    - Exit 0 → in sync, gate PASSES.
    - Exit 1 → drift detected, gate FAILS (advisory — does not block Gate 5).
-3. Print the unified diff on failure for fast human review. Suggest `/add:agents-md --write` to remediate.
+3. Print the unified diff on failure for fast human review. Suggest `/add-agents-md --write` to remediate.
 
 ```
 Gate 4.5: AGENTS.md Drift
@@ -404,7 +404,7 @@ Scanning 12 staged files...
 
 Gate 4.6: FAIL (2 findings)
 
-Run `/add:deploy` and choose remediation, or commit with
+Run `/add-deploy` and choose remediation, or commit with
 [ADD-SECRET-OVERRIDE: SEC-001 SEC-002 (reason)] for a non-commit override.
 ```
 
@@ -623,8 +623,8 @@ Ready to proceed: ✓ YES
 - Safe to merge and deploy
 
 Next steps:
-1. [If all gates pass] Run /add:deploy to commit and push
-2. [If gates fail] Fix issues and re-run /add:verify
+1. [If all gates pass] Run /add-deploy to commit and push
+2. [If gates fail] Fix issues and re-run /add-verify
 
 Detailed gate results:
 - No critical issues
@@ -714,10 +714,10 @@ When --fix is provided:
 
 ## Integration with Other Skills
 
-- Used by /add:tdd-cycle during VERIFY phase
+- Used by /add-tdd-cycle during VERIFY phase
 - Can be run standalone to check code quality
-- Output informs /add:deploy decision
-- Feeds back to /add:implementer or /add:reviewer if gates fail
+- Output informs /add-deploy decision
+- Feeds back to /add-implementer or /add-reviewer if gates fail
 
 ## Configuration in .add/config.json
 

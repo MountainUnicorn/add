@@ -15,7 +15,7 @@
 >
 > **Litmus test:** if a paragraph describes *how* to run agents in parallel, it's
 > mechanism (delegate it). If it describes *whether, how many, in what order, and
-> whether to trust the result*, it's policy (ADD owns it). Loaded by `/add:cycle`.
+> whether to trust the result*, it's policy (ADD owns it). Loaded by `/add-cycle`.
 > Core coordination rules are in `rules/agent-coordination.md`.
 
 ## Conflict Assessment

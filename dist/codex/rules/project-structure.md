@@ -5,7 +5,7 @@ maturity: poc
 
 # ADD Rule: Project Structure
 
-Every ADD project follows a standard directory layout. `/add:init` creates this structure.
+Every ADD project follows a standard directory layout. `/add-init` creates this structure.
 
 ## Standard Layout
 
@@ -30,7 +30,7 @@ Every ADD project follows a standard directory layout. `/add:init` creates this 
 
 ## Gitignore
 
-Add during `/add:init`: `.add/away-logs/`, `tests/screenshots/errors/`
+Add during `/add-init`: `.add/away-logs/`, `tests/screenshots/errors/`
 
 Must commit: `.add/config.json`, `.add/learnings.json`, `.add/retros/`, `docs/`, `specs/`, `tests/screenshots/{feature}/`, `.claude/settings.json`
 
@@ -38,17 +38,17 @@ Must commit: `.add/config.json`, `.add/learnings.json`, `.add/retros/`, `docs/`,
 
 ```
 ~/.claude/add/
-├── profile.md              # User preferences (read by /add:init)
+├── profile.md              # User preferences (read by /add-init)
 ├── library.json            # Tier 2: cross-project wisdom
 └── projects/{name}.json    # Project index (stack, maturity, key learnings)
 ```
 
-- **Profile:** Default tech stack, process prefs. Read by `/add:init`, updated by `/add:retro`.
+- **Profile:** Default tech stack, process prefs. Read by `/add-init`, updated by `/add-retro`.
 - **Library:** Promoted learnings from all projects. Read by agents before work.
-- **Project Index:** Snapshot for cross-project discovery. Updated by `/add:init` and `/add:retro`.
-- **Portability:** Git-committed files port automatically. Machine-local state rebuilt via `/add:init --import`.
+- **Project Index:** Snapshot for cross-project discovery. Updated by `/add-init` and `/add-retro`.
+- **Portability:** Git-committed files port automatically. Machine-local state rebuilt via `/add-init --import`.
 
 ## Directory Rules
 
-- `/add:init` creates the full layout. Skills must NOT create directories ad-hoc.
-- Stack-dependent source directories (backend/, frontend/, src/) are determined during `/add:init` and documented in CLAUDE.md.
+- `/add-init` creates the full layout. Skills must NOT create directories ad-hoc.
+- Stack-dependent source directories (backend/, frontend/, src/) are determined during `/add-init` and documented in CLAUDE.md.

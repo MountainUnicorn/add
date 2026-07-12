@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.9.7",
+  "plugin_version": "0.9.8",
   "migrations": [
     {
       "from": "0.1.0",
@@ -260,6 +260,12 @@
       "to": "0.9.7",
       "steps": [],
       "description": "v0.9.7 \u2014 methodology reframe. swarm-protocol.md + agent-coordination.md reframed as policy-over-native-Workflows (manual fallback retained; WIP semantics invariant); swarm-state machine-readable format contract pinned; README leads with the maturity ladder; skill self-scan CI gate added (scripts/self-scan-skills.py + skill-self-scan guardrail); runtimes/claude/workflows/ scaffold (inert). No consumer config changes."
+    },
+    {
+      "from": "0.9.7",
+      "to": "0.9.8",
+      "steps": [],
+      "description": "v0.9.8 \u2014 P0 correctness patch. Codex compiler now rewrites ${CLAUDE_PLUGIN_ROOT} paths and /add: command namespace in rules/knowledge/templates/security/lib and agent TOMLs (previously leaked Claude-isms verbatim); Claude and Codex runtimes share one autoload predicate (explicit autoload: key now required on every rule; design-system.md was autoloaded on Claude but missing from Codex invariants); Codex AGENTS.md points to knowledge/global.md (was silently dropped); posttooluse-scan.sh records a skipped:no-python3 audit event instead of silently disabling the critical unicode-tag-block detector; compile.py --check content-diffs against a snapshot (git-independent, catches pre-drifted trees); adapter.yaml limitations rewritten to state Codex injection defense is advisory-only. No consumer config changes."
     }
   ]
 }

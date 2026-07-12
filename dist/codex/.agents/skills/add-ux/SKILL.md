@@ -1,12 +1,12 @@
 ---
 name: add-ux
-description: "[ADD v0.9.7] Iterate on UI/UX design before implementation — wireframes, flow validation, and design sign-off"
+description: "[ADD v0.9.8] Iterate on UI/UX design before implementation — wireframes, flow validation, and design sign-off"
 argument-hint: "<spec-file> [--figma <url-or-frame-id>]"
 ---
 
-# ADD UX Command v0.9.7
+# ADD UX Command v0.9.8
 
-Iterate on UI/UX design for a feature before implementation begins. Produces a signed-off design artifact that gates `/add:plan` and `/add:tdd-cycle`. Prevents token burn from building the wrong UI.
+Iterate on UI/UX design for a feature before implementation begins. Produces a signed-off design artifact that gates `/add-plan` and `/add-tdd-cycle`. Prevents token burn from building the wrong UI.
 
 ## Pre-Flight
 
@@ -230,8 +230,8 @@ UX design signed off: specs/ux/{feature-slug}-ux.md
 This feature is now ready for implementation planning.
 
 Next steps:
-  /add:plan specs/{feature-slug}.md    — create implementation plan
-  /add:tdd-cycle specs/{feature-slug}.md — jump straight into TDD
+  /add-plan specs/{feature-slug}.md    — create implementation plan
+  /add-tdd-cycle specs/{feature-slug}.md — jump straight into TDD
 ```
 
 If spec was updated:

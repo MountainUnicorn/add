@@ -1,10 +1,10 @@
 ---
 name: add-infographic
-description: "[ADD v0.9.7] Generate project infographic — SVG from PRD + config with branding"
+description: "[ADD v0.9.8] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 ---
 
-# ADD Infographic Skill v0.9.7
+# ADD Infographic Skill v0.9.8
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 
@@ -12,7 +12,7 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 
 **Step 1.1: Verify ADD initialization**
 - Check if `.add/config.json` exists
-- If not found, respond: "❌ Project not initialized. Run `/add:init` first."
+- If not found, respond: "❌ Project not initialized. Run `/add-init` first."
 - HALT if config missing
 
 **Step 1.2: Load project configuration**
@@ -101,7 +101,7 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 
 **Primary command:**
 - Extract from `config.environments.local.run`
-- Fallback: `/add:init`
+- Fallback: `/add-init`
 - Comment: "Get started with ADD"
 
 ## Phase 2: Image Gen Detection
@@ -289,9 +289,9 @@ Generates a professional SVG infographic from the project's PRD and config. The 
   View: open docs/infographic.svg
 
   Related commands:
-    /add:brand           View current branding
-    /add:brand-update    Change branding and re-audit artifacts
-    /add:infographic --update   Regenerate from current project state
+    /add-brand           View current branding
+    /add-brand-update    Change branding and re-audit artifacts
+    /add-infographic --update   Regenerate from current project state
 ```
 
 **Exit successfully.**
@@ -330,7 +330,7 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 ## Error Handling
 
 **Config missing:**
-- Output: "❌ Project not initialized. Run `/add:init` first."
+- Output: "❌ Project not initialized. Run `/add-init` first."
 - Exit with error
 
 **Template missing:**
@@ -355,7 +355,7 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 
 ## Notes
 
-- All command references MUST use namespaced form: `/add:infographic`, `/add:init`, `/add:brand`, etc.
+- All command references MUST use namespaced form: `/add-infographic`, `/add-init`, `/add-brand`, etc.
 - Never use bare `/infographic` or other unnamespaced commands
 - SVG-only mode is first-class, not degraded — design system accounts for both modes
 - Infographic regeneration is idempotent — safe to run multiple times

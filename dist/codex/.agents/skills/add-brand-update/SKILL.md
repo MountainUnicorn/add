@@ -1,6 +1,6 @@
 ---
 name: add-brand-update
-description: "[ADD v0.9.7] Update project branding — new colors, fonts, tone, audit artifacts"
+description: "[ADD v0.9.8] Update project branding — new colors, fonts, tone, audit artifacts"
 ---
 
 <!-- ADD AskUserQuestion shim (Codex) -->
@@ -25,13 +25,13 @@ description: "[ADD v0.9.7] Update project branding — new colors, fonts, tone, 
 
 ---
 
-# ADD Brand Update Command v0.9.7
+# ADD Brand Update Command v0.9.8
 
 Update the project's branding configuration with new materials and audit existing generated artifacts for brand consistency. Optionally apply fixes to bring artifacts in line with the new brand.
 
 ## Pre-Flight
 
-1. Check if `.add/config.json` exists. If not, tell the user to run `/add:init` first.
+1. Check if `.add/config.json` exists. If not, tell the user to run `/add-init` first.
 2. Read `.add/config.json` and extract the current `branding` section.
 3. Read `~/.codex/add/templates/presets.json` for available presets and palette generation algorithm.
 
@@ -214,7 +214,7 @@ Options:
 
 **If "Yes":**
 For each artifact type:
-- **Infographic SVG:** If `/add:infographic` skill exists, suggest running it. Otherwise, use Edit tool to find-and-replace old palette hex values with new ones in the SVG.
+- **Infographic SVG:** If `/add-infographic` skill exists, suggest running it. Otherwise, use Edit tool to find-and-replace old palette hex values with new ones in the SVG.
 - **HTML Reports:** Use Edit tool to update CSS variables and inline colors.
 
 Report what was fixed:
@@ -229,7 +229,7 @@ FIXES APPLIED
 
 **If "No":**
 ```
-Artifacts left as-is. Run /add:brand to check drift status anytime.
+Artifacts left as-is. Run /add-brand to check drift status anytime.
 ```
 
 ## Phase 4: Summary
@@ -241,5 +241,5 @@ BRAND UPDATE COMPLETE
   Artifacts:  {N} found, {M} updated
   Config:     .add/config.json updated
 
-  View branding: /add:brand
+  View branding: /add-brand
 ```

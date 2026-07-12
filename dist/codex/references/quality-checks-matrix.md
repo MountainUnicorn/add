@@ -1,6 +1,6 @@
 # Maturity-Scaled Quality Checks Reference
 
-> Detailed check tables by maturity level. Loaded by `/add:verify` when
+> Detailed check tables by maturity level. Loaded by `/add-verify` when
 > running quality gates. The condensed gate levels are in `rules/quality-gates.md`.
 > The maturity cascade matrix in `rules/maturity-lifecycle.md` provides the
 > high-level view (rows 44-48).

@@ -1,10 +1,10 @@
 ---
 name: add-promote
-description: "[ADD v0.9.7] Maturity promotion — gap analysis and level-up workflow"
+description: "[ADD v0.9.8] Maturity promotion — gap analysis and level-up workflow"
 argument-hint: "[--check | --execute] [--target poc|alpha|beta|ga]"
 ---
 
-# ADD Promote Command v0.9.7
+# ADD Promote Command v0.9.8
 
 Assess readiness and promote the project's maturity level. Maturity is the master control for all ADD behavior — promotion is intentional, evidence-based, and deliberate.
 
@@ -16,7 +16,7 @@ Assess readiness and promote the project's maturity level. Maturity is the maste
 ## Pre-Flight
 
 1. **Read `.add/config.json`** — extract `maturity.level`, `promoted_from`, `promoted_date`, `next_promotion_criteria`
-   - If not found: abort with "No ADD project found. Run `/add:init` first."
+   - If not found: abort with "No ADD project found. Run `/add-init` first."
 2. **Read `~/.codex/add/rules/maturity-lifecycle.md`** — load cascade matrix (source of truth for level requirements)
 3. **Read `docs/prd.md`** — project context, maturity references
 4. **Read `CLAUDE.md`** — check for maturity references
@@ -24,7 +24,7 @@ Assess readiness and promote the project's maturity level. Maturity is the maste
 ### Edge Cases
 
 **Already at GA:**
-"Project is at GA — the highest maturity level. No further promotion available. Run `/add:verify` to check compliance."
+"Project is at GA — the highest maturity level. No further promotion available. Run `/add-verify` to check compliance."
 
 **`--target` below current level:** Trigger demotion flow (see below).
 
@@ -113,7 +113,7 @@ Readiness: {PCT}% ({READY}/{REQUIRED} requirements met)
 
 ═══ RECOMMENDATION ═══
 
-{≥80%: "READY TO PROMOTE — Run /add:promote --execute"}
+{≥80%: "READY TO PROMOTE — Run /add-promote --execute"}
 {50-79%: "ADDRESS GAPS FIRST" + list top gaps + remediation}
 {<50%: "NOT READY" + list critical gaps}
 ```
@@ -143,12 +143,12 @@ Options:
   2. Cancel and address gaps first
   3. Create a promotion milestone to close gaps systematically
 ```
-ask the user (use a clear, single-question prompt). Option 1 proceeds with override flag. Option 2 exits. Option 3 suggests `/add:milestone --create`.
+ask the user (use a clear, single-question prompt). Option 1 proceeds with override flag. Option 2 exits. Option 3 suggests `/add-milestone --create`.
 
 **<50% readiness:** Block promotion.
 ```
 Readiness: {PCT}% — significant gaps remain.
-Address critical items first, then re-run /add:promote --check.
+Address critical items first, then re-run /add-promote --check.
 ```
 Exit. No override offered — premature promotion cascades strict requirements the project can't meet.
 
@@ -254,7 +254,7 @@ Key behavior changes now active:
   {3-5 most impactful cascade changes}
 
 Next steps:
-  1. Run /add:verify to confirm new quality gates pass
+  1. Run /add-verify to confirm new quality gates pass
   2. Review cascade changes — they take effect immediately
   3. Next promotion: {NEXT_NEXT_LEVEL} — {Q3 criteria}
 ```
@@ -296,7 +296,7 @@ Same update process as promotion, but:
 
 | Skill | Relationship |
 |-------|-------------|
-| `/add:cycle --complete` | Has its own promotion check — should reference `/add:promote --check` for full analysis |
-| `/add:retro` | Phase 11 does promotion assessment — should reference `/add:promote` as canonical tool |
-| `/add:verify` | Recommended post-promotion to validate new gates pass |
-| `/add:init` | Sets initial maturity. Promote handles all subsequent changes. |
+| `/add-cycle --complete` | Has its own promotion check — should reference `/add-promote --check` for full analysis |
+| `/add-retro` | Phase 11 does promotion assessment — should reference `/add-promote` as canonical tool |
+| `/add-verify` | Recommended post-promotion to validate new gates pass |
+| `/add-init` | Sets initial maturity. Promote handles all subsequent changes. |

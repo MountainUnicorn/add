@@ -17,7 +17,7 @@ pure-markdown/JSON methodology plugin — its enforcement surface is:
 1. **Auto-loaded rules** — instruct the agent at session start
 2. **PostToolUse hooks** — run after tool calls (see `runtimes/claude/hooks/`)
 3. **Skill-embedded gates** — pre-flight checks inside each skill's SKILL.md
-4. **Template defaults** — sane starting files installed by `/add:init`
+4. **Template defaults** — sane starting files installed by `/add-init`
 
 ADD does NOT provide:
 
@@ -58,7 +58,7 @@ Claude Code mechanism the user should configure in addition to ADD.
 |---------|----------------|-------------------|
 | Agent file reads | Agent asked to read `.env`, `~/.aws/credentials`, `id_rsa` | Rule: `secrets-handling.md` — forbids reads of well-known secret paths without per-invocation approval |
 | Agent output writes | Agent summarizes a file that contained a secret into a learning entry, handoff, or retro | Rule: `secrets-handling.md` § Redact-on-ingest + `learning.md` § PII heuristic |
-| Commit/push artifacts | Agent stages a file containing a committed secret | `/add:deploy` pre-commit secrets gate (see `core/skills/deploy/SKILL.md`) |
+| Commit/push artifacts | Agent stages a file containing a committed secret | `/add-deploy` pre-commit secrets gate (see `core/skills/deploy/SKILL.md`) |
 | Tool-result content | Web-fetched or Bash-piped content containing injection instructions redirects the agent | `prompt-injection-defense` rule + PostToolUse scanner |
 | Sub-agent boundaries | Test-writer edits production code; implementer skips the RED phase | Rule: `agent-coordination.md`; `allowed-tools` in SKILL.md frontmatter |
 
@@ -76,7 +76,7 @@ exposure of credentials the user trusts the agent with.
 - Regex catalog + entropy heuristic — `core/knowledge/secret-patterns.md`
 - Redact-on-ingest before write — rule invariant
 - Pre-commit grep gate — `core/skills/deploy/SKILL.md` § Pre-commit secrets gate
-- `.secretsignore` template installed by `/add:init`
+- `.secretsignore` template installed by `/add-init`
 
 **Out of scope (user must configure):** Claude Code permission deny-lists for
 Read on credential paths. Server-side push protection (GitHub, GitGuardian).
@@ -180,7 +180,7 @@ that instruct the agent to behave dangerously.
 | Bypassing Claude Code entirely (direct Anthropic/OpenAI API call) | ADD runs inside the CLI. An adversary who has direct API access has already won a bigger fight. | Protect API keys. Use Claude Code's permission system. |
 | Supply-chain compromise of the ADD plugin itself | A hostile commit to `core/` would subvert the whole model. | CODEOWNERS on `core/rules/**` and `runtimes/**`; signed releases (`scripts/release.sh`); CI compile-drift check. |
 | Filesystem sandbox escape (writing outside the project tree) | ADD does not re-implement Claude Code's permission model. | Use Claude Code's `allowed-tools` and permission prompts. |
-| Novel injection patterns not yet in the catalog | Heuristic defense, not magic. New patterns land as CVE-style updates. | `/add:security-update` (v0.9.x, planned) or user-extended `.add/security/patterns.json`. |
+| Novel injection patterns not yet in the catalog | Heuristic defense, not magic. New patterns land as CVE-style updates. | `/add-security-update` (v0.9.x, planned) or user-extended `.add/security/patterns.json`. |
 | Model-level jailbreaks (bypassing the LLM's own safety tuning) | LLM-provider scope. | Anthropic/OpenAI Constitutional/RLHF systems. |
 | Side-channel inference from agent behavior (timing, token patterns) | Too low-signal for ADD to usefully defend against. | Out of scope by design. |
 
@@ -189,8 +189,8 @@ that instruct the agent to behave dangerously.
 | Defense | Layer | Blocks | Coverage |
 |---------|-------|--------|----------|
 | `secrets-handling.md` rule | Agent behavior | T1 accidental reads/writes | High (rule is auto-loaded at alpha+) |
-| `.secretsignore` template | User project config | T1 staged commits | Medium (opt-in install by `/add:init`) |
-| `/add:deploy` pre-commit gate | Skill-embedded | T1 committed secrets | High (any deploy via the skill) |
+| `.secretsignore` template | User project config | T1 staged commits | Medium (opt-in install by `/add-init`) |
+| `/add-deploy` pre-commit gate | Skill-embedded | T1 committed secrets | High (any deploy via the skill) |
 | `learning.md` PII heuristic | Write-time hook | T1 leaked values in learnings | Medium (covers common patterns; full catalog sharing deferred until PR #6) |
 | `injection-defense.md` rule | Agent behavior | T2.* redirected instructions | High (rule is auto-loaded at alpha+) |
 | PostToolUse injection scanner | Hook | T2.* tool-output injection | High (pattern catalog in `core/security/patterns.json`) |
@@ -217,14 +217,14 @@ Rationale for warn-only at GA candidate:
 **v1.0 roadmap:**
 - Opt-in `block_on=critical` mode, gated by `.add/config.json:security.block_on`.
 - Allowlist of known-good fetch patterns (e.g. GitHub official domains, your org's trusted hosts).
-- Catalog auto-update via `/add:security-update` without a full plugin upgrade.
+- Catalog auto-update via `/add-security-update` without a full plugin upgrade.
 - Optional: capture and replay suspicious tool outputs in an isolated review context.
 
 ## Runtime Limitations
 
 **Claude Code:** PostToolUse hook stderr is surfaced to the agent's next turn as additional context. This is the primary warning channel. Full behavior.
 
-**Codex CLI:** Codex has no equivalent of "stderr → next turn context" on its PostToolUse hooks. The scan hook runs and the audit log is written, but the `ADD-SEC:` warning is **not** automatically surfaced to the next turn. Users must inspect `.add/security/injection-events.jsonl` between sessions or via `/add:retro` to discover events. This is a documented limitation, not a bug. v1.0 will revisit if Codex grows a turn-injection channel.
+**Codex CLI:** Codex has no equivalent of "stderr → next turn context" on its PostToolUse hooks. The scan hook runs and the audit log is written, but the `ADD-SEC:` warning is **not** automatically surfaced to the next turn. Users must inspect `.add/security/injection-events.jsonl` between sessions or via `/add-retro` to discover events. This is a documented limitation, not a bug. v1.0 will revisit if Codex grows a turn-injection channel.
 
 ## Sources Cited
 

@@ -1,6 +1,6 @@
 ---
 name: add-spec
-description: "[ADD v0.9.7] Create a feature specification through structured interview"
+description: "[ADD v0.9.8] Create a feature specification through structured interview"
 argument-hint: "[feature-name] [--from-prd-section N]"
 ---
 
@@ -26,13 +26,13 @@ argument-hint: "[feature-name] [--from-prd-section N]"
 
 ---
 
-# ADD Spec Command v0.9.7
+# ADD Spec Command v0.9.8
 
 Create a feature specification through a structured interview. The spec becomes the source of truth for implementation.
 
 ## Pre-Flight
 
-1. Verify `docs/prd.md` exists. If not, tell the user to run `/add:init` first.
+1. Verify `docs/prd.md` exists. If not, tell the user to run `/add-init` first.
 2. Read `docs/prd.md` to understand the project context
 3. Read `.add/config.json` to understand environment and quality settings
 4. If `--from-prd-section` is provided, pre-populate answers from that PRD section
@@ -105,8 +105,8 @@ API Endpoints: {N}
 
 Next steps:
   1. Review the spec and refine if needed
-  2. Run /add:plan specs/{feature-slug}.md to create an implementation plan
-  3. Or jump straight into /add:tdd-cycle specs/{feature-slug}.md
+  2. Run /add-plan specs/{feature-slug}.md to create an implementation plan
+  3. Or jump straight into /add-tdd-cycle specs/{feature-slug}.md
 ```
 
 ### UI Gate Check
@@ -116,13 +116,13 @@ If Q8 was answered (the feature has user-facing UI):
 ```
 This feature has UI components. Before implementation planning, consider running:
 
-  /add:ux specs/{feature-slug}.md
+  /add-ux specs/{feature-slug}.md
 
 The UX skill iterates on wireframes and design decisions with you before
 any code is written. Skipping this step is the most common cause of
 rework — building the right thing wrong costs more than a design session.
 
-You can proceed directly to /add:plan if the UI is already fully defined.
+You can proceed directly to /add-plan if the UI is already fully defined.
 ```
 
 If Q8 was skipped or answered "N/A" (no UI): omit this block entirely. Do not mention it.
@@ -135,4 +135,4 @@ If `AGENTS.md` exists at project root and the project is at `beta` maturity or h
 Update AGENTS.md active-spec pointer to specs/{feature-slug}.md? (Y/n)
 ```
 
-On yes, run `/add:agents-md --write`. On no, skip silently. If `AGENTS.md` is absent or the project is below `beta`, skip this prompt entirely. This keeps AGENTS.md in sync with the currently-active spec without noise for projects that haven't opted in.
+On yes, run `/add-agents-md --write`. On no, skip silently. If `AGENTS.md` is absent or the project is below `beta`, skip this prompt entirely. This keeps AGENTS.md in sync with the currently-active spec without noise for projects that haven't opted in.

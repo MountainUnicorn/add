@@ -9,7 +9,7 @@ Enforcement modes: **BLOCK** (halt command, require resolution) or **FLAG** (rep
 
 ## Retro Cadence Enforcement
 
-Check at start of `/add:away`, `/add:cycle --plan`, `/add:back`:
+Check at start of `/add-away`, `/add-cycle --plan`, `/add-back`:
 
 **Block thresholds** (ANY triggers block):
 - Days since last retro > **7**
@@ -22,11 +22,11 @@ Check at start of `/add:away`, `/add:cycle --plan`, `/add:back`:
 - 0: accept silently
 - 1: warn ("2nd bypass in 30 days")
 - 2: escalate (require `--i-know-this-is-a-pattern`)
-- 3+: refuse (must run `/add:retro` first)
+- 3+: refuse (must run `/add-retro` first)
 
 ## SDLC Watchdog
 
-Check at start of `/add:tdd-cycle`, `/add:implementer`, `/add:deploy`:
+Check at start of `/add-tdd-cycle`, `/add-implementer`, `/add-deploy`:
 
 | Artifact | Required At | Missing = |
 |---|---|---|

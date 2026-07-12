@@ -143,6 +143,12 @@ resolve_catalog() {
     (cd "$(dirname "$candidate")" && printf '%s/%s\n' "$(pwd)" "$(basename "$candidate")")
     return
   fi
+  # Codex runtime: the adapter installs the compiled tree at ~/.codex/add/
+  # and CLAUDE_PLUGIN_ROOT is never set there.
+  if [ -f "$HOME/.codex/add/security/secret-patterns.json" ]; then
+    echo "$HOME/.codex/add/security/secret-patterns.json"
+    return
+  fi
   echo ""
 }
 

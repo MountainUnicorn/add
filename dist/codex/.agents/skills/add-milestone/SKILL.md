@@ -1,12 +1,12 @@
 ---
 name: add-milestone
-description: "[ADD v0.9.7] Manage milestones — list, switch, split, rescope, create"
+description: "[ADD v0.9.8] Manage milestones — list, switch, split, rescope, create"
 argument-hint: "[--list | --switch <id> | --split <id> | --rescope <id> | --create]"
 ---
 
-# ADD Milestone Command v0.9.7
+# ADD Milestone Command v0.9.8
 
-Manage milestones directly — list status, switch active milestone, split large milestones, rescope features, or create new ones. This is the tactical companion to `/add:roadmap` (strategic horizon planning).
+Manage milestones directly — list status, switch active milestone, split large milestones, rescope features, or create new ones. This is the tactical companion to `/add-roadmap` (strategic horizon planning).
 
 ---
 
@@ -15,7 +15,7 @@ Manage milestones directly — list status, switch active milestone, split large
 All subcommands start here:
 
 1. **Read `.add/config.json`** — extract `maturity.level`, `planning.current_milestone`, `planning.current_cycle`
-   - If not found: abort with "No ADD project found. Run `/add:init` first."
+   - If not found: abort with "No ADD project found. Run `/add-init` first."
 2. **Glob `docs/milestones/M*.md`** — discover all milestone files
 3. **Parse each milestone file** — extract:
    - Status (NOT_STARTED / IN_PROGRESS / COMPLETE)
@@ -65,7 +65,7 @@ Switch the active milestone. Accepts milestone ID like `M2-scaling` or just `M2`
 Find the milestone file matching the argument:
 - Try `docs/milestones/{id}.md` directly
 - Try `docs/milestones/M{N}-*.md` glob if only a number given
-- If no match: "Milestone '{id}' not found. Run `/add:milestone --list` to see available milestones."
+- If no match: "Milestone '{id}' not found. Run `/add-milestone --list` to see available milestones."
 
 ### Step 2: Safety Checks
 
@@ -91,7 +91,7 @@ Ask via ask the user (use a clear, single-question prompt).
 ```
 Active cycle {cycle-N} is tied to {current_milestone}.
 Switching milestones won't close this cycle. You may want to
-run /add:cycle --complete first, or the cycle will be orphaned.
+run /add-cycle --complete first, or the cycle will be orphaned.
 
 Continue anyway?
 ```
@@ -114,7 +114,7 @@ Config updated:
   planning.current_milestone → "M2-scaling"
   planning.current_cycle → null (no existing cycles for M2)
 
-Next: Run /add:cycle --plan to plan the first cycle for M2.
+Next: Run /add-cycle --plan to plan the first cycle for M2.
 ```
 
 ---
@@ -219,7 +219,7 @@ Ask 1-by-1:
 **Q2:** "Move any features IN from other milestones? (List as 'M1:Auth, M3:SSO', or 'none')"
 
 **Q3:** "Add any brand new features? (Name + brief description, or 'none')"
-→ If yes, note: "New features will be added at SHAPED position. Create specs with `/add:spec`."
+→ If yes, note: "New features will be added at SHAPED position. Create specs with `/add-spec`."
 
 **Q4:** "Should M2's goal or appetite change given the new scope?"
 
@@ -283,9 +283,9 @@ Features: {count} (all SHAPED)
 Appetite: {appetite}
 
 Next steps:
-  1. Create specs for features: /add:spec {feature-name}
-  2. Switch to this milestone: /add:milestone --switch M{N}
-  3. Plan first cycle: /add:cycle --plan
+  1. Create specs for features: /add-spec {feature-name}
+  2. Switch to this milestone: /add-milestone --switch M{N}
+  3. Plan first cycle: /add-cycle --plan
 ```
 
 ---
@@ -293,7 +293,7 @@ Next steps:
 ## Error Handling
 
 **No milestones exist:**
-- `--list`: "No milestones found. Create one with `/add:milestone --create` or run `/add:init`."
+- `--list`: "No milestones found. Create one with `/add-milestone --create` or run `/add-init`."
 - `--switch/--split/--rescope`: "Milestone not found."
 
 **Milestone file unparseable:**
@@ -302,7 +302,7 @@ Next steps:
 
 **PRD Section 6 missing:**
 - Commands still work (milestones are the source of truth for content)
-- Warn: "PRD roadmap table not found — milestone files updated but PRD not synced. Run `/add:roadmap --edit` to rebuild."
+- Warn: "PRD roadmap table not found — milestone files updated but PRD not synced. Run `/add-roadmap --edit` to rebuild."
 
 ---
 
@@ -310,7 +310,7 @@ Next steps:
 
 | Skill | Relationship |
 |-------|-------------|
-| `/add:cycle` | Reads `planning.current_milestone`. Milestone skill sets this value. |
-| `/add:roadmap` | Manages horizon placement. Milestone skill manages content and switching. |
-| `/add:spec` | Creates feature specs listed in milestones. |
-| `/add:promote` | Milestone completion can trigger promotion readiness. |
+| `/add-cycle` | Reads `planning.current_milestone`. Milestone skill sets this value. |
+| `/add-roadmap` | Manages horizon placement. Milestone skill manages content and switching. |
+| `/add-spec` | Creates feature specs listed in milestones. |
+| `/add-promote` | Milestone completion can trigger promotion readiness. |

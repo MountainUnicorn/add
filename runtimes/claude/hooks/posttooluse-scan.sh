@@ -225,6 +225,23 @@ while IFS= read -r NAME; do
   MATCH_LINE=""
   MATCH_COUNT=0
   if printf '%s' "$ERE" | grep -q '\\x'; then
+    if ! command -v python3 >/dev/null 2>&1; then
+      # Fail LOUD, not open: without python3 the hex-escape patterns (incl. the
+      # critical unicode-tag-block invisible-injection detector) cannot run.
+      # Record the skip in the audit log and warn the agent, then move on.
+      printf 'ADD-SEC: pattern=%s severity=%s source=%s:%s action=skipped-no-python3\n' \
+        "$NAME" "$SEVERITY" "$TOOL" "$SOURCE" >&2
+      SKIP_EVENT=$(jq -cn \
+        --arg ts "$(iso_now)" \
+        --arg tool "$TOOL" \
+        --arg source "${TOOL}:${SOURCE}" \
+        --arg pattern "$NAME" \
+        --arg severity "$SEVERITY" \
+        --arg runtime "claude" \
+        '{timestamp:$ts,tool:$tool,source:$source,pattern:$pattern,severity:$severity,excerpt:"",skipped:"no-python3",runtime:$runtime}')
+      echo "$SKIP_EVENT" >> "$AUDIT_LOG" 2>/dev/null || true
+      continue
+    fi
     if command -v python3 >/dev/null 2>&1; then
       # Python: decode \xHH as bytes, match on raw file bytes, report count + first match.
       PY_OUT=$(python3 - "$ERE" "$TMPC" <<'PYEOF' 2>/dev/null || true

@@ -42,10 +42,10 @@ Quality gates are checkpoints that code must pass before advancing.
 ## Commands
 
 ```
-/add:verify          — Gate 1 + 2 (local)
-/add:verify --ci     — Gate 1-3 (CI-level)
-/add:verify --deploy — Gate 1-4 (pre-deploy)
-/add:verify --smoke  — Gate 5 only (post-deploy)
+/add-verify          — Gate 1 + 2 (local)
+/add-verify --ci     — Gate 1-3 (CI-level)
+/add-verify --deploy — Gate 1-4 (pre-deploy)
+/add-verify --smoke  — Gate 5 only (post-deploy)
 ```
 
 ## Spec Compliance
@@ -62,4 +62,4 @@ Configure in `.add/config.json` with `quality.mode: "spike"` for early prototype
 
 ## Maturity-Scaled Checks
 
-Quality checks scale by maturity — lighter and advisory at Alpha, tighter and blocking at GA. The cascade matrix in `maturity-lifecycle.md` (rows 44-48) provides the overview. For detailed per-check enforcement tables (code quality thresholds, security checks, readability, performance, repo hygiene), see `${CLAUDE_PLUGIN_ROOT}/references/quality-checks-matrix.md`.
+Quality checks scale by maturity — lighter and advisory at Alpha, tighter and blocking at GA. The cascade matrix in `maturity-lifecycle.md` (rows 44-48) provides the overview. For detailed per-check enforcement tables (code quality thresholds, security checks, readability, performance, repo hygiene), see `~/.codex/add/references/quality-checks-matrix.md`.

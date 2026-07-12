@@ -82,7 +82,7 @@ When verification passes clean, record notable patterns worth reusing.
 
 ## Swarm Coordination
 
-For parallel multi-agent work (cycle plans with 2+ agents), ADD owns the *policy* and delegates the *mechanism* to the runtime. See the full protocol at `${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md`. Key points:
+For parallel multi-agent work (cycle plans with 2+ agents), ADD owns the *policy* and delegates the *mechanism* to the runtime. See the full protocol at `~/.codex/add/references/swarm-protocol.md`. Key points:
 
 - Assess file conflict risk before declaring the parallel group (independent / low conflict / high conflict)
 - WIP limits — poc=1, alpha=2, beta=4, ga=5 — compile to the runtime's concurrency config (Claude Workflow concurrency / Codex sub-agent pool); identical in the manual fallback

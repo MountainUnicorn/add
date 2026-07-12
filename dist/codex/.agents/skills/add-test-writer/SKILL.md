@@ -1,10 +1,10 @@
 ---
 name: add-test-writer
-description: "[ADD v0.9.7] Write failing tests from spec (TDD RED phase)"
+description: "[ADD v0.9.8] Write failing tests from spec (TDD RED phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]"
 ---
 
-# ADD Test Writer Skill v0.9.7
+# ADD Test Writer Skill v0.9.8
 
 Generate comprehensive failing tests from a feature specification. This is the RED phase of TDD — write tests before implementation.
 
@@ -197,7 +197,7 @@ Requirements (AC-005, AC-006):
 
 The snapshot lives at `.add/cycles/cycle-{N}/tdd-{slug}-red.json` and captures: test
 files, function names, normalized body hashes, language, git base SHA, and phase-end
-SHA. `/add:verify` Gate 3.5 reads this file alongside the GREEN snapshot to enforce
+SHA. `/add-verify` Gate 3.5 reads this file alongside the GREEN snapshot to enforce
 the test-deletion invariant. See `core/rules/tdd-enforcement.md`.
 
 ### Step 5: Document Test Mapping
@@ -285,7 +285,7 @@ Upon completion, output:
 - Ready for GREEN phase (implementation)
 
 ## Next Steps
-1. Run /add:implementer to write minimal code to pass tests
+1. Run /add-implementer to write minimal code to pass tests
 2. Verify all tests pass
 3. Proceed to REFACTOR phase
 ```
@@ -334,6 +334,6 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 
 ## Integration with TDD Cycle
 
-- This skill is invoked during the RED phase of /add:tdd-cycle
-- Output becomes input to /add:implementer (GREEN phase)
-- Test mapping is used by /add:reviewer to verify spec compliance
+- This skill is invoked during the RED phase of /add-tdd-cycle
+- Output becomes input to /add-implementer (GREEN phase)
+- Test mapping is used by /add-reviewer to verify spec compliance

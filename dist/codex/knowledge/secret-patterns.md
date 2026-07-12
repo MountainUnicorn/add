@@ -7,7 +7,7 @@
 > - `core/rules/learning.md` (PII/secret heuristic on learning write)
 >
 > All three surfaces MUST reference the same names so an override flag in
-> `/add:deploy` and a redaction tag in `.add/learnings.json` use the same vocabulary.
+> `/add-deploy` and a redaction tag in `.add/learnings.json` use the same vocabulary.
 
 > **Executable source:** `core/security/secret-patterns.json`. This file is
 > the human-readable reference; the JSON is what `lib/scan-secrets.sh` parses
@@ -195,9 +195,9 @@ The log lets users audit what was suppressed without storing the secret itself.
   project-scoped catalog that extends the built-in patterns for company-specific
   formats. Not implemented in v0.9.0; see `specs/secrets-handling.md` Open
   Questions.
-- **Catalog updates flow automatically** — `/add:init` writes `.secretsignore`
+- **Catalog updates flow automatically** — `/add-init` writes `.secretsignore`
   once and never overwrites, so existing projects keep their file. Rule and
-  gate always read the latest catalog from the plugin (`${CLAUDE_PLUGIN_ROOT}/knowledge/secret-patterns.md`).
+  gate always read the latest catalog from the plugin (`~/.codex/add/knowledge/secret-patterns.md`).
 
 ## 6. Change Log
 

@@ -1,10 +1,10 @@
 ---
 name: add-cycle
-description: "[ADD v0.9.7] Plan and execute a work cycle — select features, assess parallelism, define validation"
+description: "[ADD v0.9.8] Plan and execute a work cycle — select features, assess parallelism, define validation"
 argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 ---
 
-# ADD Cycle Command v0.9.7
+# ADD Cycle Command v0.9.8
 
 Cycles are the operational unit of ADD work. They batch features, assess dependencies, plan parallelism, and define validation criteria before execution. This command manages the full cycle lifecycle: planning, status checks, and completion/retrospective.
 
@@ -36,9 +36,9 @@ All cycle commands start by reading context:
    - Find the current milestone (look for `Status: IN_PROGRESS`, or the most recent)
    - Fail gracefully if no active milestone (prompt to create one first)
 3. **Milestone health check** — after loading the active milestone, check its status:
-   - **No active milestone** (`planning.current_milestone` is null or file doesn't exist): Display "No active milestone found." Offer: run `/add:milestone --list` to see available milestones, `/add:milestone --switch <id>` to activate one, or `/add:milestone --create` to create a new one. STOP cycle planning until a milestone is active.
+   - **No active milestone** (`planning.current_milestone` is null or file doesn't exist): Display "No active milestone found." Offer: run `/add-milestone --list` to see available milestones, `/add-milestone --switch <id>` to activate one, or `/add-milestone --create` to create a new one. STOP cycle planning until a milestone is active.
    - **Active milestone is COMPLETE** (all success criteria checked): Display "Current milestone {name} is COMPLETE." Scan `docs/milestones/` for NOT_STARTED milestones. If found, suggest switching. If none, suggest creating one. STOP cycle planning until milestone is switched.
-   - **All features at DONE/VERIFIED** but milestone not formally complete: Display "All features in {name} appear complete. Consider closing this milestone with `/add:cycle --complete` or switching to the next one."
+   - **All features at DONE/VERIFIED** but milestone not formally complete: Display "All features in {name} appear complete. Consider closing this milestone with `/add-cycle --complete` or switching to the next one."
 4. **Check for existing active cycle** in `.add/cycles/`
    - If one exists and last activity was < 3 days ago, assume it's still active
    - Otherwise, offer to archive and start fresh
@@ -115,7 +115,7 @@ At POC maturity, prompt:
 {Feature name} has UI components but no signed-off design.
 
 Options:
-  A) Run /add:ux specs/{feature-slug}.md now (recommended — prevents rework)
+  A) Run /add-ux specs/{feature-slug}.md now (recommended — prevents rework)
   B) Skip and proceed (accepted risk — UI will be defined during implementation)
 ```
 
@@ -123,10 +123,10 @@ At Alpha+ maturity, block and require:
 ```
 ⚠ {Feature name} has UI components but no signed-off design.
 
-Run /add:ux specs/{feature-slug}.md before including this feature in the cycle.
+Run /add-ux specs/{feature-slug}.md before including this feature in the cycle.
 This gate exists to prevent implementation rework from late-breaking design changes.
 
-Once the UX artifact is approved, re-run /add:cycle --plan.
+Once the UX artifact is approved, re-run /add-cycle --plan.
 ```
 
 If all UI features have approved artifacts (or no features have UI), continue without interruption.
@@ -332,7 +332,7 @@ Display:
 - **What's in progress:** Features making progress, ETA
 - **What's blocked:** Features not advancing, reason
 - **Overall cycle progress:** % of validation criteria met
-- **Suggestion:** If all criteria met, suggest `/add:cycle --complete`
+- **Suggestion:** If all criteria met, suggest `/add-cycle --complete`
 
 Example report:
 ```
@@ -435,7 +435,7 @@ Milestone M{N} complete. Evidence supports maturity promotion:
   Evidence score: {7}/10
   Recommendation: Promote to {BETA}
 
-  Run /add:retro to formally promote (updates config, activates new rules).
+  Run /add-retro to formally promote (updates config, activates new rules).
 ```
 
 **If evidence does NOT support promotion:**
@@ -444,10 +444,10 @@ Milestone M{N} complete. Maturity stays at {ALPHA}.
   Evidence score: {4}/10
   Missing for {BETA}: {list gaps}
 
-  Address gaps, then reassess at next /add:retro.
+  Address gaps, then reassess at next /add-retro.
 ```
 
-Do NOT auto-promote. Promotion is applied through `/add:retro` which updates config and records the change.
+Do NOT auto-promote. Promotion is applied through `/add-retro` which updates config and records the change.
 
 ### Step 4: Archive Cycle & Checkpoint
 
@@ -467,7 +467,7 @@ If the cycle produced multiple distinct learnings (e.g., a technical discovery A
 
 After completing a cycle:
 
-1. **If milestone is incomplete:** Offer to plan the next cycle (`/add:cycle --plan`)
+1. **If milestone is incomplete:** Offer to plan the next cycle (`/add-cycle --plan`)
 2. **If milestone is complete:** Offer to close the milestone (`/milestone --close` or similar)
 3. **If promotion is ready:** Highlight maturity promotion path
 
@@ -480,12 +480,12 @@ Milestone M8 progress:
   • Success Criteria: 5/5 met (all specs passing, 0 bugs for 7 days, mobile parity confirmed)
   • Status: READY TO CLOSE
 
-Recommendation: Complete milestone M8, then run /add:retro to assess evidence-based promotion.
+Recommendation: Complete milestone M8, then run /add-retro to assess evidence-based promotion.
 
 Options:
   /milestone --close M8
-  /add:retro M8 (write retrospective, assess promotion)
-  /add:cycle --plan M9 (plan next milestone's first cycle)
+  /add-retro M8 (write retrospective, assess promotion)
+  /add-cycle --plan M9 (plan next milestone's first cycle)
 ```
 
 ---
@@ -507,7 +507,7 @@ Accept milestone ID (e.g., `M3-marketplace-ready` or `M3`). Validate it exists a
 ### Step 3: Switch if Needed
 
 If selection differs from `planning.current_milestone`:
-- Run the same switch logic as `/add:milestone --switch` (safety checks, config update)
+- Run the same switch logic as `/add-milestone --switch` (safety checks, config update)
 - Update `planning.current_milestone` and `planning.current_cycle` in config
 
 ### Step 4: Continue to --plan
@@ -572,7 +572,7 @@ If cycle plan exceeds limits, **split into smaller cycles.** Smaller is better f
 
 ## Catch-Up Spike: Adoption Mode
 
-When `/add:cycle` is called on a project newly adopting ADD (no existing structure):
+When `/add-cycle` is called on a project newly adopting ADD (no existing structure):
 
 ### Detection
 Check:
@@ -626,7 +626,7 @@ Features in catch-up cycle:
 
 ### Step 3: Plan Catch-Up Cycle-1
 
-Run `/add:cycle --plan M0` and execute the catch-up work in 1-2 intensive cycles.
+Run `/add-cycle --plan M0` and execute the catch-up work in 1-2 intensive cycles.
 
 ### Step 4: Resume Normal Cycles
 
@@ -636,7 +636,7 @@ Once catch-up cycle completes, the project is "ADD ready":
 - Test coverage acceptable
 - Milestone structure in place
 
-Then resume normal `/add:cycle --plan` for M1+.
+Then resume normal `/add-cycle --plan` for M1+.
 
 ---
 
@@ -644,11 +644,11 @@ Then resume normal `/add:cycle --plan` for M1+.
 
 | Command | Purpose | Output |
 |---------|---------|--------|
-| `/add:cycle --plan` | Plan next cycle (interactive) | `.add/cycles/cycle-{N}.md` |
-| `/add:cycle --status` | Check cycle progress | Report + updated hill chart |
-| `/add:cycle --complete` | Close cycle + update milestone | Archived cycle + learnings checkpoint |
-| `/add:cycle --milestone` | Select milestone before planning | Config update + cycle plan |
-| `/add:cycle --plan M0` | Catch-up spike (new projects) | Catch-up milestone + cycle plan |
+| `/add-cycle --plan` | Plan next cycle (interactive) | `.add/cycles/cycle-{N}.md` |
+| `/add-cycle --status` | Check cycle progress | Report + updated hill chart |
+| `/add-cycle --complete` | Close cycle + update milestone | Archived cycle + learnings checkpoint |
+| `/add-cycle --milestone` | Select milestone before planning | Config update + cycle plan |
+| `/add-cycle --plan M0` | Catch-up spike (new projects) | Catch-up milestone + cycle plan |
 
 **Key principles:**
 - **Maturity drives behavior.** POC cycles are fast & simple. GA cycles are detailed & checkpointed.

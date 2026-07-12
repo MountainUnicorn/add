@@ -1,10 +1,10 @@
 ---
 name: add-docs
-description: "[ADD v0.9.7] Generate and sync project documentation — architecture diagrams, API docs, README"
+description: "[ADD v0.9.8] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 ---
 
-# ADD Docs Skill v0.9.7
+# ADD Docs Skill v0.9.8
 
 Generate, update, and verify project documentation. Uses a discovery-first approach: the skill learns your codebase structure on first run, caches that knowledge in a manifest, and uses it for fast, accurate doc generation on every subsequent run.
 
@@ -421,7 +421,7 @@ When `--check` is passed, do NOT modify any files. Instead:
 - 4 diagrams need attention (3 missing + 1 stale)
 - 2 exports need docstrings
 - 3 CLAUDE.md entries need updating
-- Run `/add:docs` to fix, or `/add:docs --scope diagrams` for diagrams only
+- Run `/add-docs` to fix, or `/add-docs --scope diagrams` for diagrams only
 ```
 
 4. Return exit codes for CI integration:
@@ -460,7 +460,7 @@ After generating/updating docs, produce a concrete report:
 ## Next Steps
 1. Review generated diagrams in docs/architecture-diagrams.md for accuracy
 2. Commit documentation changes: `git add docs/ CLAUDE.md`
-3. Consider running `/add:docs --check` in CI to catch future drift
+3. Consider running `/add-docs --check` in CI to catch future drift
 ```
 
 ## Configuration in `.add/config.json`
@@ -511,7 +511,7 @@ Mark each task `in_progress` when starting and `completed` when done. Skip tasks
 
 **Manifest missing (no `.add/docs-manifest.json`)**
 - If `auto_discover_on_first_run` is true (default), run full discovery automatically
-- If false, report: "No docs manifest found. Run `/add:docs --discover` to initialize."
+- If false, report: "No docs manifest found. Run `/add-docs --discover` to initialize."
 - Other scopes cannot proceed without a manifest
 
 **Archetype not detected**
@@ -551,11 +551,11 @@ Mark each task `in_progress` when starting and `completed` when done. Skip tasks
 
 ## Integration with Other Skills
 
-- **After `/add:deploy`**: Run `--scope diagrams` automatically if entry point files changed in the deployed commit
-- **During `/add:verify`**: `--check` mode can be added as a Gate 2 advisory check for documentation freshness
-- **After `/add:tdd-cycle`**: If new entry points were added, suggest running `/add:docs`
-- **During `/add:spec`**: Discovery manifest provides accurate entry point/type inventory for writing new specs
-- **During `/add:plan`**: Manifest data helps identify which files a plan will touch and what docs need updating
+- **After `/add-deploy`**: Run `--scope diagrams` automatically if entry point files changed in the deployed commit
+- **During `/add-verify`**: `--check` mode can be added as a Gate 2 advisory check for documentation freshness
+- **After `/add-tdd-cycle`**: If new entry points were added, suggest running `/add-docs`
+- **During `/add-spec`**: Discovery manifest provides accurate entry point/type inventory for writing new specs
+- **During `/add-plan`**: Manifest data helps identify which files a plan will touch and what docs need updating
 
 For large codebases with many independent entry point groups, use the Agent tool to dispatch parallel diagram generation:
 - Group entry points by file or tag

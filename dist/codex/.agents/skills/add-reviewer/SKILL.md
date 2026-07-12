@@ -1,14 +1,14 @@
 ---
 name: add-reviewer
-description: "[ADD v0.9.7] Review code for spec compliance and quality — produces review report"
+description: "[ADD v0.9.8] Review code for spec compliance and quality — produces review report"
 argument-hint: "specs/{feature}.md [--scope backend|frontend|full]"
 ---
 
-# ADD Reviewer Skill v0.9.7
+# ADD Reviewer Skill v0.9.8
 
 Conduct a comprehensive code review focused on specification compliance, code quality, and ADD methodology adherence. This is a READ-ONLY skill that produces a detailed structured review report.
 
-<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add:tdd-cycle, which owns the cache-aware prompt layout. -->
+<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add-tdd-cycle, which owns the cache-aware prompt layout. -->
 
 ## Overview
 
@@ -571,7 +571,7 @@ Score: {N}/10
 ## Next Steps
 
 1. [Fix critical issues if any]
-2. Run /add:tdd-cycle REFACTOR phase to address findings
+2. Run /add-tdd-cycle REFACTOR phase to address findings
 3. Re-review after fixes
 4. Proceed to staging deployment
 ```
@@ -607,7 +607,7 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 **Tests are not passing**
 - Halt review
 - Report which tests fail
-- Ask user to run /add:tdd-cycle GREEN phase first
+- Ask user to run /add-tdd-cycle GREEN phase first
 
 **Spec file is incomplete**
 - Halt review
@@ -626,7 +626,7 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 
 ## Integration with TDD Cycle
 
-- This skill is invoked during REFACTOR phase of /add:tdd-cycle
+- This skill is invoked during REFACTOR phase of /add-tdd-cycle
 - Input: Implementation files and passing tests
 - Output: Review report (conversation output only)
 - No file modifications

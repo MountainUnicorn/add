@@ -1,6 +1,6 @@
 ---
 name: add-retro
-description: "[ADD v0.9.7] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+description: "[ADD v0.9.8] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|s
 
 ---
 
-# ADD Retro Command v0.9.7
+# ADD Retro Command v0.9.8
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 
@@ -148,7 +148,7 @@ Include in the agent observations a self-assessment of how well ADD methodology 
 | TDD cycles | Were tests written before implementation? (N/A for markdown-only plugins) |
 | Auto-handoffs | Were handoffs written after commits and major work? Check `.add/handoff.md` timestamps vs git log |
 | Learning checkpoints | Were learnings recorded at trigger points (post-verify, post-tdd, post-deploy, post-away)? Count expected vs actual |
-| Quality gates | Were `/add:verify` runs done? Did they pass first time? |
+| Quality gates | Were `/add-verify` runs done? Did they pass first time? |
 | Source control | Were conventional commits used? Check last N commits for pattern compliance |
 
 Format methodology adherence as a **table** (not inline checkmarks — tables are easier to scan):
@@ -333,7 +333,7 @@ Read `.add/observations.md` and synthesize:
 3. For each pattern, propose a process mutation:
    ```
    ### Proposed Mutation: {title}
-   **Skill:** /add:{skill-name}
+   **Skill:** /add-{skill-name}
    **Change:** {concrete change to the skill}
    **Evidence:** {observation timestamps and summaries}
    **Expected outcome:** {what should improve}
@@ -398,7 +398,7 @@ SUGGESTED CHANGES:
   1. {suggestion with rationale}
 
 These are observations only — no changes applied.
-Run /add:retro for a full interactive retrospective.
+Run /add-retro for a full interactive retrospective.
 ```
 
 ---
@@ -410,8 +410,8 @@ Display during the first retro:
 ```
 RECOMMENDED RETRO CADENCE:
   - Agent auto-checkpoints: Continuous (after each verify, cycle, away session)
-  - Agent summary (/add:retro --agent-summary): Weekly or before planning
-  - Full interactive retro (/add:retro): After each feature/sprint completion,
+  - Agent summary (/add-retro --agent-summary): Weekly or before planning
+  - Full interactive retro (/add-retro): After each feature/sprint completion,
     or every 2 weeks — whichever comes first
 ```
 

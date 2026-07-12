@@ -1,7 +1,7 @@
 # ADD sub-agent — explorer
 #
 # Broad, lower-stakes codebase sweeps (architecture discovery, dependency
-# mapping, pattern detection). Used by /add:docs and /add:optimize in their
+# mapping, pattern detection). Used by /add-docs and /add-optimize in their
 # discovery phases. Read-only by design.
 # See spec AC-015..AC-020.
 

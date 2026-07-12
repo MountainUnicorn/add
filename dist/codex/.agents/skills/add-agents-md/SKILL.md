@@ -1,10 +1,10 @@
 ---
 name: add-agents-md
-description: "[ADD v0.9.7] Generate or sync a portable AGENTS.md from ADD project state — writes, checks drift, or merges with hand-curated content"
+description: "[ADD v0.9.8] Generate or sync a portable AGENTS.md from ADD project state — writes, checks drift, or merges with hand-curated content"
 argument-hint: "[--write|--check|--merge|--import] [--dry-run]"
 ---
 
-# ADD AGENTS.md Skill v0.9.7
+# ADD AGENTS.md Skill v0.9.8
 
 Generate a portable [`AGENTS.md`](https://agents.md) at project root from the project's `.add/` state. `AGENTS.md` is the cross-tool open standard for project-level agent instructions — any agent (Claude Code, Cursor, Codex CLI, Windsurf, Amp, Devin, Copilot) will read it on session start. Publishing one lets mixed-toolchain teams respect the same invariants without installing ADD.
 
@@ -13,11 +13,11 @@ This skill is the only way to regenerate AGENTS.md. A PostToolUse hook marks the
 ## Invocation
 
 ```
-/add:agents-md               # default: --write
-/add:agents-md --check       # drift detection, CI-friendly (exit 1 on drift)
-/add:agents-md --merge       # prepend ADD block to an existing hand-curated AGENTS.md
-/add:agents-md --import      # one-time absorption (same as --merge; explicit intent)
-/add:agents-md --dry-run     # preview without writing (combines with any mode)
+/add-agents-md               # default: --write
+/add-agents-md --check       # drift detection, CI-friendly (exit 1 on drift)
+/add-agents-md --merge       # prepend ADD block to an existing hand-curated AGENTS.md
+/add-agents-md --import      # one-time absorption (same as --merge; explicit intent)
+/add-agents-md --dry-run     # preview without writing (combines with any mode)
 ```
 
 ## Pre-Flight Checks
@@ -144,14 +144,14 @@ Marker contents:
 }
 ```
 
-The hook does **not** rewrite `AGENTS.md`. The next `/add:agents-md` invocation announces the stale state, lists the changed sources, then regenerates when the human runs `--write`.
+The hook does **not** rewrite `AGENTS.md`. The next `/add-agents-md` invocation announces the stale state, lists the changed sources, then regenerates when the human runs `--write`.
 
 ## Integration With Other Skills
 
-- **`/add:init`** — calls `/add:agents-md` at the end of the init flow to write the initial `AGENTS.md`.
-- **`/add:spec`** — after a new spec becomes the "spec under work", prompts: "Update AGENTS.md active-spec pointer? (Y/n)". On yes, runs `/add:agents-md --write`.
-- **`/add:verify`** — opt-in Gate 4.5: if `agentsMd.gateOnVerify: true` is set in `.add/config.json`, `/add:verify` runs `--check` and fails the gate on drift. Off by default.
-- **`/add:promote`** — maturity bumps recommend a regen (since the verbosity level changes) but do not auto-rewrite.
+- **`/add-init`** — calls `/add-agents-md` at the end of the init flow to write the initial `AGENTS.md`.
+- **`/add-spec`** — after a new spec becomes the "spec under work", prompts: "Update AGENTS.md active-spec pointer? (Y/n)". On yes, runs `/add-agents-md --write`.
+- **`/add-verify`** — opt-in Gate 4.5: if `agentsMd.gateOnVerify: true` is set in `.add/config.json`, `/add-verify` runs `--check` and fails the gate on drift. Off by default.
+- **`/add-promote`** — maturity bumps recommend a regen (since the verbosity level changes) but do not auto-rewrite.
 
 ## Configuration
 
@@ -206,7 +206,7 @@ AGENTS.md drift detected.
 @@ ... @@
  ...unified diff...
 
-Run /add:agents-md --write to regenerate.
+Run /add-agents-md --write to regenerate.
 Exit code: 1
 ```
 

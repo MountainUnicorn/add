@@ -1,10 +1,10 @@
 ---
 name: add-optimize
-description: "[ADD v0.9.7] Performance optimization pass — identify and fix bottlenecks"
+description: "[ADD v0.9.8] Performance optimization pass — identify and fix bottlenecks"
 argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 ---
 
-# ADD Optimize Skill v0.9.7
+# ADD Optimize Skill v0.9.8
 
 Identify and fix performance bottlenecks. This skill profiles code to find slow operations, suggests optimizations, and implements them with test-driven discipline.
 
@@ -410,7 +410,7 @@ Upon completion, output:
 
 ## Next Steps
 1. Review profile and optimization decisions
-2. Run full quality gates: /add:verify --level deploy
+2. Run full quality gates: /add-verify --level deploy
 3. Deploy to staging and monitor
 4. If all good, deploy to production
 
@@ -463,9 +463,9 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 
 ## Integration with Other Skills
 
-- Used after /add:tdd-cycle completes (code is stable)
-- Used before /add:deploy to ensure performance requirements met
-- /add:verify validates that optimization doesn't break tests
+- Used after /add-tdd-cycle completes (code is stable)
+- Used before /add-deploy to ensure performance requirements met
+- /add-verify validates that optimization doesn't break tests
 - Performance tests become part of permanent test suite
 
 ## Configuration in .add/config.json

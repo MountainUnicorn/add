@@ -67,6 +67,23 @@ def parse_frontmatter(text: str) -> dict:
     return out
 
 
+def rule_autoloads(fm: dict, rule_file: Path) -> bool:
+    """Single source of truth for whether a rule is always-loaded.
+
+    Both runtimes MUST use this predicate — the Claude `@rules` list and the
+    Codex AGENTS.md invariants section must never disagree (v0.9.8 fix: they
+    previously used opposite defaults for a missing key). The key is required
+    so intent is always explicit.
+    """
+    if "autoload" not in fm:
+        raise SystemExit(
+            f"ERROR: {rule_file} has no explicit `autoload:` frontmatter key. "
+            "Every rule must declare `autoload: true` or `autoload: false` so "
+            "the Claude and Codex runtimes agree on always-loaded invariants."
+        )
+    return fm.get("autoload") in (True, "true", "True")
+
+
 def autoload_rules_block(rules_dir: Path) -> str:
     """Build the `@rules/*.md` list for CLAUDE.md, excluding rules with autoload:false.
 
@@ -75,7 +92,7 @@ def autoload_rules_block(rules_dir: Path) -> str:
     lines: list[str] = []
     for rule_file in sorted(rules_dir.glob("*.md")):
         fm = parse_frontmatter(rule_file.read_text())
-        if fm.get("autoload") is False:
+        if not rule_autoloads(fm, rule_file):
             continue
         lines.append(f"@rules/{rule_file.name}")
     return "\n".join(lines)
@@ -98,8 +115,13 @@ def substitute_version(text: str, version: str) -> str:
     return text
 
 
-def copy_tree(src: Path, dst: Path, version: str, substitute: bool = True) -> int:
-    """Copy src/ to dst/ with version substitution on text files. Returns file count."""
+def copy_tree(src: Path, dst: Path, version: str, substitute: bool = True, transform=None) -> int:
+    """Copy src/ to dst/ with version substitution on text files. Returns file count.
+
+    `transform` is an optional callable applied to text files after version
+    substitution (e.g. codex_substitute for runtime-specific path rewriting).
+    Shell scripts are exempt — they resolve paths via env vars at runtime.
+    """
     count = 0
     if not src.exists():
         return 0
@@ -108,10 +130,12 @@ def copy_tree(src: Path, dst: Path, version: str, substitute: bool = True) -> in
             rel = entry.relative_to(src)
             out = dst / rel
             out.parent.mkdir(parents=True, exist_ok=True)
-            if substitute and entry.suffix in {".md", ".json", ".yaml", ".yml", ".txt"}:
+            if substitute and entry.suffix in {".md", ".json", ".yaml", ".yml", ".txt", ".toml", ".template"}:
                 try:
                     text = entry.read_text()
                     text = substitute_version(text, version)
+                    if transform is not None:
+                        text = transform(text)
                     out.write_text(text)
                 except UnicodeDecodeError:
                     shutil.copy2(entry, out)
@@ -264,6 +288,9 @@ CODEX_TOOL_SUBSTITUTIONS = {
     # $CODEX_HOME/add/ to avoid collisions with the host and with other plugins.
     "${CLAUDE_PLUGIN_ROOT}/hooks": "~/.codex/hooks",
     "${CLAUDE_PLUGIN_ROOT}": "~/.codex/add",
+    # Claude command namespace → Codex native-skill names (/add:spec → /add-spec).
+    # Without this, Codex users get told to run commands that don't exist.
+    "/add:": "/add-",
 }
 
 
@@ -473,11 +500,10 @@ def emit_codex_manifest_agents_md(
         text = rule_file.read_text()
         fm_block, body = split_frontmatter(text)
         fm = parse_frontmatter_fields(fm_block)
-        # Rules in ADD use `autoload: true` (boolean). Conditional rules omit
-        # the key or set it false. Per spec AC-012, only autoloaded rules land
-        # in the slim AGENTS.md manifest.
-        autoload = fm.get("autoload", False)
-        if autoload not in (True, "true", "True"):
+        # Per spec AC-012, only autoloaded rules land in the slim AGENTS.md
+        # manifest. Uses the SAME predicate as the Claude `@rules` list so the
+        # two runtimes can never disagree on always-loaded invariants.
+        if not rule_autoloads(fm, rule_file):
             continue
         # Capture the first non-empty heading/line as a summary.
         summary = ""
@@ -495,6 +521,12 @@ def emit_codex_manifest_agents_md(
     lines.append(
         f"Full rule bodies live at `.agents/skills/add-<skill>/SKILL.md` where "
         f"the skill references them, and in `core/rules/` in the source repo."
+    )
+    lines.append("")
+    lines.append(
+        "Before executing any ADD skill, read `~/.codex/add/knowledge/global.md` "
+        "(Tier-1 plugin-global learnings) and `.add/learnings-active.md` if present "
+        "— per the `learning` rule's read-before-work protocol."
     )
     lines.append("")
 
@@ -579,6 +611,7 @@ def emit_codex_agents_hooks_config(output: Path, version: str) -> dict:
     for toml_file in sorted(agents_src.glob("*.toml")):
         text = toml_file.read_text()
         text = substitute_version(text, version)
+        text = codex_substitute(text)
         (agents_dst / toml_file.name).write_text(text)
         counts["agents"] += 1
 
@@ -731,23 +764,28 @@ def compile_codex(version: str) -> dict:
     counts["sub_agents"] = agent_hook_counts["agents"]
     counts["hooks"] = agent_hook_counts["hooks"]
 
-    # 4. Templates — shipped verbatim (used by skills that reference them)
+    # 4. Templates — shipped with Codex path/namespace substitution (used by
+    # skills that reference them)
     templates_out = output / "templates"
     templates_out.mkdir(parents=True, exist_ok=True)
-    copy_tree(CORE / "templates", templates_out, version)
+    copy_tree(CORE / "templates", templates_out, version, transform=codex_substitute)
 
-    # 5. Ship core/lib/ shell helpers (test-deletion guardrail etc.)
+    # 5. Ship core/lib/ shell helpers (test-deletion guardrail etc.). Text
+    # docs get Codex substitution; .sh scripts resolve paths via env vars at
+    # runtime and are shipped byte-identical (mode 0755 re-applied below).
     lib_src = CORE / "lib"
     if lib_src.exists():
         lib_out = output / "lib"
-        copy_tree(lib_src, lib_out, version)
+        copy_tree(lib_src, lib_out, version, transform=codex_substitute)
         for sh in lib_out.rglob("*.sh"):
             sh.chmod(0o755)
 
-    # 6. Ship core/knowledge/ verbatim so prompts can reference data files
+    # 6. Ship core/knowledge/ so prompts can reference data files. Codex
+    # substitution rewrites ${CLAUDE_PLUGIN_ROOT} paths and /add: command
+    # references (v0.9.8 fix — these previously leaked Claude-isms verbatim).
     knowledge_out = output / "knowledge"
     knowledge_out.mkdir(parents=True, exist_ok=True)
-    copy_tree(CORE / "knowledge", knowledge_out, version)
+    copy_tree(CORE / "knowledge", knowledge_out, version, transform=codex_substitute)
 
     # 6b. Ship core/rules/ as individual files so skill bodies that reference
     # a specific rule by path (e.g. `rules/maturity-lifecycle.md`) resolve at
@@ -755,14 +793,14 @@ def compile_codex(version: str) -> dict:
     # individual files must exist on disk for path references in skills.
     rules_out = output / "rules"
     rules_out.mkdir(parents=True, exist_ok=True)
-    copy_tree(CORE / "rules", rules_out, version)
+    copy_tree(CORE / "rules", rules_out, version, transform=codex_substitute)
 
     # 6c. Ship core/security/ (injection pattern catalog, etc.)
     security_src = CORE / "security"
     if security_src.exists():
         security_out = output / "security"
         security_out.mkdir(parents=True, exist_ok=True)
-        copy_tree(security_src, security_out, version)
+        copy_tree(security_src, security_out, version, transform=codex_substitute)
 
     # 6d. Ship core/references/ verbatim. Prompts load these on demand via
     # filesystem reads — matches the Claude adapter's
@@ -838,32 +876,47 @@ for the full contract.
 
 
 def run_check(version: str) -> int:
-    """Re-compile and verify the working tree matches (for CI drift check)."""
+    """Re-compile and verify the existing output dirs already match.
+
+    Snapshots plugins/add and dist/codex, recompiles, then content-diffs the
+    fresh output against the snapshot. (The previous implementation compared
+    before-vs-after `git status --porcelain` strings, which false-passed on a
+    tree that was already drifted before the run — porcelain lines are
+    identical either way.) This is git-independent, so it also works on an
+    uncommitted tree.
+    """
     import subprocess
+    import tempfile
 
-    # Save existing state
-    before = subprocess.run(
-        ["git", "status", "--porcelain", "plugins/add", "dist/codex"],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-    ).stdout
+    targets = [ROOT / "plugins" / "add", ROOT / "dist" / "codex"]
+    with tempfile.TemporaryDirectory() as tmp:
+        snapshots = []
+        for t in targets:
+            snap = Path(tmp) / t.name
+            if t.exists():
+                shutil.copytree(t, snap)
+            else:
+                snap.mkdir(parents=True)
+            snapshots.append(snap)
 
-    compile_claude(version)
-    compile_codex(version)
+        compile_claude(version)
+        compile_codex(version)
 
-    after = subprocess.run(
-        ["git", "status", "--porcelain", "plugins/add", "dist/codex"],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-    ).stdout
+        drift = False
+        for t, snap in zip(targets, snapshots):
+            result = subprocess.run(
+                ["diff", "-r", "-q", str(snap), str(t)],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                drift = True
+                print(f"✗ DRIFT in {t.relative_to(ROOT)}:")
+                print(result.stdout.strip())
 
-    if before != after:
-        print("✗ DRIFT DETECTED — committed plugins/add or dist/codex does not match compile output")
+    if drift:
+        print("✗ DRIFT DETECTED — plugins/add or dist/codex does not match compile output")
         print("  Run: python3 scripts/compile.py && git add plugins/add dist/codex && commit")
-        print(f"  Before:\n{before}")
-        print(f"  After:\n{after}")
         return 1
     print("✓ Compile output matches committed artifacts")
     return 0

@@ -1,10 +1,10 @@
 ---
 name: add-learnings
-description: "[ADD v0.9.7] Manage learnings — generate active views, archive old entries, show stats"
+description: "[ADD v0.9.8] Manage learnings — generate active views, archive old entries, show stats"
 argument-hint: "[migrate|archive|stats] [--dry-run]"
 ---
 
-# ADD Learnings Skill v0.9.7
+# ADD Learnings Skill v0.9.8
 
 Manage the learnings knowledge base: generate optimized active views, archive stale entries, and report statistics.
 
@@ -167,10 +167,10 @@ Tier 3 (Project): .add/learnings.json
 Tier 2 (Library): ~/.claude/add/library.json
   Total entries: 4
   Active view exists: no
-  Recommendation: Run /add:learnings migrate to generate active view
+  Recommendation: Run /add-learnings migrate to generate active view
 
 Archive candidates (>archival_days, severity ≤ medium): 12 entries
-  Recommendation: Run /add:learnings archive to review
+  Recommendation: Run /add-learnings archive to review
 ```
 
 ## Error Handling

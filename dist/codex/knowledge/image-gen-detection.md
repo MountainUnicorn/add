@@ -7,7 +7,7 @@
 
 ## Detection Algorithm
 
-When a visual skill starts (e.g., `/add:infographic`, `/add:brand`, report generation),
+When a visual skill starts (e.g., `/add-infographic`, `/add-brand`, report generation),
 run this detection sequence:
 
 ```
@@ -161,7 +161,7 @@ When no image gen tool is detected and the user has not been nudged before, disp
 ```
 Tip: Adding a Google Vertex AI image gen MCP server would enhance
 your project documentation with generated visuals.
-Run /add:brand for setup instructions.
+Run /add-brand for setup instructions.
 ```
 
 ### Nudge Rules
@@ -170,7 +170,7 @@ Run /add:brand for setup instructions.
 - After displaying, immediately set `nudged: true` in `.add/config.json`.
 - Never reset the `nudged` flag automatically.
 - Do NOT nudge in CI environments (no interactive user).
-- Do NOT nudge if the user explicitly runs `/add:brand` (they are already looking at setup info).
+- Do NOT nudge if the user explicitly runs `/add-brand` (they are already looking at setup info).
 
 ## SVG-Only Fallback
 
@@ -210,14 +210,14 @@ Detection MUST complete in under 2 seconds. Since it involves only local JSON fi
 
 ### What NOT to Do
 
-- Do NOT run detection during `/add:init` -- detection is point-of-use only.
+- Do NOT run detection during `/add-init` -- detection is point-of-use only.
 - Do NOT bundle, share, or reference a specific image gen account or API key.
 - Do NOT retry failed tool invocations during detection -- a missing tool is not an error.
 - Do NOT modify `.mcp.json` files -- those are the user's configuration.
 
-## Integration with /add:brand
+## Integration with /add-brand
 
-The `/add:brand` command displays image gen status from the config:
+The `/add-brand` command displays image gen status from the config:
 
 - **When configured:** Shows the detected tool name and plugin.
 - **When not configured:** Shows "Not configured" with setup guidance:
@@ -227,5 +227,5 @@ The `/add:brand` command displays image gen status from the config:
     See: https://cloud.google.com/vertex-ai/docs/image-generation
   ```
 
-The `/add:brand` command is the canonical place for users to see image gen status and
+The `/add-brand` command is the canonical place for users to see image gen status and
 get setup instructions. The one-time nudge message directs users there.

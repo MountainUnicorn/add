@@ -71,7 +71,7 @@ Moving from one maturity level to the next is **intentional and deliberate.** It
 - **Beta → GA:** Defect rate below threshold, 30+ days production stability, SLAs defined and met
 
 ### Promotion Process
-1. Trigger: `/add:cycle --complete` suggests promotion, or `/add:retro` recommends it
+1. Trigger: `/add-cycle --complete` suggests promotion, or `/add-retro` recommends it
 2. **Gap Analysis:** Compare project state against target maturity checklist:
    - Are all required docs in place? (PRD, specs, milestones)
    - Are quality gates configured? (CI, pre-deploy, monitoring)

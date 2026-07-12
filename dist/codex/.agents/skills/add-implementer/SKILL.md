@@ -1,14 +1,14 @@
 ---
 name: add-implementer
-description: "[ADD v0.9.7] Write minimal implementation to pass tests (TDD GREEN phase)"
+description: "[ADD v0.9.8] Write minimal implementation to pass tests (TDD GREEN phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002]"
 ---
 
-# ADD Implementer Skill v0.9.7
+# ADD Implementer Skill v0.9.8
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 
-<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add:tdd-cycle, which owns the cache-aware prompt layout. -->
+<!-- cache-discipline: non-dispatching skill — no STABLE/VOLATILE markers required per rules/cache-discipline.md. Invoked AS a sub-agent by /add-tdd-cycle, which owns the cache-aware prompt layout. -->
 
 ## Overview
 
@@ -231,7 +231,7 @@ python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
 ```
 
 The snapshot lives at `.add/cycles/cycle-{N}/tdd-{slug}-green.json` and is compared
-against the RED snapshot by `/add:verify` Gate 3.5. If `tests_removed > 0` without an
+against the RED snapshot by `/add-verify` Gate 3.5. If `tests_removed > 0` without an
 override, the cycle fails with a structured error naming each removed test.
 
 ## Code Quality Standards
@@ -305,8 +305,8 @@ Upon successful GREEN phase completion, output:
 - {file-path}: {N} functions
 
 ## Next Steps
-1. Run /add:reviewer to check code quality
-2. Run /add:tdd-cycle REFACTOR phase to improve code
+1. Run /add-reviewer to check code quality
+2. Run /add-tdd-cycle REFACTOR phase to improve code
 3. Merge implementation
 
 ## Notes
@@ -365,10 +365,10 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 
 ## Integration with TDD Cycle
 
-- This skill is invoked during the GREEN phase of /add:tdd-cycle
-- Input: Failing tests from /add:test-writer
+- This skill is invoked during the GREEN phase of /add-tdd-cycle
+- Input: Failing tests from /add-test-writer
 - Output: Implementation that passes all tests
-- Next: /add:reviewer for code quality check
+- Next: /add-reviewer for code quality check
 - Finally: /refactor phase for improvements
 
 ## Code Style & Conventions
