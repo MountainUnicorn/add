@@ -318,6 +318,28 @@
       "date": "2026-06-14",
       "classified_by": "agent",
       "checkpoint_type": "retro"
+    },
+    {
+      "id": "L-050",
+      "title": "Maturity gating must be physical, not behavioral, to save tokens",
+      "body": "The maturity-loader rule suppressed dormant-rule OBEDIENCE but every rule was still @-imported — a POC project paid ~13k tokens/session for rules it was told to ignore. v0.9.9 moved rule injection to a SessionStart hook (load-rules.sh) that reads maturity.level and injects only active rules (~70% POC reduction). Pattern: any 'ignore this content' instruction is a token bug; the content should not be loaded at all.",
+      "scope": "global",
+      "stack": [],
+      "severity": "high",
+      "date": "2026-07-12",
+      "source": "v0.9.9 token-architecture release"
+    },
+    {
+      "id": "L-051",
+      "title": "Generated-output substitution must cover every copied tree, not just the primary path",
+      "body": "compile.py applied codex_substitute only to skill bodies + references; rules/knowledge/templates/lib/TOMLs shipped raw ${CLAUDE_PLUGIN_ROOT} paths and 286 /add: Claude-namespace refs into the Codex dist. Fix: copy_tree takes a transform callable applied uniformly (v0.9.8). Pattern: when a compiler has per-runtime substitutions, audit EVERY emit path — the leak hides in the 'verbatim copy' branches. Same class as the autoload-predicate divergence (two emitters, opposite defaults for a missing key → require the key explicitly and share one predicate).",
+      "scope": "project",
+      "stack": [
+        "python"
+      ],
+      "severity": "high",
+      "date": "2026-07-12",
+      "source": "v0.9.8 P0 audit"
     }
   ]
 }
