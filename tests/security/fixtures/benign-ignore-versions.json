@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input": {"file_path": "docs/upgrade.md"},
+  "tool_response": {
+    "file": {"content": "# Upgrade guide\n\nYou can safely __IGNORE_PREVIOUS__ versions of the config schema; the migrator handles them. Users may also __DISREGARD_PRIOR__ releases when reading this changelog.\n"}
+  }
+}

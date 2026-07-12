@@ -1,10 +1,10 @@
 ---
 name: add-test-writer
-description: "[ADD v0.9.9] Write failing tests from spec (TDD RED phase)"
+description: "[ADD v0.9.10] Write failing tests from spec (TDD RED phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--type unit|integration|e2e]"
 ---
 
-# ADD Test Writer Skill v0.9.9
+# ADD Test Writer Skill v0.9.10
 
 Generate comprehensive failing tests from a feature specification. This is the RED phase of TDD — write tests before implementation.
 
@@ -44,10 +44,7 @@ Test Writer converts acceptance criteria and user test cases from a spec into fa
    - Determine file naming from convention
    - Check if test file already exists; if so, append new tests
 
-6. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+6. **Check for session handoff** — per the Session-Handoff Preflight in `~/.codex/add/references/skill-epilogue.md`
 
 ## Execution Steps
 
@@ -292,17 +289,14 @@ Upon completion, output:
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `~/.codex/add/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Parse spec | Reading spec and acceptance criteria | Reading spec and acceptance criteria... |
 | Analyze framework | Analyzing test framework configuration | Analyzing test framework configuration... |
 | Write tests | Writing failing tests | Writing failing tests... |
 | Verify RED | Confirming tests fail as expected | Verifying tests fail (RED confirmed)... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -337,3 +331,5 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 - This skill is invoked during the RED phase of /add-tdd-cycle
 - Output becomes input to /add-implementer (GREEN phase)
 - Test mapping is used by /add-reviewer to verify spec compliance
+
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

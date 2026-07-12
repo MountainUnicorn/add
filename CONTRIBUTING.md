@@ -37,6 +37,14 @@ output — the compile-drift CI gate will reject PRs that disagree.
 
 **ALL command references in plugin files MUST use the namespaced form.** Write `/add:spec`, never `/spec`. Claude reproduces whatever naming pattern it sees — bare names cause Claude to suggest `/spec` instead of `/add:spec` in consumer projects.
 
+## Token Discipline
+
+Everything that autoloads is paid for in every consumer session, so treat context like a budget:
+
+- **Autoloaded rules must declare their gates.** A new rule in `core/rules/` needs explicit autoload and maturity frontmatter — the SessionStart loader only ships the rules a project's maturity level needs, and an ungated rule defeats that.
+- **Illustrative content lives in `templates/` or `references/`,** not in `SKILL.md` bodies. Skills carry instructions; worked examples and long samples belong in files that load on demand.
+- **State the context cost.** Any PR that adds or grows a rule or skill should note the approximate token cost (or delta) in its description so reviewers can weigh benefit against budget.
+
 ## Testing Changes
 
 After editing `core/`, regenerate the runtime adapters and sync the marketplace cache:
@@ -69,7 +77,7 @@ We use [conventional commits](https://www.conventionalcommits.org/):
 - `docs:` — documentation only
 - `chore:` — maintenance, refactoring, tooling
 
-## Pull Requests
+## Pull Request Guidelines
 
 - One feature or fix per PR.
 - Reference an issue if one exists (e.g., `Closes #12`).

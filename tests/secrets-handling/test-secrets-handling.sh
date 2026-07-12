@@ -35,7 +35,7 @@ CATALOG=(
   'OPENAI_API_KEY|sk-(proj-)?[A-Za-z0-9]{32,}'
   'ANTHROPIC_API_KEY|sk-ant-[A-Za-z0-9_-]{32,}'
   'JWT|eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+'
-  'PASSWORD_KV|password[[:space:]]*[:=][[:space:]]*["'"'"'][^"'"'"']{8,}["'"'"']'
+  'PASSWORD_KV|[Pp][Aa][Ss][Ss][Ww][Oo][Rr][Dd][[:space:]]*[:=][[:space:]]*["'"'"'][^"'"'"']{8,}["'"'"']'
   'PEM_PRIVATE_KEY|-----BEGIN (RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----'
 )
 
@@ -75,6 +75,11 @@ synthesize() {
       ;;
     PASSWORD_KV)
       echo 'password = "FAKE-example-password-123"'
+      ;;
+    # Case-insensitivity regression (v0.9.10): the catalog regex carries its
+    # own case classes because the scanner has no case-flag mechanism.
+    PASSWORD_KV_UPPER)
+      echo 'PASSWORD = "FAKE-example-password-123"'
       ;;
     # PEM: header line only (the regex matches on the header, not the body).
     # Split the marker so the literal header never appears on disk.
@@ -136,6 +141,7 @@ expected_pattern() {
     anthropic-key.txt) echo "ANTHROPIC_API_KEY" ;;
     jwt.txt) echo "JWT" ;;
     password-kv.txt) echo "PASSWORD_KV" ;;
+    password-kv-upper.txt) echo "PASSWORD_KV" ;;
     pem-private-key.txt) echo "PEM_PRIVATE_KEY" ;;
     *) echo "" ;;
   esac

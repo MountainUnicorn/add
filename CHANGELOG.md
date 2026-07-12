@@ -4,6 +4,31 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.9.10] — 2026-07-12
+
+Dedup + hygiene release closing the three-release token-audit arc (v0.9.8 correctness → v0.9.9 token architecture → v0.9.10 slimming). The five heaviest skills lose ~35–45% of their lines to extraction; security patterns lose their false-positive noise; the hooks and CI lose their soft spots.
+
+### Changed
+
+- **Heavy skills slimmed** — init 1,093→638 lines, deploy 874→557, verify 761→432, cycle 659→462, docs 582→352. Illustrative panels, interview banks, worked examples, and inline templates moved to `templates/` (`init-interview`, `init-output-examples`, `commit-message`, `deploy-reference`, `cycle-plan`, `verify-report`) and `references/` (`docs-archetypes`). Instructions stayed inline; renderings load on demand.
+- **Shared skill epilogue** — the Process Observation / Learning Checkpoint / handoff-preflight / Progress Tracking boilerplate duplicated across ~10 skills is now one reference (`references/skill-epilogue.md`) + a one-line pointer per skill. The secrets gate duplicated across deploy + verify is now `references/secrets-gate.md`. `dashboard` no longer inlines the design-system CSS it already references.
+- **Version literals can't drift anymore** — all 27 skills now carry `[ADD v{{VERSION}}]` / `v{{VERSION}}` in source (23 said v0.6.0 while shipping v0.9.x); compile substitutes the real version.
+- **Namespace fixes** — bare `/cycle`, `/milestone`, `/infographic` → `/add:*` (the bare forms train consumer sessions to suggest commands that don't exist).
+- **post-write auto-fix is now opt-in** (`hooks.autofix`, default false) — linters advise on stderr instead of silently rewriting files mid-session.
+- **CHANGELOG reminder moved to PreToolUse** — it now fires *before* `git push` (it fired after, when the advice was moot), and the push-detection regex no longer matches `echo "git push"` or `--help`/`--dry-run`.
+
+### Fixed / Security
+
+- **Injection-pattern noise reduction** — `ignore-previous` requires the noun (no longer fires on "ignore previous versions") and a real false negative on the canonical multi-word injection phrase was closed; `base64-blob-suspicious` downgraded to info at 120+ chars (SRI hashes/data URIs no longer trip it); `system-heading` anchored (a README's `## Instructions` is not an attack). +5 fixtures.
+- **Audit-log redaction unified with the secret-patterns catalog** — excerpts written to `injection-events.jsonl` now mask everything `scan-secrets.sh` knows (Stripe `sk_live_`, `sk-ant-`, …), not just 5 hardcoded prefixes.
+- **`PASSWORD_KV` made case-insensitive** (previously missed `PASSWORD=` / `Password:`); `.secretsignore` negation lines now warn loudly (they were silently ignored) and were removed from the shipped template.
+- **CI**: marketplace-validate fails loudly when the CLI install fails (was skip-green); `hooks-json`, `load-rules`, and `compile` suites added to the guardrails matrix; rule-boundary-check counts inline NEVER/MUST-NOT markers.
+
+### Project hygiene
+
+- `.add/away-logs/` gitignored + untracked (per ADD's own project-structure rule); legacy `learnings.md.bak` removed; 25 stale learnings archived to `learnings-archive.json` (49→24 active); wave3 A1 draft marked APPLIED-historical.
+- Visual/community surfaces refreshed: infographic + HTML overview gained the token-economy story; CONTRIBUTING gained a Token Discipline section; issue templates + PR checklist updated.
+
 ## [0.9.9] — 2026-07-12
 
 The token-architecture release. Frontier models are priced for judgment, not boilerplate — this release makes the maturity dial a *token* dial and gives ADD's dispatch machinery its missing cost policy.

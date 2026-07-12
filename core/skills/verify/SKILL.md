@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v{{VERSION}}] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
-references: ["learning-reference.md", "quality-checks-matrix.md", "rules/telemetry.md"]
+references: ["learning-reference.md", "quality-checks-matrix.md", "secrets-gate.md", "skill-epilogue.md", "rules/telemetry.md"]
 ---
 
-# ADD Verify Skill v0.6.0
+# ADD Verify Skill v{{VERSION}}
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 
@@ -22,6 +22,8 @@ The five-gate system ensures code quality at every stage:
 4. **Gate 4 (Deploy)**: Spec compliance & integration tests
 5. **Gate 5 (Smoke)**: Post-deploy health checks
 
+All gate results are reported using the shared formats in `${CLAUDE_PLUGIN_ROOT}/templates/verify-report.md` — one per-gate format, the maturity-scaled sections, and the overall report.
+
 ## Pre-Flight Checks
 
 1. **Read .add/config.json**
@@ -31,6 +33,7 @@ The five-gate system ensures code quality at every stage:
    - Load code.lint configuration
    - Load code.types configuration
    - Load environment tier settings
+   - A configuration example lives in `${CLAUDE_PLUGIN_ROOT}/templates/verify-report.md`
 
 2. **Count active rules for maturity level**
    - Read maturity level from `.add/config.json` (default: alpha)
@@ -62,10 +65,7 @@ The five-gate system ensures code quality at every stage:
    - Check Node/Python version if applicable
    - Verify dependencies are installed
 
-6. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+6. **Check for session handoff** — per the Session-Handoff Preflight in `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`
 
 ## Execution Steps
 
@@ -93,10 +93,7 @@ The five-gate system ensures code quality at every stage:
    golangci-lint run ./...
    ```
 
-3. **Capture output**
-   - Count errors and warnings
-   - List problematic files
-   - Save for report
+3. **Capture output** — count errors and warnings, list problematic files
 
 4. **Handle --fix flag**
    - If --fix provided, auto-fix formatting issues
@@ -108,27 +105,12 @@ The five-gate system ensures code quality at every stage:
    - FAIL: Any errors or warnings
    - WARN: Warnings only (configurable as pass/fail)
 
-**Report**:
-```
-Gate 1: Lint & Formatting
-- Errors: 0
-- Warnings: 0
-- Status: ✓ PASS
-
-Files checked: 12
-Issues fixed (--fix): 0
-```
-
 ### Gate 2: Type Checking
 
 **Purpose**: Catch type errors and ensure type safety.
 
 **Steps**:
-1. **Detect type checker(s)**
-   - TypeScript: `tsc --noEmit`
-   - Flow: `flow`
-   - MyPy (Python): `mypy src/`
-   - etc.
+1. **Detect type checker(s)** — TypeScript (`tsc --noEmit`), Flow, MyPy, etc.
 
 2. **Run type checker**
    ```bash
@@ -139,25 +121,12 @@ Issues fixed (--fix): 0
    python -m mypy src/ --strict
    ```
 
-3. **Capture output**
-   - Count type errors
-   - List files with issues
-   - Report error details
+3. **Capture output** — count type errors, list files with issues
 
 4. **Pass/Fail**
    - PASS: 0 type errors
    - FAIL: Any type errors
    - SKIP: Not applicable for untyped languages
-
-**Report**:
-```
-Gate 2: Type Checking
-- Errors: 0
-- Status: ✓ PASS
-
-Type checker: TypeScript (--strict)
-Files checked: 12
-```
 
 ### Gate 3: Unit Tests & Coverage
 
@@ -173,43 +142,16 @@ Files checked: 12
    python -m pytest --cov=src --cov-report=term-summary tests/
    ```
 
-2. **Parse test output**
-   - Count tests run
-   - Count tests passed
-   - Count tests failed
-   - Capture timing
+2. **Parse test output** — tests run/passed/failed, timing
 
-3. **Parse coverage output**
-   - Extract line coverage %
-   - Extract branch coverage %
-   - Extract function coverage %
-   - Compare to minCoverage threshold
+3. **Parse coverage output** — line, branch, and function coverage % vs. the minCoverage threshold
 
-4. **Identify coverage gaps** (if below threshold)
-   - Which files are below threshold?
-   - Which lines are uncovered?
-   - Which branches are untested?
+4. **Identify coverage gaps** (if below threshold) — which files, lines, and branches are uncovered
 
 5. **Pass/Fail criteria**
    - PASS: All tests pass AND coverage >= threshold
    - FAIL: Any test fails OR coverage < threshold
    - WARN: Tests pass but coverage marginally below (90% of threshold)
-
-**Report**:
-```
-Gate 3: Unit Tests & Coverage
-- Tests Run: 32
-- Tests Passed: 32
-- Tests Failed: 0
-- Duration: 2.3s
-- Line Coverage: 87% (threshold: 80%) ✓
-- Branch Coverage: 82% (threshold: 80%) ✓
-- Status: ✓ PASS
-
-Coverage gaps (< 80%):
-  - src/utils.ts: 73%
-  - src/api.ts: 79%
-```
 
 ### Gate 3.5: Test Surface Integrity (Test-Deletion Guardrail)
 
@@ -262,26 +204,9 @@ advisory note.
 - FAIL: Any uncovered removal or replacement
 - SKIP: No `.add/cycles/cycle-*/` dir (standalone verify outside a cycle)
 
-**Report**:
-```
-Gate 3.5: Test Surface Integrity
-- Status: ✓ PASS
-- Tests added: 4
-- Tests removed: 0
-- Tests renamed: 1
-- Tests replaced: 0
-- Override used: none
-```
-
-**Error mode** (AC-015):
-```
-Gate 3.5: Test Surface Integrity
-- Status: ✗ FAIL
-- Error: GREEN snapshot not found — cycle is incomplete or
-         test-writer/implementer skipped snapshotting.
-
-Remediation: Rerun `/add:tdd-cycle` from RED to regenerate snapshots.
-```
+**Error mode** (AC-015): if the GREEN snapshot is missing, FAIL with "GREEN snapshot
+not found — cycle is incomplete or test-writer/implementer skipped snapshotting" and
+remediation "Rerun `/add:tdd-cycle` from RED to regenerate snapshots."
 
 See `core/rules/tdd-enforcement.md` "Test-Deletion Invariant" for the justification
 marker formats and the full rationale.
@@ -317,24 +242,6 @@ marker formats and the full rationale.
    - FAIL: AC missing test, test failing, or integration test failing
    - WARN: AC has only happy-path test (no edge cases)
 
-**Report**:
-```
-Gate 4: Spec Compliance & Integration Tests
-- Spec: Feature X v1.0
-- Acceptance Criteria: 5 total
-  - AC-001: ✓ Tested and passing
-  - AC-002: ✓ Tested and passing
-  - AC-003: ✓ Tested and passing
-  - AC-004: ✓ Tested and passing
-  - AC-005: ✓ Tested and passing
-- Integration Tests: 8 total
-  - 8 passed, 0 failed
-- Status: ✓ PASS
-
-Test mapping file: tests/feature-mapping.md
-All requirements traced and verified.
-```
-
 ### Gate 4.5: AGENTS.md Drift (Opt-In)
 
 **Purpose**: Detect drift between the project's canonical ADD state and its published `AGENTS.md`.
@@ -349,14 +256,6 @@ All requirements traced and verified.
    - Exit 1 → drift detected, gate FAILS (advisory — does not block Gate 5).
 3. Print the unified diff on failure for fast human review. Suggest `/add:agents-md --write` to remediate.
 
-```
-Gate 4.5: AGENTS.md Drift
-- Config flag: agentsMd.gateOnVerify = true
-- AGENTS.md present: yes
-- Drift detected: no
-- Status: ✓ PASS
-```
-
 ### Gate 4.6: Staged-Secret Scan
 
 **Purpose**: Block commits that contain secrets before they reach the remote
@@ -365,51 +264,14 @@ git history. Closes F-014 (the v0.9.0 secrets gate was prose-only).
 **When it runs**: At `--level deploy` (and any superset). Skipped at `--level
 local|ci|smoke` because no commit is being prepared at those levels.
 
-**Source of truth**: `core/security/secret-patterns.json` — the executable
-catalog. The companion `core/knowledge/secret-patterns.md` is the human
-reference; CI's `validate-secret-patterns.py` keeps the two in sync.
-
-**Steps**:
-
-1. **Invoke the scanner** with the staged-diff default:
-   ```bash
-   "${CLAUDE_PLUGIN_ROOT}/lib/scan-secrets.sh"
-   ```
-   The scanner reads `git diff --cached`, applies every catalog regex,
-   skips binaries and `.secretsignore`-matched paths, and honors any
-   `[ADD-SECRET-OVERRIDE: SEC-NNN]` trailer in the commit message.
-
-2. **Interpret exit code**:
-   - `0`: PASS. No findings (or every finding overridden by a trailer).
-   - `1`: FAIL. At least one unsuppressed finding. Block the gate.
-   - `2`: Invocation error — gate FAIL with remediation note.
-   - `3`: Catalog missing/unparseable — gate FAIL (defense-in-depth: never
-     silently disable enforcement).
-
-3. **Report findings verbatim**. The scanner already redacts every preview
-   per AC-013 — never paste the matched value into the report.
+**How it runs**: Follow `${CLAUDE_PLUGIN_ROOT}/references/secrets-gate.md` —
+scanner invocation, exit-code interpretation, redaction rules, and report
+format all live there. NEVER paste a matched secret value into the report.
 
 **Pass/Fail criteria**:
 - PASS: Scanner exit code 0
-- FAIL: Scanner exit code != 0
+- FAIL: Scanner exit code != 0 (findings, invocation error, or missing catalog — never silently disable enforcement)
 - SKIP: `--level` is `local`, `ci`, or `smoke` (no staged commit context)
-
-**Report**:
-
-```
-━━━ GATE 4.6 — STAGED-SECRET SCAN ━━━
-Scanning 12 staged files...
-
-  ✗ config/api.py:8 — SEC-002: GITHUB_TOKEN
-  ✗ scripts/seed.py:42 — SEC-001: AWS_ACCESS_KEY
-
-Gate 4.6: FAIL (2 findings)
-
-Run `/add:deploy` and choose remediation, or commit with
-[ADD-SECRET-OVERRIDE: SEC-001 SEC-002 (reason)] for a non-commit override.
-```
-
-Maps to AC-021 of `specs/secrets-scanner-executable.md`.
 
 ### Gate 5: Smoke Tests (Post-Deploy)
 
@@ -427,34 +289,12 @@ Maps to AC-021 of `specs/secrets-scanner-executable.md`.
    ./scripts/smoke-tests.sh production
    ```
 
-3. **Capture output**
-   - Tests run and result
-   - Any errors or timeouts
-   - Performance baseline check
+3. **Capture output** — tests run and result, errors or timeouts, performance baseline check
 
 4. **Pass/Fail**
    - PASS: All smoke tests pass within timeout
    - FAIL: Any test fails or timeout exceeded
    - SKIP: Not running (smoke level only)
-
-**Report**:
-```
-Gate 5: Smoke Tests (Post-Deploy)
-- Environment: staging
-- Smoke tests run: 6
-- Passed: 6
-- Failed: 0
-- Duration: 15s
-- Status: ✓ PASS
-
-Endpoints verified:
-  ✓ GET /api/health
-  ✓ GET /api/version
-  ✓ POST /api/submit (with test data)
-  ✓ GET /api/status
-  ✓ Database connection
-  ✓ Cache layer
-```
 
 ### Maturity-Scaled Checks (All Gates)
 
@@ -478,46 +318,7 @@ After each gate's core checks, run maturity-scaled checks from the quality-gates
 5. **Classify findings** as blocking or advisory per maturity level
    - Load override thresholds from `.add/config.json` `qualityChecks` if present
    - Apply enforcement level: blocking findings fail the gate, advisory findings are warnings
-6. **Include in gate report** — append maturity-scaled results to the gate's report section
-
-**Report Section** (added to each gate's output):
-
-```
-Maturity-Scaled Checks ({maturity level}):
-  Code Quality: ✓ PASS (complexity max: 12, threshold: 15)
-  Security: ✓ PASS (no secrets, OWASP clean)
-  Readability: ⚠ ADVISORY (2 functions missing docstrings)
-  Performance: ⊘ SKIPPED (not checked at alpha)
-  Repo Hygiene: ✓ PASS (branch naming ok, .gitignore exists)
-
-Advisory findings (non-blocking):
-  - src/utils.ts:45 — function missing docstring on export
-  - src/api.ts:12 — function missing docstring on export
-```
-
-### Maturity-Scaled Summary (Overall Report)
-
-Add this section to the overall verification report, after the gate summary table:
-
-```
-## Maturity-Scaled Checks Summary
-Maturity Level: {level} (from .add/config.json)
-
-| Category | Status | Blocking | Advisory | Details |
-|----------|--------|----------|----------|---------|
-| Code Quality | ✓ PASS | 0 | 0 | All metrics within thresholds |
-| Security | ✓ PASS | 0 | 2 | OWASP spot-check: 2 minor findings |
-| Readability | ⚠ WARN | 0 | 3 | 3 exports missing docstrings |
-| Performance | ⊘ SKIP | — | — | Not checked at alpha maturity |
-| Repo Hygiene | ✓ PASS | 0 | 0 | All hygiene checks pass |
-
-Advisory Findings (non-blocking):
-1. [Security] src/api.ts:34 — input not sanitized before template literal
-2. [Security] src/auth.ts:89 — password comparison not constant-time
-3. [Readability] src/utils.ts:45 — exported function missing docstring
-4. [Readability] src/api.ts:12 — exported function missing docstring
-5. [Readability] src/form.ts:78 — magic number 86400 (use named constant)
-```
+6. **Include in gate report** — append maturity-scaled results to the gate's report section, and add the Maturity-Scaled Checks Summary to the overall report (formats in `${CLAUDE_PLUGIN_ROOT}/templates/verify-report.md`)
 
 ## Execution by Level
 
@@ -555,97 +356,22 @@ Runs Gate 5 only:
 
 Typical use: After deployment to verify health
 
-## Overall Report Format
+## Report Generation
 
-Generate a comprehensive verification report:
+Generate the comprehensive verification report using the formats in
+`${CLAUDE_PLUGIN_ROOT}/templates/verify-report.md`:
 
-```
-# Quality Gates Verification Report
-
-## Execution Context
-- Level: {level}
-- Timestamp: {ISO timestamp}
-- Feature: {feature-name}
-- Branch: {git branch}
-- Active Rules: {N} at {maturity} level
-
-## Summary
-Overall Status: ✓ ALL GATES PASSED [or ✗ GATES FAILED]
-
-| Gate | Name | Status | Details |
-|------|------|--------|---------|
-| 1 | Lint & Formatting | ✓ PASS | 0 errors, 0 warnings |
-| 2 | Type Checking | ✓ PASS | 0 type errors |
-| 3 | Tests & Coverage | ✓ PASS | 32/32 tests, 87% coverage |
-| 3.5 | Test Surface Integrity | ✓ PASS | 4 added, 0 removed, 1 renamed |
-| 4 | Spec Compliance | ✓ PASS | 5/5 ACs tested |
-| 4.6 | Staged-Secret Scan | ✓ PASS | 0 findings |
-| 5 | Smoke Tests | ⊘ SKIPPED | Not applicable at this level |
-
-## Gate 1: Lint & Formatting
-- Linter: eslint
-- Status: ✓ PASS
-- Errors: 0
-- Warnings: 0
-- Files checked: 12
-
-## Gate 2: Type Checking
-- Type checker: TypeScript (strict mode)
-- Status: ✓ PASS
-- Type errors: 0
-
-## Gate 3: Unit Tests & Coverage
-- Status: ✓ PASS
-- Tests run: 32
-- Passed: 32
-- Failed: 0
-- Duration: 2.3s
-- Coverage:
-  - Line: 87% (target: 80%) ✓
-  - Branch: 82% (target: 80%) ✓
-  - Function: 100% ✓
-
-## Gate 4: Spec Compliance & Integration Tests
-- Status: ✓ PASS
-- ACs tested: 5/5
-- Integration tests: 8 passed, 0 failed
-- Spec: Feature X v1.0 (fully compliant)
-
-## Gate 5: Smoke Tests
-- Status: ⊘ SKIPPED (not applicable at 'deploy' level)
-
----
-
-## Recommendations
-
-Ready to proceed: ✓ YES
-- All gates passed
-- Code meets quality standards
-- Safe to merge and deploy
-
-Next steps:
-1. [If all gates pass] Run /add:deploy to commit and push
-2. [If gates fail] Fix issues and re-run /add:verify
-
-Detailed gate results:
-- No critical issues
-- No warnings
-- Coverage healthy
-
----
-
-## Configuration Used
-- test.framework: jest
-- test.minCoverage: 80%
-- code.lint: eslint with airbnb config
-- ci.gates: [lint, types, tests, spec-compliance]
-```
+- One per-gate section per gate that ran (per-gate format)
+- The summary table with overall status
+- The Maturity-Scaled Checks Summary
+- Recommendations with explicit next steps: `/add:deploy` if all gates pass,
+  fix and re-run `/add:verify` if any fail
+- The Configuration Used footer
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Pre-flight | Running pre-flight checks | Running pre-flight checks... |
@@ -658,8 +384,6 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create
 | Gate 5 | Smoke tests | Running smoke tests... |
 | Maturity | Maturity-scaled checks | Running maturity-scaled checks... |
 | Report | Generating verification report | Generating verification report... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -692,26 +416,11 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 ## --fix Flag Behavior
 
 When --fix is provided:
-1. **Gate 1 (Lint)**: Auto-fix formatting issues
-   - Run eslint --fix or prettier
-   - Re-run linter to verify fixes applied
-   - Report what was fixed
-
-2. **Gate 2 (Types)**: Cannot auto-fix type errors
-   - Report errors but don't halt
-   - Suggest: review type errors manually
-
-3. **Gate 3 (Tests)**: Cannot auto-fix test failures
-   - Report failures
-   - Suggest: check coverage, add missing tests
-
-4. **Gate 4 (Spec)**: Cannot auto-fix spec mismatches
-   - Report issues
-   - Suggest: update tests or implementation
-
-5. **Gate 5 (Smoke)**: Cannot auto-fix smoke test failures
-   - Report failures
-   - Suggest: check deployment
+1. **Gate 1 (Lint)**: Auto-fix formatting issues — run eslint --fix or prettier, re-run linter to verify, report what was fixed
+2. **Gate 2 (Types)**: Cannot auto-fix type errors — report errors, suggest manual review
+3. **Gate 3 (Tests)**: Cannot auto-fix test failures — report failures, suggest checking coverage or adding tests
+4. **Gate 4 (Spec)**: Cannot auto-fix spec mismatches — report issues, suggest updating tests or implementation
+5. **Gate 5 (Smoke)**: Cannot auto-fix smoke test failures — report failures, suggest checking deployment
 
 ## Integration with Other Skills
 
@@ -720,42 +429,4 @@ When --fix is provided:
 - Output informs /add:deploy decision
 - Feeds back to /add:implementer or /add:reviewer if gates fail
 
-## Configuration in .add/config.json
-
-```json
-{
-  "test": {
-    "framework": "jest",
-    "minCoverage": 80,
-    "convention": "test_*.test.ts",
-    "integrationConvention": "*.integration.test.ts"
-  },
-  "code": {
-    "lint": "eslint",
-    "types": "tsc --strict",
-    "style": "prettier"
-  },
-  "ci": {
-    "gates": ["lint", "types", "unit-tests", "spec-compliance", "integration-tests"],
-    "smokeTestScript": "npm run test:smoke"
-  }
-}
-```
-
-## Process Observation
-
-After completing this skill, do BOTH:
-
-### 1. Observation Line
-
-Append one observation line to `.add/observations.md`:
-
-```
-{YYYY-MM-DD HH:MM} | verify | {one-line summary of outcome} | {cost or benefit estimate}
-```
-
-If `.add/observations.md` does not exist, create it with a `# Process Observations` header first.
-
-### 2. Learning Checkpoint
-
-Write a structured JSON learning entry per the checkpoint trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+End-of-skill epilogue: follow `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking). Learning checkpoint trigger: "After Verification".

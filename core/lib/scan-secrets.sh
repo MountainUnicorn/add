@@ -336,8 +336,9 @@ is_dirty_cached() {
 # ---------------------------------------------------------------------------
 # .secretsignore loader. Match a path against gitignore-style patterns.
 # Implementation is deliberately literal — supports trailing /, *.ext globs,
-# and dir/* prefixes. Negations (!pattern) are recognised but not enforced
-# (out of scope for v0.9.x; documented).
+# and dir/* prefixes. Negations (!pattern) are NOT SUPPORTED (out of scope
+# for v0.9.x): a negation line is skipped, and the first one encountered
+# emits a loud one-time warning to stderr so the omission is never silent.
 # ---------------------------------------------------------------------------
 
 declare -a IGNORE_PATTERNS=()
@@ -349,10 +350,18 @@ elif [ -f "$(git rev-parse --show-toplevel 2>/dev/null || echo .)/.secretsignore
 fi
 
 if [ -n "$SECRETSIGNORE_FILE" ]; then
+  NEGATION_WARNED=0
   while IFS= read -r line || [ -n "$line" ]; do
     case "$line" in
       ''|'#'*) continue ;;
-      '!'*) continue ;;  # negations not enforced
+      '!'*)
+        # Negations are not supported — warn loudly (once), then skip.
+        if [ "$NEGATION_WARNED" = "0" ]; then
+          echo "scan-secrets: WARNING: .secretsignore negations are not supported — '$line' ignored (subsequent negation lines are skipped silently)" >&2
+          NEGATION_WARNED=1
+        fi
+        continue
+        ;;
     esac
     IGNORE_PATTERNS+=("$line")
   done < "$SECRETSIGNORE_FILE"

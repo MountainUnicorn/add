@@ -1,10 +1,10 @@
 ---
 name: add-implementer
-description: "[ADD v0.9.9] Write minimal implementation to pass tests (TDD GREEN phase)"
+description: "[ADD v0.9.10] Write minimal implementation to pass tests (TDD GREEN phase)"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002]"
 ---
 
-# ADD Implementer Skill v0.9.9
+# ADD Implementer Skill v0.9.10
 
 Write minimal production-quality code to make failing tests pass. This is the GREEN phase of TDD.
 
@@ -66,10 +66,7 @@ The Implementer takes failing tests (from test-writer) and writes the smallest a
    - Load any build/transpilation settings
    - Load dependency management settings
 
-6. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+6. **Check for session handoff** — per the Session-Handoff Preflight in `~/.codex/add/references/skill-epilogue.md`
 
 ## Execution Steps
 
@@ -317,17 +314,14 @@ Upon successful GREEN phase completion, output:
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `~/.codex/add/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Read tests | Reading failing tests | Reading failing tests... |
 | Analyze | Analyzing requirements | Analyzing requirements... |
 | Implement | Writing implementation code | Writing implementation code... |
 | Verify GREEN | Confirming all tests pass | Verifying tests pass (GREEN confirmed)... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -379,3 +373,5 @@ The implementer respects:
 - Import/export patterns
 - Naming conventions
 - Error handling patterns
+
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

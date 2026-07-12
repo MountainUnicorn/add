@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.9.9",
+  "plugin_version": "0.9.10",
   "migrations": [
     {
       "from": "0.1.0",
@@ -272,6 +272,12 @@
       "to": "0.9.9",
       "steps": [],
       "description": "v0.9.9 \u2014 token-architecture release. Rules now load PHYSICALLY per maturity: a new SessionStart hook (hooks/load-rules.sh) reads .add/config.json maturity.level and injects only rules at/below it (POC sessions drop ~70% of rule tokens; no config = full set, behavior-compatible). telemetry, cache-discipline, and model-roles flipped to autoload:false (on-demand via skill references); learning and maturity-lifecycle trimmed to behavioral cores with full content in references/ (learning-reference.md, new telemetry-reference.md, new maturity-matrix.md). Sub-agent dispatches gain MODEL tier (fast/editor/architect) + maturity-scaled token BUDGET policy (swarm-protocol.md tables; overridable via .add/config.json swarm.budgets). learnings-active.md gains a char budget (learnings.active_char_budget, default 6000; 400-char per-entry cap). No required consumer config changes; optional new keys: swarm.budgets, learnings.active_char_budget."
+    },
+    {
+      "from": "0.9.9",
+      "to": "0.9.10",
+      "steps": [],
+      "description": "v0.9.10 \u2014 dedup + hygiene release closing the token-audit arc. Heaviest skills slimmed ~35-45% (init 1093\u2192638, deploy 874\u2192557, verify 761\u2192432, cycle 659\u2192462, docs 582\u2192352 lines) via extraction to templates/ (init-interview, init-output-examples, commit-message, deploy-reference, cycle-plan, verify-report) and references/ (skill-epilogue, secrets-gate, docs-archetypes). Skill version literals normalized to 0.9.10 (compile substitutes; can't drift). Injection patterns de-noised (ignore-previous noun now required, and a false negative on the canonical injection phrase was closed; base64 blob info@120+; system-heading anchored); audit-log redaction unified with the secret-patterns catalog; PASSWORD_KV case-insensitive; .secretsignore negations warn loudly. CHANGELOG reminder hook moved to PreToolUse (fires BEFORE push); post-write auto-fix now opt-in via hooks.autofix (default false \u2014 linters advise, don't rewrite). CI: marketplace-validate fails loudly instead of skipping green; new hooks-json + load-rules + compile suites in the guardrails matrix. Optional new consumer config key: hooks.autofix. Consumers using the stock .secretsignore template: negation lines were removed (they never worked)."
     }
   ]
 }

@@ -150,16 +150,57 @@ ERROR_LOG=".add/security/hook-errors.log"
 
 # --- Helpers ---------------------------------------------------------------
 
+# Locate the secret-patterns catalog (core/security/secret-patterns.json) the
+# same way core/lib/scan-secrets.sh does: plugin root, then script-relative,
+# then the Codex install location. Empty when unresolvable — redact() then
+# falls back to its hardcoded set only.
+SECRET_CATALOG=""
+for cand in \
+  "${CLAUDE_PLUGIN_ROOT:-}/security/secret-patterns.json" \
+  "$SCRIPT_DIR/../security/secret-patterns.json" \
+  "$SCRIPT_DIR/../../security/secret-patterns.json" \
+  "$SCRIPT_DIR/../../../core/security/secret-patterns.json" \
+  "$HOME/.codex/add/security/secret-patterns.json"
+do
+  [ -n "$cand" ] && [ -f "$cand" ] && { SECRET_CATALOG="$cand"; break; }
+done
+
+# One regex per line, extracted from the catalog. Warn-only: any failure here
+# leaves the list empty and redact() silently uses the hardcoded fallback.
+SECRET_REGEXES=""
+if [ -n "$SECRET_CATALOG" ]; then
+  SECRET_REGEXES=$(jq -r '.patterns[]?.regex // empty' "$SECRET_CATALOG" 2>/dev/null || true)
+fi
+
 # Redact apparent secrets in an excerpt before writing it to the audit log.
+# Two layers: (1) the shared secret-patterns catalog (Stripe sk_live_,
+# sk-ant-, PASSWORD_KV, PEM headers, ...) so this hook and scan-secrets.sh
+# agree on what a secret looks like; (2) a hardcoded fallback set that always
+# runs, covering the common prefixes even when the catalog is unreadable.
+# Warn-only posture: redaction failures never make the hook exit non-zero —
+# a failed sed pass just leaves that layer's input unchanged.
 redact() {
   local s="$1"
-  # Replace common secret-ish tokens with <REDACTED>
-  printf '%s' "$s" | sed -E \
+  local masked
+  # Layer 1: catalog-driven patterns (skip silently if catalog unavailable)
+  if [ -n "$SECRET_REGEXES" ]; then
+    local re
+    while IFS= read -r re; do
+      [ -n "$re" ] || continue
+      # Escape '/' so it can't terminate the sed s/// expression.
+      re=${re//\//\\/}
+      masked=$(printf '%s' "$s" | sed -E "s/$re/<REDACTED>/g" 2>/dev/null) && s="$masked"
+    done <<< "$SECRET_REGEXES"
+  fi
+  # Layer 2: hardcoded fallback set (always applied)
+  masked=$(printf '%s' "$s" | sed -E \
     -e 's/(sk-[A-Za-z0-9_-]{10,})/<REDACTED>/g' \
     -e 's/(ghp_[A-Za-z0-9]{20,})/<REDACTED>/g' \
     -e 's/(AKIA[A-Z0-9]{16})/<REDACTED>/g' \
     -e 's/(AIza[A-Za-z0-9_-]{20,})/<REDACTED>/g' \
-    -e 's/(eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})/<REDACTED>/g'
+    -e 's/(eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})/<REDACTED>/g' \
+    2>/dev/null) && s="$masked"
+  printf '%s' "$s"
 }
 
 iso_now() {
@@ -289,8 +330,13 @@ PYEOF
 
   HITS=$((HITS + 1))
 
-  # Build an excerpt: 200 chars of context around the first match
-  EXCERPT_RAW=$(grep -E ${CASE_FLAG:+-i} -m1 -- "$ERE" "$TMPC" 2>/dev/null | head -c 200 || true)
+  # Build an excerpt: 200 chars of context around the first match.
+  # (CASE_FLAG is '-' or 'i', never empty — test explicitly, ${:+} won't work.)
+  if [ "$CASE_FLAG" = "i" ]; then
+    EXCERPT_RAW=$(grep -E -i -m1 -- "$ERE" "$TMPC" 2>/dev/null | head -c 200 || true)
+  else
+    EXCERPT_RAW=$(grep -E -m1 -- "$ERE" "$TMPC" 2>/dev/null | head -c 200 || true)
+  fi
   [ -n "$EXCERPT_RAW" ] || EXCERPT_RAW="$MATCH_LINE"
   EXCERPT=$(redact "$EXCERPT_RAW")
 

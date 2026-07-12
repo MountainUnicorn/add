@@ -45,9 +45,12 @@ SCAN_DIRS = ["skills", "rules", "templates", "knowledge", "references", "lib"]
 # structurally (it's not a behavioral artifact). Populated from a verified
 # no-allowlist scan; see test/CI for the audit.
 WAIVERS: dict[str, set[str]] = {
-    # threat-model.md quotes a <system> tag, an instruction tag, and a
-    # "## New instructions" heading while documenting the attacks.
-    "knowledge/threat-model.md": {"system-tag", "instruction-tag", "new-instructions-heading"},
+    # threat-model.md quotes a <system> tag, an instruction tag, a
+    # "## New instructions" heading, and the canonical "Ignore all previous
+    # instructions" override phrase while documenting the attacks. (The
+    # ignore-previous waiver became necessary in v0.9.10 when the pattern was
+    # fixed to actually match the 'all previous' variant it had been missing.)
+    "knowledge/threat-model.md": {"system-tag", "instruction-tag", "new-instructions-heading", "ignore-previous"},
     # injection-defense.md quotes a <system> tag and an instruction tag.
     "rules/injection-defense.md": {"system-tag", "instruction-tag"},
 }

@@ -1,7 +1,9 @@
 # Draft A1 — Reframe swarm-protocol as a policy layer over native Workflows
 
-> **STATUS: DRAFT for maintainer review (v0.9.7 positioning).** Nothing in this
-> file is applied. It proposes changes to `core/references/swarm-protocol.md`
+> **STATUS: APPLIED in v0.9.7 — retained for history only.** The proposed
+> language landed (nearly verbatim) in `core/references/swarm-protocol.md` and
+> `core/rules/agent-coordination.md`; v0.9.9 extended it with Resource Budgets
+> and MODEL/BUDGET brief fields. Do not edit this draft; edit the live files. It proposes changes to `core/references/swarm-protocol.md`
 > and `core/rules/agent-coordination.md`. Voice/scope to be steered before any
 > edit lands.
 

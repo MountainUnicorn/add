@@ -28,4 +28,5 @@ What actually happened. Include any error messages or unexpected output.
 
 - **Claude Code version:**
 - **OS:**
-- **ADD version:** (check `plugins/add/.claude-plugin/plugin.json`)
+- **ADD version:** (run `/add:version`)
+- **Project maturity level:** (POC / Alpha / Beta / GA, from `.add/config.json`)

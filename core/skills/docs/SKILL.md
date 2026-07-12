@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Generate and sync project documentation — architecture diagrams, API docs, README"
+description: "[ADD v{{VERSION}}] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Agent]
-references: ["learning-reference.md", "rules/telemetry.md"]
+references: ["learning-reference.md", "docs-archetypes.md", "skill-epilogue.md", "rules/telemetry.md"]
 ---
 
-# ADD Docs Skill v0.6.0
+# ADD Docs Skill v{{VERSION}}
 
 Generate, update, and verify project documentation. Uses a discovery-first approach: the skill learns your codebase structure on first run, caches that knowledge in a manifest, and uses it for fast, accurate doc generation on every subsequent run.
 
@@ -25,12 +25,14 @@ The Docs skill manages documentation artifacts that drift as code evolves:
 
 Documentation is generated from code, not written by hand. The source of truth is always the implementation. The manifest bridges the gap between raw source and generated docs.
 
+All archetype lookup tables, the manifest schema, report formats, and configuration defaults live in `${CLAUDE_PLUGIN_ROOT}/references/docs-archetypes.md` — referenced throughout as "the archetype reference".
+
 ## Pre-Flight Checks
 
 1. **Read `.add/config.json`**
    - Load project name, stack, maturity level
    - Load architecture details (languages, frameworks, database)
-   - Load `docs` configuration block (see Configuration section below)
+   - Load `docs` configuration block (defaults in the archetype reference)
    - **Determine project archetype** (see Project Archetypes section)
 
 2. **Read `.add/docs-manifest.json`** if it exists
@@ -48,9 +50,7 @@ Documentation is generated from code, not written by hand. The source of truth i
    - Understand current documented architecture and commands
    - Note any deploy expectations about documentation updates
 
-5. **Read `.add/handoff.md`** if it exists
-   - Note any in-progress work relevant to documentation
-   - If handoff mentions recent structural changes, prioritize diagram updates
+5. **Check for session handoff** — per the Session-Handoff Preflight in `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`. If the handoff mentions recent structural changes, prioritize diagram updates.
 
 6. **Determine scope**
    - Use `--scope` flag if provided, otherwise default to `all`
@@ -67,34 +67,9 @@ Documentation is generated from code, not written by hand. The source of truth i
 
 The docs skill adapts its behavior based on the project archetype, detected from `.add/config.json` or inferred from the codebase. The archetype determines what to discover, what diagrams to generate, and what "API documentation" means.
 
-### Detection Order
+Detection order: explicit `docs.archetype` in config → inferred from architecture config and project structure → `generic` fallback. The full detection-signal table and the per-archetype vocabulary table (what "entry points", "interceptors", "types", and "services" mean per archetype) are in the archetype reference. If ambiguous, prefer the more specific archetype and note the assumption in output.
 
-1. **Explicit** — `docs.archetype` in `.add/config.json` (if set, use it directly)
-2. **Inferred from config** — derive from `architecture.backend.framework`, `architecture.languages`, and project structure:
-
-| Signal | Archetype |
-|--------|-----------|
-| `architecture.backend.framework` is a web framework (FastAPI, Express, Django, Flask, Rails, etc.) | `web-api` or `web-app` (check for templates/views to distinguish) |
-| `architecture.backend.runtime` contains "plugin" or "extension" | `plugin` |
-| Project has `bin/` or `cmd/` directories, or `"bin"` field in package.json | `cli` |
-| Project has `setup.py`, `pyproject.toml` with `[project]`, `package.json` with no `"private": true`, or Go module exporting packages | `library` |
-| Project has DAG definitions (Airflow, Prefect, Dagster), or pipeline configs | `data-pipeline` |
-| Project has `packages/` or `apps/` with multiple package.json/pyproject.toml files | `monorepo` |
-| None of the above | `generic` |
-
-3. **If ambiguous**, prefer the more specific archetype and note the assumption in output
-
-### Archetype Vocabulary
-
-Each archetype uses different terminology for the same structural concepts:
-
-| Concept | web-api / web-app | library | cli | data-pipeline | plugin | generic |
-|---------|-------------------|---------|-----|---------------|--------|---------|
-| **Entry points** | Routes / endpoints | Exported modules / public API | Commands / subcommands | DAGs / tasks / jobs | Skills / commands / hooks | Public functions / main entry |
-| **Middleware / interceptors** | Middleware chain | Decorators / wrappers | Global flags / middleware | Hooks / sensors / triggers | Rules / hooks | Wrappers / decorators |
-| **Types / models** | DB models, request/response schemas | Public types / interfaces / classes | Config types, flag types | Schema definitions, data models | Config schemas, template types | Types / classes / structs |
-| **Services** | Service layer / business logic | Internal modules | Handler functions | Operators / connectors | Internal utilities | Helper modules |
-| **Flows to diagram** | Request → middleware → handler → service → DB | Public API call → internal processing → return | Command parse → validate → execute → output | Trigger → extract → transform → load → output | Skill invoke → pre-flight → execute → observe | Input → process → output |
+Recognized archetypes: `web-api`, `web-app`, `library`, `cli`, `data-pipeline`, `plugin`, `monorepo`, `generic`.
 
 ## Discovery Phase
 
@@ -102,7 +77,7 @@ Runs automatically on first invocation (no manifest found) or when `--discover` 
 
 ### Stack Detection
 
-Read `.add/config.json` for architecture details and determine archetype (see Project Archetypes above). Use the archetype and the vocabulary table to guide what to scan for — entry points, interceptors, types, and services mean different things per archetype.
+Read `.add/config.json` for architecture details and determine archetype. Use the archetype vocabulary table (archetype reference) to guide what to scan for — entry points, interceptors, types, and services mean different things per archetype.
 
 For **monorepos**, identify the workspace structure first, then recursively discover each package/app using its own detected archetype. Build a top-level manifest with per-package sub-manifests.
 
@@ -143,58 +118,12 @@ For all archetypes, perform these steps using framework/language-appropriate pat
    - Store in manifest for fast staleness detection on subsequent runs
 
 9. **Write `.add/docs-manifest.json`**
-   - Write the complete manifest (see schema below)
-   - Report discovery summary
+   - Write the complete manifest (schema in the archetype reference, including per-archetype `entry_points[].detail` shapes)
+   - Report a discovery summary (example in the archetype reference)
 
 10. **Write `.add/handoff.md`** (if discovery took significant effort)
     - Record discovery results summary so interrupted sessions can resume
     - Note which scopes still need to run after discovery
-
-### Discovery Output
-
-```
-Discovery complete:
-  Archetype: library (python)
-  Public API surface: 18 exports across 4 modules
-  Types: 12 across 3 files
-  Internal modules: 8 across 6 files
-  Existing docs: 3 files (architecture.md, CLAUDE.md, README.md)
-  Flow coverage: 12/18 exports documented, 2 stale, 4 undocumented
-  Manifest written to .add/docs-manifest.json
-```
-
-## Docs Manifest Schema (`.add/docs-manifest.json`)
-
-The manifest adapts to the project archetype. The top-level structure is universal; `entry_points[].kind` and `entry_points[].detail` vary by archetype (see detail shapes table below).
-
-```json
-{
-  "version": "1.0.0",
-  "generated": "<ISO 8601 timestamp>",
-  "archetype": "<detected archetype>",
-  "stack": { "languages": [], "framework": null, "database": null, "doc_tools": [] },
-  "directories": { "entry_points": [], "types": [], "services": [], "tests": [], "docs": [] },
-  "entry_points": [{ "name": "", "kind": "", "detail": {}, "file": "", "function": "", "interceptors": [], "tags": [], "signature": {} }],
-  "interceptors": [{ "name": "", "file": "", "order": 0, "purpose": "" }],
-  "types": [{ "name": "", "file": "", "field_count": 0, "relationships": [] }],
-  "services": [{ "name": "", "file": "", "public_functions": [] }],
-  "existing_docs": [{ "path": "", "last_modified": "", "topic": "", "type": "" }],
-  "flows": { "documented": [], "undocumented": [], "stale": [] },
-  "fingerprints": { "<file_path>": "<sha256>" }
-}
-```
-
-**Archetype-specific `entry_points[].detail` shapes:**
-
-| Archetype | `kind` | `detail` fields |
-|-----------|--------|-----------------|
-| web-api | `route` | `method`, `path` |
-| web-app | `route` or `page` | `method`, `path`, `template` (if view renders a template) |
-| library | `export` | `module`, `visibility` (`public`/`protected`) |
-| cli | `command` | `parent` (if subcommand), `aliases` |
-| data-pipeline | `task` or `dag` | `dag_id` (if task), `schedule` (if dag) |
-| plugin | `skill` or `hook` | `trigger`, `scope` |
-| generic | `function` | `module` |
 
 ## Manifest Validation (Every Run)
 
@@ -212,13 +141,7 @@ On every invocation (unless `--discover` is passed), validate the manifest befor
      - Update fingerprints for changed files
    - **Manifest missing** — run full discovery phase
 
-3. **Report validation result**
-   ```
-   Manifest validation: 2 files changed since last discovery
-     - src/mylib/config.py (entry points re-scanned: 2 updated)
-     - src/mylib/types/config.py (types re-scanned: 1 updated)
-   Manifest updated incrementally.
-   ```
+3. **Report validation result** — list changed files and what was re-scanned (example in the archetype reference)
 
 ## Scope: Architecture Diagrams (`--scope diagrams`)
 
@@ -246,25 +169,14 @@ Keep the diagram file (default: `docs/architecture-diagrams.md`, configurable vi
    - Cross-reference with manifest `flows.stale` and `flows.undocumented` lists
 
 4. **Generate/update Mermaid diagrams**
-
-   Choose diagram types appropriate to the archetype:
-
-   | Archetype | Primary diagram type | Secondary diagrams |
-   |-----------|---------------------|--------------------|
-   | web-api / web-app | `sequenceDiagram` (request flows) | `flowchart` (auth flow), `erDiagram` (data model) |
-   | library | `flowchart` (call graphs), `classDiagram` (type hierarchy) | `sequenceDiagram` (complex multi-step APIs) |
-   | cli | `flowchart` (command flow), `stateDiagram` (state machines) | `sequenceDiagram` (multi-step operations) |
-   | data-pipeline | `flowchart` (DAG visualization), `sequenceDiagram` (task execution) | `gantt` (schedule overview) |
-   | plugin | `flowchart` (skill lifecycle), `sequenceDiagram` (hook execution) | `classDiagram` (config/template types) |
-   | generic | `sequenceDiagram` or `flowchart` (whichever fits the flow better) | As appropriate |
-
-   For each flow:
-   - Use clear participant/node labels with component names
-   - Show the happy path first
-   - Show error/fallback paths as `alt` blocks (sequence) or branching (flowchart)
-   - Include interceptors when `docs.diagram_style.show_interceptors` is true (default)
-   - Include error paths when `docs.diagram_style.show_error_paths` is true (default)
-   - Respect `docs.diagram_style.max_participants` limit (default 8)
+   - Choose diagram types appropriate to the archetype (table in the archetype reference — e.g., `sequenceDiagram` for web-api request flows, `flowchart`/`classDiagram` for libraries)
+   - For each flow:
+     - Use clear participant/node labels with component names
+     - Show the happy path first
+     - Show error/fallback paths as `alt` blocks (sequence) or branching (flowchart)
+     - Include interceptors when `docs.diagram_style.show_interceptors` is true (default)
+     - Include error paths when `docs.diagram_style.show_error_paths` is true (default)
+     - Respect `docs.diagram_style.max_participants` limit (default 8)
 
 5. **Write updated diagram file**
    - Preserve the file's existing structure and heading style
@@ -275,23 +187,7 @@ Keep the diagram file (default: `docs/architecture-diagrams.md`, configurable vi
 
 ### Required Flows (minimum)
 
-Every project should document at minimum the flows appropriate to its archetype:
-
-**All archetypes (universal):**
-- Primary entry point → processing → output flow (happy path)
-- Error handling / fallback flow
-
-**Additionally, per archetype:**
-
-| Archetype | Additional required flows |
-|-----------|-------------------------|
-| web-api / web-app | Auth flow (if auth exists), async/background flows (if they exist) |
-| library | Complex multi-step operations involving internal coordination |
-| cli | Subcommand dispatch (if applicable), user feedback flow |
-| data-pipeline | Retry behavior, data flow through transformations |
-| plugin | Hook execution flow, configuration loading and validation |
-| monorepo | Cross-package interaction flows |
-| generic | *(universal flows are sufficient)* |
+Every project must document at minimum: the primary entry point → processing → output flow (happy path), and the error handling / fallback flow. Per-archetype additions (auth flows, subcommand dispatch, retry behavior, hook execution, cross-package flows) are listed in the archetype reference.
 
 For parallel diagram generation on large codebases, use the Agent tool to dispatch independent diagram groups concurrently.
 
@@ -299,18 +195,7 @@ For parallel diagram generation on large codebases, use the Agent tool to dispat
 
 ### Purpose
 
-Generate or regenerate interface documentation appropriate to the project archetype.
-
-### Strategy by Archetype
-
-| Archetype | What to generate | Approach |
-|-----------|-----------------|----------|
-| web-api / web-app | OpenAPI / Swagger spec | Detect and run the framework's doc generation tool (e.g., export `openapi.json` from FastAPI, run `swagger-jsdoc` for Express, `generateschema` for DRF). Fall back to manifest-based `docs/api.md` if no tool detected. |
-| library | Module / API reference | Detect and run the language's doc tool (e.g., Sphinx, pdoc, TypeDoc, godoc, cargo doc). Fall back to manifest-based `docs/api.md` with signatures and docstrings. |
-| cli | Usage documentation | Extract `--help` output for each command/subcommand and format as markdown. Fall back to manifest-based `docs/usage.md`. |
-| data-pipeline | Pipeline documentation | Use the pipeline tool's doc generator if available (e.g., `dbt docs generate`). Fall back to manifest-based `docs/pipelines.md`. |
-| plugin | Plugin documentation | Extract from structured metadata (plugin.json, package.json contributes, etc.). Fall back to manifest-based `docs/plugin.md`. |
-| generic | Interface documentation | Generate `docs/api.md` from manifest entry points with signatures and docstrings. |
+Generate or regenerate interface documentation appropriate to the project archetype. The what-to-generate and tool-detection strategy per archetype is the "API Doc Strategy by Archetype" table in the archetype reference.
 
 ### Steps
 
@@ -352,22 +237,17 @@ Ensure project overview documents reflect the current state of the codebase.
    - Directory structure from `directories`
    - Types and services from `types[]` and `services[]`
    - Additionally scan for: make targets, Docker services, environment variables from config files
-   - For CLIs: commands and flags
-   - For libraries: public API surface
-   - For pipelines: DAGs and schedules
+   - For CLIs: commands and flags. For libraries: public API surface. For pipelines: DAGs and schedules.
 
 2. **Read existing documents**
    - Read files listed in `docs.readme_files` config (default: `["CLAUDE.md", "README.md"]`)
    - Parse architecture sections, commands sections, entry point listings
 
 3. **Compare and identify drift**
-   - New entry points not in docs
-   - Removed entry points still in docs
+   - New entry points not in docs; removed entry points still in docs
    - New packages/directories not in architecture section
-   - Changed commands or make targets
-   - New environment variables
-   - New types or services not documented
-   - Changed public API surface (for libraries)
+   - Changed commands or make targets; new environment variables
+   - New types or services not documented; changed public API surface (for libraries)
 
 4. **Update documents**
    - Add missing entries
@@ -386,47 +266,7 @@ When `--check` is passed, do NOT modify any files. Instead:
 
 1. Run all scanning, validation, and comparison steps
 2. Respect `--scope` if provided: `--check --scope diagrams` checks only diagrams
-3. Produce a freshness report with concrete details:
-
-```
-# Documentation Freshness Report
-
-## Execution Context
-- Project: my-project
-- Archetype: library (python)
-- Timestamp: 2026-03-15T10:30:00Z
-- Branch: feature/new-module
-- Manifest: .add/docs-manifest.json (valid, 2 files changed)
-
-## Architecture Diagrams (docs/architecture-diagrams.md)
-- Last modified: 2026-03-10
-- Entry points in code: 18
-- Entry points in diagrams: 15
-- Missing diagrams: parse_config(), validate_schema(), export_report()
-- Stale diagrams: transform_data() (implementation changed 2026-03-12)
-- Status: STALE (3 missing, 1 outdated)
-
-## API / Interface Documentation
-- Strategy: TypeDoc auto-generation
-- Documented exports: 16/18
-- Missing documentation: 2 exports without docstrings
-- Status: STALE (2 undocumented)
-
-## CLAUDE.md
-- Last modified: 2026-03-14
-- Entry point drift: 2 new, 0 removed
-- Directory drift: 0 new, 0 removed
-- Command drift: 0 new, 0 changed
-- Type drift: 1 new type (ValidationResult) not in architecture section
-- Status: STALE (2 entry points, 1 type undocumented)
-
-## Overall: UPDATES NEEDED
-- 4 diagrams need attention (3 missing + 1 stale)
-- 2 exports need docstrings
-- 3 CLAUDE.md entries need updating
-- Run `/add:docs` to fix, or `/add:docs --scope diagrams` for diagrams only
-```
-
+3. Produce a freshness report with concrete details — per-scope staleness (missing/stale diagrams, undocumented exports, README drift) and an overall verdict with the exact `/add:docs` command to fix. Full example in the archetype reference.
 4. Return exit codes for CI integration:
    - **0** — all docs fresh
    - **1** — one or more docs stale
@@ -434,70 +274,16 @@ When `--check` is passed, do NOT modify any files. Instead:
 
 ## Output Format
 
-After generating/updating docs, produce a concrete report:
-
-```
-# Documentation Updated
-
-## Execution Context
-- Project: my-project
-- Archetype: library (python)
-- Timestamp: 2026-03-15T10:35:00Z
-- Branch: feature/new-module
-- Scope: all
-- Discovery: incremental (2 files re-scanned)
-
-## Changes Made
-- docs/architecture-diagrams.md: Updated 1 diagram (transform_data), added 3 new (parse_config, validate_schema, export_report)
-- CLAUDE.md: Added 2 exports to public API section, added ValidationResult to types section
-
-## Coverage
-- Entry points documented in diagrams: 18/18 (100%)
-- Exports documented: 18/18 (100%)
-- Diagram flows: 18 entry points covered across 5 diagram groups
-- CLAUDE.md sections: architecture current, commands current, API surface current
-
-## Warnings
-- None
-
-## Next Steps
-1. Review generated diagrams in docs/architecture-diagrams.md for accuracy
-2. Commit documentation changes: `git add docs/ CLAUDE.md`
-3. Consider running `/add:docs --check` in CI to catch future drift
-```
+After generating/updating docs, produce a concrete report: execution context (project, archetype, scope, discovery mode), changes made per file, coverage percentages, warnings, and next steps. Full example in the archetype reference.
 
 ## Configuration in `.add/config.json`
 
-The docs skill reads its configuration from the `docs` key in `.add/config.json`:
-
-```json
-{
-  "docs": {
-    "archetype": "auto",
-    "diagram_file": "docs/architecture-diagrams.md",
-    "api_doc_strategy": "auto",
-    "readme_files": ["CLAUDE.md", "README.md"],
-    "manifest_path": ".add/docs-manifest.json",
-    "auto_discover_on_first_run": true,
-    "check_in_ci": false,
-    "priority_entries": [],
-    "exclude_patterns": [],
-    "diagram_style": {
-      "show_interceptors": true,
-      "show_error_paths": true,
-      "max_participants": 8
-    }
-  }
-}
-```
-
-If no `docs` key exists in config, all defaults apply.
+The docs skill reads its configuration from the `docs` key in `.add/config.json`. The full defaults block is in the archetype reference. If no `docs` key exists in config, all defaults apply.
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner.
+**Tasks to create** (mechanics per `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`; skip tasks that don't apply to the current scope):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Discovery | Running codebase discovery | Discovering codebase structure... |
@@ -507,8 +293,6 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner.
 | API | Regenerating interface docs | Regenerating interface documentation... |
 | README | Syncing project overview | Syncing README and CLAUDE.md... |
 | Report | Generating report | Generating documentation report... |
-
-Mark each task `in_progress` when starting and `completed` when done. Skip tasks that don't apply to the current scope.
 
 ## Error Handling
 
@@ -565,20 +349,4 @@ For large codebases with many independent entry point groups, use the Agent tool
 - Dispatch one agent per group with file reservations
 - Merge results into the single diagram file sequentially
 
-## Process Observation
-
-After completing this skill, do BOTH:
-
-### 1. Observation Line
-
-Append one observation line to `.add/observations.md`:
-
-```
-{YYYY-MM-DD HH:MM} | docs | {one-line summary of outcome} | {cost or benefit estimate}
-```
-
-If `.add/observations.md` does not exist, create it with a `# Process Observations` header first.
-
-### 2. Learning Checkpoint
-
-Write a structured JSON learning entry per the checkpoint trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "After Verification"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+End-of-skill epilogue: follow `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking). Learning checkpoint trigger: "After Verification".

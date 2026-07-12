@@ -9,6 +9,13 @@
 # The LIVE_TOKEN is assembled from parts so no literal injection string lives in
 # any committed file except this table (and even here it is concatenated).
 
+# Deliberately-fake Stripe live-shaped key, assembled at runtime so the
+# literal secret-shaped string never lives on disk (GitHub push protection).
+# Shared by defang_refang and the redaction test's negative assertion.
+stripe_fake_key() {
+  printf 'sk_%s_%s' "live" "FAKEREDACT0000000000TESTONLY"
+}
+
 defang_refang() {
   # stdin → stdout, applies substitutions
   local p1 p2 p3 p4
@@ -35,7 +42,9 @@ defang_refang() {
     -e "s/__DISREGARD_PRIOR__/${disregard}/g" \
     -e "s|__SYSTEM_TAG__|${sys_tag}|g" \
     -e "s|__INSTRUCTION_TAG__|${instr_tag}|g" \
-    -e "s|__CC_MARKER__|${cc_marker}|g"
+    -e "s|__CC_MARKER__|${cc_marker}|g" \
+    -e "s|__STRIPE_LIVE_KEY__|$(stripe_fake_key)|g"
 }
 
 export -f defang_refang
+export -f stripe_fake_key

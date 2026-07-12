@@ -167,6 +167,52 @@ run_no_add_dir() {
   PASS=$((PASS + 1))
 }
 
+# Redaction unification (v0.9.10): when the tool output contains a secret from
+# the shared secret-patterns catalog (here: Stripe sk_live_, which the old
+# hardcoded redact() set did NOT cover), the audit-log excerpt must mask it.
+run_redaction() {
+  local name="$1"
+  local fixture="$2"
+
+  local tmpdir
+  tmpdir=$(mktemp -d)
+  trap "rm -rf '$tmpdir'" RETURN
+
+  setup_project "$tmpdir"
+  refang_fixture "$FIXTURES/$fixture" "$tmpdir/input.json"
+
+  local stderr_file="$tmpdir/stderr.txt"
+  (
+    cd "$tmpdir"
+    "$SCANNER" < input.json 2> "$stderr_file"
+  ) || true
+
+  local audit="$tmpdir/.add/security/injection-events.jsonl"
+  if [ ! -f "$audit" ]; then
+    echo "FAIL: $name — audit log not created (fixture should trip ignore-previous)"
+    FAIL=$((FAIL + 1))
+    return
+  fi
+
+  local raw_key
+  raw_key=$(stripe_fake_key)
+  if grep -F -q -- "$raw_key" "$audit" "$stderr_file" 2>/dev/null; then
+    echo "FAIL: $name — raw catalog secret leaked into audit log or stderr"
+    sed 's/^/    /' "$audit"
+    FAIL=$((FAIL + 1))
+    return
+  fi
+  if ! grep -F -q -- "<REDACTED>" "$audit"; then
+    echo "FAIL: $name — audit excerpt does not contain <REDACTED>"
+    sed 's/^/    /' "$audit"
+    FAIL=$((FAIL + 1))
+    return
+  fi
+
+  echo "PASS: $name"
+  PASS=$((PASS + 1))
+}
+
 run_dispatcher_fanout() {
   local name="$1"
   local tmpdir
@@ -221,6 +267,12 @@ run_benign "AC-029 benign prose negative control" benign.json
 # class regex matched ~100% of the time. It MUST NOT fire. If the regex is ever
 # reverted to a character class spanning 0x80-0xF3, this test goes red.
 run_benign "AC-029 benign multibyte (em-dash/arrow/box/CJK/emoji) does not fire" benign-multibyte.json
+# v0.9.10 false-positive hardening negatives:
+run_benign "v0.9.10 SRI hash + data URI do not fire base64-blob"        benign-sri.json
+run_benign "v0.9.10 'ignore previous versions' prose does not fire"     benign-ignore-versions.json
+run_benign "v0.9.10 benign Instructions/SYSTEM REQUIREMENTS headings"   benign-instructions-heading.json
+
+run_redaction "v0.9.10 audit excerpt redacts catalog secrets (sk_live_)" redaction-secret.json
 
 run_no_add_dir "AC-017 .add/ missing → no-op" no-add-dir.json
 

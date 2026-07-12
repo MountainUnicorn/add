@@ -1,6 +1,6 @@
 ---
 name: add-retro
-description: "[ADD v0.9.9] Run a retrospective — context-aware, data-driven review with pre-populated tables"
+description: "[ADD v0.9.10] Run a retrospective — context-aware, data-driven review with pre-populated tables"
 argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|session] [--dry-run]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--agent-summary] [--since YYYY-MM-DD] [--scope feature|sprint|s
 
 ---
 
-# ADD Retro Command v0.9.9
+# ADD Retro Command v0.9.10
 
 Context-aware retrospective that auto-gathers data, classifies human directives and agent observations into scoped tables, and presents pre-populated findings for the human to refine — not recall from scratch.
 
@@ -46,7 +46,7 @@ Two modes:
    - If `--since` provided, use that date
    - If previous retro exists in `.add/retros/`, use that date as start
    - Otherwise, use project creation date from config
-5. Read `.add/handoff.md` — note in-progress work and decisions
+5. Check for session handoff — per the Session-Handoff Preflight in `~/.codex/add/references/skill-epilogue.md`
 
 ---
 
@@ -428,3 +428,7 @@ All scores use 0.0-9.0 scale with 1 decimal precision:
 | 4.1-6.0 | Adequate — functional but room for improvement |
 | 6.1-8.0 | Good — effective with minor issues |
 | 8.1-9.0 | Excellent — highly effective, minimal friction |
+
+---
+
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking). The retro's Phase 7 already records its learnings — do not duplicate them; the epilogue's observation line still applies.

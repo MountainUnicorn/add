@@ -1,10 +1,10 @@
 ---
 name: add-optimize
-description: "[ADD v0.9.9] Performance optimization pass — identify and fix bottlenecks"
+description: "[ADD v0.9.10] Performance optimization pass — identify and fix bottlenecks"
 argument-hint: "[--scope backend|frontend|full] [--profile-first]"
 ---
 
-# ADD Optimize Skill v0.9.9
+# ADD Optimize Skill v0.9.10
 
 Identify and fix performance bottlenecks. This skill profiles code to find slow operations, suggests optimizations, and implements them with test-driven discipline.
 
@@ -50,10 +50,7 @@ Performance optimization follows TDD discipline: write tests that capture perfor
    - Frontend: Chrome DevTools, Lighthouse, WebPageTest
    - Database: EXPLAIN ANALYZE, pg_stat_statements, etc.
 
-6. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+6. **Check for session handoff** — per the Session-Handoff Preflight in `~/.codex/add/references/skill-epilogue.md`
 
 ## Execution Steps
 
@@ -423,17 +420,14 @@ Upon completion, output:
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `~/.codex/add/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Profile | Profiling performance baseline | Profiling performance... |
 | Bottlenecks | Identifying bottlenecks | Identifying bottlenecks... |
 | Optimize | Applying optimizations | Applying optimizations... |
 | Verify | Verifying performance improvements | Verifying improvements... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -510,3 +504,5 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
    - Complexity vs. performance
    - Memory vs. CPU
    - Development time vs. speed
+
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

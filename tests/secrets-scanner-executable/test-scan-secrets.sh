@@ -51,6 +51,13 @@ synthesize() {
     PASSWORD_KV)
       echo 'password = "FAKE-example-password-123"'
       ;;
+    PASSWORD_KV_UPPER)
+      # Regression: catalog pattern must be case-insensitive (char classes).
+      echo 'PASSWORD = "FAKE-example-password-123"'
+      ;;
+    PASSWORD_KV_MIXED)
+      echo 'Password: "FAKE-example-password-456"'
+      ;;
     PEM_PRIVATE_KEY)
       printf '%s%s %s%s\n' "-----" "BEGIN OPENSSH" "PRIVATE KEY" "-----"
       ;;
@@ -337,6 +344,61 @@ out=$(mktemp); err=$(mktemp)
 expect_exit "--help exits 0" 0 "$rc"
 expect_stdout_match "--help mentions exit codes" "Exit codes" "$out"
 rm -f "$out" "$err"
+
+# ---------------------------------------------------------------------------
+# TEST 12a — PASSWORD_KV case-insensitivity regression (v0.9.10): `PASSWORD =`
+#            and `Password:` must trip SEC-007, not just lowercase `password`.
+# ---------------------------------------------------------------------------
+TC=$(mktemp -d)
+init_repo "$TC"
+expand_fixture "$FIXTURES/positive/password-kv-upper.txt" "$TC/settings.py"
+git -C "$TC" add settings.py
+out=$(mktemp); err=$(mktemp)
+( cd "$TC" && "$SCANNER" --catalog "$CATALOG" >"$out" 2>"$err" ); rc=$?
+expect_exit "uppercase PASSWORD exits 1" 1 "$rc"
+expect_stdout_match "uppercase PASSWORD emits SEC-007" "settings\.py:[0-9]+: SEC-007: PASSWORD_KV:" "$out"
+# Both case variants in the fixture must be attributed.
+n=$(grep -c "SEC-007: PASSWORD_KV:" "$out")
+if [ "$n" -ge 2 ]; then
+  echo "PASS: PASSWORD/Password variants both matched ($n findings)"
+  PASS=$((PASS + 1))
+else
+  echo "FAIL: expected >=2 SEC-007 findings for case variants, got $n"
+  cat "$out"
+  FAIL=$((FAIL + 1))
+fi
+rm -rf "$TC" "$out" "$err"
+
+# ---------------------------------------------------------------------------
+# TEST 12b — .secretsignore negation lines emit a one-time loud warning and
+#            are skipped (v0.9.10; negations are unsupported).
+# ---------------------------------------------------------------------------
+TC=$(mktemp -d)
+init_repo "$TC"
+printf '# test ignore file\n.env\n!keep-this.env\n!also-this.env\n' > "$TC/.secretsignore"
+printf 'plain text, nothing secret here\n' > "$TC/notes.txt"
+git -C "$TC" add -f .secretsignore notes.txt
+out=$(mktemp); err=$(mktemp)
+( cd "$TC" && "$SCANNER" --catalog "$CATALOG" >"$out" 2>"$err" ); rc=$?
+expect_exit "negation lines: clean scan still exits 0" 0 "$rc"
+warns=$(grep -c "negations are not supported" "$err")
+if [ "$warns" -eq 1 ]; then
+  echo "PASS: negation warning emitted exactly once (2 negation lines)"
+  PASS=$((PASS + 1))
+else
+  echo "FAIL: expected exactly 1 negation warning, got $warns"
+  cat "$err"
+  FAIL=$((FAIL + 1))
+fi
+if grep -q "'!keep-this.env' ignored" "$err"; then
+  echo "PASS: negation warning names the offending line"
+  PASS=$((PASS + 1))
+else
+  echo "FAIL: negation warning does not name the offending line"
+  cat "$err"
+  FAIL=$((FAIL + 1))
+fi
+rm -rf "$TC" "$out" "$err"
 
 # ---------------------------------------------------------------------------
 # TEST 12 — missing catalog exits 3

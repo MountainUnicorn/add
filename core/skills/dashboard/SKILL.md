@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Generate a visual HTML project dashboard from .add/ project files"
+description: "[ADD v{{VERSION}}] Generate a visual HTML project dashboard from .add/ project files"
 argument-hint: "[--open]"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
-references: ["design-system.md", "rules/telemetry.md"]
+references: ["design-system.md", "skill-epilogue.md", "rules/telemetry.md"]
 ---
 
-# ADD Dashboard Command v0.6.0
+# ADD Dashboard Command v{{VERSION}}
 
 Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading the project's `.add/` directory, specs, docs, and config. The file opens in the browser and gives anyone — developer, PM, or founder — a real-time picture of the project's state.
 
@@ -14,7 +14,7 @@ Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading 
 ## Pre-Flight
 
 1. Read `.add/config.json` — if not found, abort: "No ADD project found. Run /add:init first."
-2. Read `.add/handoff.md` if it exists — note current state.
+2. Check for session handoff — per the Session-Handoff Preflight in `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`.
 
 ## Data Gathering
 
@@ -55,50 +55,11 @@ Generate a **single self-contained HTML file** with ALL CSS in a `<style>` block
 
 ### Design System (match getadd.dev)
 
-```
-/* Colors */
---bg-primary: #0f0f23;
---bg-secondary: #1a1a2e;
---bg-tertiary: #16213e;
---bg-card: rgba(255,255,255,0.05);
---accent: #b00149;
---accent-light: #d4326d;
---accent-mid: #ff6b9d;
---success: #22c55e;
---warning: #f59e0b;
---info: #0ea5e9;
---purple: #a855f7;
---text-primary: #e4e4e4;
---text-secondary: #a0a0a0;
---text-muted: #6b7280;
---border: rgba(255,255,255,0.08);
+Colors, fonts, gradients, and card styling come from `${CLAUDE_PLUGIN_ROOT}/references/design-system.md` — use its dark-background palette and accent gradient (project `branding.palette` override first, raspberry default).
 
-/* Fonts */
-font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-font-family-mono: 'SF Mono', Monaco, monospace;
-
-/* Cards */
-background: var(--bg-card);
-border: 1px solid var(--border);
-border-radius: 16px;
-padding: 24px;
-transition: all 0.3s;
-
-/* Maturity badges */
-POC: background rgba(234,179,8,0.15), color #ca8a04
-Alpha: background rgba(176,1,73,0.15), color #d4326d
-Beta: background rgba(212,50,109,0.15), color #ff6b9d
-GA: background rgba(34,197,94,0.15), color #22c55e
-
-/* Status pills */
-draft: #6b7280 (gray)
-specced: #0ea5e9 (blue)
-planned: #a855f7 (purple)
-in-progress: #b00149 (raspberry)
-verified: #22c55e (green)
-done: #16a34a (green bold)
-blocked: #f59e0b (amber)
-```
+Dashboard-specific semantic colors:
+- **Maturity badges**: POC #ca8a04 (amber), Alpha #d4326d, Beta #ff6b9d, GA #22c55e — each on a 0.15-alpha tint of the same hue
+- **Status pills**: draft #6b7280, specced #0ea5e9, planned #a855f7, in-progress #b00149, verified #22c55e, done #16a34a, blocked #f59e0b
 
 ### Header Bar (fixed)
 
@@ -291,3 +252,5 @@ Print to terminal:
 ```
 
 If `--open` flag is provided, run `open reports/dashboard.html` (macOS) or `xdg-open reports/dashboard.html` (Linux) after generation.
+
+End-of-skill epilogue: follow `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

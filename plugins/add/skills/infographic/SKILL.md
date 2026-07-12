@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.9.9] Generate project infographic — SVG from PRD + config with branding"
+description: "[ADD v0.9.10] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
-references: ["design-system.md", "image-gen-detection.md", "rules/telemetry.md"]
+references: ["design-system.md", "image-gen-detection.md", "skill-epilogue.md", "rules/telemetry.md"]
 ---
 
-# ADD Infographic Skill v0.9.9
+# ADD Infographic Skill v0.9.10
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 
@@ -36,10 +36,7 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 - If exists, read for richer content extraction
 - If not found, proceed with config-only mode (fallback)
 
-**Step 1.5: Check for session handoff**
-- Read `.add/handoff.md` if it exists
-- Note any in-progress work or decisions relevant to this operation
-- If handoff mentions blockers for this skill's scope, warn before proceeding
+**Step 1.5: Check for session handoff** — per the Session-Handoff Preflight in `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`
 
 ## Phase 1: Gather Content
 
@@ -318,17 +315,14 @@ Generates a professional SVG infographic from the project's PRD and config. The 
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Gather | Reading PRD and config | Reading PRD and config... |
 | Layout | Designing infographic layout | Designing layout... |
 | Generate | Generating SVG content | Generating SVG... |
 | Write | Writing output file | Writing output file... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -358,9 +352,10 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 
 ## Notes
 
-- All command references MUST use namespaced form: `/add:infographic`, `/add:init`, `/add:brand`, etc.
-- Never use bare `/infographic` or other unnamespaced commands
+- All command references MUST use namespaced form: `/add:infographic`, `/add:init`, `/add:brand`, etc. Never drop the `add:` namespace prefix.
 - SVG-only mode is first-class, not degraded — design system accounts for both modes
 - Infographic regeneration is idempotent — safe to run multiple times
 - Template uses GitHub-safe SVG (no `<style>` or `<script>` tags, all inline styles)
 - Canvas size in `viewBox` and sections must remain coordinated (template handles this)
+
+End-of-skill epilogue: follow `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

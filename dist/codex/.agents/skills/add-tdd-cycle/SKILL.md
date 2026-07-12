@@ -1,10 +1,10 @@
 ---
 name: add-tdd-cycle
-description: "[ADD v0.9.9] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
+description: "[ADD v0.9.10] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--parallel] [--allow-test-rewrite]"
 ---
 
-# ADD TDD Cycle Skill v0.9.9
+# ADD TDD Cycle Skill v0.9.10
 
 Execute a complete Test-Driven Development cycle for a feature from the specification through production-quality code.
 
@@ -64,10 +64,7 @@ Before beginning, validate:
 4. Verify plan exists at docs/plans/{feature}-plan.md
    - If not, generate one using /add-plan skill before proceeding
 5. Identify target implementation paths from the spec
-6. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+6. **Check for session handoff** — per the Session-Handoff Preflight in `~/.codex/add/references/skill-epilogue.md`
 
 ## Execution Phases
 
@@ -224,9 +221,8 @@ Upon successful completion, output:
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `~/.codex/add/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Pre-flight | Loading spec and config | Loading spec and config... |
@@ -234,8 +230,6 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create
 | GREEN | Implementing code | Implementing code to pass tests... |
 | REFACTOR | Refactoring for quality | Refactoring for code quality... |
 | VERIFY | Running verification gates | Running verification gates... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -310,20 +304,4 @@ The skill respects these .add/config.json settings:
 - `code.style`: Code style rules and linters
 - `ci.gates`: Which gates to run and in what order
 
-## Process Observation
-
-After completing this skill, do BOTH:
-
-### 1. Observation Line
-
-Append one observation line to `.add/observations.md`:
-
-```
-{YYYY-MM-DD HH:MM} | tdd-cycle | {one-line summary of outcome} | {cost or benefit estimate}
-```
-
-If `.add/observations.md` does not exist, create it with a `# Process Observations` header first.
-
-### 2. Learning Checkpoint
-
-Write a structured JSON learning entry per the checkpoint trigger in `~/.codex/add/references/learning-reference.md` (section: "After TDD Cycle Completes"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking). Learning checkpoint trigger: "After TDD Cycle Completes".

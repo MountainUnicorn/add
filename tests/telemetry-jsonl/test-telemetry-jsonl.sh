@@ -248,14 +248,22 @@ else
   echo "SKIP: template file $TEMPLATE not found"
 fi
 
-# --- Rule file exists and is auto-loaded
+# --- Rule file exists and is ON-DEMAND (v0.9.9: telemetry is a write-side
+# spec loaded via skill references:, no longer autoloaded into every session)
 RULE="$SCRIPT_DIR/../../core/rules/telemetry.md"
 if [ -f "$RULE" ]; then
-  if grep -q "^autoload: true" "$RULE"; then
-    echo "PASS: rule has autoload: true frontmatter"
+  if grep -q "^autoload: false" "$RULE"; then
+    echo "PASS: rule has autoload: false frontmatter (on-demand since v0.9.9)"
     PASS=$((PASS + 1))
   else
-    echo "FAIL: rule missing autoload: true"
+    echo "FAIL: rule should be autoload: false (on-demand) since v0.9.9"
+    FAIL=$((FAIL + 1))
+  fi
+  if [ -f "$SCRIPT_DIR/../../core/references/telemetry-reference.md" ]; then
+    echo "PASS: full telemetry spec exists at references/telemetry-reference.md"
+    PASS=$((PASS + 1))
+  else
+    echo "FAIL: references/telemetry-reference.md missing"
     FAIL=$((FAIL + 1))
   fi
   rule_lines=$(wc -l < "$RULE")

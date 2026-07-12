@@ -78,12 +78,12 @@ context), and remediation guidance.
 
 ### PASSWORD_KV
 
-- **regex:** `password[[:space:]]*[:=][[:space:]]*["'][^"']{8,}["']`
+- **regex:** `[Pp][Aa][Ss][Ss][Ww][Oo][Rr][Dd][[:space:]]*[:=][[:space:]]*["'][^"']{8,}["']`
 - **description:** A `password = "..."` / `password: "..."` assignment with
-  quoted value ≥ 8 chars. Case-sensitive — `password` only. Variants like
-  `PASSWORD`, `Password`, `db_password` are NOT matched to keep false-positive
-  noise low; add them to `.add/secret-patterns.local.json` (future) if your
-  project uses them.
+  quoted value ≥ 8 chars. Case-insensitive via per-letter character classes
+  (the scanner runs the catalog through `grep -E`/awk with no case flag, so
+  the pattern itself must carry the insensitivity): `PASSWORD=`, `Password:`,
+  and `db_password = "..."` (suffix match) are all caught.
 - **provider:** `generic`
 - **confidence:** `medium`
 - **remediation:** Rotate the password; move to a secret manager or `.env` (which
@@ -204,3 +204,4 @@ The log lets users audit what was suppressed without storing the secret itself.
 | Date | Change |
 |------|--------|
 | 2026-04-22 | Initial catalog — 8 high-confidence patterns + entropy heuristic. Implements AC-006 through AC-008 of `specs/secrets-handling.md`. |
+| 2026-07-12 | PASSWORD_KV made case-insensitive via character classes (`PASSWORD=` / `Password:` were previously missed; the scanner has no case-flag mechanism, so the regex carries it). |

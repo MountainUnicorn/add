@@ -77,6 +77,9 @@ jobs:
       matrix:
         suite:
           - hooks/test-filter-learnings.sh
+          - hooks/test-load-rules.sh
+          - hooks-json/test-hooks-json.sh
+          - compile/test-compile-codex.sh
           - test-deletion-guardrail/test-test-deletion-guardrail.sh
           - codex-install/test-install-paths.sh
           - cache-discipline/test-cache-discipline.sh
@@ -108,12 +111,25 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Install failure FAILS the job (a silent skip here shipped an invalid
+      # manifest risk unchecked). Two documented escape hatches keep it green
+      # without validation:
+      #   1. scheduled runs (event_name == schedule) — npm registry flakiness
+      #      on a cron shouldn't page anyone; and
+      #   2. repository variable ALLOW_MARKETPLACE_SKIP=true — temporary
+      #      opt-out while the CLI package itself is broken upstream.
       - name: Install Claude Code CLI
         run: |
-          npm install -g @anthropic-ai/claude-code || {
-            echo "::warning::Claude CLI install failed — skipping marketplace validation."
+          if npm install -g @anthropic-ai/claude-code; then
+            exit 0
+          fi
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ vars.ALLOW_MARKETPLACE_SKIP }}" = "true" ]; then
+            echo "::warning::Claude CLI install failed — skipping marketplace validation (scheduled run or ALLOW_MARKETPLACE_SKIP=true)."
             echo "SKIP=1" >> "$GITHUB_ENV"
-          }
+          else
+            echo "::error::Claude CLI install failed — marketplace validation cannot run. Fix the install, or set repository variable ALLOW_MARKETPLACE_SKIP=true to bypass temporarily."
+            exit 1
+          fi
 
       - name: Validate root marketplace manifest
         if: env.SKIP != '1'

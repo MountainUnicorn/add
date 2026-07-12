@@ -1,10 +1,10 @@
 ---
 name: add-promote
-description: "[ADD v0.9.9] Maturity promotion — gap analysis and level-up workflow"
+description: "[ADD v0.9.10] Maturity promotion — gap analysis and level-up workflow"
 argument-hint: "[--check | --execute] [--target poc|alpha|beta|ga]"
 ---
 
-# ADD Promote Command v0.9.9
+# ADD Promote Command v0.9.10
 
 Assess readiness and promote the project's maturity level. Maturity is the master control for all ADD behavior — promotion is intentional, evidence-based, and deliberate.
 
@@ -300,3 +300,5 @@ Same update process as promotion, but:
 | `/add-retro` | Phase 11 does promotion assessment — should reference `/add-promote` as canonical tool |
 | `/add-verify` | Recommended post-promotion to validate new gates pass |
 | `/add-init` | Sets initial maturity. Promote handles all subsequent changes. |
+
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking). Step 4f already writes the promotion learning entry — do not duplicate it; the epilogue's observation line still applies.

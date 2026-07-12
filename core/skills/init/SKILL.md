@@ -1,12 +1,12 @@
 ---
-description: "[ADD v0.6.0] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v{{VERSION}}] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
-references: ["maturity-matrix.md", "rules/telemetry.md"]
+references: ["maturity-matrix.md", "skill-epilogue.md", "rules/telemetry.md", "templates/init-interview.md", "templates/init-output-examples.md"]
 disable-model-invocation: true
 ---
 
-# ADD Init Command v0.6.0
+# ADD Init Command v{{VERSION}}
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 
@@ -74,7 +74,7 @@ Read-only in the project; writes only to the cross-project registry file. Shows 
 ```
 REGISTRY RECONCILIATION for {project}:
   learnings_count: 5 → 55
-  last_retro: null → 2026-04-12
+  last_retro: null → {date}
   maturity: alpha → beta
 
 Apply? [yes/no]
@@ -148,7 +148,7 @@ Silently scan the project for existing methodology without asking the user:
 
 ### Present Adoption Findings to User
 
-After silent detection, show the user a structured summary of what exists vs. what ADD adds:
+After silent detection (and the maturity assessment below), show the user a structured summary of what exists vs. what ADD adds: existing methodology, existing infrastructure, what ADD would add (non-destructive), what ADD would preserve untouched — then ask "Proceed with adoption?". Render per `${CLAUDE_PLUGIN_ROOT}/templates/init-output-examples.md` (Adoption Findings Panel).
 
 ### Maturity Level Detection
 
@@ -156,105 +156,27 @@ Assess project maturity using evidence-based scoring. This assessment is BINDING
 
 #### Evidence Scoring
 
-Evaluate each of the following evidence categories as present or absent:
+Score each of these 12 evidence categories as present or absent (git timestamps, configs, and CI files are the detection sources): specs, tests, coverage threshold (20% = alpha signal, 50% = beta, 80% = ga), CI/CD pipeline, PR-based branching, conventional commits (sample last 20 commits), environment separation, release tags, protected branches, TDD evidence (tests predate/accompany implementation), spec-driven evidence (specs predate implementation), and quality gates (pre-commit hooks, CI checks, linting).
 
-| # | Category | How to Detect |
-|---|----------|---------------|
-| 1 | **Specs** | Feature specifications exist in `specs/` or equivalent directory |
-| 2 | **Tests** | Test suite exists with measurable coverage |
-| 3 | **Coverage threshold** | 20% = alpha signal, 50% = beta, 80% = ga |
-| 4 | **CI/CD** | Automated pipeline configured (GitHub Actions, GitLab CI, etc.) |
-| 5 | **Branching** | PR workflow in use (not just pushing to main) — check for merged PRs or branch protection |
-| 6 | **Conventional commits** | Commit messages follow a convention (feat:, fix:, etc.) — sample last 20 commits |
-| 7 | **Environment separation** | Multiple deploy targets (dev/staging/prod) — check configs, docker-compose, CI matrix |
-| 8 | **Release tags** | Git tags for versioned releases exist |
-| 9 | **Protected branches** | Main/master branch protection enabled (check via GitHub API or branch rules) |
-| 10 | **TDD evidence** | Test files created before or alongside implementation (check git timestamps) |
-| 11 | **Spec-driven evidence** | Specs exist that predate their implementations (check git timestamps) |
-| 12 | **Quality gates** | Pre-commit hooks, CI checks, or linting configured (.pre-commit-config.yaml, lint scripts, etc.) |
+Scoring: **POC** 0–2 items · **Alpha** 3–5 · **Beta** 6–8 · **GA** 9+.
 
-#### Scoring Logic
-
-- **POC:** 0–2 evidence items
-- **Alpha:** 3–5 evidence items
-- **Beta:** 6–8 evidence items
-- **GA:** 9+ evidence items
+For the full maturity cascade matrix and promotion process, see `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md`.
 
 #### Assessment Output
 
-Present the assessment authoritatively — do NOT ask the user to confirm or override the level:
+Present the assessment authoritatively — do NOT ask the user to confirm or override the level. Compact example:
 
 ```
 MATURITY ASSESSMENT (evidence-based):
-  Your project operates at: {ALPHA}
-
-  Evidence detected:
-    ✓ Tests exist (47% coverage)
-    ✓ CI/CD configured (GitHub Actions)
-    ✓ Conventional commits in use
-    ✗ No feature specifications found
-    ✗ No PR workflow detected (pushing directly to main)
-    ✗ No environment separation
-    ✗ No release tags
-    ✗ No branch protection
-    ✗ No TDD evidence
-    ✗ No spec-driven evidence
-    ✗ No quality gates configured
-
+  Your project operates at: ALPHA
+  Evidence: ✓ tests (47% coverage) ✓ CI/CD ✓ conventional commits · ✗ 9 other items
   Score: 3/12 evidence items → ALPHA
-
-  GAP TO NEXT LEVEL (Beta):
-    To promote from Alpha → Beta, you need:
-    □ Feature specs for all user-facing features (create with /add:spec)
-    □ Test coverage above 50% (currently 47%)
-    □ PR workflow with code review
-    □ At least 2 deployment environments
-    □ TDD evidence (tests before implementation)
-
-  This assessment is based on observed project behavior, not aspiration.
-  Maturity can be promoted later via /add:retro or /add:cycle --complete
-  when evidence supports the next level.
+  Gap to Beta: specs (/add:spec), coverage >50%, PR workflow, 2+ environments, TDD evidence
 ```
+
+Render the full panel (per-item ✓/✗ list, gap checklist, promotion note) per `${CLAUDE_PLUGIN_ROOT}/templates/init-output-examples.md` (Maturity Assessment Panel).
 
 If the user disagrees with the assessment, explain that ADD maturity is evidence-based and that promotion happens through `/add:retro` when criteria are met. The user can start at the detected level and promote quickly if the project genuinely meets higher criteria.
-
-```
-I've scanned your project and detected existing ADD-like methodology.
-ADD is designed to complement what you have, not replace it.
-
-EXISTING METHODOLOGY:
-  CLAUDE.md: {✓ found | ✗ not found} {(lines, sections if found)}
-  Rules: {N} existing rules in .claude/rules/
-  Skills: {N} custom skills in .claude/skills/
-  Specs: {N} existing specifications in {location}/
-  Plans: {N} implementation plans in {location}/
-
-EXISTING INFRASTRUCTURE:
-  Stack: {detected languages, frameworks, versions}
-  Git: {git_host} repository at {remote_url}
-  CI/CD: {detected platform or "none"}
-  Containers: {Docker / docker-compose or "none"}
-  Environments: {Tier 1/2/3 detected or "unknown"}
-
-WHAT ADD WOULD ADD (non-destructive):
-  ✚ .add/config.json — centralized ADD configuration
-  ✚ .add/learnings.md — agent knowledge base (auto-checkpoints)
-  ✚ ADD-specific rules — human collaboration, source control, environment awareness
-  ✚ Quality gate system — 5-level verification gates
-  ✚ /add:retro command — retrospectives and learning promotion
-  ✚ Cross-project persistence — ~/.claude/add/ for preferences and history
-
-WHAT ADD WOULD PRESERVE (untouched):
-  ✓ Your existing CLAUDE.md (ADD sections appended if you want them)
-  ✓ Your existing rules in .claude/rules/ (ADD rules added alongside)
-  ✓ Your existing skills (ADD skills fill gaps only)
-  ✓ Your existing specs and plans (preserved as-is)
-  ✓ Your CI/CD pipelines and Docker configuration
-  ✓ Your test structure and coverage thresholds
-  ✓ All project history and git configuration
-
-Proceed with adoption? This is entirely non-destructive — I'll add, not replace.
-```
 
 ### Adoption-Mode Interview (Shorter and Smarter)
 
@@ -434,41 +356,7 @@ If option (a) or (b):
 
 ### Adoption Summary
 
-Display what was created and preserved:
-
-```
-ADD adoption complete. Your project methodology is enhanced.
-
-NEWLY CREATED:
-  ✓ .add/config.json — ADD configuration (points to your existing specs, plans, etc.)
-  ✓ .add/learnings.md — Seeded with project knowledge (from CLAUDE.md, git history)
-
-ENHANCED:
-  ✓ CLAUDE.md — ADD methodology section appended
-  ✓ .claude/rules/ — {N} new ADD rules added (your existing rules unchanged)
-  ✓ .claude/skills/ — {N} new ADD skills added (your existing skills unchanged)
-
-PRESERVED EXACTLY AS-IS:
-  ✓ {existing_specs_location} — {N} feature specs
-  ✓ {existing_plans_location} — {N} implementation plans
-  ✓ Your CI/CD pipelines
-  ✓ Your Docker configuration
-  ✓ Your test structure and framework
-  ✓ All project history
-
-Your project is now configured as:
-  Stack: {languages, frameworks, versions}
-  Tier: {N} ({description})
-  Quality: {mode}
-  Autonomy: {level}
-
-Next steps:
-  1. Review .add/config.json and adjust if needed
-  2. Review .add/learnings.md and add any missing patterns
-  3. Continue using your existing /commands and /skills
-  4. Try /add:spec to create ADD-formatted specs alongside your existing ones
-  5. Run /add:retro to checkpoint learnings and refine methodology
-```
+Display what was newly created, what was enhanced, what was preserved exactly as-is, the resulting configuration (stack, tier, quality, autonomy), and next steps. Render per `${CLAUDE_PLUGIN_ROOT}/templates/init-output-examples.md` (Adoption Summary Panel).
 
 ## Phase 1: The Interview
 
@@ -498,272 +386,36 @@ Your answers will generate:
 Let's begin.
 ```
 
-### Section 1: Product (~4 questions)
+### Question Bank
 
-Ask these ONE AT A TIME, building on previous answers:
+Load the question bank — verbatim Q1–Q18 prompts plus AskUserQuestion options — from `${CLAUDE_PLUGIN_ROOT}/templates/init-interview.md`. Ask questions ONE AT A TIME, building on previous answers. Phase structure and branching logic:
 
-**Q1:** "What does this project do, and what problem does it solve?"
-→ Captures: project name, problem statement, value proposition
+**Section 1: Product (Q1–Q4, ~4 questions)**
+Problem/value proposition (Q1), primary users (Q2), success metrics (Q3), MVP scope in/out (Q4).
 
-**Q2:** "Who are the primary users?"
-→ Captures: target users, use cases
+**Section 2: Architecture & Tech Stack (Q5–Q13, ~6-8 questions, adaptive)**
 
-**Q3:** "How will you know the project is successful? What are 2-3 measurable outcomes?"
-→ Captures: success metrics
+Before asking tech questions, run the silent detection step (do not show to user): check for package.json, pyproject.toml/requirements.txt, Cargo.toml, go.mod, pom.xml/build.gradle, docker-compose.yml, Dockerfile, .github/workflows/, .gitlab-ci.yml, Jenkinsfile, .git/config, terraform/.tf files, Makefile/justfile. If project files are detected, summarize what you found before asking Q5.
 
-**Q4:** "What's the MVP scope — the minimum that must work for a first version? And what's explicitly NOT in the first version?"
-→ Captures: in-scope, out-of-scope
+- **Q5 (The Branch Question)** determines whether Q6–Q8 are prescriptive (human tells) or advisory (Claude suggests). Three branches:
+  - "Detect from project files" → present the detected stack for confirmation, skip Q6–Q7.
+  - "Suggest a stack" → propose per the heuristics in the question bank based on Section 1 answers; human approves/modifies.
+  - "I have a stack in mind" → ask Q6 (languages + versions) and Q7 (frameworks). If answers are vague ("Python" with no version), probe for the version.
+- **Q8 (all paths converge): source control & hosting** — confirm if a `.git/config` remote is detected, otherwise ask.
+- **Q9: environment tier** (Tier 1 local / Tier 2 local+prod / Tier 3 full pipeline), then **Q10: tier-dependent deployment details** (Tier 1: run command; Tier 2: cloud provider + production URL; Tier 3: per-environment infrastructure walkthrough).
+- **Q11: CI/CD** — confirm if detected; "None yet — set it up for me" means scaffold a basic pipeline during Phase 2.
+- **Q12: containerization** — confirm if detected, otherwise ask.
+- **Q13: additional technical constraints** (auth, compliance, performance, integrations).
 
-### Section 2: Architecture & Tech Stack (~6-8 questions, adaptive)
+**Section 2.5: Branding (Q13.5, ~1 min)**
+"Yes — let me share it" → parse hex color, fonts, tone, logo path, and style-guide source into `branding.*`, generating the palette per `${CLAUDE_PLUGIN_ROOT}/templates/presets.json`. "No — use ADD defaults" → raspberry preset (#b00149) from presets.json, optionally offering the preset picker (Raspberry / AI Purple / Ocean / custom hex). Branding can always be updated later with `/add:brand-update`.
 
-Before asking tech questions, detect what already exists in the project:
+**Section 3: Process & Collaboration (Q14–Q18, ~4 min)**
 
-```
-DETECTION STEP (silent — do not show to user):
-  - Check for package.json → Node.js (read for version, frameworks, scripts)
-  - Check for pyproject.toml / requirements.txt → Python (read for version, frameworks)
-  - Check for Cargo.toml → Rust
-  - Check for go.mod → Go
-  - Check for pom.xml / build.gradle → Java/Kotlin
-  - Check for docker-compose.yml → containerized
-  - Check for .github/workflows/ → GitHub Actions CI/CD
-  - Check for .gitlab-ci.yml → GitLab CI/CD
-  - Check for Jenkinsfile → Jenkins
-  - Check for .git/config → git remote host
-  - Check for Dockerfile → containerized
-  - Check for terraform/ or .tf files → infrastructure-as-code
-  - Check for Makefile, justfile → build tooling
-```
-
-If project files are detected, summarize what you found before asking Q5.
-
-**Q5 (The Branch Question):** "Do you have specific technologies in mind for this project, or would you like me to suggest a tech stack based on what we're building?"
-
-Use AskUserQuestion with options:
-  - "I have a stack in mind — let me tell you what I want to use"
-  - "Suggest a stack based on the product requirements"
-  - "I've already started — detect from my project files (Recommended)" (only show if files were detected)
-
-→ This determines whether Q6-Q8 are prescriptive (human tells) or advisory (Claude suggests).
-
-**IF "detect from project files":**
-Present what was found:
-```
-I found the following in your project:
-  Language: Python 3.11 (from pyproject.toml)
-  Backend: FastAPI (from dependencies)
-  Frontend: React 18 + TypeScript (from package.json)
-  Database: SeekDB (from docker-compose.yml)
-  Containers: Docker Compose (4 services)
-  Git: GitHub (from .git/config remote)
-  CI/CD: GitHub Actions (from .github/workflows/)
-
-Does this look right? Anything to add or correct?
-```
-→ Captures: full stack from detection, human confirms/adjusts
-
-**IF "suggest a stack":**
-Based on the product answers from Section 1, suggest an appropriate stack:
-
-```
-Based on what you described, here's what I'd recommend:
-
-For a {type of product}:
-  Language: {suggestion with version} — {why}
-  Backend: {framework} — {why}
-  Frontend: {framework or "not needed"} — {why}
-  Database: {suggestion} — {why}
-
-This is a starting point — we can adjust anything.
-Does this work, or would you change anything?
-```
-
-Use these heuristics for suggestions:
-- Simple SPA/website → TypeScript + React/Next.js or Vite, no backend needed
-- API/backend service → Python 3.11+ FastAPI or Node.js Express
-- Full-stack web app → Python FastAPI + React or Next.js full-stack
-- Data pipeline/ML → Python 3.11+, minimal web framework
-- CLI tool → Python or Rust depending on distribution needs
-- Mobile → React Native or suggest native
-→ Captures: suggested stack, human approves/modifies
-
-**IF "I have a stack in mind":**
-**Q6:** "What languages and versions? (e.g., Python 3.11, TypeScript 5.x, Java 21)"
-→ Captures: languages with specific versions
-
-**Q7:** "What frameworks? (e.g., FastAPI for backend, React 18 for frontend, PostgreSQL for database)"
-→ Captures: backend framework, frontend framework, database
-
-**Q6/Q7 NOTE:** If the human gives vague answers like "Python" without a version, probe:
-"Any specific Python version? (Default: 3.11+ which is current stable)"
-
----
-
-**Q8 (All paths converge here): Source Control & Hosting**
-
-First, check if .git/config exists and has a remote. If detected, confirm:
-```
-I see this project is hosted on GitHub (github.com/MountainUnicorn/project).
-Is that correct?
-```
-
-If NOT detected, use AskUserQuestion:
-"Where do you host your source code?"
-  - "GitHub"
-  - "GitLab"
-  - "Bitbucket"
-  - "Local git only — no remote"
-
-→ Captures: git_host (affects PR workflow, CI/CD options, deploy triggers)
-
-**Q9: Environments & Hosting**
-
-"What's your environment setup?"
-Use AskUserQuestion with options:
-  - "Local only — just running on my machine" (Tier 1)
-  - "Local + Production — deploy somewhere when ready" (Tier 2)
-  - "Full pipeline — dev, staging, and production" (Tier 3)
-→ Captures: environment tier
-
-**Q10: Based on tier answer — deployment details**
-
-Tier 1:
-"How do you run the project locally?" (e.g., npm run dev, docker-compose up)
-→ Captures: run command, local URL
-
-Tier 2:
-"Where will production run?"
-Use AskUserQuestion with options:
-  - "GCP (Cloud Run, GKE, App Engine, etc.)"
-  - "AWS (ECS, Lambda, Elastic Beanstalk, etc.)"
-  - "Vercel / Netlify / Cloudflare (static/serverless)"
-  - "Self-hosted / VPS"
-→ Follow up: "What's the production URL or domain?" (Default: "TBD")
-→ Captures: cloud_provider, deploy_target, production_url
-
-Tier 3:
-"Walk me through your pipeline. For each environment (dev, staging, prod), what infrastructure runs it?"
-→ Captures: per-environment infrastructure details
-
-**Q11: CI/CD**
-
-If GitHub Actions or GitLab CI was detected, confirm:
-"I see you're using GitHub Actions for CI/CD. Is that correct?"
-
-If NOT detected, use AskUserQuestion:
-"What CI/CD system do you use (or want to use)?"
-  - "GitHub Actions (Recommended for GitHub repos)"
-  - "GitLab CI/CD"
-  - "Argo CD"
-  - "None yet — set it up for me"
-  - "Other"
-
-If "None yet — set it up for me":
-Claude will scaffold a basic CI pipeline during Phase 2 based on the stack and git host.
-→ Captures: cicd_platform, whether to scaffold pipeline
-
-**Q12: Containerization**
-
-If Docker/docker-compose detected, confirm. Otherwise:
-"Do you use containers (Docker) for local development or deployment?"
-Use AskUserQuestion:
-  - "Yes — Docker Compose for local, containers for deploy"
-  - "Yes — Docker for deploy only, run locally without containers"
-  - "No containers — run everything directly"
-→ Captures: containerized, container_strategy
-
-**Q13: Additional technical constraints**
-
-"Any other technical requirements? For example: specific auth provider, compliance requirements (HIPAA, SOC2), performance targets, or third-party integrations."
-(Default: "No specific constraints beyond standard best practices")
-→ Captures: constraints, non-functional requirements
-
-### Section 2.5: Branding (1 question, ~1 min)
-
-**Q13.5:** "Do you have a brand or style guide for this project?"
-
-Use AskUserQuestion with options:
-  - "Yes — let me share it"
-  - "No — use ADD defaults (Recommended)"
-
-**IF "Yes — let me share it":**
-Ask a follow-up: "Share your brand details — any of: accent/primary color (hex), font preferences, tone/voice description, logo file path, or a link to your style guide."
-
-Parse the response for:
-- Hex color codes → store as `branding.accentColor`, generate palette using algorithm from `${CLAUDE_PLUGIN_ROOT}/templates/presets.json`
-- Font names → store in `branding.fonts` (heading, body, code)
-- Tone description → store in `branding.tone`
-- Logo path → store in `branding.logoPath`
-- URL/file path → store in `branding.styleGuideSource`
-
-**IF "No — use ADD defaults":**
-Use raspberry preset (#b00149) from `${CLAUDE_PLUGIN_ROOT}/templates/presets.json`. Store `presetName: "raspberry"` in config.
-
-Alternatively, offer preset selection:
-```
-Using ADD defaults. Want to pick an accent color?
-```
-Use AskUserQuestion with options:
-  - "Raspberry (#b00149) — bold and warm (Recommended)"
-  - "AI Purple (#6366f1) — classic tech"
-  - "Ocean (#0891b2) — professional and calm"
-  - "Custom hex color"
-
-→ Captures: branding configuration (accentColor, palette, fonts, tone, logoPath, styleGuideSource, presetName)
-
-Note: Branding can always be updated later with `/add:brand-update`.
-
-### Section 3: Process & Collaboration (5 questions, ~4 min)
-
-**Q14:** Maturity level — behavior depends on whether this is adoption or greenfield:
-
-**In adoption mode** (Phase 0 detected existing project):
-Skip Q14 entirely. Use the evidence-based maturity level determined during Phase 0's Maturity Level Detection. Add a note:
-```
-Maturity level was determined by evidence analysis in Phase 0. Skipping maturity question.
-```
-
-**In greenfield mode** (brand new project):
-Cap at Alpha maximum. A brand new project has zero evidence for Beta or GA.
-
-"What maturity level should we start at?"
-
-Use AskUserQuestion with options:
-  - "POC — proving the idea works, throwaway code is fine (Recommended for new ideas)"
-  - "Alpha — building toward MVP, some structure from the start"
-
-Note: Beta and GA require evidence (specs, test coverage, CI/CD, PR workflow).
-Promote via `/add:retro` when your project meets the criteria.
-
-→ Captures: maturity level (cascades into all ADD behavior via maturity-lifecycle rule)
-
-If POC selected, inform user:
-"Great — POC maturity means relaxed process. Specs are optional, TDD is encouraged but not enforced, and we'll use informal cycle planning. You can promote to Alpha anytime with /add:cycle --promote."
-
-**Q15:** "How much autonomy should I have?"
-Use AskUserQuestion with options:
-  - "Guided — check with me before each step"
-  - "Balanced — work within specs autonomously, check at PR time (Recommended)"
-  - "Autonomous — execute full TDD cycles independently, only stop for blockers"
-→ Captures: autonomy level
-
-**Q16:** "What quality standard are we targeting?"
-Use AskUserQuestion with options:
-  - "Spike — fast iteration, 50% coverage, relaxed type checking"
-  - "Standard — 80% coverage, strict linting, type checking required (Recommended)"
-  - "Strict — 90% coverage, all gates blocking, E2E required"
-→ Captures: quality mode, coverage threshold
-
-**Q17:** "Are you working solo or with a team? This affects branching and PR strategy."
-Use AskUserQuestion with options:
-  - "Solo — just me and you"
-  - "Small team — 2-4 contributors"
-  - "Team — 5+ contributors"
-→ Captures: branching strategy, PR requirements
-
-**Q18:** "Any existing patterns or conventions I should follow? For example, existing folder structure, naming conventions, or a style guide?"
-(Default: "Use ADD defaults")
-→ Captures: project-specific patterns
+- **Q14: maturity level** — branching:
+  - **Adoption mode** (Phase 0 detected existing project): SKIP Q14 entirely; use the evidence-based level from Phase 0, and note "Maturity level was determined by evidence analysis in Phase 0. Skipping maturity question."
+  - **Greenfield mode:** cap at Alpha maximum — a brand new project has zero evidence for Beta or GA (promote via `/add:retro` when criteria are met). If POC is selected, explain the relaxed process per the question bank.
+- **Q15: autonomy** (guided / balanced / autonomous), **Q16: quality standard** (spike / standard / strict — sets coverage threshold), **Q17: team size** (sets branching + PR strategy), **Q18: existing patterns/conventions** (default: ADD defaults).
 
 ### Interview Complete
 
@@ -973,121 +625,14 @@ If it exists, leave it alone — it's updated during `/add:retro`.
 
 ## Phase 5: Summary
 
-Display what was created:
-
-```
-ADD initialized successfully.
-
-PROJECT STRUCTURE:
-  ✓ .add/config.json          — project configuration
-  ✓ .add/learnings.md         — agent knowledge base (committed, auto-populates)
-  ✓ .add/cycles/              — cycle plans and history
-  ✓ docs/prd.md               — Product Requirements Document
-  ✓ docs/milestones/          — milestone tracking (hill charts)
-  ✓ .claude/settings.json     — Claude Code settings (status line: /ADD:enabled)
-  ✓ specs/                    — feature specifications
-  ✓ docs/plans/               — implementation plans
-  ✓ tests/screenshots/        — visual verification
-  ✓ tests/{e2e,unit,integration}/ — test directories
-  ✓ CLAUDE.md                 — project context
-
-RULES INSTALLED:
-  {for each installed rule:}
-  ✓ .claude/rules/{name}.md   — installed
-  {for each skipped rule:}
-  ○ .claude/rules/{name}.md   — skipped (kept existing)
-  {for each prefixed rule:}
-  ✓ .claude/rules/add-{name}.md — installed with prefix
-
-CROSS-PROJECT:
-  ✓ ~/.claude/add/profile.md          — your preferences (if created)
-  ✓ ~/.claude/add/projects/{name}.json — project index entry
-  ✓ ~/.claude/add/library.md          — cross-project knowledge
-
-KNOWLEDGE SOURCES (3-tier cascade — agents read all before starting work):
-  Tier 1: Plugin-global  — knowledge/global.md (ships with ADD, universal best practices)
-  Tier 2: User-local     — ~/.claude/add/library.md (your cross-project wisdom)
-  Tier 3: Project        — .add/learnings.md (this project's discoveries, auto-populates)
-
-Your project is configured as:
-  Stack: {languages, frameworks, versions}
-  Infrastructure: {git_host} → {cicd} → {cloud_provider}
-  Environment: Tier {N} ({description})
-  Maturity: {level} ({description of what this means})
-  Quality: {mode} (coverage threshold: {N}%)
-  Autonomy: {level}
-  Branching: {strategy}
-
-WHAT'S COMMITTED (ports between devices via git):
-  .add/config.json, .add/learnings.md, .add/retros/,
-  specs/, docs/, tests/screenshots/{features}/
-
-WHAT'S LOCAL (stays on this machine):
-  ~/.claude/add/ (profile, library, project index)
-  Run /add:init --import on a new device to rebuild from committed state.
-
-```
+Display an "ADD initialized successfully" panel covering: project structure created (per-file ✓ list), rules installed / skipped / prefixed (from Phase 2.5 tracking), cross-project files, the 3-tier knowledge cascade (plugin-global `knowledge/global.md` → user-local `~/.claude/add/library.md` → project `.add/learnings.md`), the resolved configuration (stack, infrastructure, tier, maturity, quality + coverage threshold, autonomy, branching), and what's committed vs machine-local (with the `/add:init --import` note). Render per `${CLAUDE_PLUGIN_ROOT}/templates/init-output-examples.md` (Phase 5 Init Summary Panel).
 
 ### Persona-Aware Next Steps
 
-Display ONE of the following blocks based on maturity level and config. Do NOT show all three.
+Display exactly ONE next-steps block based on maturity level and config — do NOT show all three. Block text is in `${CLAUDE_PLUGIN_ROOT}/templates/init-output-examples.md` (Persona-Aware Next Steps Blocks):
 
-**If maturity = poc:**
+- **maturity = poc** → lightweight prototype-mode block (/add:tdd-cycle → /add:verify fast path; /add:spec and /add:retro optional).
+- **maturity = alpha or beta** → standard workflow block (/add:spec → /add:plan → /add:tdd-cycle → /add:verify, plus /add:away, /add:retro, /add:cycle).
+- **PM / non-engineer** (detected by: `collaboration.team_size` > 1, OR user said "PM" or "product manager" during the interview, OR autonomy = "guided") → product-person block (/add:spec and /add:verify only).
 
-```
-WHAT TO DO NEXT (prototype mode — lightweight):
-
-  You're at POC maturity. Specs are optional. TDD is recommended but not enforced.
-  The fastest path to your first working feature:
-
-  1. /add:tdd-cycle — jump straight into coding with tests (~20 min for a small feature)
-  2. /add:verify    — run quality gates to check your work (~2 min)
-
-  Optional (when you want more structure):
-  • /add:spec "feature name"  — define a feature before coding (~5 min)
-  • /add:retro                — capture what you learned after a session
-
-  Estimated time to first feature: ~25 minutes.
-```
-
-**If maturity = alpha or beta:**
-
-```
-WHAT TO DO NEXT:
-
-  1. /add:spec "your first feature"   — define one feature through a short interview (~5 min)
-     This produces specs/{feature}.md with acceptance criteria and test cases.
-
-  2. /add:plan specs/{feature}.md     — break it into implementation tasks (~3 min)
-
-  3. /add:tdd-cycle specs/{feature}.md — build it with tests: RED → GREEN → REFACTOR → VERIFY (~20 min)
-
-  4. /add:verify                      — confirm all quality gates pass (~2 min)
-
-  First feature end-to-end: ~30 minutes. Second feature: faster (patterns learned).
-
-  Other useful commands:
-  • /add:away      — hand off to the agent for autonomous work
-  • /add:retro     — run a retrospective to capture learnings
-  • /add:cycle     — plan a batch of features with milestone tracking
-```
-
-**If the user appears to be a PM / non-engineer** (detected by: `collaboration.team_size` > 1, OR user said "PM" or "product manager" during the interview, OR autonomy = "guided"):
-
-```
-YOUR ROLE IN ADD:
-
-  As a product person, you'll primarily use two commands:
-
-  1. /add:spec "feature name"   — define what you want built (~5 min interview)
-     ADD captures your requirements as acceptance criteria. Your dev team
-     builds from these specs — no ambiguity, no telephone game.
-
-  2. /add:verify                — check if a feature meets the spec you defined
-
-  You don't need to run /add:plan, /add:tdd-cycle, or /add:deploy — those
-  are for the engineering workflow. Your specs are the source of truth.
-
-  Try it now: /add:spec "your most important feature"
-```
-```
+End-of-skill epilogue: follow ${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md (observation + learning checkpoint + progress tracking).

@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Plan and execute a work cycle — select features, assess parallelism, define validation"
+description: "[ADD v{{VERSION}}] Plan and execute a work cycle — select features, assess parallelism, define validation"
 argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
-references: ["learning-reference.md", "swarm-protocol.md", "maturity-matrix.md", "rules/telemetry.md", "rules/model-roles.md"]
+references: ["learning-reference.md", "swarm-protocol.md", "maturity-matrix.md", "skill-epilogue.md", "rules/telemetry.md", "rules/model-roles.md"]
 ---
 
-# ADD Cycle Command v0.6.0
+# ADD Cycle Command v{{VERSION}}
 
 Cycles are the operational unit of ADD work. They batch features, assess dependencies, plan parallelism, and define validation criteria before execution. This command manages the full cycle lifecycle: planning, status checks, and completion/retrospective.
 
@@ -43,11 +43,12 @@ All cycle commands start by reading context:
 4. **Check for existing active cycle** in `.add/cycles/`
    - If one exists and last activity was < 3 days ago, assume it's still active
    - Otherwise, offer to archive and start fresh
-4. **Verify prerequisites** (e.g., if POC maturity, skip some docs)
+5. **Verify prerequisites** (e.g., if POC maturity, skip some docs)
+6. **Check for session handoff** — per the Session-Handoff Preflight in `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`
 
 ---
 
-## Command: /cycle --plan (default)
+## Command: /add:cycle --plan (default)
 
 Plan the next cycle. Interactive, human-driven, agent-assisted.
 
@@ -134,47 +135,31 @@ If all UI features have approved artifacts (or no features have UI), continue wi
 
 **Additional questions (Alpha+):**
 
-4. **"What's blocking or at-risk?"**
-   - Tap the milestone's risk table
-   - Any mitigations to pursue this cycle?
+4. **"What's blocking or at-risk?"** — tap the milestone's risk table; any mitigations to pursue this cycle?
 
-5. **"Are there edge cases we should focus on?"**
-   - Especially for downhill features (near VERIFIED)
-   - Do we need QA testing? Performance testing?
+5. **"Are there edge cases we should focus on?"** — especially for downhill features (near VERIFIED); do we need QA or performance testing?
 
 **Additional questions (Beta+):**
 
-6. **"Who's reviewing this cycle? Any availability constraints?"**
-   - Maturity Beta requires code review; GA requires 2 reviewers
-   - Schedule reviewer participation
+6. **"Who's reviewing this cycle? Any availability constraints?"** — Beta requires code review; GA requires 2 reviewers
 
-7. **"Should we do a pre-deploy sanity check?"**
-   - Beta/GA requires pre-deploy QA
-   - Coordinate with QA team if separate
+7. **"Should we do a pre-deploy sanity check?"** — Beta/GA requires pre-deploy QA
 
-8. **"Do any features need performance testing?"**
-   - Common in Beta/GA for downhill features
+8. **"Do any features need performance testing?"** — common in Beta/GA for downhill features
 
-9. **"What's the rollback plan if things go sideways?"**
-   - GA especially needs this upfront
-   - Feature flags? Database migration reversibility?
+9. **"What's the rollback plan if things go sideways?"** — GA especially needs this upfront; feature flags? database migration reversibility?
 
 **Additional questions (GA):**
 
-10. **"Is there a customer impact window we should avoid?"**
-    - Peak usage hours to avoid deployments?
+10. **"Is there a customer impact window we should avoid?"** — peak usage hours to avoid deployments?
 
-11. **"Should we split this cycle into two smaller ones?"**
-    - GA favors smaller, more frequent cycles (less risk)
+11. **"Should we split this cycle into two smaller ones?"** — GA favors smaller, more frequent cycles (less risk)
 
-12. **"Are there compliance or audit implications?"**
-    - Any regulatory review needed before merge?
+12. **"Are there compliance or audit implications?"** — any regulatory review needed before merge?
 
-13. **"What's our monitoring/alerting strategy?"**
-    - How will we detect failures post-deploy?
+13. **"What's our monitoring/alerting strategy?"** — how will we detect failures post-deploy?
 
-14. **"Do we need a communication plan to customers?"**
-    - Feature deprecation? Beta label? Known issues?
+14. **"Do we need a communication plan to customers?"** — feature deprecation? beta label? known issues?
 
 ### Step 3: Assess Parallelism
 
@@ -208,82 +193,7 @@ Based on answers, determine what can run in parallel:
 
 ### Step 4: Generate Cycle Plan
 
-Create `.add/cycles/cycle-{N}.md` with:
-
-```markdown
-# Cycle {N} — {CYCLE_TITLE}
-
-**Milestone:** M{X} — {Milestone Name}
-**Maturity:** {poc|alpha|beta|ga}
-**Status:** PLANNED
-**Started:** TBD
-**Completed:** TBD
-**Duration Budget:** {e.g., "3 days", "1 week"}
-
-## Work Items
-
-| Feature | Current Pos | Target Pos | Assigned | Est. Effort | Validation |
-|---------|-------------|-----------|----------|-------------|------------|
-| {FEATURE_1} | SPECCED | IN_PROGRESS | Agent-1 | ~4 hours | All acceptance criteria passing in tests |
-| {FEATURE_2} | SHAPED | SPECCED | Agent-2 | ~2 hours | Spec complete, 2 reviewers sign off |
-
-## Dependencies & Serialization
-
-{Visual and text description of what must run serially}
-
-Example:
-```
-Auth Overhaul (Agent-1)
-    ↓ (Session Refresh depends on Auth completion)
-Session Refresh (Agent-1)
-
-Mobile Logout (Agent-2) — parallel to above
-```
-
-## Parallel Strategy
-
-{If maturity is Beta/GA}
-
-### File Reservations
-- **Agent-1:** src/auth/*, src/session/* (owns auth + session infrastructure)
-- **Agent-2:** src/mobile/logout/* (owns logout UI)
-
-### Merge Sequence
-1. Auth Overhaul (infrastructure)
-2. Session Refresh (depends on Auth)
-3. Mobile Logout (independent, but benefits from stable Auth)
-
-{If maturity is POC/Alpha: "Single-threaded execution. Features advance sequentially."}
-
-## Validation Criteria
-
-### Per-Item Validation
-- {FEATURE_1}: {Acceptance criteria 1, 2, 3} + all tests passing
-- {FEATURE_2}: {Acceptance criteria} + spec approved by human
-
-### Cycle Success Criteria
-- [ ] All features reach target position
-- [ ] All acceptance criteria verified
-- [ ] Code review completed (Alpha+)
-- [ ] Pre-deploy QA passed (Beta+)
-- [ ] No regressions in regression suite
-
-## Agent Autonomy & Checkpoints
-
-{Based on maturity + availability}
-
-POC: Full autonomy. Agent executes cycle and updates status daily.
-
-Alpha: High autonomy. Agent plans, executes, flags blockers async. Human checks in every 2 days.
-
-Beta: Balanced. Human approves cycle plan at start, agent executes, human verifies results and signs off.
-
-GA: Guided with checkpoints. Human approval at cycle start. Agent provides daily standup. Human approval before merge. Human approval before deploy.
-
-## Notes
-
-{Any other context: blockers, risks specific to this cycle, design decisions to confirm, etc.}
-```
+Create `.add/cycles/cycle-{N}.md` from `${CLAUDE_PLUGIN_ROOT}/templates/cycle-plan.md`, filling every section (work items, dependencies & serialization, parallel strategy, validation criteria, autonomy & checkpoints, notes) with the answers from Steps 1-3.
 
 **Depth varies by maturity:**
 - **POC:** Minimal (just work items + serial note)
@@ -293,7 +203,7 @@ GA: Guided with checkpoints. Human approval at cycle start. Agent provides daily
 
 ---
 
-## Command: /cycle --status
+## Command: /add:cycle --status
 
 Check the progress of the active cycle in real-time.
 
@@ -367,7 +277,7 @@ Suggestion: Continue cycle, target completion by 2026-02-09.
 
 ---
 
-## Command: /cycle --complete
+## Command: /add:cycle --complete
 
 Close the active cycle. Verify validation, update milestone, capture learnings.
 
@@ -407,27 +317,7 @@ If milestone success criteria are now fully met, **suggest milestone closure.**
 
 #### Maturity Promotion Check (evidence-based)
 
-If milestone completion triggers a promotion suggestion, run an evidence scan before recommending it. Promotion requires evidence, not aspiration.
-
-Scan the project for:
-
-| Evidence Item | How to Check |
-|---------------|-------------|
-| Feature specs | `specs/*.md` exist for user-facing features |
-| Test coverage | Run coverage tool, report actual % |
-| CI/CD pipeline | `.github/workflows/` or equivalent exists and passing |
-| PR workflow | Git log shows merge commits from pull requests |
-| Environment separation | Config shows 2+ deploy targets |
-| Conventional commits | Last 20 commits follow `feat:/fix:/docs:` pattern |
-| TDD evidence | Test file timestamps precede or match implementation |
-| Branch protection | Protected branches on main/master |
-| Release tags | Semantic version tags in git |
-| Quality gates | Pre-commit hooks or CI checks configured |
-
-**Scoring:**
-- POC → Alpha: 3+ items present
-- Alpha → Beta: 6+ items present (specs, 50%+ coverage, CI, PR workflow required)
-- Beta → GA: 9+ items present (80%+ coverage, protected branches, release tags, 30+ days stability required)
+If milestone completion triggers a promotion suggestion, run an evidence scan before recommending it. Promotion requires evidence, not aspiration. The evidence items, scoring thresholds per transition, and promotion process are defined in `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md` — `/add:promote --check` is the canonical gap-analysis tool.
 
 **If evidence supports promotion:**
 ```
@@ -439,14 +329,7 @@ Milestone M{N} complete. Evidence supports maturity promotion:
   Run /add:retro to formally promote (updates config, activates new rules).
 ```
 
-**If evidence does NOT support promotion:**
-```
-Milestone M{N} complete. Maturity stays at {ALPHA}.
-  Evidence score: {4}/10
-  Missing for {BETA}: {list gaps}
-
-  Address gaps, then reassess at next /add:retro.
-```
+**If evidence does NOT support promotion:** report the score, list the gaps for the target level, and suggest reassessing at the next `/add:retro`.
 
 Do NOT auto-promote. Promotion is applied through `/add:retro` which updates config and records the change.
 
@@ -469,7 +352,7 @@ If the cycle produced multiple distinct learnings (e.g., a technical discovery A
 After completing a cycle:
 
 1. **If milestone is incomplete:** Offer to plan the next cycle (`/add:cycle --plan`)
-2. **If milestone is complete:** Offer to close the milestone (`/milestone --close` or similar)
+2. **If milestone is complete:** Offer to close the milestone (`/add:milestone --close` or similar)
 3. **If promotion is ready:** Highlight maturity promotion path
 
 Example:
@@ -484,14 +367,14 @@ Milestone M8 progress:
 Recommendation: Complete milestone M8, then run /add:retro to assess evidence-based promotion.
 
 Options:
-  /milestone --close M8
+  /add:milestone --close M8
   /add:retro M8 (write retrospective, assess promotion)
   /add:cycle --plan M9 (plan next milestone's first cycle)
 ```
 
 ---
 
-## Command: /cycle --milestone
+## Command: /add:cycle --milestone
 
 Select a milestone before planning. Convenience shortcut that runs milestone selection inline, then continues to `--plan`.
 
@@ -513,137 +396,50 @@ If selection differs from `planning.current_milestone`:
 
 ### Step 4: Continue to --plan
 
-Proceed with normal `/cycle --plan` flow using the newly active milestone.
+Proceed with normal `/add:cycle --plan` flow using the newly active milestone.
 
 ---
 
 ## Swarm Coordination (Beta/GA Maturity)
 
-When cycle plan includes parallel work with 2+ agents:
+When the cycle plan includes parallel work with 2+ agents, follow the full protocol in `${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md` — worktree setup, file reservation maps, merge sequencing, and coordination rules all live there.
 
-Every dispatch carries a MODEL tier and a BUDGET cap per the policy tables in
-`${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md` (Resource Budgets +
-role → tier defaults, tiers per `rules/model-roles.md`). Mechanical work —
-frontmatter sweeps, generated-output regen, dashboard/SVG rendering — runs on
-the fast tier; reserve the architect tier for review and orchestration.
+Cycle-specific notes:
 
-### Git Worktree Setup
-Recommend creating separate worktrees for each agent:
-```bash
-git worktree add ../branch-auth origin/main  # Agent-1
-git worktree add ../branch-session origin/main  # Agent-1
-git worktree add ../branch-logout origin/main  # Agent-2
-```
-
-Agents work in separate worktrees, avoiding constant `git pull` coordination.
-
-### File Reservation Map
-Generate a file ownership map for the cycle:
-```
-Agent-1:
-  - src/auth/**
-  - src/session/**
-  - tests/auth-*.ts
-  - tests/session-*.ts
-
-Agent-2:
-  - src/mobile/logout/**
-  - tests/mobile-logout-*.ts
-```
-
-**Rule:** Each agent owns their reserved paths. No cross-agent edits without coordination.
-
-### Merge Sequence & Coordination
-Define which features merge in what order. Recommend a PR merge sequence to the human:
-```
-1. Auth Overhaul (PR #142) → merge first (infrastructure)
-2. Session Refresh (PR #143) → merge second (depends on Auth)
-3. Mobile Logout (PR #144) → merge third (independent, but benefits from stable Auth)
-
-Steps:
-- Agent-1 completes Auth Overhaul PR, waits for approval
-- Once merged, Agent-1 rebases Session Refresh PR on top of Auth
-- Agent-2 rebases Mobile Logout PR on latest main
-- Human reviews all 3 PRs in sequence
-- Merge sequence: Auth → Session → Mobile (respects dependencies)
-```
-
-### WIP Limits
-Beta/GA maturity enforces WIP (work-in-progress) limits to prevent thrashing:
-- **Beta:** 3-6 features per cycle (strict focus)
-- **GA:** 3-6 features with explicit WIP limits per agent (e.g., Agent-1: max 2 concurrent features)
-
-If cycle plan exceeds limits, **split into smaller cycles.** Smaller is better for quality and coordination.
+- Every dispatch carries a MODEL tier and a BUDGET cap per the policy tables in
+  `${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md` (Resource Budgets +
+  role → tier defaults, tiers per `rules/model-roles.md`). Mechanical work —
+  frontmatter sweeps, generated-output regen, dashboard/SVG rendering — runs on
+  the fast tier; reserve the architect tier for review and orchestration.
+- The cycle plan's File Reservations and Merge Sequence sections (from the
+  cycle-plan template) are the swarm's ownership map for this cycle. Each agent
+  owns their reserved paths — no cross-agent edits without coordination.
+- **WIP limits:** Beta allows 3-6 features per cycle (strict focus); GA adds
+  explicit per-agent WIP limits (e.g., Agent-1: max 2 concurrent features). If
+  the cycle plan exceeds limits, **split into smaller cycles.** Smaller is
+  better for quality and coordination.
 
 ---
 
 ## Catch-Up Spike: Adoption Mode
 
-When `/add:cycle` is called on a project newly adopting ADD (no existing structure):
+When `/add:cycle` is called on a project newly adopting ADD, detect the gap and hand off to `/add:init`'s adoption mode rather than duplicating it here.
 
-### Detection
-Check:
-- No `.add/cycles/` directory exists? OR
-- No active milestone found?
-- Project maturity is "unspecified"?
+**Detection** — any of:
+- No `.add/cycles/` directory exists
+- No active milestone found
+- Project maturity is "unspecified"
 
-Then **offer catch-up mode:**
+**Then offer:**
 ```
 This project isn't yet structured for ADD cycles.
-Want to run a catch-up spike to bootstrap?
+Run /add:init to bootstrap ADD adoption — it performs the gap analysis,
+generates retroactive specs and a baseline catch-up milestone (M0), and
+sets up quality gates and commit discipline.
 
-This will:
-1. Generate retroactive specs for existing features
-2. Create a baseline milestone from current state
-3. Set up quality gates & commit discipline
-4. Plan cycle-1 with catch-up items
-
-Takes ~2-4 hours depending on project size.
+Once /add:init completes, run /add:cycle --plan M0 to execute the
+catch-up work in 1-2 intensive cycles, then resume normal cycles for M1+.
 ```
-
-### Step 1: Gap Analysis
-
-Compare current project state against target maturity requirements:
-
-```
-Current State Assessment:
-  • PRD: ❌ Missing (only CLAUDE.md exists)
-  • Specs: ❌ Missing for 6 existing features
-  • Quality Gates: ⚠️ Pre-commit lint only, no CI
-  • Commit Discipline: ⚠️ Freeform (no conventional commits)
-  • Tests: ⚠️ 42% coverage (target: 80% for Beta)
-  • Milestones: ❌ Missing
-  • Cycles: ❌ Missing
-
-Target Maturity: Alpha (based on user feedback + stability)
-→ Gaps: PRD, specs (critical paths), quality gates (add CI), TDD (critical paths)
-```
-
-### Step 2: Create Catch-Up Milestone
-
-Generate a special milestone: `M0 — ADD Adoption Catch-Up`
-
-Features in catch-up cycle:
-1. **PRD Generation**: Interview + write `docs/PRD.md` (adopt from CLAUDE.md + new questions)
-2. **Spec Generation**: Retroactive specs for critical-path features (auth, core flows)
-3. **Quality Gate Setup**: Configure pre-commit lint, CI pipeline (GitHub Actions, etc.)
-4. **Commit Discipline**: Enable conventional commits (git hooks)
-5. **Test Coverage**: Raise from 42% to 60%+ for critical paths
-6. **Milestone Structure**: Rename/organize existing features into logical milestones
-
-### Step 3: Plan Catch-Up Cycle-1
-
-Run `/add:cycle --plan M0` and execute the catch-up work in 1-2 intensive cycles.
-
-### Step 4: Resume Normal Cycles
-
-Once catch-up cycle completes, the project is "ADD ready":
-- PRD + specs exist
-- Quality gates active
-- Test coverage acceptable
-- Milestone structure in place
-
-Then resume normal `/add:cycle --plan` for M1+.
 
 ---
 
@@ -663,3 +459,4 @@ Then resume normal `/add:cycle --plan` for M1+.
 - **Parallelism is intentional.** Only when maturity + dependencies allow. File reservations prevent thrashing.
 - **Learnings are captured.** Every cycle checkpoint feeds the next planning round.
 
+End-of-skill epilogue: follow `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

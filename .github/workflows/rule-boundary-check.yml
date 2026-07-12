@@ -29,10 +29,20 @@ jobs:
           echo ""
 
           VIOLATIONS=""
+          # Boundary markers counted per OCCURRENCE (grep -o | wc -l), not per
+          # line, so inline "… you MUST NOT …" phrasing is covered too.
+          # `|| true` (not `|| echo 0`): grep exits 1 on zero matches AFTER
+          # already printing output, so `|| echo 0` could concatenate and
+          # produce a multi-line value; wc -l always prints a count anyway.
+          MARKER_RE='(NEVER|Boundaries|MUST NOT|do NOT|DO NOT)'
           for file in $CHANGED; do
             # Count occurrences of boundary keywords before and after
-            BEFORE=$(git show origin/${{ github.base_ref }}:"$file" 2>/dev/null | grep -cE '^(\s*[-*]\s*)?(NEVER|Boundaries|MUST NOT|do NOT|DO NOT)' || echo 0)
-            AFTER=$(grep -cE '^(\s*[-*]\s*)?(NEVER|Boundaries|MUST NOT|do NOT|DO NOT)' "$file" || echo 0)
+            BEFORE=$(git show origin/${{ github.base_ref }}:"$file" 2>/dev/null | grep -oE "$MARKER_RE" | wc -l || true)
+            BEFORE=$(echo "${BEFORE:-0}" | tr -d '[:space:]')
+            BEFORE=${BEFORE:-0}
+            AFTER=$(grep -oE "$MARKER_RE" "$file" 2>/dev/null | wc -l || true)
+            AFTER=$(echo "${AFTER:-0}" | tr -d '[:space:]')
+            AFTER=${AFTER:-0}
 
             if [ "$AFTER" -lt "$BEFORE" ]; then
               VIOLATIONS="$VIOLATIONS\n  $file: boundary markers went from $BEFORE → $AFTER"

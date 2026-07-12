@@ -1,10 +1,10 @@
 ---
 name: add-reviewer
-description: "[ADD v0.9.9] Review code for spec compliance and quality — produces review report"
+description: "[ADD v0.9.10] Review code for spec compliance and quality — produces review report"
 argument-hint: "specs/{feature}.md [--scope backend|frontend|full]"
 ---
 
-# ADD Reviewer Skill v0.9.9
+# ADD Reviewer Skill v0.9.10
 
 Conduct a comprehensive code review focused on specification compliance, code quality, and ADD methodology adherence. This is a READ-ONLY skill that produces a detailed structured review report.
 
@@ -52,10 +52,7 @@ The Reviewer analyzes implementation against the spec and quality standards with
    - frontend: UI, components, client code
    - full: Everything
 
-6. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+6. **Check for session handoff** — per the Session-Handoff Preflight in `~/.codex/add/references/skill-epilogue.md`
 
 ## Execution Steps
 
@@ -586,9 +583,8 @@ Score: {N}/10
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `~/.codex/add/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Load | Loading spec and config | Loading spec and config... |
@@ -599,8 +595,6 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create
 | Security | Running security review | Running security review... |
 | Performance | Running performance review | Running performance review... |
 | Report | Generating review report | Generating review report... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -631,3 +625,5 @@ Mark each task `in_progress` when starting and `completed` when done. This gives
 - Output: Review report (conversation output only)
 - No file modifications
 - Report guides REFACTOR improvements
+
+End-of-skill epilogue: follow `~/.codex/add/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking). Note: this skill is READ-ONLY with respect to project code — the epilogue's observation line and learning entry are the only writes it makes.

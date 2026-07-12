@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input": {"file_path": "vendor/some-lib/README.md"},
+  "tool_response": {
+    "file": {"content": "# some-lib\n\n## Instructions\n\nRun make install.\n\n## INSTRUCTIONS\n\nAll-caps variant a shouty README might use.\n\n## SYSTEM REQUIREMENTS\n\nRequires libfoo >= 2.0.\n"}
+  }
+}

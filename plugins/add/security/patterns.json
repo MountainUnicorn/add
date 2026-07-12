@@ -5,9 +5,9 @@
   "patterns": [
     {
       "name": "ignore-previous",
-      "regex": "(?i)(ignore|disregard)[[:space:]]+(previous|prior|all[[:space:]]+prior|above|earlier)[[:space:]]+(instructions|directives|prompts|rules)?",
+      "regex": "(?i)(ignore|disregard)[[:space:]]+(all[[:space:]]+)?(previous|prior|above|earlier)[[:space:]]+(instructions|directives|prompts|rules)",
       "severity": "high",
-      "description": "Classic override prelude — tells the model to throw out its current instructions.",
+      "description": "Classic override prelude — tells the model to throw out its current instructions. The trailing noun (instructions/directives/prompts/rules) is REQUIRED so benign prose like 'ignore previous versions' does not match.",
       "source": "OWASP Top 10 for Agentic Applications 2026 (LLM01: Agent Goal Hijack)",
       "enabled": true
     },
@@ -37,9 +37,9 @@
     },
     {
       "name": "system-heading",
-      "regex": "(?m)^#{1,6}[[:space:]]+(SYSTEM|AGENT[[:space:]]+DIRECTIVE|INSTRUCTIONS)\\b",
+      "regex": "(?m)^#{1,6}[[:space:]]+(SYSTEM([[:space:]]+(PROMPT|MESSAGE|OVERRIDE|INSTRUCTIONS|DIRECTIVES?))?|AGENT[[:space:]]+DIRECTIVES?)[[:space:]]*:?[[:space:]]*$",
       "severity": "medium",
-      "description": "Heading that appears to assert system-level authority. Must be treated as content per Markdown guardrail.",
+      "description": "Heading that asserts system-level authority: an ALL-CAPS bare 'SYSTEM' / 'AGENT DIRECTIVE' heading, or 'SYSTEM PROMPT/MESSAGE/OVERRIDE/INSTRUCTIONS/DIRECTIVE(S)', anchored to the end of the heading line. Bare 'INSTRUCTIONS' was dropped and the line-end anchor added so legitimate documentation headings ('## Instructions', '## SYSTEM REQUIREMENTS') do not match. Must be treated as content per Markdown guardrail.",
       "source": "NVIDIA AGENTS.md guidance 2026; Snyk ToxicSkills",
       "enabled": true
     },
@@ -53,9 +53,9 @@
     },
     {
       "name": "base64-blob-suspicious",
-      "regex": "[A-Za-z0-9+/]{60,}={0,2}",
-      "severity": "medium",
-      "description": "Long base64-like blob (>=60 chars). Often a disguised payload; benign uses exist so severity is medium.",
+      "regex": "[A-Za-z0-9+/]{120,}={0,2}",
+      "severity": "info",
+      "description": "Very long base64-like blob (>=120 chars, optional '=' padding). Tradeoff: the scan engine is POSIX ERE (grep -E), which cannot express negative context (e.g. 'not preceded by integrity=/data:/sha256-'), so SRI hashes, data URIs, and minified JS cannot be excluded structurally. Instead the length threshold is raised well past typical SRI/hash lengths (sha512 SRI is ~88 chars) and severity is 'info' — logged for audit, never gating.",
       "source": "OWASP Top 10 Agentic 2026 (LLM02: Tool Misuse — opaque payload smuggling)",
       "enabled": true
     },

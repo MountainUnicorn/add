@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command // empty' 2>/dev/null || true); if echo \"$CMD\" | grep -q 'git push'; then OUT=$(\"${CLAUDE_PLUGIN_ROOT}/lib/scan-secrets.sh\" 2>&1); RC=$?; if [ $RC -ne 0 ]; then echo \"[ADD-SEC advisory] scan-secrets exit=$RC — review before pushing:\" >&2; echo \"$OUT\" >&2; fi; fi; exit 0"
+            "command": "CMD=$(jq -r '.tool_input.command // empty' 2>/dev/null || true); if echo \"$CMD\" | grep -qE '(^|[;&|][[:space:]]*)git[[:space:]]+push([[:space:]]|$)' && ! echo \"$CMD\" | grep -qE -- '--help|--dry-run'; then OUT=$(\"${CLAUDE_PLUGIN_ROOT}/lib/scan-secrets.sh\" 2>&1); RC=$?; if [ $RC -ne 0 ]; then echo \"[ADD-SEC advisory] scan-secrets exit=$RC — review before pushing:\" >&2; echo \"$OUT\" >&2; fi; if [ -f CHANGELOG.md ]; then echo '[ADD] CHANGELOG.md exists — run /add:changelog to update it before pushing.' >&2; fi; fi; exit 0"
           }
         ]
       }
@@ -70,10 +70,6 @@
       {
         "matcher": "Bash",
         "hooks": [
-          {
-            "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command // empty'); if echo \"$CMD\" | grep -q 'git push' && [ -f CHANGELOG.md ]; then echo '[ADD] CHANGELOG.md exists — run /add:changelog to update it before pushing.'; fi"
-          },
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/posttooluse-scan.sh\""

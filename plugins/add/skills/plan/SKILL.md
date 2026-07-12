@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.9.9] Create implementation plan from a feature spec"
+description: "[ADD v0.9.10] Create implementation plan from a feature spec"
 argument-hint: "specs/{feature}.md"
 allowed-tools: [Read, Write, Glob, Grep, Bash]
-references: ["rules/telemetry.md"]
+references: ["skill-epilogue.md", "rules/telemetry.md"]
 ---
 
-# ADD Plan Skill v0.9.9
+# ADD Plan Skill v0.9.10
 
 Create a detailed implementation plan from a feature specification. This skill analyzes acceptance criteria, breaks down work into manageable tasks, identifies parallelizable work, and estimates effort.
 
@@ -47,10 +47,7 @@ The plan bridges the gap between "what to build" (spec) and "how to build it" (i
    - If exists, ask user: overwrite or update?
    - Preserve previous efforts if updating
 
-5. **Check for session handoff**
-   - Read `.add/handoff.md` if it exists
-   - Note any in-progress work or decisions relevant to this operation
-   - If handoff mentions blockers for this skill's scope, warn before proceeding
+5. **Check for session handoff** — per the Session-Handoff Preflight in `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`
 
 ## Execution Steps
 
@@ -483,9 +480,8 @@ docs/plans/{feature}-plan.md
 
 ## Progress Tracking
 
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
+**Tasks to create** (mechanics per `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md`):
 
-**Tasks to create:**
 | Phase | Subject | activeForm |
 |-------|---------|------------|
 | Read spec | Reading feature spec | Reading feature spec... |
@@ -493,8 +489,6 @@ Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create
 | Tasks | Identifying and breaking down tasks | Identifying tasks... |
 | Estimation | Estimating effort and timeline | Estimating effort... |
 | Write plan | Writing plan document | Writing plan document... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
 
 ## Error Handling
 
@@ -545,3 +539,5 @@ Before finalizing plan, verify:
 - [ ] Testing strategy is clear
 - [ ] Deliverables are listed
 - [ ] Success criteria are measurable
+
+End-of-skill epilogue: follow `${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md` (observation + learning checkpoint + progress tracking).

@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Environment-aware commit, push, and deploy workflow"
+description: "[ADD v{{VERSION}}] Environment-aware commit, push, and deploy workflow"
 argument-hint: "[--env local|dev|staging|production] [--skip-verify]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
-references: ["learning-reference.md", "rules/telemetry.md"]
+references: ["learning-reference.md", "secrets-gate.md", "skill-epilogue.md", "rules/telemetry.md", "templates/commit-message.md", "templates/deploy-reference.md"]
 ---
 
-# ADD Deploy Skill v0.6.0
+# ADD Deploy Skill v{{VERSION}}
 
 Execute environment-aware deployment: commit changes, push to remote, trigger CI/CD, and verify successful deployment.
 
@@ -97,192 +97,31 @@ If any verification fails:
 
 ### Step 1.5: Pre-commit secrets gate
 
-Before composing the commit message, run the executable scanner against the
-staged diff. The scanner is the single point of truth — do NOT re-implement
-the catalog inline.
+Before composing the commit message, run the shared secrets gate per `${CLAUDE_PLUGIN_ROOT}/references/secrets-gate.md` — the same gate as /add:verify Gate 4.6. The executable scanner (`${CLAUDE_PLUGIN_ROOT}/lib/scan-secrets.sh` against the staged diff) is the single point of truth — do NOT re-implement the catalog inline. Scanner invocation, exit codes, finding format, `--allow-secret` confirm-phrase matching rules, `.secretsignore` handling, and edge cases are all in the reference.
 
-**Source of truth:** `${CLAUDE_PLUGIN_ROOT}/security/secret-patterns.json`
-(executable catalog) and `${CLAUDE_PLUGIN_ROOT}/knowledge/secret-patterns.md`
-(human-readable reference). Both are kept in sync by
-`scripts/validate-secret-patterns.py` (CI drift check).
+Deploy-specific behavior:
 
-**Invocation (Bash):**
+- **Blocking vs advisory by maturity:** at POC maturity the gate is advisory — report findings and continue only with explicit user acknowledgment. At Alpha and above, any unsuppressed finding aborts the commit: no commit is created, and staged changes are preserved so the user can fix and retry.
+- **Overrides:** interactive override via `/add:deploy --allow-secret` (exact confirm phrase, matched literally per the reference), or the automation-friendly commit-message trailer `[ADD-SECRET-OVERRIDE: {SEC-NNN} (reason)]` — the scanner accepts the trailer when `--commit-msg-file` points at the message and the trailer enumerates the SEC codes being overridden.
+- **On a successful override**, before proceeding to Step 2, append to `.add/observations.md`:
 
-```bash
-# Run the scanner. Default mode reads `git diff --cached`.
-"${CLAUDE_PLUGIN_ROOT}/lib/scan-secrets.sh"
-# Exit 0 → clean. Exit 1 → at least one unsuppressed finding (block the
-# commit). Exit 2 → invocation error. Exit 3 → catalog missing/unparseable
-# (treat as a hard fail).
-```
+  ```
+  {YYYY-MM-DD HH:MM} | deploy | secrets-gate override: {file}:{line} {PATTERN_NAME} | reason: {user's stated reason}
+  ```
 
-The scanner emits findings to stdout in the form:
-
-```
-{file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
-```
-
-The matched value never appears verbatim in any output stream (AC-013/AC-015
-of `specs/secrets-scanner-executable.md`). On a hard fail, also note any
-`SEC-998` lines: those are paths listed in `.secretsignore` that were staged
-anyway (the file should not be committed at all).
-
-**On match — abort the commit and print:**
-
-```
-SECRETS GATE — /add:deploy
-Scanning {N} staged files...
-
-  ✗ {file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
-  ✗ {file}:{line}: {SEC-NNN}: {PATTERN_NAME}: {redacted-preview}
-
-Commit aborted. Three options:
-
-  1. Remove the secrets:
-       git restore --staged {file} {file}
-       Add {file} to .secretsignore (or .gitignore)
-       Rotate any real secrets immediately
-
-  2. False positive (test fixture, example, etc.) — interactive override:
-       /add:deploy --allow-secret
-       (you will be asked to type a confirmation phrase)
-
-  3. Automation-friendly override — commit-message trailer:
-       Add a [ADD-SECRET-OVERRIDE: {SEC-NNN} (reason)] trailer to your
-       commit message and re-run. The scanner accepts the override when
-       --commit-msg-file points at the message and the trailer enumerates
-       the SEC codes being overridden.
-```
-
-No commit is created. Preserve staged changes so the user can fix and retry.
-
-**`--allow-secret` flag (AC-016, AC-017 of `specs/secrets-handling.md`;
-AC-019 of `specs/secrets-scanner-executable.md`):**
-
-If the user invokes `/add:deploy --allow-secret`, present:
-
-> "To override the secrets gate, type the following phrase EXACTLY
-> (case-sensitive, full string — no quotes, no abbreviation):
->
->     I have verified this is not a real secret
->
-> Any other response cancels the override."
-
-Matching rules — implemented literally, not left to agent judgment:
-
-- The response MUST equal the string `I have verified this is not a real secret`
-  (no quotes, no leading/trailing whitespace other than a trailing newline).
-- Case-sensitive. `i have verified this is not a real secret` does NOT pass.
-- Must be the ENTIRE user response. Extra text, punctuation, or prefix/suffix
-  does NOT pass.
-- Must be the IMMEDIATELY NEXT message. Intervening clarifications reset the
-  gate; re-ask.
-
-On successful match, proceed to Step 2. Before proceeding, append a line to
-`.add/observations.md`:
-
-```
-{YYYY-MM-DD HH:MM} | deploy | secrets-gate override: {file}:{line} {PATTERN_NAME} | reason: {user's stated reason}
-```
-
-Also append the override record to `.add/redaction-log.json` under
-`{ "artifact": "deploy-gate-override", ... }` if the log exists.
-
-On any failing match: halt with:
-
-```
-Secrets gate override CANCELLED. No changes made. Run /add:deploy again when
-ready — the exact phrase is required to prevent automation or accidental
-consent from pushing secrets.
-```
-
-**`.secretsignore` handling (AC-018):**
-
-- Files matching `.secretsignore` patterns should not be in the staged set.
-- If one appears (because the user staged it with `git add -f` or before the
-  ignore file existed), flag separately:
-
-```
-  ✗ {file} — listed in .secretsignore; this file should not be committed at all
-```
-
-and treat it the same as a catalog match (abort unless `--allow-secret` with
-the full phrase).
-
-**Edge cases (from spec § 7):**
-
-| Case | Behavior |
-|------|----------|
-| Binary file staged | Skip content scan; still flag if filename matches `.secretsignore` |
-| Git not initialized | Skip gate silently; first-commit projects aren't blocked |
-| File path contains `test`, `fixture`, `example`, or `mock` | Still flag, but downgrade severity in the message and suggest `--allow-secret` |
-| `.env.example` with placeholder values | `.secretsignore` negation (`!.env.example`) allows it; content scan usually won't match because examples are placeholders |
-| Pattern catalog updated in plugin upgrade | Gate reads the latest catalog from `${CLAUDE_PLUGIN_ROOT}/knowledge/secret-patterns.md`; existing `.secretsignore` files untouched |
+  and append the override record to `.add/redaction-log.json` under `{ "artifact": "deploy-gate-override", ... }` if the log exists.
+- **`.secretsignore`-listed files staged anyway** (`SEC-998` findings) are treated the same as catalog matches — abort unless overridden; the file should not be committed at all.
 
 ### Step 2: Prepare Commit Message
 
 Compose a detailed commit message following conventions:
 
-**Format**:
-```
-{Type}: {Short description under 50 chars}
+- First line: `{type}: {short description under 50 chars}` — types are feat, fix, refactor, test, docs, perf, ci, chore.
+- Body: a longer description explaining the change.
+- Then structured sections: Acceptance Criteria (per-AC ✓ status), Test Coverage (test count + coverage %), Quality Gates (lint / types / tests / spec compliance).
+- Footer: `Closes: #{issue-number}` if applicable.
 
-{Longer description explaining the change}
-
-Acceptance Criteria:
-- AC-001: ✓ Implemented and tested
-- AC-002: ✓ Implemented and tested
-
-Test Coverage:
-- {N} tests passing
-- {N}% code coverage
-
-Quality Gates:
-- ✓ Lint passing
-- ✓ Types passing
-- ✓ Tests passing
-- ✓ Spec compliance verified
-
-Closes: #{issue-number} (if applicable)
-```
-
-**Types**:
-- feat: New feature
-- fix: Bug fix
-- refactor: Code refactoring
-- test: Test additions
-- docs: Documentation
-- perf: Performance optimization
-- ci: CI/CD changes
-- chore: Build, deps, etc.
-
-**Example**:
-```
-feat: Add form submission with email validation
-
-Implement user-facing form with client-side and server-side
-validation. Integrates with existing email service for
-verification. Handles network errors with retry logic.
-
-Acceptance Criteria:
-- AC-001: ✓ User can submit valid form data
-- AC-002: ✓ Form shows validation errors
-- AC-003: ✓ Network failures handled gracefully
-
-Test Coverage:
-- 8 tests passing
-- 87% code coverage
-- All ACs verified
-
-Quality Gates:
-- ✓ Lint: 0 errors
-- ✓ Types: 0 errors (TypeScript strict)
-- ✓ Tests: 32 passing
-- ✓ Coverage: 87% (target: 80%)
-- ✓ Spec compliance: 5/5 ACs tested
-
-Closes: #1234
-```
+Full format specification and a worked example: `${CLAUDE_PLUGIN_ROOT}/templates/commit-message.md`.
 
 ### Step 3: Stage and Commit Changes
 
@@ -596,80 +435,7 @@ After deployment completes:
 
 ## Output Format
 
-Upon successful deployment, output:
-
-```
-# Deployment Complete ✓
-
-## Deployment Summary
-- Environment: {env}
-- Feature: {feature-name}
-- Commit: {short-hash}
-- Branch: {branch-name}
-- Timestamp: {ISO timestamp}
-- Duration: {X minutes}
-
-## Code Changes
-- Files modified: {count}
-- Lines added: {count}
-- Lines removed: {count}
-- Acceptance criteria: {N}/{N} verified
-
-## Quality Gates (Pre-Deploy)
-- Lint: ✓ PASS
-- Types: ✓ PASS
-- Tests: ✓ PASS (32/32)
-- Coverage: ✓ PASS (87%)
-- Spec compliance: ✓ PASS
-
-## CI/CD Pipeline
-- Status: ✓ ALL JOBS PASSED
-- Lint: ✓ 2 minutes
-- Type Check: ✓ 3 minutes
-- Unit Tests: ✓ 4 minutes
-- Integration Tests: ✓ 2 minutes
-
-## Post-Deployment Verification
-- Smoke Tests: ✓ PASS (6/6)
-- Health Check: ✓ OK
-- Error Rate: Normal
-- Response Time: {Xms avg} (target: <100ms)
-
-## Deployment Details
-- Strategy: {direct|blue-green|canary}
-- Rollback Plan: Revert commit {hash} and redeploy
-
-## Deployed Files
-- API endpoints: ✓ Updated and responding
-- Database migrations: {N} applied
-- Static assets: Served from CDN
-- Service restart: ✓ Complete
-
-## Notifications
-- Slack notification sent ✓
-- Email notification sent ✓
-- Deployment log: logs/deploy-2025-02-07-1234.txt
-
-## Next Steps
-1. Monitor application for issues (next 1 hour)
-2. Check user feedback and error tracking
-3. Validate feature is used as expected
-4. Consider follow-up optimizations
-```
-
-## Progress Tracking
-
-Use TaskCreate and TaskUpdate to report progress through the CLI spinner. Create tasks at the start of each major phase and mark them completed as they finish.
-
-**Tasks to create:**
-| Phase | Subject | activeForm |
-|-------|---------|------------|
-| Pre-deploy | Running pre-deploy checks | Running pre-deploy checks... |
-| Prepare | Preparing deployment artifacts | Preparing deployment... |
-| Deploy | Executing deployment | Executing deployment... |
-| Smoke tests | Running post-deploy smoke tests | Running smoke tests... |
-
-Mark each task `in_progress` when starting and `completed` when done. This gives the user real-time visibility into skill execution.
+Upon successful deployment, output a "Deployment Complete" report covering: deployment summary (environment, feature, commit, branch, timestamp, duration), code changes, pre-deploy quality gates, CI/CD job results, post-deployment verification (smoke tests, health check, error rate, response time), deployment details (strategy + rollback plan), deployed files, notifications, and next steps. Render per the sample report in `${CLAUDE_PLUGIN_ROOT}/templates/deploy-reference.md`.
 
 ## Error Handling
 
@@ -763,88 +529,17 @@ During away mode, the deploy skill automatically uses `--promote` behavior:
 
 ## Configuration in .add/config.json
 
-```json
-{
-  "git": {
-    "defaultBranch": "main",
-    "requirePR": false,
-    "requireReviews": 2
-  },
-  "ci": {
-    "enabled": true,
-    "provider": "github",
-    "timeout": 1800
-  },
-  "deployment": {
-    "strategy": "direct",
-    "rollbackEnabled": true,
-    "smokeTestScript": "npm run test:smoke"
-  },
-  "environments": {
-    "dev": {
-      "branch": "develop",
-      "requireApproval": false,
-      "targetHost": "dev.example.com"
-    },
-    "staging": {
-      "branch": "staging",
-      "requireApproval": false,
-      "targetHost": "staging.example.com"
-    },
-    "production": {
-      "branch": "main",
-      "requireApproval": true,
-      "requireReviews": 2,
-      "targetHost": "api.example.com"
-    }
-  }
-}
-```
+Deploy reads: `git.*` (defaultBranch, requirePR, requireReviews), `ci.*` (enabled, provider, timeout), `deployment.*` (strategy, rollbackEnabled, smokeTestScript), and per-environment `environments.{env}` settings (branch, requireApproval, requireReviews, targetHost). Full annotated example: `${CLAUDE_PLUGIN_ROOT}/templates/deploy-reference.md`.
 
 ## Deployment Checklist
 
-Before deploying to production:
-- [ ] All acceptance criteria implemented
-- [ ] All tests passing (32/32)
-- [ ] Code coverage >= 80%
-- [ ] Lint and type checks passing
-- [ ] Code reviewed by 2+ team members
-- [ ] Spec compliance verified
-- [ ] Performance targets met
-- [ ] Database migrations ready
-- [ ] Documentation updated
-- [ ] Release notes prepared
-- [ ] Rollback plan documented
-- [ ] Team notified
-- [ ] Monitoring configured
-- [ ] Smoke tests defined
-- [ ] Post-deployment checklist ready
+Before deploying to production, walk the 15-item pre-production checklist in `${CLAUDE_PLUGIN_ROOT}/templates/deploy-reference.md` (ACs implemented, tests + coverage, reviews, spec compliance, performance, migrations, docs, release notes, rollback plan, notifications, monitoring, smoke tests).
 
 ## Rollback Procedure
 
-If production deployment fails:
+If production deployment fails: revert the problematic commit (or check out the previous stable tag), push, redeploy the previous version, then verify health with smoke tests against production. Commands: `${CLAUDE_PLUGIN_ROOT}/templates/deploy-reference.md`.
 
-```bash
-# Immediate rollback
-git revert {problematic-commit}
-git push origin main
-
-# Or tag-based rollback
-git checkout {previous-stable-tag}
-git push origin main
-
-# Deploy previous version
-npm run deploy:production
-
-# Verify health
-npm run test:smoke -- --environment production
-```
-
-Document:
-- What broke
-- Why it broke
-- How to prevent in future
-- Timeline of incident
+Document: what broke, why it broke, how to prevent it in future, and the incident timeline.
 
 ## Post-Deployment Monitoring
 
@@ -855,20 +550,8 @@ After production deployment:
 - Monitor performance metrics
 - Be ready to rollback if issues arise
 
-## Process Observation
+## Epilogue
 
-After completing this skill, do BOTH:
+End-of-skill epilogue: follow ${CLAUDE_PLUGIN_ROOT}/references/skill-epilogue.md (observation + learning checkpoint + progress tracking).
 
-### 1. Observation Line
-
-Append one observation line to `.add/observations.md`:
-
-```
-{YYYY-MM-DD HH:MM} | deploy | {one-line summary of outcome} | {cost or benefit estimate}
-```
-
-If `.add/observations.md` does not exist, create it with a `# Process Observations` header first.
-
-### 2. Learning Checkpoint
-
-Write a structured JSON learning entry per the checkpoint trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md` (section: "After Deployment"). Classify scope, write to the appropriate JSON file (`.add/learnings.json` or `~/.claude/add/library.json`), and regenerate the markdown view.
+Deploy specifics: progress-task phases are pre-deploy checks → prepare → deploy → smoke tests; the observation line uses skill name `deploy`; the learning checkpoint uses the "After Deployment" trigger in `${CLAUDE_PLUGIN_ROOT}/references/learning-reference.md`.

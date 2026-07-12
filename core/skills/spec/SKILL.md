@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.6.0] Create a feature specification through structured interview"
+description: "[ADD v{{VERSION}}] Create a feature specification through structured interview"
 argument-hint: "[feature-name] [--from-prd-section N]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
 references: ["rules/telemetry.md"]
 ---
 
-# ADD Spec Command v0.6.0
+# ADD Spec Command v{{VERSION}}
 
 Create a feature specification through a structured interview. The spec becomes the source of truth for implementation.
 
