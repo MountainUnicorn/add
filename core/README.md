@@ -11,7 +11,7 @@ core/
 ├── VERSION                    # Single source of truth for plugin version
 ├── skills/                    # Skill bodies (workflow content)
 │   └── {name}/SKILL.md        # Contains Claude-extension frontmatter; compile strips for other runtimes
-├── rules/                     # Auto-loaded behavioral rules
+├── rules/                     # Behavioral rules (autoload: true = every session; false = on-demand)
 │   └── {name}.md              # autoload + maturity frontmatter are ADD conventions
 ├── templates/                 # Document scaffolding (PRD, spec, plan, retro, etc.)
 ├── knowledge/                 # Tier 1 curated best practices

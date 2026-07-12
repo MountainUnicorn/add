@@ -1,3 +1,4 @@
 .claude/worktrees/
 .add/learnings-active.md
 .add/security/
+scripts/.venv/

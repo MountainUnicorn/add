@@ -21,6 +21,7 @@ run_test() {
   local input="$2"
   local expected="$3"
   local max_entries="${4:-15}"
+  local config="${5:-}"
 
   # Work in a temp dir to avoid polluting fixtures
   local tmpdir
@@ -28,6 +29,8 @@ run_test() {
   trap "rm -rf '$tmpdir'" RETURN
 
   cp "$input" "$tmpdir/learnings.json"
+  # Optional sibling config.json (read by the filter for active_char_budget)
+  [ -n "$config" ] && cp "$config" "$tmpdir/config.json"
 
   "$FILTER" "$tmpdir/learnings.json" "$max_entries"
 
@@ -72,6 +75,18 @@ run_test "large (15 top + 13 index, 2 archived)" \
 run_test "empty entries" \
   "$FIXTURES/learnings-empty.json" \
   "$FIXTURES/learnings-empty-expected.md"
+
+# Test 5: Long body — truncated at 400 chars with truncation marker
+run_test "long body (per-entry 400-char truncation)" \
+  "$FIXTURES/learnings-longbody.json" \
+  "$FIXTURES/learnings-longbody-expected.md"
+
+# Test 6: Char budget — config active_char_budget=200 pushes overflow to index
+run_test "char budget (overflow to index)" \
+  "$FIXTURES/learnings-budget.json" \
+  "$FIXTURES/learnings-budget-expected.md" \
+  15 \
+  "$FIXTURES/learnings-budget-config.json"
 
 echo ""
 echo "=== Results: $PASS passed, $FAIL failed ==="

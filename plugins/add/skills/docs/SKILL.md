@@ -1,15 +1,17 @@
 ---
-description: "[ADD v0.9.8] Generate and sync project documentation — architecture diagrams, API docs, README"
+description: "[ADD v0.9.9] Generate and sync project documentation — architecture diagrams, API docs, README"
 argument-hint: "[--scope all|api|diagrams|readme] [--check] [--discover]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Agent]
 references: ["learning-reference.md", "rules/telemetry.md"]
 ---
 
-# ADD Docs Skill v0.9.8
+# ADD Docs Skill v0.9.9
 
 Generate, update, and verify project documentation. Uses a discovery-first approach: the skill learns your codebase structure on first run, caches that knowledge in a manifest, and uses it for fast, accurate doc generation on every subsequent run.
 
 Works with any project type — web APIs, libraries, CLIs, data pipelines, monorepos, or anything else.
+
+**Token economy:** doc rendering is mechanical work. When sub-agent dispatch is available, delegate bulk generation (diagram emission, API doc rendering, README regen) to the fast tier per `rules/model-roles.md`; keep the frontier-model context for judgment — what to document, staleness calls, and review.
 
 ## Overview
 

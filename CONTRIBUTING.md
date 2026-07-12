@@ -16,7 +16,7 @@ That's it. There's nothing to build or install. The plugin is entirely markdown 
 ```
 core/                   # Source of truth (v0.7+ restructure)
 ├── skills/             # 27 skills — all slash commands (/add:init, /add:spec, /add:tdd-cycle, ...)
-├── rules/              # 20 auto-loading behavioral rules
+├── rules/              # 17 auto-loaded behavioral rules (+3 on-demand)
 ├── references/         # Non-autoloaded reference rules (loaded on-demand)
 ├── templates/          # 23 document templates (PRD, spec, plan, config, etc.)
 ├── knowledge/          # 4 Tier-1 knowledge files (global, image-gen-detection, secret-patterns, threat-model)

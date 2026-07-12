@@ -8,13 +8,7 @@ description: "Maturity-aware rule loader — controls which rules are active bas
 
 ## Purpose
 
-Not all rules apply to all projects. Each rule declares a minimum maturity level via `maturity:` frontmatter. This loader instructs agents to respect those boundaries.
-
-## How It Works
-
-1. Read `.add/config.json` and extract the `maturity` field (poc, alpha, beta, ga)
-2. Each rule file in `rules/` has a `maturity:` frontmatter field
-3. **Only follow rules at or below the project's maturity level.** Ignore rules above it.
+Not all rules apply to all projects. Each rule declares a minimum maturity level via `maturity:` frontmatter; only rules at or below the project's level are active. Since v0.9.9 this gating is **physical**: the SessionStart hook (`hooks/load-rules.sh`) reads `.add/config.json` → `maturity.level` and injects only the active rules into context — dormant rules cost zero tokens, not just zero obedience.
 
 ## Maturity Hierarchy
 
@@ -22,42 +16,19 @@ Not all rules apply to all projects. Each rule declares a minimum maturity level
 poc < alpha < beta < ga
 ```
 
-A project at `alpha` loads `poc` + `alpha` rules. A project at `beta` loads `poc` + `alpha` + `beta` rules. And so on.
+A project at `alpha` loads `poc` + `alpha` rules. A project at `beta` loads `poc` + `alpha` + `beta` rules. And so on. Each rule's gate is its `maturity:` frontmatter key — the frontmatter is the single source of truth (there is no separate matrix to drift).
 
-## Rule Loading Matrix
+## How Loading Works
 
-| Rule | POC | Alpha | Beta | GA |
-|------|-----|-------|------|-----|
-| `project-structure` | **active** | active | active | active |
-| `learning` | **active** | active | active | active |
-| `source-control` | **active** | active | active | active |
-| `maturity-loader` (this rule) | **active** | active | active | active |
-| `version-migration` | **active** | active | active | active |
-| `registry-sync` | **active** | active | active | active |
-| `spec-driven` | dormant | **active** | active | active |
-| `quality-gates` | dormant | **active** | active | active |
-| `human-collaboration` | dormant | **active** | active | active |
-| `add-compliance` | dormant | **active** | active | active |
-| `secrets-handling` | dormant | **active** | active | active |
-| `tdd-enforcement` | dormant | dormant | **active** | active |
-| `agent-coordination` | dormant | dormant | **active** | active |
-| `environment-awareness` | dormant | dormant | **active** | active |
-| `maturity-lifecycle` | dormant | dormant | **active** | active |
-| `cache-discipline` | dormant | dormant | **active** | active |
-| `injection-defense` | dormant | dormant | **active** | active |
-| `telemetry` | dormant | dormant | **active** | active |
-| `design-system` | dormant | dormant | dormant | **active** |
+1. **Hook path (normal):** at SessionStart, `load-rules.sh` injects a `# ADD Rules (project maturity: <level>)` block containing every active rule body, plus a one-line list of dormant and on-demand rules. If that block is in your context, the gating already happened — follow what was loaded, and treat listed dormant rules as non-existent.
+2. **Fallback path (hooks disabled or failed):** if no `# ADD Rules` block appears in context, Read `.add/config.json` for `maturity.level`, then Read each file in `${CLAUDE_PLUGIN_ROOT}/rules/` whose `maturity:` gate is at or below that level (skip `autoload: false` rules — those load on demand via skill `references:`).
+3. **No `.add/config.json`:** the full rule set loads (fail-open — the project hasn't declared a maturity yet; `/add:init` establishes one).
 
 ## Agent Instructions
 
-**At the start of every task:**
-
-1. Read `.add/config.json` to determine the project maturity level
-2. If a rule's `maturity:` level is ABOVE the project's level, **treat that rule as non-existent** — do not follow its instructions, do not reference it, do not enforce it
-3. If no `.add/config.json` exists, assume `alpha` maturity (reasonable default)
-
-**Example:** A project at `alpha` maturity loads its 6 poc rules plus 5 alpha rules (spec-driven, quality-gates, human-collaboration, add-compliance, secrets-handling). The agent should NOT enforce TDD cycles, agent coordination protocols, environment-awareness tiers, cache-discipline, injection-defense, telemetry, or design-system rules — those are dormant until the project promotes to beta or ga.
+- **Treat dormant rules as non-existent** — do not follow, reference, or enforce a rule whose gate is above the project level. They activate automatically after `/add:promote`.
+- Do not re-read `rules/` mid-session to "check" dormant rules; the dial moves only via `/add:promote`, which tells you when it does.
 
 ## Why This Matters
 
-Loading all rules for all projects wastes context on instructions that don't apply. A POC project doesn't need 5-level quality gates. An alpha project doesn't need multi-agent coordination. The maturity dial controls rigor — and that starts with which rules are even active.
+Loading all rules for all projects wastes context on instructions that don't apply. A POC project doesn't need 5-level quality gates or multi-agent coordination protocols — and with physical loading it no longer pays ~13k tokens per session for them. The maturity dial controls rigor, starting with which rules even enter context.

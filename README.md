@@ -13,7 +13,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.9.8-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.9.9-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
 </p>
 
@@ -252,9 +252,21 @@ Every ADD project declares a maturity level that governs *all* process rigor. Th
 
 A POC project gets almost no ceremony. A GA project gets exhaustive verification. Promotion happens deliberately — triggered by cycle completion or retrospectives when gap analysis shows readiness.
 
+Since v0.9.9 the dial is also a **token dial**: rules load physically per maturity at session start, so a POC project pays ~70% fewer context tokens than a GA project — you don't rent GA rigor while you're still sketching.
+
 ---
 
 ## Key Features
+
+### Token-Efficient by Design
+
+Frontier models are priced for judgment, not boilerplate — ADD spends them accordingly:
+
+- **Maturity-gated rule loading** — a SessionStart hook injects only the behavioral rules your project's maturity level has earned. Dormant rules cost zero tokens, not just zero obedience.
+- **On-demand everything else** — reference material, knowledge files, and orchestration-only rules load when a skill needs them, never by default.
+- **Cost-tier policy for sub-agents** — every dispatch carries a MODEL tier (fast / editor / architect) and a maturity-scaled token BUDGET. Mechanical work (test scaffolds, dashboards, SVG rendering) runs on the fast tier; the frontier model keeps the judgment calls.
+- **Capped learning views** — accumulated learnings are pre-filtered and size-capped before they enter context.
+- **Cache-disciplined dispatches** — STABLE/VOLATILE prompt layout maximizes prompt-cache reuse across sub-agent calls.
 
 ### Spec-Driven Development
 
@@ -516,7 +528,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 </details>
 
 <details>
-<summary><strong>Rules</strong> — 20 auto-loaded behavioral rules</summary>
+<summary><strong>Rules</strong> — 17 auto-loaded behavioral rules (+3 on-demand), maturity-gated at session start</summary>
 
 | Rule | What it enforces |
 |------|-----------------|

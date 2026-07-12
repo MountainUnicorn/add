@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.9.8",
+  "plugin_version": "0.9.9",
   "migrations": [
     {
       "from": "0.1.0",
@@ -266,6 +266,12 @@
       "to": "0.9.8",
       "steps": [],
       "description": "v0.9.8 \u2014 P0 correctness patch. Codex compiler now rewrites ~/.codex/add paths and /add- command namespace in rules/knowledge/templates/security/lib and agent TOMLs (previously leaked Claude-isms verbatim); Claude and Codex runtimes share one autoload predicate (explicit autoload: key now required on every rule; design-system.md was autoloaded on Claude but missing from Codex invariants); Codex AGENTS.md points to knowledge/global.md (was silently dropped); posttooluse-scan.sh records a skipped:no-python3 audit event instead of silently disabling the critical unicode-tag-block detector; compile.py --check content-diffs against a snapshot (git-independent, catches pre-drifted trees); adapter.yaml limitations rewritten to state Codex injection defense is advisory-only. No consumer config changes."
+    },
+    {
+      "from": "0.9.8",
+      "to": "0.9.9",
+      "steps": [],
+      "description": "v0.9.9 \u2014 token-architecture release. Rules now load PHYSICALLY per maturity: a new SessionStart hook (hooks/load-rules.sh) reads .add/config.json maturity.level and injects only rules at/below it (POC sessions drop ~70% of rule tokens; no config = full set, behavior-compatible). telemetry, cache-discipline, and model-roles flipped to autoload:false (on-demand via skill references); learning and maturity-lifecycle trimmed to behavioral cores with full content in references/ (learning-reference.md, new telemetry-reference.md, new maturity-matrix.md). Sub-agent dispatches gain MODEL tier (fast/editor/architect) + maturity-scaled token BUDGET policy (swarm-protocol.md tables; overridable via .add/config.json swarm.budgets). learnings-active.md gains a char budget (learnings.active_char_budget, default 6000; 400-char per-entry cap). No required consumer config changes; optional new keys: swarm.budgets, learnings.active_char_budget."
     }
   ]
 }

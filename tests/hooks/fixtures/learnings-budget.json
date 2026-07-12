@@ -1,0 +1,40 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/learnings.schema.json",
+  "version": "1.0.0",
+  "project": "test-project",
+  "entries": [
+    {
+      "id": "L-001",
+      "title": "Entry number 1",
+      "body": "Body of entry number 1. filler filler filler filler filler filler filler filler.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "critical",
+      "source": "test-project",
+      "date": "2026-05-01"
+    },
+    {
+      "id": "L-002",
+      "title": "Entry number 2",
+      "body": "Body of entry number 2. filler filler filler filler filler filler filler filler.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "high",
+      "source": "test-project",
+      "date": "2026-04-01"
+    },
+    {
+      "id": "L-003",
+      "title": "Entry number 3",
+      "body": "Body of entry number 3. filler filler filler filler filler filler filler filler.",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "medium",
+      "source": "test-project",
+      "date": "2026-03-01"
+    }
+  ]
+}

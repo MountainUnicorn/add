@@ -62,4 +62,4 @@ Configure in `.add/config.json` with `quality.mode: "spike"` for early prototype
 
 ## Maturity-Scaled Checks
 
-Quality checks scale by maturity — lighter and advisory at Alpha, tighter and blocking at GA. The cascade matrix in `maturity-lifecycle.md` (rows 44-48) provides the overview. For detailed per-check enforcement tables (code quality thresholds, security checks, readability, performance, repo hygiene), see `${CLAUDE_PLUGIN_ROOT}/references/quality-checks-matrix.md`.
+Quality checks scale by maturity — lighter and advisory at Alpha, tighter and blocking at GA. The cascade matrix in `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md` (Code Quality through Repo Hygiene rows) provides the overview. For detailed per-check enforcement tables (code quality thresholds, security checks, readability, performance, repo hygiene), see `${CLAUDE_PLUGIN_ROOT}/references/quality-checks-matrix.md`.

@@ -11,6 +11,8 @@ Generate, update, and verify project documentation. Uses a discovery-first appro
 
 Works with any project type — web APIs, libraries, CLIs, data pipelines, monorepos, or anything else.
 
+**Token economy:** doc rendering is mechanical work. When sub-agent dispatch is available, delegate bulk generation (diagram emission, API doc rendering, README regen) to the fast tier per `rules/model-roles.md`; keep the frontier-model context for judgment — what to document, staleness calls, and review.
+
 ## Overview
 
 The Docs skill manages documentation artifacts that drift as code evolves:

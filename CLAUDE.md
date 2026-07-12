@@ -52,7 +52,7 @@ Cut a signed release:
 ```
 core/                  # Source of truth (runtime-neutral)
   skills/              #   27 skills — all slash commands
-  rules/               #   20 auto-loading behavioral rules
+  rules/               #   17 auto-loaded behavioral rules (+3 on-demand)
   references/          #   non-autoloaded reference rules (loaded on-demand)
   templates/           #   23 document templates
   knowledge/           #   4 Tier-1 knowledge files

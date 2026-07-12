@@ -1,12 +1,14 @@
 ---
 name: add-dashboard
-description: "[ADD v0.9.8] Generate a visual HTML project dashboard from .add/ project files"
+description: "[ADD v0.9.9] Generate a visual HTML project dashboard from .add/ project files"
 argument-hint: "[--open]"
 ---
 
-# ADD Dashboard Command v0.9.8
+# ADD Dashboard Command v0.9.9
 
 Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading the project's `.add/` directory, specs, docs, and config. The file opens in the browser and gives anyone — developer, PM, or founder — a real-time picture of the project's state.
+
+**Token economy:** dashboard rendering is mechanical work. When sub-agent dispatch is available, delegate the bulk HTML generation to the fast tier per `rules/model-roles.md`; keep the frontier-model context for judgment — data selection, status interpretation, and final review.
 
 ## Pre-Flight
 

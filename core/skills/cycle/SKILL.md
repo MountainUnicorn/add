@@ -2,7 +2,7 @@
 description: "[ADD v0.6.0] Plan and execute a work cycle — select features, assess parallelism, define validation"
 argument-hint: "[--plan | --status | --complete | --milestone] [milestone M{N}]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
-references: ["learning-reference.md", "swarm-protocol.md", "rules/telemetry.md"]
+references: ["learning-reference.md", "swarm-protocol.md", "maturity-matrix.md", "rules/telemetry.md", "rules/model-roles.md"]
 ---
 
 # ADD Cycle Command v0.6.0
@@ -78,7 +78,7 @@ Feature Details:
 
 ### Step 2: Interactive Interviews
 
-Ask the human 1-by-1 questions. Number of questions varies by maturity (see cascade matrix):
+Ask the human 1-by-1 questions. Number of questions varies by maturity (see cascade matrix in `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md`):
 - POC: ~5 questions (fast)
 - Alpha: ~8 questions (clarify core unknowns)
 - Beta: ~12 questions (deep understanding)
@@ -520,6 +520,12 @@ Proceed with normal `/cycle --plan` flow using the newly active milestone.
 ## Swarm Coordination (Beta/GA Maturity)
 
 When cycle plan includes parallel work with 2+ agents:
+
+Every dispatch carries a MODEL tier and a BUDGET cap per the policy tables in
+`${CLAUDE_PLUGIN_ROOT}/references/swarm-protocol.md` (Resource Budgets +
+role → tier defaults, tiers per `rules/model-roles.md`). Mechanical work —
+frontmatter sweeps, generated-output regen, dashboard/SVG rendering — runs on
+the fast tier; reserve the architect tier for review and orchestration.
 
 ### Git Worktree Setup
 Recommend creating separate worktrees for each agent:

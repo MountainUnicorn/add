@@ -1,4 +1,4 @@
-# ADD for Codex CLI — v0.9.8
+# ADD for Codex CLI — v0.9.9
 
 This directory is the compiled Codex adapter for ADD, in the **native Skills**
 layout (`.agents/skills/add-<name>/SKILL.md`). Install with:

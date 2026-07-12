@@ -92,6 +92,40 @@ Rules:
 
 If WIP limit is reached, new work must wait until an in-progress item is VERIFIED.
 
+## Resource Budgets
+
+> **POLICY (ADD-owned).** Like WIP limits, these are the numbers ADD supplies;
+> the *mechanism* that enforces them — Workflow per-step budgets, model
+> overrides on dispatch — belongs to the runtime. Frontier models are
+> expensive: an orchestrator that runs every dispatch on the largest model with
+> no token ceiling burns budget without buying quality. Scale spend with
+> maturity, exactly as WIP limits scale concurrency.
+
+| Maturity | Per-Cycle-Item Token Budget | Per-Sub-Agent Dispatch Cap | Notes |
+|----------|-----------------------------|-----------------------------|-------|
+| poc | ~30k tokens/item | 1 cheap dispatch | Minimal — single fast/editor-tier dispatch, no parallel spend |
+| alpha | ~60k tokens/item | ~30k/dispatch | Editor-tier default; escalate only on verification failure |
+| beta | ~120k tokens/item | ~60k/dispatch | Architect tier for review; editor tier for the bulk |
+| ga | ~200k tokens/item | ~80k/dispatch | Includes adversarial verify pass on top of standard gates |
+
+These are **guidance defaults**, overridable in `.add/config.json` →
+`swarm.budgets`. Where a runtime orchestrates, they become its budget config
+(Claude Workflow per-step budgets / model overrides); in the manual fallback
+the orchestrator states them in each sub-agent brief and treats overrun as a
+`blocked` report.
+
+### Role → tier defaults
+
+Tiers are the capability tiers from `rules/model-roles.md` — never hardcoded
+model names:
+
+- **test-writer** → editor
+- **implementer** → editor
+- **reviewer** → architect
+- **verify** → editor
+- **explorer** → fast
+- **mechanical generation** (dashboards, SVG, docs rendering) → fast
+
 ## Sub-Agent Brief Template
 
 When dispatching a sub-agent for cycle work:
@@ -106,6 +140,9 @@ MATURITY: {level}
 TASK: {what to do — e.g., "Advance from SPECCED to VERIFIED"}
 SPEC: specs/{feature}.md
 PLAN: docs/plans/{feature}-plan.md
+
+MODEL: {fast | editor | architect — capability tier per rules/model-roles.md, not a model name}
+BUDGET: {max tokens for this dispatch — from the Resource Budgets table, or .add/config.json → swarm.budgets}
 
 FILE RESERVATIONS:
   OWNED: {files this agent may write}

@@ -4,6 +4,23 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.9.9] — 2026-07-12
+
+The token-architecture release. Frontier models are priced for judgment, not boilerplate — this release makes the maturity dial a *token* dial and gives ADD's dispatch machinery its missing cost policy.
+
+### Added
+
+- **Maturity-aware physical rule loading.** New SessionStart hook (`hooks/load-rules.sh`) reads `.add/config.json` → `maturity.level` and injects only rules whose `maturity:` gate is at/below the project level. Previously all 20 rules were statically `@`-imported (~17.8k tokens every session) and the maturity-loader could only suppress *behavior* — a POC project paid ~13k tokens for rules it was told to ignore. Now dormant rules cost zero tokens (POC sessions: ~70% rule-token reduction). Fail-open to the full set when `.add/config.json` is absent/unparseable (behavior parity). CLAUDE.md carries a names-only rule index + fallback protocol; `maturity-loader.md` rewritten (the hardcoded 19-row matrix is gone — rule frontmatter is the single source of truth). Fixture-tested at `tests/hooks/test-load-rules.sh`; `tests/rule-parity/` rewritten for the new mechanism.
+- **MODEL + BUDGET cost policy for sub-agent dispatch.** `swarm-protocol.md` gains a maturity-scaled Resource Budgets table (poc ~30k tokens/item → ga ~200k + adversarial verify; overridable via `.add/config.json` → `swarm.budgets`), role→tier defaults (test-writer/implementer/verify = editor, reviewer = architect, explorer/mechanical generation = fast), and MODEL/BUDGET fields in the Sub-Agent Brief Template. `tdd-cycle` dispatch prompts carry per-role tiers; `dashboard`/`infographic`/`docs` note that bulk rendering belongs on the fast tier. `model-roles.md` adds token-budget escalation (start cheap, escalate on verification failure).
+- **Size-capped learnings view.** `filter-learnings.sh` now enforces `learnings.active_char_budget` (default 6000 chars) with a 400-char per-entry cap; overflow entries demote to the one-line index. The active view is read before every skill — it can no longer grow unbounded.
+- New on-demand references: `telemetry-reference.md`, `maturity-matrix.md` (cascade matrix + promotion process).
+
+### Changed
+
+- **`telemetry`, `cache-discipline`, `model-roles` rules flipped to `autoload: false`** (write-side/orchestration-only — loaded via skill `references:` when needed). `learning` trimmed 995→464 words and `maturity-lifecycle` 1202→463 (procedural content moved to references). Always-on rule surface: 17 rules, ~6k tokens lighter per session before maturity gating.
+- **CLAUDE.md trimmed**: 27-row skills table replaced with the workflow chain (Claude Code already surfaces skill descriptions); Document + Work hierarchies merged into one diagram.
+- **`count-tokens.py` de-drifted** — the autoload set is now derived from rule frontmatter (was a stale hardcoded 15-rule list that under-reported by ~5k tokens and misattributed knowledge files); knowledge/references/on-demand rules now report in a separate on-demand section.
+
 ## [0.9.8] — 2026-07-12
 
 P0 correctness patch from a full token-sensitivity audit (four parallel deep-dives across rules, skills, the Codex runtime, and the operational machinery). Fixes cross-runtime divergence and fail-open security behavior; opens the three-release path to v1.0 (v0.9.9 token architecture, v0.9.10 dedup + hygiene).

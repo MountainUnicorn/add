@@ -1,10 +1,10 @@
 ---
 name: add-tdd-cycle
-description: "[ADD v0.9.8] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
+description: "[ADD v0.9.9] Execute complete TDD cycle — RED → GREEN → REFACTOR → VERIFY against a spec"
 argument-hint: "specs/{feature}.md [--ac AC-001,AC-002] [--parallel] [--allow-test-rewrite]"
 ---
 
-# ADD TDD Cycle Skill v0.9.8
+# ADD TDD Cycle Skill v0.9.9
 
 Execute a complete Test-Driven Development cycle for a feature from the specification through production-quality code.
 
@@ -35,6 +35,12 @@ every dispatch in a session; only the VOLATILE block changes per role.
 - Full body of the current spec under work
 <!-- CACHE: VOLATILE -->
 - Role (test-writer | implementer | reviewer | verify)
+- MODEL: capability tier per role — test-writer: editor, implementer: editor,
+  reviewer: architect, verify: editor (tiers per `rules/model-roles.md`, never
+  hardcoded model names)
+- BUDGET: max tokens for this dispatch — per the maturity Resource Budgets
+  table in `~/.codex/add/references/swarm-protocol.md` (overridable
+  via `.add/config.json` → `swarm.budgets`)
 - Per-call TASK / SCOPE / SPEC REFERENCE / SUCCESS CRITERIA / RESTRICTIONS
 - AC subset for this dispatch
 - Per-call hints — recent edits, tool outputs, working-set diffs

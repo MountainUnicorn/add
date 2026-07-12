@@ -5,16 +5,34 @@
 # containing the top entries sorted by severity and recency, plus a compact
 # index of all remaining entries so agents can spot relevant ones.
 #
-# Usage: filter-learnings.sh <path-to-learnings.json> [max-entries]
+# Usage: filter-learnings.sh <path-to-learnings.json> [max-entries] [char-budget]
 # Example: filter-learnings.sh .add/learnings.json 15
+#
+# char-budget defaults to learnings.active_char_budget from the sibling
+# config.json (.add/config.json in real projects), falling back to 6000.
 
 set -euo pipefail
 
 LEARNINGS_JSON="${1:-}"
 MAX_ENTRIES="${2:-15}"
+CHAR_BUDGET="${3:-}"
+
+# Per-entry body cap (chars) before truncation
+ENTRY_BODY_CAP=400
 
 [ -n "$LEARNINGS_JSON" ] && [ -f "$LEARNINGS_JSON" ] || exit 0
 command -v jq >/dev/null 2>&1 || exit 0
+
+# Resolve total character budget: explicit arg > config.json > default 6000
+if [ -z "$CHAR_BUDGET" ]; then
+  CONFIG_JSON="$(dirname "$LEARNINGS_JSON")/config.json"
+  if [ -f "$CONFIG_JSON" ]; then
+    CHAR_BUDGET=$(jq -r '.learnings.active_char_budget // empty' "$CONFIG_JSON" 2>/dev/null) || true
+  fi
+fi
+case "$CHAR_BUDGET" in
+  ''|*[!0-9]*) CHAR_BUDGET=6000 ;;
+esac
 
 ACTIVE_MD="${LEARNINGS_JSON%.json}-active.md"
 
@@ -29,14 +47,27 @@ EOF
 }
 
 # Sort by severity desc (critical>high>medium>low), then date desc.
-# Exclude archived entries. Cap at MAX_ENTRIES.
-SORTED=$(jq -r --argjson max "$MAX_ENTRIES" '
+# Exclude archived entries. Cap at MAX_ENTRIES, truncate each body to
+# ENTRY_BODY_CAP chars, and stop emitting full entries once the running
+# character total would exceed CHAR_BUDGET — overflow falls into the index.
+SORTED=$(jq -r --argjson max "$MAX_ENTRIES" --argjson budget "$CHAR_BUDGET" --argjson bodycap "$ENTRY_BODY_CAP" '
   def sev: if . == "critical" then 4 elif . == "high" then 3 elif . == "medium" then 2 else 1 end;
-  .entries
-  | map(select(.archived != true))
-  | map(. + {_r: (.severity | sev)})
-  | sort_by([._r, .date]) | reverse
-  | {top: .[:$max], rest: .[$max:]}
+  def fmt: "- **[\(.severity)]** \(.title) (\(.id), \(.date))\n  \(.body)";
+  (.entries
+   | map(select(.archived != true))
+   | map(. + {_r: (.severity | sev)})
+   | sort_by([._r, .date]) | reverse) as $all
+  | ($all[:$max]
+     | map(if (.body | length) > $bodycap
+           then .body = (.body[:$bodycap] + "… [truncated — full entry in learnings.json]")
+           else . end)) as $cand
+  | reduce $cand[] as $e ({top: [], demoted: [], used: 0, stopped: false};
+      (($e | fmt) | length) as $len
+      | if .stopped or (.used + $len) > $budget
+        then .stopped = true | .demoted += [$e]
+        else .used += $len | .top += [$e]
+        end)
+  | {top: .top, rest: (.demoted + $all[$max:])}
 ' "$LEARNINGS_JSON" 2>/dev/null) || exit 0
 
 # Top entries — full detail, grouped by category

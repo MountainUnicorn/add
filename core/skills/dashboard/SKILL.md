@@ -9,6 +9,8 @@ references: ["design-system.md", "rules/telemetry.md"]
 
 Generate a self-contained HTML dashboard at `reports/dashboard.html` by reading the project's `.add/` directory, specs, docs, and config. The file opens in the browser and gives anyone — developer, PM, or founder — a real-time picture of the project's state.
 
+**Token economy:** dashboard rendering is mechanical work. When sub-agent dispatch is available, delegate the bulk HTML generation to the fast tier per `rules/model-roles.md`; keep the frontier-model context for judgment — data selection, status interpretation, and final review.
+
 ## Pre-Flight
 
 1. Read `.add/config.json` — if not found, abort: "No ADD project found. Run /add:init first."

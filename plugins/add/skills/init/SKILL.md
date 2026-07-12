@@ -1,12 +1,12 @@
 ---
-description: "[ADD v0.9.8] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v0.9.9] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
-references: ["rules/telemetry.md"]
+references: ["maturity-matrix.md", "rules/telemetry.md"]
 disable-model-invocation: true
 ---
 
-# ADD Init Command v0.9.8
+# ADD Init Command v0.9.9
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 
@@ -393,7 +393,7 @@ Any additions or corrections before I finalize?
 
 ### Catch-Up Spike Generation
 
-After confirming maturity level and completing the adoption interview, generate a gap analysis comparing current project state against the confirmed maturity level requirements (per maturity-lifecycle rule):
+After confirming maturity level and completing the adoption interview, generate a gap analysis comparing current project state against the confirmed maturity level requirements (per the cascade matrix in `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md`):
 
 ```
 CATCH-UP ANALYSIS: Bringing {project} to {MATURITY} compliance

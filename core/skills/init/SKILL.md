@@ -2,7 +2,7 @@
 description: "[ADD v0.6.0] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion]
-references: ["rules/telemetry.md"]
+references: ["maturity-matrix.md", "rules/telemetry.md"]
 disable-model-invocation: true
 ---
 
@@ -393,7 +393,7 @@ Any additions or corrections before I finalize?
 
 ### Catch-Up Spike Generation
 
-After confirming maturity level and completing the adoption interview, generate a gap analysis comparing current project state against the confirmed maturity level requirements (per maturity-lifecycle rule):
+After confirming maturity level and completing the adoption interview, generate a gap analysis comparing current project state against the confirmed maturity level requirements (per the cascade matrix in `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md`):
 
 ```
 CATCH-UP ANALYSIS: Bringing {project} to {MATURITY} compliance

@@ -84,18 +84,26 @@ def rule_autoloads(fm: dict, rule_file: Path) -> bool:
     return fm.get("autoload") in (True, "true", "True")
 
 
-def autoload_rules_block(rules_dir: Path) -> str:
-    """Build the `@rules/*.md` list for CLAUDE.md, excluding rules with autoload:false.
+def rule_index_blocks(rules_dir: Path) -> tuple[str, str, int]:
+    """Build the CLAUDE.md rule surfaces for maturity-aware loading (v0.9.9).
 
-    Preserves a deterministic order driven by filename so the list is stable across compiles.
+    Returns (rule_index, ondemand_list, autoload_count):
+      rule_index    — one `- name (gate)` line per autoload rule. NOT an @import:
+                      rule bodies are injected per-maturity by hooks/load-rules.sh
+                      at SessionStart, so the static manifest only names them.
+      ondemand_list — comma-joined names of autoload:false rules.
+      autoload_count — number of autoload rules (fills {{RULE_COUNT}}).
     """
-    lines: list[str] = []
+    index_lines: list[str] = []
+    ondemand: list[str] = []
     for rule_file in sorted(rules_dir.glob("*.md")):
         fm = parse_frontmatter(rule_file.read_text())
-        if not rule_autoloads(fm, rule_file):
-            continue
-        lines.append(f"@rules/{rule_file.name}")
-    return "\n".join(lines)
+        if rule_autoloads(fm, rule_file):
+            gate = fm.get("maturity", "poc")
+            index_lines.append(f"- {rule_file.stem} ({gate})")
+        else:
+            ondemand.append(rule_file.stem)
+    return "\n".join(index_lines), ", ".join(ondemand), len(index_lines)
 
 
 def read_version() -> str:
@@ -246,19 +254,16 @@ def compile_claude(version: str) -> dict:
     for name in (".claude-plugin", "hooks"):
         counts["adapter"] += copy_tree(adapter_src / name, output / name, version)
 
-    rules_block = autoload_rules_block(CORE / "rules")
-    # Count must match the "Auto-loading behavioral rules" label: count rules that
-    # actually autoload (autoload != false), i.e. the same population as rules_block,
-    # NOT every *.md file. Keeps the number honest if a rule ever sets autoload:false.
-    rule_count = str(len([ln for ln in rules_block.splitlines() if ln.strip()]))
+    rule_index, ondemand_list, autoload_count = rule_index_blocks(CORE / "rules")
     for file in ("CLAUDE.md", "README.md", "LICENSE"):
         src = adapter_src / file
         if src.exists():
             out = output / file
             if src.suffix in {".md"} or src.name == "LICENSE":
                 text = substitute_version(src.read_text(), version)
-                text = text.replace("{{AUTOLOAD_RULES}}", rules_block)
-                text = text.replace("{{RULE_COUNT}}", rule_count)
+                text = text.replace("{{RULE_INDEX}}", rule_index)
+                text = text.replace("{{ONDEMAND_RULES}}", ondemand_list or "(none)")
+                text = text.replace("{{RULE_COUNT}}", str(autoload_count))
                 out.write_text(text)
             else:
                 shutil.copy2(src, out)

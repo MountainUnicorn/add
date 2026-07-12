@@ -9,6 +9,8 @@ references: ["design-system.md", "image-gen-detection.md", "rules/telemetry.md"]
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
 
+**Token economy:** SVG generation is mechanical work. When sub-agent dispatch is available, delegate the bulk template-fill and SVG rendering to the fast tier per `rules/model-roles.md`; keep the frontier-model context for judgment — content selection, layout decisions, and final review.
+
 ## Pre-Flight Checks
 
 **Step 1.1: Verify ADD initialization**

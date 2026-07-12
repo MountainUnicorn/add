@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# test-rule-parity.sh — Regression test for F-011 + PR #6 on-demand-loading parity.
+# test-rule-parity.sh — Regression test for F-011 + PR #6 + v0.9.9 physical loading.
 #
-# After PR #6, runtimes/claude/CLAUDE.md uses a `{{AUTOLOAD_RULES}}` placeholder;
-# the literal `@rules/*.md` import lines are filled in by scripts/compile.py and
-# only appear in the COMPILED output at plugins/add/CLAUDE.md. Rules with
-# `autoload: false` frontmatter intentionally drop from the manifest (loaded
-# on-demand by skills via `references:` instead).
+# Since v0.9.9, rules are no longer @-imported by CLAUDE.md. The SessionStart
+# hook (hooks/load-rules.sh) injects rule bodies per project maturity, and the
+# compiled CLAUDE.md carries a names-only index ({{RULE_INDEX}}) plus the
+# on-demand list ({{ONDEMAND_RULES}}).
 #
 # This test asserts:
-#   1. The source CLAUDE.md uses the placeholder (PR #6 mechanism still in place)
-#   2. The compiled CLAUDE.md contains @rules/ for every rule WITHOUT autoload:false
-#   3. The compiled CLAUDE.md does NOT contain @rules/ for any rule WITH autoload:false
-#   4. Every @rules/ import in the compiled file points at a real source file
-#   5. The tree-diagram rule count in CLAUDE.md matches the actual file count
+#   1. Source CLAUDE.md uses the {{RULE_INDEX}} / {{ONDEMAND_RULES}} / {{RULE_COUNT}} placeholders
+#   2. Compiled CLAUDE.md indexes every autoload:true rule (and no autoload:false rule)
+#   3. Every rule declares an EXPLICIT autoload: key (shared-predicate contract, v0.9.8)
+#   4. load-rules.sh ships compiled and is registered as a SessionStart hook
+#   5. The compiled rule count matches the real autoload population
+#   6. Hand-authored prose counts in top-level docs match reality
 #
 # Usage: bash tests/rule-parity/test-rule-parity.sh
 
@@ -23,6 +23,8 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SOURCE_CLAUDE_MD="$REPO_ROOT/runtimes/claude/CLAUDE.md"
 COMPILED_CLAUDE_MD="$REPO_ROOT/plugins/add/CLAUDE.md"
 RULES_DIR="$REPO_ROOT/core/rules"
+COMPILED_HOOK="$REPO_ROOT/plugins/add/hooks/load-rules.sh"
+COMPILED_HOOKS_JSON="$REPO_ROOT/plugins/add/hooks/hooks.json"
 
 PASS=0
 FAIL=0
@@ -30,11 +32,10 @@ FAIL=0
 pass() { echo "PASS: $*"; PASS=$((PASS + 1)); }
 fail() { echo "FAIL: $*"; FAIL=$((FAIL + 1)); }
 
-echo "=== Claude rule parity check (F-011 + PR #6) ==="
+echo "=== Claude rule parity check (F-011 + PR #6 + v0.9.9) ==="
 echo ""
 
 # Helper: read the `autoload:` value from a rule's YAML frontmatter.
-# Returns "true" (or empty if the key isn't set, since true is the default).
 rule_autoload_value() {
   awk '
     /^---$/ { state = (state == "in") ? "out" : "in"; next }
@@ -46,15 +47,15 @@ rule_autoload_value() {
   ' "$1"
 }
 
-# ---- 1. source CLAUDE.md uses the {{AUTOLOAD_RULES}} placeholder --------------
+# ---- 1. source CLAUDE.md uses the compile placeholders ------------------------
 
-if grep -q "{{AUTOLOAD_RULES}}" "$SOURCE_CLAUDE_MD"; then
-  pass "source CLAUDE.md uses {{AUTOLOAD_RULES}} placeholder (PR #6 mechanism intact)"
-else
-  fail "source CLAUDE.md is missing the {{AUTOLOAD_RULES}} placeholder"
-fi
-
-# ---- 2 & 3. compiled CLAUDE.md @rules/ list reflects autoload filtering ------
+for ph in RULE_INDEX ONDEMAND_RULES RULE_COUNT; do
+  if grep -q "{{$ph}}" "$SOURCE_CLAUDE_MD"; then
+    pass "source CLAUDE.md uses {{$ph}} placeholder"
+  else
+    fail "source CLAUDE.md is missing the {{$ph}} placeholder"
+  fi
+done
 
 if [ ! -f "$COMPILED_CLAUDE_MD" ]; then
   fail "compiled CLAUDE.md not found at $COMPILED_CLAUDE_MD — run scripts/compile.py"
@@ -62,106 +63,97 @@ if [ ! -f "$COMPILED_CLAUDE_MD" ]; then
   exit 1
 fi
 
+# ---- 2 & 3. index reflects autoload filtering; explicit keys required ---------
+
 missing=()
 unexpected=()
+keyless=()
+autoload_count=0
 for f in "$RULES_DIR"/*.md; do
-  name=$(basename "$f")
+  name=$(basename "$f" .md)
   autoload=$(rule_autoload_value "$f")
-  in_manifest=0
-  grep -q "^@rules/$name\$" "$COMPILED_CLAUDE_MD" && in_manifest=1
+
+  if [ -z "$autoload" ]; then
+    keyless+=("$name")
+    continue
+  fi
+
+  in_index=0
+  grep -qE "^- $name \([a-z]+\)$" "$COMPILED_CLAUDE_MD" && in_index=1
 
   if [ "$autoload" = "false" ]; then
-    if [ $in_manifest -eq 1 ]; then
-      unexpected+=("$name (autoload:false but appears in manifest)")
+    if [ $in_index -eq 1 ]; then
+      unexpected+=("$name (autoload:false but appears in rule index)")
+    fi
+    # must appear in the on-demand list instead
+    if ! grep -q "loaded via skill \`references:\` when needed): .*$name" "$COMPILED_CLAUDE_MD"; then
+      unexpected+=("$name (autoload:false but absent from on-demand list)")
     fi
   else
-    if [ $in_manifest -eq 0 ]; then
+    autoload_count=$((autoload_count + 1))
+    if [ $in_index -eq 0 ]; then
       missing+=("$name")
     fi
   fi
 done
 
-if [ ${#missing[@]} -eq 0 ]; then
-  pass "every autoload:true rule has an @rules/ import in compiled CLAUDE.md"
+if [ ${#keyless[@]} -eq 0 ]; then
+  pass "every rule declares an explicit autoload: key (shared-predicate contract)"
 else
-  fail "${#missing[@]} autoload:true rule(s) missing @rules/ import:"
-  for m in "${missing[@]}"; do
-    echo "  missing: @rules/$m"
-  done
+  fail "${#keyless[@]} rule(s) missing an explicit autoload: key: ${keyless[*]}"
+fi
+
+if [ ${#missing[@]} -eq 0 ]; then
+  pass "every autoload:true rule is indexed in compiled CLAUDE.md"
+else
+  fail "${#missing[@]} autoload:true rule(s) missing from the compiled rule index:"
+  for m in "${missing[@]}"; do echo "  missing: $m"; done
 fi
 
 if [ ${#unexpected[@]} -eq 0 ]; then
-  pass "no autoload:false rules leaked into the compiled @rules/ manifest"
+  pass "autoload:false rules correctly listed on-demand only"
 else
-  fail "${#unexpected[@]} autoload:false rule(s) leaked into manifest:"
-  for u in "${unexpected[@]}"; do
-    echo "  unexpected: $u"
-  done
+  fail "${#unexpected[@]} autoload:false placement error(s):"
+  for u in "${unexpected[@]}"; do echo "  $u"; done
 fi
 
-# ---- 4. no @rules/ import points at a nonexistent file -----------------------
+# ---- 4. load-rules.sh ships and is registered at SessionStart ----------------
 
-orphan=()
-while IFS= read -r ref; do
-  [ -n "$ref" ] || continue
-  path=${ref#@rules/}
-  if [ ! -f "$RULES_DIR/$path" ]; then
-    orphan+=("$ref")
-  fi
-done < <(grep -oE '^@rules/[^ ]+' "$COMPILED_CLAUDE_MD")
-
-if [ ${#orphan[@]} -eq 0 ]; then
-  pass "no @rules/ imports point at nonexistent core/rules/ files"
+if [ -f "$COMPILED_HOOK" ] && [ -x "$COMPILED_HOOK" ]; then
+  pass "load-rules.sh ships compiled and executable"
 else
-  fail "${#orphan[@]} orphan @rules/ import(s):"
-  for o in "${orphan[@]}"; do
-    echo "  orphan: $o"
-  done
+  fail "load-rules.sh missing or not executable at $COMPILED_HOOK"
 fi
 
-# ---- 5. tree-diagram count is compile-substituted and matches reality --------
-# The source CLAUDE.md carries a {{RULE_COUNT}} placeholder (like {{AUTOLOAD_RULES}});
-# compile.py fills it from the live core/rules/*.md count so the number can never
-# drift out of sync by hand. We assert the placeholder is intact in source AND that
-# the COMPILED artifact (what ships) resolves it to the real file count.
-
-if grep -q "{{RULE_COUNT}}" "$SOURCE_CLAUDE_MD"; then
-  pass "source CLAUDE.md uses {{RULE_COUNT}} placeholder (count is compile-derived)"
+if jq -e '.hooks.SessionStart[0].hooks[0].command | test("load-rules.sh")' "$COMPILED_HOOKS_JSON" >/dev/null 2>&1; then
+  pass "load-rules.sh registered as a SessionStart hook"
 else
-  fail "source CLAUDE.md hardcodes the rule count instead of using {{RULE_COUNT}}"
+  fail "load-rules.sh not registered under SessionStart in compiled hooks.json"
 fi
 
-# `actual` counts rules that actually AUTOLOAD (autoload != false) — the same
-# population the "Auto-loading behavioral rules" label and {{AUTOLOAD_RULES}}
-# describe — so the number stays honest if a rule ever sets autoload:false.
-actual=0
-for f in "$RULES_DIR"/*.md; do
-  [ "$(rule_autoload_value "$f")" = "false" ] || actual=$((actual + 1))
-done
+# ---- 5. compiled rule count matches the autoload population -------------------
 
 declared=$(grep -oE 'Auto-loading behavioral rules \([0-9]+ files\)' "$COMPILED_CLAUDE_MD" | grep -oE '[0-9]+')
 
 if [ -z "$declared" ]; then
   fail "compiled CLAUDE.md did not resolve {{RULE_COUNT}} to a number — run scripts/compile.py"
-elif [ "$declared" = "$actual" ]; then
+elif [ "$declared" = "$autoload_count" ]; then
   pass "compiled tree-diagram rule count matches reality ($declared autoloaded rules)"
 else
-  fail "compiled tree-diagram claims $declared rules; actual autoloaded count is $actual"
+  fail "compiled tree-diagram claims $declared rules; actual autoloaded count is $autoload_count"
 fi
 
-# ---- 6. hand-authored prose counts stay in sync with reality -----------------
-# These developer/landing surfaces are NOT compiled, so they can drift the same
-# way the tree diagram did. Assert every "N auto-load(ed|ing) behavioral rules"
-# claim in the top-level docs equals the real autoloaded count.
+# ---- 6. hand-authored prose counts stay in sync with reality ------------------
+
 for doc in CLAUDE.md README.md CONTRIBUTING.md; do
   path="$REPO_ROOT/$doc"
   [ -f "$path" ] || continue
   while IFS= read -r n; do
     [ -n "$n" ] || continue
-    if [ "$n" = "$actual" ]; then
+    if [ "$n" = "$autoload_count" ]; then
       pass "$doc rule count ($n) matches reality"
     else
-      fail "$doc claims $n auto-loaded behavioral rules; actual is $actual"
+      fail "$doc claims $n auto-loaded behavioral rules; actual is $autoload_count"
     fi
   done < <(grep -oiE '[0-9]+ auto-load(ed|ing) behavioral rules' "$path" | grep -oE '^[0-9]+')
 done

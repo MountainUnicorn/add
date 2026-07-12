@@ -1,0 +1,29 @@
+{
+  "$schema": "https://github.com/MountainUnicorn/add/learnings.schema.json",
+  "version": "1.0.0",
+  "project": "test-project",
+  "entries": [
+    {
+      "id": "L-001",
+      "title": "Verbose critical entry",
+      "body": "Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-Sentence-",
+      "scope": "project",
+      "stack": [],
+      "category": "technical",
+      "severity": "critical",
+      "source": "test-project",
+      "date": "2026-05-01"
+    },
+    {
+      "id": "L-002",
+      "title": "Short low entry",
+      "body": "Short body stays intact.",
+      "scope": "project",
+      "stack": [],
+      "category": "process",
+      "severity": "low",
+      "source": "test-project",
+      "date": "2026-04-01"
+    }
+  ]
+}

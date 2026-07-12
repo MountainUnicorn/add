@@ -57,6 +57,36 @@ All learning entries (Tier 2 and Tier 3) use a structured JSON format:
 }
 ```
 
+## Checkpoint Triggers
+
+Auto-write structured JSON entries at these moments (no human involvement):
+
+- After `/add:verify` completes → `checkpoint_type: "post-verify"`
+- After a TDD cycle completes → `"post-tdd"`
+- After deployment → `"post-deploy"`
+- After away-mode session → `"post-away"`
+- After spec implementation completes → `"feature-complete"`
+- When verification catches a sub-agent error → `"verification-catch"`
+
+**How to write:** Classify scope → read target JSON (create wrapper if missing) → determine next ID (`L-{NNN}` project / `WL-{NNN}` workstation) → append entry → write JSON → regenerate markdown view.
+
+**Before writing,** run the PII heuristic (below). If it matches, halt and prompt for rewrite / override / skip.
+
+**Format rules:** body 2-4 sentences, always reference a spec/file/feature, focus on ACTIONABLE insight, don't duplicate by title similarity, infer `stack` from `.add/config.json`.
+
+## Scope Classification
+
+Before writing a learning entry, classify its scope:
+
+| Signal | Scope | Target |
+|--------|-------|--------|
+| References project-specific files/schemas/routes | `project` | `.add/learnings.json` |
+| References library/framework patterns useful across projects | `workstation` | `~/.claude/add/library.json` |
+| Methodology/process insight independent of stack | `universal` | `~/.claude/add/library.json` |
+| Unclear | `project` | `.add/learnings.json` (promote later during retro) |
+
+Set `classified_by: "agent"`. During `/add:retro`, humans can override scope → `"human"`.
+
 ## Checkpoint Templates
 
 ### After Verification (`/add:verify` completes)
@@ -200,6 +230,17 @@ On `s`: skip silently.
 - Internal code identifiers (variable names, DB column names)
 - Test fixtures with obvious dummy values
 
+## Active View Generation
+
+A PostToolUse hook automatically regenerates `-active.md` whenever a learnings JSON file is written. The hook:
+
+1. Excludes entries with `"archived": true`
+2. Sorts remaining entries by severity (critical > high > medium > low), then date (newest first)
+3. Caps at `learnings.active_cap` entries (default 15, configurable in `.add/config.json`)
+4. Groups by category and writes a compact markdown view
+
+This moves filtering out of agent context — agents read only the small pre-filtered result.
+
 ## Markdown View Generation
 
 After writing any entry to a JSON learnings file, regenerate the corresponding markdown file:
@@ -265,4 +306,34 @@ During `/add:retro`, entries with scope `workstation` or `universal` are promoti
 
 ### Tier 2/3 → Tier 1 (User/Project → Plugin-Global)
 
-Highest bar — ships to ALL ADD users. Must be universal, methodology-level, validated across projects. Only the ADD development project can write to `knowledge/global.md`.
+Highest bar — ships to ALL ADD users. Must be universal, methodology-level, validated across projects. Only the ADD development project can write to `knowledge/global.md` — in consumer projects it is read-only.
+
+## Archival
+
+During `/add:retro`, archive entries to keep the active set small:
+
+**Archive when:** older than `learnings.archival_days` (default 90) AND severity ≤ `learnings.archival_max_severity` (default `"medium"`), OR superseded by a newer entry, OR references code/features that no longer exist.
+
+**Archive by:** setting `"archived": true` on the entry in JSON. The entry stays in the file for audit history but is excluded from the active view.
+
+**Never archive** entries above `archival_max_severity` without explicit human approval. With the default, `critical` and `high` are protected.
+
+After archiving, the PostToolUse hook regenerates the active view automatically.
+
+## Knowledge Store Boundaries
+
+Each store has a single purpose. Do not cross-pollinate:
+
+| Store | Purpose | NOT for |
+|-------|---------|---------|
+| `CLAUDE.md` | Project architecture, tech stack, conventions | Session state, learnings |
+| `.add/learnings.json` | Domain facts — framework quirks, API gotchas (project-scope) | Process observations |
+| `~/.claude/add/library.json` | Cross-project wisdom (workstation + universal scope) | Project-specific knowledge |
+| `.add/observations.md` | Process data — what happened, what it cost | Domain facts, architecture |
+| `.add/handoff.md` | Current session state — in progress, next steps | Permanent knowledge |
+| `.add/decisions.md` | Architectural choices with rationale | Transient session state |
+| `.add/mutations.md` | Process evolution — approved workflow changes | Domain facts |
+
+Generated markdown views (`learnings.md`, `library.md`, `-active.md`) are regenerated from JSON — never edit directly.
+
+During `/add:retro`, identify entries in the wrong store and relocate.

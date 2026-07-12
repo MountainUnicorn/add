@@ -1,12 +1,14 @@
 ---
 name: add-infographic
-description: "[ADD v0.9.8] Generate project infographic — SVG from PRD + config with branding"
+description: "[ADD v0.9.9] Generate project infographic — SVG from PRD + config with branding"
 argument-hint: "[--update]"
 ---
 
-# ADD Infographic Skill v0.9.8
+# ADD Infographic Skill v0.9.9
 
 Generates a professional SVG infographic from the project's PRD and config. The infographic includes hero section, live metrics, workflow visualization, value propositions, and terminal command reference — all styled with the project's branding palette.
+
+**Token economy:** SVG generation is mechanical work. When sub-agent dispatch is available, delegate the bulk template-fill and SVG rendering to the fast tier per `rules/model-roles.md`; keep the frontier-model context for judgment — content selection, layout decisions, and final review.
 
 ## Pre-Flight Checks
 

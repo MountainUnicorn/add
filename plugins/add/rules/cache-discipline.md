@@ -1,5 +1,5 @@
 ---
-autoload: true
+autoload: false
 maturity: beta
 description: "Stable-prefix layout for skills and sub-agent dispatches. Enables Anthropic prompt-cache reuse (up to 90% cost / 85% latency savings per Anthropic case study)."
 ---

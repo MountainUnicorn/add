@@ -2,7 +2,7 @@
 description: "[ADD v0.6.0] Maturity promotion — gap analysis and level-up workflow"
 argument-hint: "[--check | --execute] [--target poc|alpha|beta|ga]"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, Task, TodoWrite]
-references: ["rules/telemetry.md"]
+references: ["maturity-matrix.md", "rules/telemetry.md"]
 ---
 
 # ADD Promote Command v0.6.0
@@ -18,7 +18,7 @@ Assess readiness and promote the project's maturity level. Maturity is the maste
 
 1. **Read `.add/config.json`** — extract `maturity.level`, `promoted_from`, `promoted_date`, `next_promotion_criteria`
    - If not found: abort with "No ADD project found. Run `/add:init` first."
-2. **Read `${CLAUDE_PLUGIN_ROOT}/rules/maturity-lifecycle.md`** — load cascade matrix (source of truth for level requirements)
+2. **Read `${CLAUDE_PLUGIN_ROOT}/references/maturity-matrix.md`** — load cascade matrix + promotion process (source of truth for level requirements)
 3. **Read `docs/prd.md`** — project context, maturity references
 4. **Read `CLAUDE.md`** — check for maturity references
 
