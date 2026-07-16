@@ -4,6 +4,19 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [0.9.11] — 2026-07-16
+
+Closes the stale-rules gap reported by Tomasz Dmitruk ([@tdmitruk](https://github.com/tdmitruk)): `/add:init` used to copy 10 ADD rules into the consumer project's `.claude/rules/`, where they auto-loaded forever at the version they were copied — never updated by plugin upgrades, and (since v0.9.9) duplicating and eventually contradicting the fresh rules the SessionStart hook injects. Copies also bypassed maturity gating entirely.
+
+### Changed
+
+- **Rule copying is retired.** The SessionStart hook (`load-rules.sh`) is the sole rule-distribution mechanism — always current with the installed plugin, maturity-gated, zero drift. `/add:init` Phase 2.5 no longer writes to `.claude/rules/`; it now only detects leftovers from older inits and offers a batched removal. The adoption-mode "Handling Existing Rules" flow likewise stops copying — user-authored rules are analyzed for overlap but never replaced by file copies.
+
+### Added
+
+- **Stale-copy warning** — `load-rules.sh` flags files in `.claude/rules/` matching plugin rule names (incl. `add-` prefixed) every session until they're removed, so the conflict is visible instead of silent (+2 loader tests).
+- **Migration hop 0.9.10 → 0.9.11** with a new `remove_stale_rule_copies` action (defined in `version-migration.md`): lists matches, requires one explicit user confirmation, backs up before deleting, never touches user-authored rules.
+
 ## [0.9.10] — 2026-07-12
 
 Dedup + hygiene release closing the three-release token-audit arc (v0.9.8 correctness → v0.9.9 token architecture → v0.9.10 slimming). The five heaviest skills lose ~35–45% of their lines to extraction; security patterns lose their false-positive noise; the hooks and CI lose their soft spots.

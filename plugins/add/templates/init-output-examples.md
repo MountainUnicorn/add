@@ -72,7 +72,7 @@ WHAT ADD WOULD ADD (non-destructive):
 
 WHAT ADD WOULD PRESERVE (untouched):
   ✓ Your existing CLAUDE.md (ADD sections appended if you want them)
-  ✓ Your existing rules in .claude/rules/ (ADD rules added alongside)
+  ✓ Your existing rules in .claude/rules/ (untouched — ADD rules inject at session start)
   ✓ Your existing skills (ADD skills fill gaps only)
   ✓ Your existing specs and plans (preserved as-is)
   ✓ Your CI/CD pipelines and Docker configuration
@@ -95,7 +95,7 @@ NEWLY CREATED:
 
 ENHANCED:
   ✓ CLAUDE.md — ADD methodology section appended
-  ✓ .claude/rules/ — {N} new ADD rules added (your existing rules unchanged)
+  ✓ ADD rules — injected each session by the plugin (nothing copied; your .claude/rules/ unchanged)
   ✓ .claude/skills/ — {N} new ADD skills added (your existing skills unchanged)
 
 PRESERVED EXACTLY AS-IS:
@@ -142,11 +142,10 @@ PROJECT STRUCTURE:
 
 RULES INSTALLED:
   {for each installed rule:}
-  ✓ .claude/rules/{name}.md   — installed
+  ✓ ADD rules — injected at session start (maturity-gated, auto-updating)
   {for each skipped rule:}
-  ○ .claude/rules/{name}.md   — skipped (kept existing)
+  ○ stale ADD copies removed from .claude/rules/: {list or none}
   {for each prefixed rule:}
-  ✓ .claude/rules/add-{name}.md — installed with prefix
 
 CROSS-PROJECT:
   ✓ ~/.claude/add/profile.md          — your preferences (if created)

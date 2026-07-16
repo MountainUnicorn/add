@@ -140,6 +140,30 @@ else
   fail "frontmatter leaked into injected context"
 fi
 
+# --- 8. stale pre-v0.9.11 rule copies in .claude/rules/ trigger a warning -------
+mkdir -p "$TMP/project/.claude/rules"
+cp "$TMP/plugin/rules/base-rule.md" "$TMP/project/.claude/rules/base-rule.md"
+echo "user rule" > "$TMP/project/.claude/rules/my-own-rule.md"
+cp "$TMP/plugin/rules/beta-rule.md" "$TMP/project/.claude/rules/add-beta-rule.md"
+OUT=$(run_hook "$TMP/project")
+if echo "$OUT" | grep -q 'stale ADD rule copies detected' && \
+   echo "$OUT" | grep -q '.claude/rules/base-rule.md' && \
+   echo "$OUT" | grep -q '.claude/rules/add-beta-rule.md' && \
+   ! echo "$OUT" | grep -q 'my-own-rule'; then
+  pass "stale ADD copies (plain + add- prefixed) flagged; user-authored rules ignored"
+else
+  fail "stale-copy detection broken"
+fi
+
+# --- 9. no .claude/rules/ dir → no warning ---------------------------------------
+rm -rf "$TMP/project/.claude"
+OUT=$(run_hook "$TMP/project")
+if ! echo "$OUT" | grep -q 'stale ADD rule copies'; then
+  pass "no warning when .claude/rules/ is absent"
+else
+  fail "spurious stale-copy warning"
+fi
+
 echo ""
 echo "=== Results: $PASS passed, $FAIL failed ==="
 [ $FAIL -eq 0 ]

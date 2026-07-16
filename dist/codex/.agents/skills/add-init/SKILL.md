@@ -1,6 +1,6 @@
 ---
 name: add-init
-description: "[ADD v0.9.10] Initialize Agent Driven Development — PRD interview + project setup"
+description: "[ADD v0.9.11] Initialize Agent Driven Development — PRD interview + project setup"
 argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 ---
 
@@ -26,7 +26,7 @@ argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
 
 ---
 
-# ADD Init Command v0.9.10
+# ADD Init Command v0.9.11
 
 Initialize Agent Driven Development for this project. This command conducts a structured interview to understand the project, then scaffolds the full ADD framework.
 
@@ -234,25 +234,26 @@ Then ask the 3 process questions from Section 3 (autonomy, quality mode, team si
 
 ### Handling Existing Rules
 
-For each ADD rule, check for equivalent coverage in `.claude/rules/`:
+ADD's rules are NOT copied into the project — they are injected each session by the plugin's SessionStart hook (`load-rules.sh`), maturity-gated, and update automatically with the plugin. `/add-init` never writes to `.claude/rules/`.
 
-- **If equivalent rule exists:** Ask the user:
+For each existing rule in the project's `.claude/rules/`, check for overlap with ADD's rule set:
+
+- **If an existing project rule covers similar ground as an ADD rule:** Ask the user:
   ```
   You have an existing rule: {existing_rule.md}
-  This covers similar ground as ADD's {add_rule}.
+  This covers similar ground as ADD's {add_rule} (injected automatically each session).
 
   Options:
-    a) Keep your existing rule, skip ADD's version
-    b) Use ADD's version (newer, aligned with ADD system)
-    c) Merge — I'll combine the best of both
+    a) Keep your rule as-is — it takes precedence where they conflict
+    b) Trim your rule to only the parts ADD doesn't cover
+    c) Remove your rule — rely on ADD's injected version
   ```
 
-- **If no overlap:** Add the ADD rule to `.claude/rules/` with a clean name (no `add-` prefix needed if there's no conflict).
-
-- **Naming convention:** If there's potential confusion with existing rules, ADD rules get an `add-` prefix:
-  - `add-human-collaboration.md`
-  - `add-learning-checkpoints.md`
-  - `add-quality-gates.md`
+- **If a stale ADD rule copy exists** (same name as a plugin rule, or `add-` prefixed — left behind by an ADD version before v0.9.11 that copied rules): recommend removal, since the hook now injects the current version and the copy will drift:
+  ```
+  .claude/rules/{name}.md matches an ADD plugin rule. ADD now injects rules
+  at session start — this copy is redundant and will go stale. Remove it?
+  ```
 
 ### Handling Existing Skills
 
@@ -505,60 +506,21 @@ tests/screenshots/errors/
 # tests/screenshots/{feature}/
 ```
 
-## Phase 2.5: Install ADD Methodology Rules
+## Phase 2.5: Verify Rule Loading (no copying)
 
-Plugins cannot distribute rules directly. This phase copies ADD's rules into the consumer project's `.claude/rules/` directory so they take effect.
+ADD rules are NOT copied into the project. The plugin's SessionStart hook (`load-rules.sh`) injects the active rule set every session, gated by the project's maturity level — rules stay current with the plugin and never drift. (Versions before v0.9.11 copied 10 rules into `.claude/rules/`; that mechanism is retired because copies went stale and, after v0.9.9, duplicated the hook injection.)
 
-### Step 2.5.1: Create Rules Directory
+This phase only checks for leftovers:
 
-```bash
-mkdir -p .claude/rules
-```
-
-### Step 2.5.2: Copy ADD Rules
-
-For each of the 10 ADD rule files, read from the plugin and write to the consumer project:
-
-```
-Rule files to install:
-  1. spec-driven.md
-  2. tdd-enforcement.md
-  3. human-collaboration.md
-  4. agent-coordination.md
-  5. source-control.md
-  6. environment-awareness.md
-  7. quality-gates.md
-  8. learning.md
-  9. project-structure.md
-  10. maturity-lifecycle.md
-```
-
-For each rule file:
-
-1. Read `~/.codex/add/rules/{name}.md`
-2. Check if `.claude/rules/{name}.md` already exists in the consumer project
-
-**If no conflict (file does not exist):**
-- Write the rule to `.claude/rules/{name}.md`
-- Track as "installed"
-
-**If conflict (file already exists):**
-- Use ask the user (use a clear, single-question prompt) with 3 options:
-  ```
-  You already have a rule at .claude/rules/{name}.md.
-  ADD also provides a rule with this name.
-  ```
-  - "Keep existing — skip ADD's version"
-  - "Use ADD's version — overwrite mine"
-  - "Install ADD's version with `add-` prefix (as .claude/rules/add-{name}.md)"
-- Track the user's choice for each conflict
-
-### Step 2.5.3: Track Results
-
-Maintain a results summary for Phase 5:
-- **Installed:** rules written without conflict
-- **Skipped:** rules the user chose to keep their existing version
-- **Prefixed:** rules installed with `add-` prefix to avoid conflict
+1. If `.claude/rules/` exists, list its files and compare basenames against `~/.codex/add/rules/` (also match `add-` prefixed variants).
+2. For each match — a stale ADD copy from an older init — ask the user once (batch, not per-file):
+   ```
+   Found {N} ADD rule copies in .claude/rules/ from an earlier ADD version:
+   {list}
+   ADD now injects current rules at session start, so these are redundant
+   and will go stale. Remove them? (user-authored rules are untouched)
+   ```
+3. Track for the Phase 5 summary: **Removed** / **Kept** (user declined).
 
 ## Phase 3: Generate Configuration Files
 

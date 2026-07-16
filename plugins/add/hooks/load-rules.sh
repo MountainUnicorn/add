@@ -106,4 +106,25 @@ if [ ${#ONDEMAND[@]} -gt 0 ]; then
   echo "On-demand rules (autoload:false — loaded via skill \`references:\` when needed): ${ONDEMAND[*]}"
 fi
 
+# Stale-copy detection: ADD versions before v0.9.11 copied rules into the
+# project's .claude/rules/, where Claude Code still auto-loads them. Those
+# copies drift and duplicate (or contradict) the fresh bodies injected above.
+STALE=()
+if [ -d ".claude/rules" ]; then
+  for pf in "$RULES_DIR"/*.md; do
+    [ -f "$pf" ] || continue
+    base=$(basename "$pf")
+    [ -f ".claude/rules/$base" ] && STALE+=(".claude/rules/$base")
+    [ -f ".claude/rules/add-$base" ] && STALE+=(".claude/rules/add-$base")
+  done
+fi
+if [ ${#STALE[@]} -gt 0 ]; then
+  echo ""
+  echo "WARNING: stale ADD rule copies detected (from an ADD version before"
+  echo "v0.9.11 that copied rules at init): ${STALE[*]}"
+  echo "These auto-load alongside the fresh rules injected above and will"
+  echo "contradict them as they drift. The injected versions are canonical —"
+  echo "recommend deleting the copies (offer this to the user once)."
+fi
+
 exit 0

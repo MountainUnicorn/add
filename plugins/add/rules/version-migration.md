@@ -29,6 +29,7 @@ On **every session start**, before any other work:
    - `restructure` — ensure markdown has required sections
    - `rename_fields` — move JSON fields to new keys
    - `remove_fields` — delete deprecated JSON fields
+   - `remove_stale_rule_copies` — find files in `.claude/rules/` whose basename matches a plugin rule in `${CLAUDE_PLUGIN_ROOT}/rules/` (also `add-` prefixed variants; user-authored files never match). List the matches and ask the user ONCE for confirmation; on yes, back each up per step 2, then delete. NEVER delete without explicit confirmation.
 
 4. **Update version** in config after all steps succeed. On partial failure, stay at last successful hop.
 
