@@ -15,6 +15,7 @@
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
   <a href="#"><img src="https://img.shields.io/badge/version-0.9.11-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
+  <a href="https://github.com/MountainUnicorn/add/discussions"><img src="https://img.shields.io/badge/community-discussions-b00149.svg" alt="Community Discussions"></a>
 </p>
 
 ---
@@ -100,7 +101,7 @@ ADD ships a Codex adapter alongside the Claude plugin. One-line install:
 curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash
 ```
 
-This installs ADD as Codex custom prompts + AGENTS.md template. See [Codex install docs](https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md).
+This installs 27 native Codex Skills plus the slim AGENTS.md manifest and shared content. See [Codex install docs](https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md).
 
 ### Troubleshooting
 
@@ -609,6 +610,11 @@ See [docs/v1.0-roadmap.md](docs/v1.0-roadmap.md) for the current path to v1.0 (G
 </details>
 
 ---
+
+## Community
+
+- **Using ADD? [Share your story](https://github.com/MountainUnicorn/add/discussions/22)** — experience reports (critical ones especially) directly shape the road to v1.0, and every report that lands ships credited: [v0.9.11](https://github.com/MountainUnicorn/add/releases/tag/v0.9.11) came straight from a user catch.
+- [Discussions](https://github.com/MountainUnicorn/add/discussions) for questions and ideas; [issues](https://github.com/MountainUnicorn/add/issues) for bugs; [CONTRIBUTING.md](CONTRIBUTING.md) for PRs.
 
 ## License
 

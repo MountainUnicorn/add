@@ -3,3 +3,9 @@ contact_links:
   - name: ADD Website & Docs
     url: https://getadd.dev
     about: Methodology overview, guides, and getting-started docs.
+  - name: Share your ADD story
+    url: https://github.com/MountainUnicorn/add/discussions/22
+    about: Using ADD on a real project? Tell us how it's going — experience reports (good and bad) shape the road to v1.0.
+  - name: Questions & Discussions
+    url: https://github.com/MountainUnicorn/add/discussions
+    about: Ask questions, share ideas, or show what you've built.
