@@ -1,4 +1,13 @@
-# Handoff — token-audit arc: v0.9.8 → v0.9.9 → v0.9.10 (2026-07-12)
+# Handoff — token-audit arc + stale-rules fix (updated 2026-07-16)
+
+## v0.9.11 (2026-07-16) — RELEASED
+Stale-rules gap reported by Tomasz Dmitruk (@tdmitruk): init-copied rules in
+.claude/rules/ never updated and conflicted with hook-injected rules. Fixed by
+retiring rule copying entirely — /add:init Phase 2.5 now detect+cleanup only;
+load-rules.sh warns on stale copies each session; migration hop 0.9.10→0.9.11
+adds remove_stale_rule_copies (confirm-once, backup-first). Credited in
+CONTRIBUTORS.md + CHANGELOG. No GitHub issue existed (private report).
+
 
 ## Shipped this session (all three RELEASED, signed, verified, marketplace synced, site footers bumped)
 
@@ -32,6 +41,7 @@
 
 ## Next candidates (not started)
 - Codex injection-scanner parity (adapter.yaml limitation, targeted v1.0).
+- Codex-side stale-rules equivalent: AGENTS.md merged at init could also drift — worth an /add-version check (minor).
 - Workflow-descriptor emission pilot (deferred to v1.1 per v0.9.7 decision).
 - getadd.dev blog post covering the token-architecture arc (site copy beyond
   footers not yet written).
