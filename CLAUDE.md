@@ -54,7 +54,7 @@ core/                  # Source of truth (runtime-neutral)
   skills/              #   27 skills — all slash commands
   rules/               #   17 auto-loaded behavioral rules (+3 on-demand)
   references/          #   non-autoloaded reference rules (loaded on-demand)
-  templates/           #   23 document templates
+  templates/           #   29 document templates + data manifests
   knowledge/           #   4 Tier-1 knowledge files
   lib/                 #   shared library functions used by hooks/skills
   security/            #   security-related artifacts (threat model, redaction)

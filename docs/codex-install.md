@@ -11,9 +11,10 @@ curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/in
 This script:
 
 1. Clones the ADD repo to a temp directory
-2. Copies 24 custom prompts to `~/.codex/prompts/add-*.md`
-3. Installs shared content (AGENTS.md, templates) to `~/.codex/add/`
-4. Prints instructions for wiring ADD into your project's `AGENTS.md`
+2. Installs 27 native Codex Skills to `~/.codex/skills/add-*/` (each with `SKILL.md` + invocation policy)
+3. Installs shared content to `~/.codex/add/` — the slim `AGENTS.md` manifest, `rules/`, `templates/`, `knowledge/`, `references/`, `lib/`, `security/`
+4. Installs sub-agent TOMLs (`test-writer`, `implementer`, `reviewer`, `verify`, `explorer`) and the handoff hooks
+5. Prints instructions for wiring ADD into your project's `AGENTS.md`
 
 ### Manual install
 
@@ -54,13 +55,13 @@ Codex resolves `@-references` at session start, merging ADD's rules into the loa
 | **Core workflow** | `/add-init`, `/add-spec`, `/add-plan`, `/add-tdd-cycle`, `/add-test-writer`, `/add-implementer`, `/add-reviewer`, `/add-verify`, `/add-optimize`, `/add-deploy` |
 | **Planning** | `/add-cycle`, `/add-milestone`, `/add-roadmap`, `/add-promote` |
 | **Design & docs** | `/add-ux`, `/add-docs`, `/add-infographic`, `/add-brand`, `/add-brand-update`, `/add-dashboard` |
-| **Process** | `/add-away`, `/add-back`, `/add-retro`, `/add-changelog` |
+| **Process** | `/add-away`, `/add-back`, `/add-retro`, `/add-changelog`, `/add-learnings`, `/add-version`, `/add-agents-md` |
 
 Same methodology, same spec/plan/TDD/verify flow. The only differences from the Claude Code experience:
 
 1. **No hooks.** Codex has no `PostToolUse` API. Lint/format must be invoked manually (`/add-verify` runs them).
 2. **Free-text confirmations.** Codex has no structured `AskUserQuestion` equivalent, so the Confusion Protocol and Confirmation Gate use plain prompts instead of clickable popups. Read the rule in `~/.codex/add/AGENTS.md` > "Confirmation Gate" if you want the same discipline.
-3. **Un-namespaced prompts.** Claude Code uses `/add:spec`; Codex uses `/add-spec`. The prompts are invoked via Codex's custom-prompt mechanism.
+3. **Dashed command names.** Claude Code uses `/add:spec`; Codex uses `/add-spec` — skills dispatch natively by description match or explicit invocation.
 4. **Flat autoload.** Claude Code selectively loads rules by maturity. Codex concatenates all rules into one `AGENTS.md`. The `maturity-loader.md` rule is preserved so the agent still filters behaviorally — it just loads the full text.
 5. **On-demand references** (v0.9.0+). Both runtimes ship `references/*.md` files — full learning-system reference, swarm protocol, design system, quality-checks matrix, image-gen detection — that are *not* autoloaded. Skills that need them read the file at runtime. On Codex, `AGENTS.md` omits any rule marked `autoload: false`, and prompts invoke e.g. `cat ~/.codex/add/references/learning-reference.md` when they need the full template set. Token savings from on-demand loading are preserved symmetrically across both runtimes.
 
@@ -77,7 +78,7 @@ The installer is idempotent. It backs up any existing prompt with `.pre-add.bak`
 ## Uninstall
 
 ```bash
-rm -rf ~/.codex/add ~/.codex/prompts/add-*.md
+rm -rf ~/.codex/add ~/.codex/skills/add-*
 ```
 
 If you merged ADD's AGENTS.md content into a project's AGENTS.md, edit that file manually to remove the ADD sections.
