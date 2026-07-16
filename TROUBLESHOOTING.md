@@ -106,6 +106,17 @@ Hooks fail silently by design — a broken lint pass shouldn't break your edit. 
 
 ## Rules Not Applying
 
+### "WARNING: stale ADD rule copies detected" at session start
+
+ADD versions before v0.9.11 copied rules into your project's `.claude/rules/` during `/add:init`. Those copies never updated with the plugin and now duplicate (and eventually contradict) the fresh rules the SessionStart hook injects. The injected rules are canonical — delete the flagged copies:
+
+```bash
+# Only removes files matching ADD plugin rule names — your own rules are never flagged
+rm .claude/rules/{flagged-files}
+```
+
+Or let the version migration do it: on upgrade, the 0.9.10 → 0.9.11 hop offers a confirmed one-time cleanup (backs up before deleting). Rules that look duplicated or contradictory mid-session are almost always this.
+
 ### "The agent commits without running tests"
 
 **Check the maturity level.** TDD enforcement only activates at `beta` or `ga` maturity. `.add/config.json`:

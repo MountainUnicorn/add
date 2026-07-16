@@ -121,6 +121,8 @@ ADD has **zero agent-side runtime dependencies** and **no build step** on the co
 
 ADD interviews you about your project (product vision, tech stack, team size, deployment model) and scaffolds the project structure. Use `--quick` for prototypes or when you want to start building immediately — it asks only the essentials and defaults the rest.
 
+ADD's behavioral rules are **not** copied into your project — the plugin injects the current, maturity-gated rule set at session start, so upgrading the plugin upgrades the rules everywhere, immediately. (Projects initialized before v0.9.11 may have rule copies in `.claude/rules/`; ADD warns about them and the upgrade migration offers a one-time cleanup.)
+
 **What gets created:**
 
 ```
@@ -262,7 +264,7 @@ Since v0.9.9 the dial is also a **token dial**: rules load physically per maturi
 
 Frontier models are priced for judgment, not boilerplate — ADD spends them accordingly:
 
-- **Maturity-gated rule loading** — a SessionStart hook injects only the behavioral rules your project's maturity level has earned. Dormant rules cost zero tokens, not just zero obedience.
+- **Maturity-gated rule loading** — a SessionStart hook injects only the behavioral rules your project's maturity level has earned. Dormant rules cost zero tokens, not just zero obedience. Rules are never copied into your project (since v0.9.11), so plugin upgrades apply instantly — no stale rule drift.
 - **On-demand everything else** — reference material, knowledge files, and orchestration-only rules load when a skill needs them, never by default.
 - **Cost-tier policy for sub-agents** — every dispatch carries a MODEL tier (fast / editor / architect) and a maturity-scaled token BUDGET. Mechanical work (test scaffolds, dashboards, SVG rendering) runs on the fast tier; the frontier model keeps the judgment calls.
 - **Capped learning views** — accumulated learnings are pre-filtered and size-capped before they enter context.
