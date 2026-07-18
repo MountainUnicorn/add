@@ -63,7 +63,11 @@ jobs:
           cd "$SCRATCH"
           git init -q
           set +e
-          claude -p "/add:init --quick" \
+          # Quick mode still interviews (5 questions) and a one-shot -p session
+          # has no second turn — supply the answers inline. Filed as a product
+          # gap: /add:init needs a true non-interactive --defaults path (v0.10.1
+          # candidate); when that ships, revert this prompt to bare --quick.
+          claude -p "/add:init --quick — non-interactive run: use answers smoke-test, python, 1 (local only), poc, autonomous. Do not ask any questions; write the config now." \
             --permission-mode acceptEdits \
             --max-turns 30 \
             > "$SCRATCH/session.log" 2>&1

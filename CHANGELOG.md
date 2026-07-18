@@ -138,7 +138,7 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
-_(Nothing yet — tracking items go here between releases.)_
+- **Known gap (#23, found by the first live smoke run):** `/add:init --quick` still interviews, so headless one-shot sessions exit without writing config. Smokes work around it with inline answers; a true `--defaults` path targets v0.10.1.
 
 ## [0.10.0] — 2026-07-18
 

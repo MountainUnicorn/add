@@ -99,7 +99,9 @@ else
     cd "$SCRATCH"
     git init -q
     cp "$CODEX_HOME/add/AGENTS.md" AGENTS.md
-    codex exec --skip-git-repo-check "Run /add-init --quick to initialize ADD in this project. Do not ask questions; accept defaults." \
+    # Quick mode interviews; a one-shot exec has no second turn — answers inline.
+    # Same product gap as the Claude smoke: /add-init needs --defaults (v0.10.1).
+    codex exec --skip-git-repo-check "Run /add-init --quick — non-interactive run: use answers smoke-test, python, 1 (local only), poc, autonomous. Do not ask any questions; write the config now." \
       >/tmp/codex-init.log 2>&1 || true
   )
   if [ -f "$SCRATCH/.add/config.json" ] \
