@@ -9,9 +9,25 @@ footers bumped to v0.10.0 (9 pages) and pushed. CI was fully green on the
 tagged commit (both smokes + all guardrails) — the new release.sh guard
 verified this before tagging.
 
-STILL OPEN: (1) ANTHROPIC_API_KEY / OPENAI_API_KEY repo secrets so the smoke
-agent legs stop skipping; (2) marketplace submission (criterion #5) —
-user says pending approval; (3) v1.0.0 promotion tag once approved.
+## Live agent-leg results (2026-07-18, after secrets added)
+- Both repo secrets set. **Claude smoke fully green end-to-end with a live
+  agent** — marketplace install → /add:init → valid config.json proven in CI.
+- First live runs found 3 real bugs (the smokes working as designed):
+  * **#23** /add:init --quick still interviews → headless sessions exit
+    without config. Workaround: inline answers in smoke prompts. --defaults
+    path targets v0.10.1.
+  * **#24** Codex ≥0.14x rejects ADD's sub-agent TOMLs (`prompt_skill`) and
+    hooks.json schema (`SessionStart`) — sub-agents + hooks silently dead on
+    modern Codex. Matrix updated to "Broken on ≥0.14x". Fix targets v0.10.1.
+  * Codex 0.144 needs `codex login --with-api-key` (stdin) — bare env var
+    gives 401. Fixed in run-smoke.sh.
+- Codex agent leg now auths but fails on **"Quota exceeded" — the OpenAI
+  project key has no credits**. Layout legs all green. Once billing is funded
+  the leg should pass unchanged.
+
+STILL OPEN: (1) OpenAI key needs quota/credits (billing console) → Codex smoke
+agent leg green; (2) #23 + #24 fixes → v0.10.1; (3) marketplace submission
+pending approval (criterion #5); (4) v1.0.0 promotion tag once approved.
 
 ## v0.10.0 implementation (2026-07-18, same-day follow-up to the spec)
 All sections of specs/install-path-confirmation.md implemented in one pass:
