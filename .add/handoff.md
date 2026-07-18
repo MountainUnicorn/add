@@ -25,9 +25,14 @@ verified this before tagging.
   project key has no credits**. Layout legs all green. Once billing is funded
   the leg should pass unchanged.
 
-STILL OPEN: (1) OpenAI key needs quota/credits (billing console) → Codex smoke
-agent leg green; (2) #23 + #24 fixes → v0.10.1; (3) marketplace submission
-pending approval (criterion #5); (4) v1.0.0 promotion tag once approved.
+UPDATE (PM): OpenAI quota funded → after two env fixes (login --with-api-key
+stdin; --dangerously-bypass-approvals-and-sandbox inside the Docker container,
+where codex's landlock can't init), **BOTH smokes are green in CI end-to-end
+with live agents**. GA criterion #2 fully closed.
+
+STILL OPEN: (1) #23 + #24 fixes → v0.10.1 (Codex sub-agents/hooks broken on
+≥0.14x is the headline); (2) marketplace submission pending approval
+(criterion #5); (3) v1.0.0 promotion tag once approved.
 
 ## v0.10.0 implementation (2026-07-18, same-day follow-up to the spec)
 All sections of specs/install-path-confirmation.md implemented in one pass:
