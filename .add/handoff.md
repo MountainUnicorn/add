@@ -1,4 +1,17 @@
-# Handoff — v0.10.0 install-path RC IMPLEMENTED (updated 2026-07-18, PM)
+# Handoff — v0.10.0 RELEASED (updated 2026-07-18, PM)
+
+## v0.10.0 (2026-07-18) — RELEASED, signed, verified
+https://github.com/MountainUnicorn/add/releases/tag/v0.10.0 — GA release
+candidate. Signed tag verified; release notes carry the capability matrix;
+release-evidence-v0.10.0.tar.gz attached (bundle also committed under
+reports/release-evidence/v0.10.0/). Marketplace cache synced; getadd.dev
+footers bumped to v0.10.0 (9 pages) and pushed. CI was fully green on the
+tagged commit (both smokes + all guardrails) — the new release.sh guard
+verified this before tagging.
+
+STILL OPEN: (1) ANTHROPIC_API_KEY / OPENAI_API_KEY repo secrets so the smoke
+agent legs stop skipping; (2) marketplace submission (criterion #5) —
+user says pending approval; (3) v1.0.0 promotion tag once approved.
 
 ## v0.10.0 implementation (2026-07-18, same-day follow-up to the spec)
 All sections of specs/install-path-confirmation.md implemented in one pass:
