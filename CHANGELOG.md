@@ -138,7 +138,11 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
-**Pending for v0.10.0 — "install path confirmed" GA release candidate** (spec: `specs/install-path-confirmation.md`; sequencing: smoke green → marketplace submission → v1.0.0 promotion tag on approval).
+_(Nothing yet — tracking items go here between releases.)_
+
+## [0.10.0] — 2026-07-18
+
+**"Install path confirmed" — GA release candidate** (spec: `specs/install-path-confirmation.md`; sequencing: smoke green → marketplace submission → v1.0.0 promotion tag on approval).
 
 ### Added
 

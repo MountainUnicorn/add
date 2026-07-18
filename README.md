@@ -13,7 +13,7 @@
   <br>
   <br>
   <a href="https://github.com/MountainUnicorn/add/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#"><img src="https://img.shields.io/badge/version-0.9.11-brightgreen.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.10.0-brightgreen.svg" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/Claude_Code-plugin-blueviolet.svg" alt="Claude Code Plugin"></a>
   <a href="https://github.com/MountainUnicorn/add/discussions"><img src="https://img.shields.io/badge/community-discussions-b00149.svg" alt="Community Discussions"></a>
 </p>

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.9.11",
+  "plugin_version": "0.10.0",
   "migrations": [
     {
       "from": "0.1.0",
@@ -335,6 +335,12 @@
         }
       ],
       "description": "v0.9.11 \u2014 retire rule copying (closes the stale-rules gap reported by @tdmitruk). /add:init no longer writes ADD rules into .claude/rules/ (Phase 2.5 now only detects and offers to remove leftovers); load-rules.sh warns each session while stale copies remain; this migration hop offers a one-time confirmed cleanup. User-authored rules are never touched."
+    },
+    {
+      "from": "0.9.11",
+      "to": "0.10.0",
+      "steps": [],
+      "description": "Install-path confirmation RC \u2014 CI install smoke both runtimes, Codex CLI re-pin 0.144.5, release-blocking CI, capability matrix, release-evidence bundle. No consumer config changes."
     }
   ]
 }
