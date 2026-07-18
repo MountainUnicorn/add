@@ -11,7 +11,7 @@ output_dir: dist/codex
 # min_codex_version: Lowest Codex CLI version that ships every feature ADD emits
 # (native Skills, sub-agents, hooks, plugin marketplace). Per spec AC-032.
 # codex_cli_version:  The version the CI plugin-validate job targets (AC-035).
-codex_cli_version: "0.122.0"
+codex_cli_version: "0.144.5"
 min_codex_version: "0.122.0"
 
 # Output mode: "native" = Codex Skills format (v0.9+). The legacy "prompts" mode

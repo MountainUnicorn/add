@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+# release-evidence.sh — assemble the release-evidence bundle (spec AC-040–AC-042,
+# milestone AC-025, GA criterion #4).
+#
+# Produces reports/release-evidence/vX.Y.Z/ containing:
+#   evidence.md            — human-readable bundle: version map, runtime matrix
+#                            pointer, known limitations, install-smoke run links,
+#                            migration-chain coverage result
+#   capability-matrix.md   — snapshot of docs/capability-matrix.md at this tag
+#   command-catalog.txt    — skill catalog snapshot (both runtimes)
+#
+# Usage:
+#   ./scripts/release-evidence.sh v0.10.0            # assemble
+#   ./scripts/release-evidence.sh v0.10.0 --upload   # assemble + attach to the GitHub release
+#
+# The migration-chain check FAILS the script if core/templates/migrations.json
+# does not contain an unbroken from→to hop chain ending at the release version
+# (regression guard for the v0.8.1→v0.9.3 broken-chain incident).
+
+set -euo pipefail
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 <version-tag> [--upload]" >&2
+  exit 1
+fi
+
+TAG="v${1#v}"
+VERSION_NO_V="${TAG#v}"
+UPLOAD=false
+[ "${2:-}" = "--upload" ] && UPLOAD=true
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+cd "$REPO_ROOT"
+
+OUT="reports/release-evidence/$TAG"
+mkdir -p "$OUT"
+
+# --- Migration-chain coverage (AC-042) — hard gate ------------------------
+CHAIN_RESULT=$(python3 - "$VERSION_NO_V" <<'PY'
+import json, sys
+
+target = sys.argv[1]
+m = json.load(open("core/templates/migrations.json"))
+
+errors = []
+if m.get("plugin_version") != target:
+    errors.append(f"plugin_version is {m.get('plugin_version')!r}, expected {target!r}")
+
+hops = m.get("migrations", [])
+if not hops:
+    errors.append("no migration hops present")
+else:
+    # The manifest is a DAG (alternate edges like 0.8.0→0.9.3 are legal).
+    # Coverage = every version that appears anywhere must be able to REACH the
+    # release version by following hops, so no historical user is stranded.
+    edges = {}
+    nodes = set()
+    for h in hops:
+        edges.setdefault(h["from"], set()).add(h["to"])
+        nodes.update((h["from"], h["to"]))
+    if target not in nodes:
+        errors.append(f"no hop ends at {target!r} — add a hop entry (even a no-op)")
+    def reaches(start):
+        seen, stack = set(), [start]
+        while stack:
+            n = stack.pop()
+            if n == target:
+                return True
+            if n in seen:
+                continue
+            seen.add(n)
+            stack.extend(edges.get(n, ()))
+        return False
+    stranded = sorted(n for n in nodes if n != target and not reaches(n))
+    for n in stranded:
+        errors.append(f"version {n} cannot reach {target} — dead-end hop path")
+
+if errors:
+    print("BROKEN")
+    for e in errors:
+        print(f"  - {e}")
+    sys.exit(1)
+
+print(f"UNBROKEN — {len(hops)} hops; every listed version reaches {target}")
+PY
+) || { echo "ERROR: migration-chain check failed:"; echo "$CHAIN_RESULT"; exit 1; }
+
+# --- Version map ----------------------------------------------------------
+CORE_VERSION=$(tr -d '[:space:]' < core/VERSION)
+PLUGIN_JSON_VERSION=$(python3 -c "import json;print(json.load(open('plugins/add/.claude-plugin/plugin.json'))['version'])")
+CODEX_PIN=$(grep '^codex_cli_version' runtimes/codex/adapter.yaml | cut -d'"' -f2)
+CODEX_MIN=$(grep '^min_codex_version' runtimes/codex/adapter.yaml | cut -d'"' -f2)
+CONFIG_VERSION=$(python3 -c "import json;print(json.load(open('.add/config.json')).get('version','?'))" 2>/dev/null || echo "?")
+
+# --- Command catalog snapshot ---------------------------------------------
+{
+  echo "# ADD command catalog — $TAG"
+  echo ""
+  echo "## Claude Code ($(find plugins/add/skills -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d ' ') skills)"
+  find plugins/add/skills -maxdepth 1 -mindepth 1 -type d | sort | sed 's|.*/|/add:|'
+  echo ""
+  echo "## Codex CLI ($(find dist/codex/.agents/skills -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d ' ') skills)"
+  find dist/codex/.agents/skills -maxdepth 1 -mindepth 1 -type d | sort | sed 's|.*/add-|/add-|'
+} > "$OUT/command-catalog.txt"
+
+# --- Capability matrix snapshot -------------------------------------------
+cp docs/capability-matrix.md "$OUT/capability-matrix.md"
+
+# --- Install-smoke run links ----------------------------------------------
+SMOKE_LINKS=""
+for wf in install-smoke-claude.yml install-smoke-codex.yml; do
+  LINK=$(gh run list --workflow "$wf" --branch main --limit 1 \
+    --json databaseId,conclusion,url \
+    --jq '.[0] | "- \(.url) — \(.conclusion // "in progress")"' 2>/dev/null || true)
+  [ -n "$LINK" ] && SMOKE_LINKS="$SMOKE_LINKS$LINK ($wf)"$'\n'
+done
+[ -z "$SMOKE_LINKS" ] && SMOKE_LINKS="- (no smoke runs found — workflows not yet executed on main)"
+
+# --- Assemble evidence.md -------------------------------------------------
+cat > "$OUT/evidence.md" <<EOF
+# Release evidence — $TAG
+
+Generated by \`scripts/release-evidence.sh\` (spec AC-040, milestone AC-025).
+
+## Version map
+
+| Surface | Version |
+|---|---|
+| core/VERSION | $CORE_VERSION |
+| plugins/add plugin.json | $PLUGIN_JSON_VERSION |
+| .add/config.json (dogfood) | $CONFIG_VERSION |
+| Codex CLI pin (CI target) | $CODEX_PIN |
+| Codex CLI minimum supported | $CODEX_MIN |
+
+## Migration-chain coverage
+
+$CHAIN_RESULT
+
+## Install smoke (latest main runs)
+
+$SMOKE_LINKS
+
+## Runtime capability matrix / known limitations
+
+See \`capability-matrix.md\` in this bundle (snapshot of docs/capability-matrix.md).
+Known limitations are the rows marked Advisory / Agent-followed on Codex, and
+the warn-only injection response on Claude — stated identically in SECURITY.md.
+
+## Command catalog
+
+See \`command-catalog.txt\` in this bundle.
+EOF
+
+echo "==> Evidence bundle assembled at $OUT/"
+ls -1 "$OUT" | sed 's/^/    /'
+
+# --- Optional: attach to the GitHub release (AC-041) ----------------------
+if [ "$UPLOAD" = true ]; then
+  TARBALL="$OUT/../release-evidence-$TAG.tar.gz"
+  tar -czf "$TARBALL" -C "$OUT/.." "$TAG"
+  if gh release upload "$TAG" "$TARBALL" --clobber; then
+    echo "==> Uploaded release-evidence-$TAG.tar.gz to release $TAG"
+  else
+    echo "ERROR: upload failed — does release $TAG exist?" >&2
+    exit 1
+  fi
+fi

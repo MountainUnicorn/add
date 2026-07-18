@@ -26,7 +26,7 @@ That script installs:
 - `min_codex_version = "0.122.0"` — the oldest Codex CLI that
   supports every feature ADD emits (native Skills, sub-agents, hooks, plugin
   marketplace).
-- `codex_cli_version = "0.122.0"` — the version ADD's CI
+- `codex_cli_version = "0.144.5"` — the version ADD's CI
   validates against.
 
 **Differences from the Claude adapter:**

@@ -13,6 +13,8 @@ When you install ADD into a project-aware agent runtime, you are granting:
 
 ADD does not call external APIs, does not transmit telemetry, and does not contain any compiled code. But a malicious change to an ADD rule or skill file can rewrite agent behavior as effectively as any exploit, because the runtime reads those files as instructions.
 
+**Enforcement differs by runtime.** On Claude Code, ADD's defenses run as hooks the agent cannot skip (mechanical detection, warn-only response); on Codex CLI several of them are advisory or require user opt-in, and prompt-injection scanning is documentation-only. The authoritative per-runtime breakdown is [`docs/capability-matrix.md`](docs/capability-matrix.md) — read it before assuming a mitigation below applies to your runtime.
+
 ## Threat Model
 
 | Threat | Likelihood | Impact | Mitigation |

@@ -196,3 +196,42 @@ Usually one of:
 1. Public key not uploaded to GitHub (Settings → SSH and GPG keys)
 2. The email on the git commit doesn't match any verified email on your GitHub account (check `git config user.email`)
 3. Key was uploaded but propagation hasn't completed — wait a minute, refresh
+
+## Release-blocking CI (v0.10.0, spec AC-020–AC-022)
+
+Two layers make releases release-blocked on CI; both must stay configured:
+
+1. **`release.sh` green-check guard** (in-repo): the script refuses to tag unless
+   HEAD is pushed to `origin/main` and every check-run on it is green.
+   `--no-verify-ci` is the emergency override and prints a loud warning.
+
+2. **Branch protection on `main`** (GitHub settings — NOT in the repo, re-apply
+   if the repo is ever migrated):
+
+   Contexts must be the exact check-run names. List what actually ran on main:
+
+   ```bash
+   gh api "repos/MountainUnicorn/add/commits/$(git rev-parse origin/main)/check-runs" \
+     --paginate --jq '.check_runs[].name' | sort -u
+   ```
+
+   Then apply (substitute the real names, including "Claude install smoke" and
+   "Codex install smoke"):
+
+   ```bash
+   gh api -X PUT repos/MountainUnicorn/add/branches/main/protection \
+     --input - <<'JSON'
+   {
+     "required_status_checks": { "strict": false, "contexts": [ "...names..." ] },
+     "enforce_admins": false,
+     "required_pull_request_reviews": null,
+     "restrictions": null
+   }
+   JSON
+   ```
+
+   `enforce_admins` stays **false** deliberately: the maintainer's direct-push
+   workflow on `main` continues (admin bypass), while PR contributors are gated
+   by required checks and the release boundary is gated by layer 1. Check
+   context names must match the job names in `.github/workflows/*.yml` — update
+   both together.

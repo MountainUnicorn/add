@@ -3,7 +3,7 @@
 **Version:** 0.1.0
 **Created:** 2026-07-18
 **PRD Reference:** docs/prd.md
-**Status:** Draft
+**Status:** Implementing (shipped in working tree; CI first-run pending)
 **Target Release:** v0.10.0
 **Milestone:** docs/milestones/v1.0-ga.md (consolidates the planned v0.10.0 + v0.11.0 install-smoke scope into one RC)
 **Depends-on:** `runtimes/codex/adapter.yaml` (Codex CLI pin), `scripts/release.sh`, `.github/workflows/` guardrail suite
@@ -99,3 +99,20 @@ As the ADD maintainer preparing GA, I want CI to install the plugin exactly the 
 | Headless Claude Code marketplace install not cleanly scriptable in CI | Medium | AC-002 blocked | Fallback: install from the repo's marketplace definition via `--plugin-dir` equivalent, documented as a known deviation in the evidence bundle |
 | Marketplace review latency exceeds patch cadence | High | GA date slips | Accepted: submission is external; v0.10.x continues under beta rules meanwhile |
 | CI secrets (Anthropic API key) unavailable on fork PRs | High | Smoke skipped on community PRs | AC-007 graceful skip + required-check applies to `main` pushes and release tags |
+
+## 6. Implementation Notes (2026-07-18)
+
+- All sections implemented in one pass; smoke workflows await their first CI runs.
+- **Deviation (AC-003/AC-013):** no `.add/config.json` schema exists in `core/schemas/`
+  (only frontmatter schemas), so smokes assert exists + parses + `version`/`maturity`
+  keys. A real config schema remains F-015 scope (v1.1).
+- **Q-001 retired:** pin bumped 0.122.0 → 0.144.5; Codex smoke passed in Docker locally
+  (27/27 skills, path suite, version parity). No breaking changes found in the
+  0.122→0.144 changelog for ADD's emitted surfaces; min_codex_version stays 0.122.0.
+- **AC-042 found a live defect on first run:** migrations.json had no outgoing hop from
+  0.7.3 (stranded users). Fixed with a 0.7.3→0.8.0 hop. Check is graph-reachability,
+  not linear-chain (the manifest legitimately contains alternate edges).
+- **AC-050 (D6) answered: telemetry does NOT emit** — `.add/telemetry/` absent on
+  dogfood. Finding recorded in milestone + CHANGELOG; fix deferred.
+- Branch protection (AC-020) applied with `enforce_admins: false` so the maintainer
+  direct-push flow survives; release-blocking is enforced by the release.sh guard.

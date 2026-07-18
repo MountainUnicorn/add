@@ -1,4 +1,30 @@
-# Handoff — GA path spec'd: v0.10.0 install-path RC (updated 2026-07-18)
+# Handoff — v0.10.0 install-path RC IMPLEMENTED (updated 2026-07-18, PM)
+
+## v0.10.0 implementation (2026-07-18, same-day follow-up to the spec)
+All sections of specs/install-path-confirmation.md implemented in one pass:
+- **Codex re-pin 0.122.0 → 0.144.5** (adapter.yaml; min stays 0.122.0). Smoke
+  **passed locally in Docker** against the new pin — 27/27 skills, F-002 path
+  suite, version parity. Q-001 retired.
+- **Smoke workflows** install-smoke-claude.yml (marketplace install from
+  checkout + headless /add:init, needs ANTHROPIC_API_KEY secret) and
+  install-smoke-codex.yml (tests/smoke/codex/ Docker, pin via build-arg,
+  needs OPENAI_API_KEY for agent leg; layout asserts gate regardless).
+  **ACTION: add both secrets to repo settings** or agent legs skip w/ warning.
+- **release.sh**: CI-green guard (refuses tag unless HEAD checks green;
+  --no-verify-ci override) + appends capability matrix to release notes.
+- **docs/capability-matrix.md** + SECURITY.md pointer (AC-027 done).
+- **scripts/release-evidence.sh** (AC-025) — first run CAUGHT A REAL BUG:
+  migrations.json had no hop out of 0.7.3 (stranded users). Fixed. Check is
+  graph-reachability. Dogfood bundle at reports/release-evidence/v0.9.11/.
+- **D6 answered: telemetry does NOT emit** (.add/telemetry/ absent). Finding
+  recorded milestone+CHANGELOG; fix deferred.
+- Milestone doc: D8 decision (v0.10/v0.11 consolidation, submit-before-promote),
+  status updates. CHANGELOG [Unreleased] staged for v0.10.0.
+- Branch protection: runbook section added; apply after first CI runs (real
+  check-run names) — enforce_admins false to keep direct-push flow.
+
+Remaining before cutting v0.10.0: smoke workflows green in CI (add secrets),
+apply branch protection, promote CHANGELOG, then release + marketplace submit.
 
 ## GA review + v0.10.0 spec (2026-07-18)
 Reviewed GA readiness against docs/milestones/v1.0-ga.md: criteria #6 met, #1/#4

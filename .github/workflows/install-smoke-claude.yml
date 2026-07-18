@@ -1,0 +1,88 @@
+name: Claude install smoke
+
+# Real Claude Code install smoke (spec AC-001–AC-007, milestone AC-022).
+# Installs ADD through the actual marketplace path — `claude plugin marketplace
+# add <checkout>` + `claude plugin install add@add-marketplace` — so the commit
+# under test is what gets installed, then drives a headless session through
+# /add:init --quick in a scratch project.
+#
+# Auth (AC-007): the agent-driven leg needs ANTHROPIC_API_KEY. When the secret
+# is absent (fork PRs), the install/discovery assertions still run and gate;
+# the agent leg skips with a loud workflow warning.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Claude install smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Claude Code CLI
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude --version
+
+      - name: Marketplace install from this checkout (AC-002)
+        run: |
+          claude plugin marketplace add "$GITHUB_WORKSPACE"
+          claude plugin install add@add-marketplace
+
+      - name: Assert skill discovery (AC-004)
+        run: |
+          EXPECTED=$(find plugins/add/skills -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d ' ')
+          CACHE_DIR=$(find ~/.claude/plugins -type d -name skills -path '*add*' | head -1)
+          if [ -z "$CACHE_DIR" ]; then
+            echo "::error::installed plugin skills directory not found under ~/.claude/plugins"
+            exit 1
+          fi
+          INSTALLED=$(find "$CACHE_DIR" -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d ' ')
+          echo "expected=$EXPECTED installed=$INSTALLED ($CACHE_DIR)"
+          [ "$INSTALLED" = "$EXPECTED" ] || { echo "::error::skill count mismatch"; exit 1; }
+
+      - name: Agent-driven /add:init smoke (AC-003, AC-005)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning title=Claude smoke partial::install/discovery assertions ran; agent-driven /add:init skipped (no ANTHROPIC_API_KEY — expected on fork PRs)"
+            exit 0
+          fi
+          SCRATCH=$(mktemp -d)
+          cd "$SCRATCH"
+          git init -q
+          set +e
+          claude -p "/add:init --quick" \
+            --permission-mode acceptEdits \
+            --max-turns 30 \
+            > "$SCRATCH/session.log" 2>&1
+          STATUS=$?
+          set -e
+          echo "--- session tail ---"
+          tail -40 "$SCRATCH/session.log"
+          if [ ! -f .add/config.json ]; then
+            echo "::error::/add:init --quick did not produce .add/config.json (claude exit $STATUS)"
+            exit 1
+          fi
+          # No config schema exists in core/schemas yet (spec deviation, recorded
+          # in specs/install-path-confirmation.md) — assert parse + key fields.
+          python3 -c "import json,sys; c=json.load(open('.add/config.json')); sys.exit(0 if ('version' in c and 'maturity' in c) else 1)" \
+            || { echo "::error::.add/config.json missing version/maturity keys"; exit 1; }
+          echo "PASS: .add/config.json produced and well-formed"
+          # AC-005 (Should, non-blocking): SessionStart rule loading evidence.
+          if grep -qi "add.*rules\|load-rules" "$SCRATCH/session.log"; then
+            echo "PASS: rule-loading evidence found in session output"
+          else
+            echo "::warning::no rule-loading evidence in session output (AC-005 soft check)"
+          fi

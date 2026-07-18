@@ -1,0 +1,52 @@
+name: Codex install smoke
+
+# Real Codex CLI install smoke (spec AC-012–AC-016, milestone AC-023/AC-035).
+# Builds the pinned-CLI container (pin sourced from runtimes/codex/adapter.yaml —
+# single source of truth) and runs the same curl-installer path a user takes.
+#
+# Secrets: OPENAI_API_KEY enables the agent-driven /add-init leg. When absent
+# (fork PRs), layout assertions still run and gate; the agent leg skips with a
+# workflow warning (spec AC-007 pattern).
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Codex install smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Read Codex CLI pin from adapter.yaml
+        id: pin
+        run: |
+          PIN=$(grep '^codex_cli_version' runtimes/codex/adapter.yaml | cut -d'"' -f2)
+          if [ -z "$PIN" ]; then
+            echo "::error::codex_cli_version not found in runtimes/codex/adapter.yaml"
+            exit 1
+          fi
+          echo "version=$PIN" >> "$GITHUB_OUTPUT"
+          echo "Pinned Codex CLI: $PIN"
+
+      - name: Build pinned-CLI image
+        run: |
+          docker build \
+            --build-arg CODEX_CLI_VERSION="${{ steps.pin.outputs.version }}" \
+            -t add-codex-smoke \
+            tests/smoke/codex
+
+      - name: Run install smoke
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          docker run --rm \
+            -v "$PWD":/work \
+            -e OPENAI_API_KEY \
+            add-codex-smoke \
+            bash tests/smoke/codex/run-smoke.sh

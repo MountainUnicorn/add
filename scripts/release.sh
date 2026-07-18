@@ -25,10 +25,12 @@ shift || true
 
 DRAFT=false
 DRY_RUN=false
+SKIP_CI_CHECK=false
 for arg in "$@"; do
   case "$arg" in
     --draft) DRAFT=true ;;
     --dry-run) DRY_RUN=true ;;
+    --no-verify-ci) SKIP_CI_CHECK=true ;;
     *) echo "Unknown flag: $arg" >&2; exit 1 ;;
   esac
 done
@@ -72,6 +74,35 @@ python3 scripts/validate-frontmatter.py >/dev/null
 echo "==> Checking compile output matches committed artifacts..."
 python3 scripts/compile.py --check >/dev/null
 
+# 3b. CI on HEAD must be green before a release can be cut (spec AC-021 —
+# closes the gap where a signed tag could be minted from an unverified commit).
+# --no-verify-ci is the documented emergency override; it prints loudly.
+if [ "$SKIP_CI_CHECK" = true ]; then
+  echo "!!  WARNING: --no-verify-ci — skipping CI green-check. Release evidence"
+  echo "!!  for this tag will not include verified install smoke."
+else
+  HEAD_SHA=$(git rev-parse HEAD)
+  echo "==> Verifying CI checks on HEAD ($HEAD_SHA)..."
+  if ! git fetch -q origin main || ! git merge-base --is-ancestor "$HEAD_SHA" origin/main; then
+    echo "ERROR: HEAD is not pushed to origin/main — CI has never seen this commit." >&2
+    exit 1
+  fi
+  CHECKS_JSON=$(gh api "repos/{owner}/{repo}/commits/$HEAD_SHA/check-runs" --paginate 2>/dev/null || echo "")
+  TOTAL=$(echo "$CHECKS_JSON" | jq -s '[.[].check_runs[]] | length' 2>/dev/null || echo 0)
+  if [ "${TOTAL:-0}" -eq 0 ]; then
+    echo "ERROR: no CI check-runs found for $HEAD_SHA — wait for CI to start, or" >&2
+    echo "       use --no-verify-ci only if you accept an unverified release." >&2
+    exit 1
+  fi
+  NOT_GREEN=$(echo "$CHECKS_JSON" | jq -sr '[.[].check_runs[] | select(.status != "completed" or (.conclusion | IN("success","neutral","skipped") | not)) | "\(.name): \(.status)/\(.conclusion // "pending")"] | .[]' 2>/dev/null)
+  if [ -n "$NOT_GREEN" ]; then
+    echo "ERROR: CI checks on HEAD are not green:" >&2
+    echo "$NOT_GREEN" | sed 's/^/       /' >&2
+    exit 1
+  fi
+  echo "==> All $TOTAL CI checks green"
+fi
+
 # 4. Signing key must be configured
 SIGNING_KEY=$(git config --get user.signingkey || echo "")
 if [ -z "$SIGNING_KEY" ]; then
@@ -101,6 +132,13 @@ if [ -z "$(echo "$NOTES" | tr -d '[:space:]')" ]; then
   echo "       Add a ## [${VERSION_NO_V}] — YYYY-MM-DD section before releasing." >&2
   exit 1
 fi
+
+# 6b. Every release ships the per-runtime capability matrix (spec AC-031,
+# milestone AC-027) — pinned to this tag so historical releases stay accurate.
+NOTES="$NOTES
+
+---
+**Runtime capability matrix:** [docs/capability-matrix.md](https://github.com/MountainUnicorn/add/blob/${TAG}/docs/capability-matrix.md) — what is mechanically enforced vs agent-followed vs advisory on each runtime."
 
 echo ""
 echo "==> Release notes (from CHANGELOG.md):"

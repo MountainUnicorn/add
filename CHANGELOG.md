@@ -138,7 +138,26 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
-_(Nothing yet — tracking items go here between releases.)_
+**Pending for v0.10.0 — "install path confirmed" GA release candidate** (spec: `specs/install-path-confirmation.md`; sequencing: smoke green → marketplace submission → v1.0.0 promotion tag on approval).
+
+### Added
+
+- **Real install smoke in CI (GA criterion #2).** `.github/workflows/install-smoke-claude.yml` — installs the checkout via the actual marketplace path (`claude plugin marketplace add` + `claude plugin install add@add-marketplace`), asserts skill discovery, and drives a headless `/add:init --quick` asserting `.add/config.json` (agent leg skips loudly without `ANTHROPIC_API_KEY`). `.github/workflows/install-smoke-codex.yml` + `tests/smoke/codex/` — Docker image with the Codex CLI pinned from `runtimes/codex/adapter.yaml` (single source of truth via build-arg), runs `scripts/install-codex.sh` for real, asserts 27/27 skills, hooks, shared assets, version parity, the F-002 path suite, and (with `OPENAI_API_KEY`) an agent-driven `/add-init`.
+- **`docs/capability-matrix.md` (GA criterion #3 / AC-027).** Per-runtime enforced vs agent-followed vs advisory truth table, appended to every release's notes by `release.sh`; `SECURITY.md` now points at it before the threat model.
+- **`scripts/release-evidence.sh` (GA criterion #4 / AC-025).** Assembles `reports/release-evidence/vX.Y.Z/` — version map, capability-matrix snapshot, command catalog, install-smoke run links, and a migration-graph reachability check; `--upload` attaches the bundle to the GitHub release.
+
+### Changed
+
+- **Codex CLI re-pinned 0.122.0 → 0.144.5** (`codex_cli_version`; `min_codex_version` stays 0.122.0). Install smoke verified green in Docker against the new pin (Q-001 re-baseline).
+- **`release.sh` is now release-blocking (GA criterion #1).** Refuses to tag unless HEAD is on origin/main with all CI check-runs green; `--no-verify-ci` is the loud emergency override.
+
+### Fixed
+
+- **`migrations.json`: v0.7.3 users were stranded** — no outgoing hop existed from 0.7.3 (same class as the v0.8.1→v0.9.3 chain break). Caught by the new reachability check; fixed with a 0.7.3→0.8.0 hop carrying the standard 0.8.0 steps.
+
+### Known limitations
+
+- **Telemetry emission confirmed absent (Q-MS-003/D6).** `.add/telemetry/` never populates — the spec exists, no hook writes it. Recorded as a finding; implementation deferred past v0.10.0 (does not gate the six GA criteria).
 
 ## [0.9.5] — 2026-04-22
 
