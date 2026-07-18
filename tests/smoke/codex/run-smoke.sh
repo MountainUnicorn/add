@@ -107,7 +107,11 @@ else
     cp "$CODEX_HOME/add/AGENTS.md" AGENTS.md
     # Quick mode interviews; a one-shot exec has no second turn — answers inline.
     # Same product gap as the Claude smoke: /add-init needs --defaults (v0.10.1).
-    codex exec --skip-git-repo-check "Run /add-init --quick — non-interactive run: use answers smoke-test, python, 1 (local only), poc, autonomous. Do not ask any questions; write the config now." \
+    # --dangerously-bypass-approvals-and-sandbox: the Docker container IS the
+    # sandbox (throwaway, no privileges); codex's internal landlock sandbox
+    # can't initialize here (unprivileged namespaces disabled) and would block
+    # all writes.
+    codex exec --skip-git-repo-check --dangerously-bypass-approvals-and-sandbox "Run /add-init --quick — non-interactive run: use answers smoke-test, python, 1 (local only), poc, autonomous. Do not ask any questions; write the config now." \
       >/tmp/codex-init.log 2>&1 || true
   )
   if [ -f "$SCRATCH/.add/config.json" ] \
