@@ -1,4 +1,16 @@
-# Handoff — token-audit arc + stale-rules fix (updated 2026-07-16)
+# Handoff — GA path spec'd: v0.10.0 install-path RC (updated 2026-07-18)
+
+## GA review + v0.10.0 spec (2026-07-18)
+Reviewed GA readiness against docs/milestones/v1.0-ga.md: criteria #6 met, #1/#4
+near/partial, #2/#3/#5 open. Sequencing decision: build + pass install smoke
+BEFORE marketplace submission (review the verified artifact), consolidating the
+planned v0.10.0 + v0.11.0 scope into one RC; v1.0.0 reserved as the promotion
+tag on approval. New spec: **specs/install-path-confirmation.md** (Draft, target
+v0.10.0) — Claude marketplace-install smoke (AC-022), Codex containerized smoke
++ CLI re-pin off 0.122 (AC-023/AC-035/Q-001), release-blocking branch protection,
+capability matrix (AC-027), release-evidence bundle (AC-025), D6 telemetry check.
+Implementation not started. Note: site footers ARE at v0.9.11 (line below is
+stale from last session).
 
 ## v0.9.11 (2026-07-16) — RELEASED
 Stale-rules gap reported by Tomasz Dmitruk (@tdmitruk): init-copied rules in
