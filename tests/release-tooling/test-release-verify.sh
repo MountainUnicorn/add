@@ -45,7 +45,13 @@ case "$1" in
   branch)    echo main ;;       # on main
   status)    : ;;               # clean tree (no output)
   config)    echo TESTKEY ;;    # signing key configured
-  rev-parse) exit 1 ;;          # tag does not already exist
+  fetch)     : ;;               # fetch origin main succeeds (CI-green guard)
+  merge-base) exit 0 ;;         # HEAD is an ancestor of origin/main
+  rev-parse)
+    # `rev-parse HEAD` (CI-green guard) must yield a sha; `rev-parse <tag>`
+    # must fail so release.sh sees the tag as not-yet-existing.
+    if [ "${2:-}" = "HEAD" ]; then echo 0000000; exit 0; fi
+    exit 1 ;;
   tag)       : ;;               # tag -s / tag --verify succeed
   push)      : ;;               # push succeeds
   *)         : ;;
@@ -53,6 +59,14 @@ esac
 EOS
   cat >"$shim/gh" <<'EOS'
 #!/usr/bin/env bash
+if [ "$1" = "api" ]; then
+  # CI-green guard check-runs query. GH_API_MODE: green (default) | red
+  case "${GH_API_MODE:-green}" in
+    green) echo '{"check_runs":[{"name":"drift","status":"completed","conclusion":"success"}]}' ;;
+    red)   echo '{"check_runs":[{"name":"drift","status":"completed","conclusion":"failure"}]}' ;;
+  esac
+  exit 0
+fi
 if [ "$1 $2" = "release create" ]; then exit 0; fi   # "succeeds" — the #18 trap
 if [ "$1 $2" = "release view" ]; then
   case "${GH_VIEW_MODE:-url}" in
@@ -77,12 +91,12 @@ EOS
 }
 
 run_release() {
-  # $1 = GH_VIEW_MODE ; echoes "<exit_code>|<output>"
-  local mode="$1" shim out rc
+  # $1 = GH_VIEW_MODE ; $2 = GH_API_MODE (default green) ; echoes "<exit_code>|<output>"
+  local mode="$1" api_mode="${2:-green}" shim out rc
   shim=$(mktemp -d)
   make_shims "$shim"
   local tag="v$(cat "$REPO_ROOT/core/VERSION" | tr -d '[:space:]')"
-  out=$(cd "$REPO_ROOT" && GH_VIEW_MODE="$mode" REAL_PATH="$PATH" \
+  out=$(cd "$REPO_ROOT" && GH_VIEW_MODE="$mode" GH_API_MODE="$api_mode" REAL_PATH="$PATH" \
         PATH="$shim:$PATH" bash scripts/release.sh "$tag" 2>&1)
   rc=$?
   rm -rf "$shim"
@@ -112,6 +126,15 @@ if [ "$rc" != "0" ]; then
   pass "empty release URL is treated as failure -> exit $rc"
 else
   fail "empty release URL slipped through as success"
+fi
+
+# 3b. CI-green guard (v0.10.0, spec AC-021): red checks on HEAD -> MUST refuse -
+res=$(run_release url red); rc=${res%%|*}; out=${res#*|}
+if [ "$rc" != "0" ] && printf '%s' "$out" | grep -q "not green"; then
+  pass "red CI checks on HEAD -> release refused (exit $rc)"
+else
+  fail "release.sh tagged despite red CI checks (rc=$rc)"
+  printf '%s\n' "$out" | sed 's/^/    /'
 fi
 
 # 4. Static: no unquoted \$DRAFT_FLAG word-split (a suspected #18 contributor) -
