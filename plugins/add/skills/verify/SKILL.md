@@ -1,11 +1,11 @@
 ---
-description: "[ADD v0.10.0] Run quality gates — lint, types, tests, coverage, spec compliance"
+description: "[ADD v0.10.1] Run quality gates — lint, types, tests, coverage, spec compliance"
 argument-hint: "[--level local|ci|deploy|smoke] [--fix]"
 allowed-tools: [Read, Glob, Grep, Bash, TodoWrite]
 references: ["learning-reference.md", "quality-checks-matrix.md", "secrets-gate.md", "skill-epilogue.md", "rules/telemetry.md"]
 ---
 
-# ADD Verify Skill v0.10.0
+# ADD Verify Skill v0.10.1
 
 Execute quality gates to verify code meets production standards. This skill runs automated checks and produces a structured pass/fail report.
 

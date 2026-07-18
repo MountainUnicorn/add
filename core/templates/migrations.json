@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.10.0",
+  "plugin_version": "0.10.1",
   "migrations": [
     {
       "from": "0.1.0",
@@ -341,6 +341,12 @@
       "to": "0.10.0",
       "steps": [],
       "description": "Install-path confirmation RC \u2014 CI install smoke both runtimes, Codex CLI re-pin 0.144.5, release-blocking CI, capability matrix, release-evidence bundle. No consumer config changes."
+    },
+    {
+      "from": "0.10.0",
+      "to": "0.10.1",
+      "steps": [],
+      "description": "Codex \u22650.14x schema fixes (#24): sub-agent TOMLs use developer_instructions (prompt_skill removed upstream); hooks.json uses the nested hooks/matcher/type schema with ~ paths. Codex users should re-run the installer to refresh ~/.codex/agents/ and ~/.codex/hooks.json. No Claude-side changes."
     }
   ]
 }

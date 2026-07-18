@@ -138,7 +138,22 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
-- **Known gap (#24, found by the Codex smoke against the 0.144.5 re-pin):** Codex ≥0.14x rejects ADD's sub-agent TOMLs (`prompt_skill` field) and hooks.json schema — both silently non-functional on modern Codex. Capability matrix updated to say "Broken on ≥0.14x"; emit-format fix targets v0.10.1.
+## [Unreleased]
+
+_(Nothing yet — tracking items go here between releases.)_
+
+## [0.10.1] — 2026-07-18
+
+**Codex ≥0.14x compatibility (#24)** — found by the v0.10.0 install smoke's first live run against the re-pinned CLI 0.144.5.
+
+### Fixed
+
+- **Sub-agent TOMLs were silently ignored on Codex ≥0.14x** — the `prompt_skill` field no longer exists in the agent-role schema. All 5 roles (explorer, implementer, reviewer, test-writer, verify) now use the required `developer_instructions` field, instructing the spawned agent to load its role's SKILL.md — behavior stays skill-sourced. Verified accepted by CLI 0.144.5.
+- **hooks.json was rejected on Codex ≥0.14x** — registration now uses the current schema (top-level `hooks` key, matcher groups, typed `command` entries) and `~/.codex/...` command paths (the old bare relative paths only resolved when the session started in `$HOME`). Verified accepted by CLI 0.144.5.
+- Migration hop 0.10.0→0.10.1 tells Codex users to re-run the installer to refresh `~/.codex/agents/` and `~/.codex/hooks.json`.
+
+### Known limitations (carried)
+
 - **Known gap (#23, found by the first live smoke run):** `/add:init --quick` still interviews, so headless one-shot sessions exit without writing config. Smokes work around it with inline answers; a true `--defaults` path targets v0.10.1.
 
 ## [0.10.0] — 2026-07-18

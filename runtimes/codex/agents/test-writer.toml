@@ -8,4 +8,7 @@ name = "test-writer"
 description = "Writes failing tests from a spec (TDD RED phase). Does not implement."
 model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
-prompt_skill = "add-test-writer"
+# Codex ≥0.14x agent-role schema (issue #24): prompt_skill was removed;
+# developer_instructions is the required behavioral field. The skill file
+# remains the single source of behavior — the agent loads it at start.
+developer_instructions = "You are this role's dedicated sub-agent. First read ~/.codex/skills/add-test-writer/SKILL.md and adopt it verbatim as your role definition and operating constraints, then execute the task you were spawned with. Honor the sandbox_mode declared for this role."

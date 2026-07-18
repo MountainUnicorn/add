@@ -660,11 +660,27 @@ def emit_codex_agents_hooks_config(output: Path, version: str) -> dict:
             os.chmod(dest, 0o755)
             counts["hooks"] += 1
 
-    # hooks.json registration manifest (AC-021)
+    # hooks.json registration manifest (AC-021).
+    # Codex ≥0.14x schema (issue #24): events nest under a top-level "hooks"
+    # key, each event holds matcher groups whose "hooks" list carries typed
+    # command entries. Commands use ~ paths so they resolve regardless of cwd
+    # after install (the old bare ".codex/..." relative paths only worked when
+    # the session happened to start in $HOME).
+    def _hook(cmd: str, matcher: str | None = None) -> dict:
+        group: dict = {"hooks": [{"type": "command", "command": cmd}]}
+        if matcher is not None:
+            group["matcher"] = matcher
+        return group
+
     hooks_manifest = {
-        "SessionStart": [{"command": ".codex/hooks/load-handoff.sh"}],
-        "Stop": [{"command": ".codex/hooks/write-handoff.sh"}],
-        "UserPromptSubmit": [{"command": ".codex/hooks/handoff-detect.sh"}],
+        "description": "ADD (Agent Driven Development) lifecycle hooks",
+        "hooks": {
+            "SessionStart": [
+                _hook("~/.codex/hooks/load-handoff.sh", "startup|resume")
+            ],
+            "Stop": [_hook("~/.codex/hooks/write-handoff.sh")],
+            "UserPromptSubmit": [_hook("~/.codex/hooks/handoff-detect.sh")],
+        },
     }
     (codex_dir / "hooks.json").write_text(
         json.dumps(hooks_manifest, indent=2) + "\n"
