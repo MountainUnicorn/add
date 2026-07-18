@@ -235,3 +235,11 @@ Two layers make releases release-blocked on CI; both must stay configured:
    by required checks and the release boundary is gated by layer 1. Check
    context names must match the job names in `.github/workflows/*.yml` — update
    both together.
+
+   **Maintenance note (applied 2026-07-18):** 23 contexts are currently required —
+   both install smokes plus every guardrails job, taken from the check-runs of the
+   latest green main commit. Path-filtered workflows (compile-drift, schema-check,
+   rule-boundary) are deliberately NOT required — they don't run on every PR and
+   would strand unrelated PRs in "expected"; the release.sh guard still verifies
+   them since it checks ALL check-runs on HEAD. When a fixture suite is added to
+   guardrails.yml, re-run the apply command above to refresh the context list.

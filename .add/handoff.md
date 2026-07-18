@@ -20,11 +20,21 @@ All sections of specs/install-path-confirmation.md implemented in one pass:
   recorded milestone+CHANGELOG; fix deferred.
 - Milestone doc: D8 decision (v0.10/v0.11 consolidation, submit-before-promote),
   status updates. CHANGELOG [Unreleased] staged for v0.10.0.
-- Branch protection: runbook section added; apply after first CI runs (real
-  check-run names) — enforce_admins false to keep direct-push flow.
+- **Branch protection APPLIED** (23 required contexts = both smokes + all
+  guardrails jobs; enforce_admins false so direct-push flow survives;
+  path-filtered workflows deliberately excluded — release.sh guard covers
+  them; re-apply command + maintenance note in docs/release-signing.md).
+- **Both smokes GREEN in CI on first run** (caf7d90/dfa9689). My release.sh
+  guard change initially broke the release-tooling fixture suite (mocks
+  predated the new git/gh calls) — shims fixed + new red-checks-refusal case
+  added (dfa9689), guardrails green again.
 
-Remaining before cutting v0.10.0: smoke workflows green in CI (add secrets),
-apply branch protection, promote CHANGELOG, then release + marketplace submit.
+Remaining before cutting v0.10.0 (all human-gated):
+1. Add ANTHROPIC_API_KEY + OPENAI_API_KEY repo Actions secrets → re-run smokes
+   so the agent-driven /add:init legs execute (currently skip w/ warning).
+2. Promote CHANGELOG [Unreleased] → [0.10.0], bump core/VERSION, release.
+3. Run scripts/release-evidence.sh v0.10.0 --upload after the release.
+4. Submit to marketplace (criterion #5); v1.0.0 = promotion tag on approval.
 
 ## GA review + v0.10.0 spec (2026-07-18)
 Reviewed GA readiness against docs/milestones/v1.0-ga.md: criteria #6 met, #1/#4
