@@ -96,9 +96,10 @@ if [ -z "${OPENAI_API_KEY:-}" ]; then
 else
   # Codex ≥0.14x doesn't adopt OPENAI_API_KEY for its responses websocket
   # without an auth.json — a bare env var yields a misleading 401
-  # (openai/codex#15151). Log in explicitly for the headless run.
-  codex login --api-key "$OPENAI_API_KEY" >/dev/null 2>&1 \
-    || echo "note: codex login --api-key returned non-zero; proceeding to exec"
+  # (openai/codex#15151). Log in explicitly; 0.144 reads the key from stdin.
+  if ! printenv OPENAI_API_KEY | codex login --with-api-key; then
+    fail "codex login --with-api-key failed — agent leg cannot authenticate"
+  fi
   SCRATCH=$(mktemp -d)
   (
     cd "$SCRATCH"

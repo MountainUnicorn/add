@@ -138,6 +138,7 @@ Hotfix. Fixes three findings from the plugin-family release-hardening review bef
 
 ## [Unreleased]
 
+- **Known gap (#24, found by the Codex smoke against the 0.144.5 re-pin):** Codex ≥0.14x rejects ADD's sub-agent TOMLs (`prompt_skill` field) and hooks.json schema — both silently non-functional on modern Codex. Capability matrix updated to say "Broken on ≥0.14x"; emit-format fix targets v0.10.1.
 - **Known gap (#23, found by the first live smoke run):** `/add:init --quick` still interviews, so headless one-shot sessions exit without writing config. Smokes work around it with inline answers; a true `--defaults` path targets v0.10.1.
 
 ## [0.10.0] — 2026-07-18
