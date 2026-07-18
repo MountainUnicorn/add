@@ -1,4 +1,18 @@
-# Handoff — v0.10.0 RELEASED (updated 2026-07-18, PM)
+# Handoff — v0.10.1 RELEASED, #24 closed (updated 2026-07-18, evening)
+
+## v0.10.1 (2026-07-18) — RELEASED, signed, verified
+https://github.com/MountainUnicorn/add/releases/tag/v0.10.1 — Codex ≥0.14x
+compatibility (#24, closed via commit): all 5 sub-agent TOMLs now emit
+developer_instructions (prompt_skill removed upstream; agents load their
+role's SKILL.md), hooks.json emits the nested hooks/matcher/type schema with
+~ paths. Verified accepted by CLI 0.144.5 in Docker (zero schema warnings)
+AND both live-agent smokes green in CI on the release commit. Capability
+matrix un-broke the two rows. Migration hop 0.10.0→0.10.1 tells Codex users
+to re-run the installer. Evidence bundle attached; marketplace synced; site
+footers → v0.10.1.
+
+Remaining for GA: #23 (/add:init --defaults, v0.10.2 candidate, non-blocking);
+marketplace approval (criterion #5) → v1.0.0 promotion tag.
 
 ## v0.10.0 (2026-07-18) — RELEASED, signed, verified
 https://github.com/MountainUnicorn/add/releases/tag/v0.10.0 — GA release
