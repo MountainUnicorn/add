@@ -1,11 +1,11 @@
-# ADD sub-agent — reviewer
+# ADD sub-agent — add-reviewer
 #
 # Behavioral source: core/skills/reviewer/SKILL.md
 # Read-only: inspects working-tree changes against the driving spec, produces
 # a structured review report. Does not modify files.
 # See spec AC-015..AC-020.
 
-name = "reviewer"
+name = "add-reviewer"
 description = "Reviews changes against spec acceptance criteria. Read-only."
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"

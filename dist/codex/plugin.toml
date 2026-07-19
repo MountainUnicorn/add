@@ -39,11 +39,11 @@ skills = [
 ]
 
 agents = [
-  ".codex/agents/explorer.toml",
-  ".codex/agents/implementer.toml",
-  ".codex/agents/reviewer.toml",
-  ".codex/agents/test-writer.toml",
-  ".codex/agents/verify.toml",
+  ".codex/agents/add-explorer.toml",
+  ".codex/agents/add-implementer.toml",
+  ".codex/agents/add-reviewer.toml",
+  ".codex/agents/add-test-writer.toml",
+  ".codex/agents/add-verify.toml",
 ]
 
 hooks = ".codex/hooks.json"

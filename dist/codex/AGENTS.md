@@ -68,11 +68,11 @@ Before executing any ADD skill, read `~/.codex/add/knowledge/global.md` (Tier-1 
 
 Registered in `.codex/agents/`. Active when `[features] collab = true` (set in emitted `.codex/config.toml`).
 
-- `test-writer` — TDD RED phase (workspace-write, high reasoning)
-- `implementer` — TDD GREEN phase (workspace-write, high reasoning)
-- `reviewer` — spec-compliance review (read-only, high reasoning)
-- `verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)
-- `explorer` — broad codebase discovery (read-only, medium reasoning)
+- `add-test-writer` — TDD RED phase (workspace-write, high reasoning)
+- `add-implementer` — TDD GREEN phase (workspace-write, high reasoning)
+- `add-reviewer` — spec-compliance review (read-only, high reasoning)
+- `add-verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)
+- `add-explorer` — broad codebase discovery (read-only, medium reasoning)
 
 ## Hooks
 

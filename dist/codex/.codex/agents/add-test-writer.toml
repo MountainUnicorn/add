@@ -1,10 +1,10 @@
-# ADD sub-agent — test-writer (TDD RED phase)
+# ADD sub-agent — add-test-writer (TDD RED phase)
 #
 # Behavioral source: core/skills/test-writer/SKILL.md
 # Invoked via add-tdd-cycle orchestration in Codex sub-agent mode.
 # See spec AC-015..AC-020.
 
-name = "test-writer"
+name = "add-test-writer"
 description = "Writes failing tests from a spec (TDD RED phase). Does not implement."
 model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"

@@ -179,6 +179,31 @@ for src in "$DIST_DIR"/.codex/agents/*.toml; do
 done
 echo "    ✓ $agent_count sub-agent TOMLs installed"
 
+# --- Legacy unprefixed sub-agent names (#28) ------------------------------
+# v0.11.0 renamed ADD's sub-agents to add-*. Remove a legacy-named TOML only
+# when ADD owns it: recorded in the prior install manifest with a matching
+# sha256, or bearing the "# ADD sub-agent" marker comment. A same-named file
+# ADD does not own is warned about and left in place. Skipped for any name
+# the current payload still ships (install_file already handles those).
+for legacy in explorer implementer reviewer test-writer verify; do
+  [ -f "$DIST_DIR/.codex/agents/$legacy.toml" ] && continue
+  legacy_dst="$AGENTS_DIR/$legacy.toml"
+  [ -f "$legacy_dst" ] || continue
+  legacy_owned=0
+  legacy_prior=$(prior_sha "agents/$legacy.toml")
+  if [ -n "$legacy_prior" ] && [ "$legacy_prior" = "$(file_sha "$legacy_dst")" ]; then
+    legacy_owned=1
+  elif grep -q '^# ADD sub-agent' "$legacy_dst" 2>/dev/null; then
+    legacy_owned=1
+  fi
+  if [ "$legacy_owned" = 1 ]; then
+    rm -f "$legacy_dst"
+    echo "    ✓ removed legacy ADD sub-agent TOML: agents/$legacy.toml (renamed to add-$legacy.toml)"
+  else
+    echo "    ! WARNING: agents/$legacy.toml exists but is not ADD-owned — left in place (ADD's agent is now add-$legacy.toml)"
+  fi
+done
+
 # --- Hook scripts + manifest ---------------------------------------------
 hook_count=0
 for src in "$DIST_DIR"/.codex/hooks/*.sh; do

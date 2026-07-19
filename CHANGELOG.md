@@ -6,6 +6,10 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+### Changed
+
+- **Codex sub-agent names prefixed `add-*` (#28)** — `explorer`/`implementer`/`reviewer`/`test-writer`/`verify` registrations become `add-explorer` etc., ending collision risk with user or built-in agents in the global `~/.codex/agents/` namespace. The installer removes ADD-owned legacy-named TOMLs (prior-manifest sha or `# ADD sub-agent` marker) and warns-but-preserves user-owned files (16-case suite). The explorer role no longer misappropriates the docs skill as its role definition. Claude-side role vocabulary is unchanged. Codex users: re-run the installer; a migration hop will accompany the v0.11.0 release.
+
 ### Added
 
 - **`/add:init --defaults` (#23)** — true non-interactive init: zero questions, every value derived (name from CWD, language from manifest files) or defaulted (poc maturity, local-only environments, autonomous mode). Never overwrites an existing config. Both install smokes now exercise this real headless path instead of smuggling interview answers into the prompt.

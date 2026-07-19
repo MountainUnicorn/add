@@ -95,22 +95,45 @@ else
   fail "installed VERSION '$INSTALLED_VERSION' != core/VERSION '$CORE_VERSION'"
 fi
 
-# --- 4b. Agent-role TOML schema (#24) -------------------------------------
+# --- 4b. Agent-role TOML schema + prefixed names (#24, #28) ---------------
 # Codex ≥0.14x removed prompt_skill; developer_instructions is required.
-AGENT_TOML_COUNT=0
-while IFS= read -r toml; do
-  AGENT_TOML_COUNT=$((AGENT_TOML_COUNT + 1))
+# Since v0.11.0 (#28) the sub-agents are registered under add-* names.
+AGENT_TOML_OK=1
+for agent in add-explorer add-implementer add-reviewer add-test-writer add-verify; do
+  toml="$CODEX_HOME/agents/$agent.toml"
+  if [ ! -f "$toml" ]; then
+    fail "missing agent TOML: $agent.toml"
+    AGENT_TOML_OK=0
+    continue
+  fi
+  if ! grep -Eq "^name = \"$agent\"" "$toml"; then
+    fail "name field is not \"$agent\" in $agent.toml"
+    AGENT_TOML_OK=0
+  fi
   if grep -Eq '^[[:space:]]*prompt_skill[[:space:]]*=' "$toml"; then
-    fail "legacy prompt_skill key in $(basename "$toml")"
+    fail "legacy prompt_skill key in $agent.toml"
+    AGENT_TOML_OK=0
   fi
   if ! grep -Eq '^[[:space:]]*developer_instructions[[:space:]]*=' "$toml"; then
-    fail "missing developer_instructions in $(basename "$toml")"
+    fail "missing developer_instructions in $agent.toml"
+    AGENT_TOML_OK=0
   fi
-done < <(find "$CODEX_HOME/agents" -maxdepth 1 -name '*.toml' 2>/dev/null)
-if [ "$AGENT_TOML_COUNT" -gt 0 ]; then
-  pass "$AGENT_TOML_COUNT agent TOMLs use developer_instructions (no prompt_skill)"
-else
-  fail "no agent TOMLs installed under agents/"
+done
+if [ "$AGENT_TOML_OK" = 1 ]; then
+  pass "5 add-* agent TOMLs present, names match, developer_instructions (no prompt_skill)"
+fi
+# No ADD-owned legacy unprefixed TOMLs may survive the installer (#28)
+LEGACY_REMAIN=0
+for legacy in explorer implementer reviewer test-writer verify; do
+  toml="$CODEX_HOME/agents/$legacy.toml"
+  [ -f "$toml" ] || continue
+  if grep -q '^# ADD sub-agent' "$toml" 2>/dev/null; then
+    fail "ADD-owned legacy-named agent TOML remains: $legacy.toml"
+    LEGACY_REMAIN=1
+  fi
+done
+if [ "$LEGACY_REMAIN" = 0 ]; then
+  pass "no ADD-owned legacy-named agent TOMLs remain"
 fi
 
 # --- 5. F-002 path-reference regression suite ----------------------------

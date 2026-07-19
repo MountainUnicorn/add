@@ -568,11 +568,11 @@ def emit_codex_manifest_agents_md(
         "(set in emitted `.codex/config.toml`)."
     )
     lines.append("")
-    lines.append("- `test-writer` — TDD RED phase (workspace-write, high reasoning)")
-    lines.append("- `implementer` — TDD GREEN phase (workspace-write, high reasoning)")
-    lines.append("- `reviewer` — spec-compliance review (read-only, high reasoning)")
-    lines.append("- `verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)")
-    lines.append("- `explorer` — broad codebase discovery (read-only, medium reasoning)")
+    lines.append("- `add-test-writer` — TDD RED phase (workspace-write, high reasoning)")
+    lines.append("- `add-implementer` — TDD GREEN phase (workspace-write, high reasoning)")
+    lines.append("- `add-reviewer` — spec-compliance review (read-only, high reasoning)")
+    lines.append("- `add-verify` — quality gates: lint/types/tests/coverage/spec (workspace-write, high reasoning)")
+    lines.append("- `add-explorer` — broad codebase discovery (read-only, medium reasoning)")
     lines.append("")
 
     lines.append("## Hooks")

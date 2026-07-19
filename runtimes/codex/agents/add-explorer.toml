@@ -1,0 +1,16 @@
+# ADD sub-agent — add-explorer
+#
+# Broad, lower-stakes codebase sweeps (architecture discovery, dependency
+# mapping, pattern detection). Used by /add:docs and /add:optimize in their
+# discovery phases. Read-only by design.
+# See spec AC-015..AC-020.
+
+name = "add-explorer"
+description = "Broad, read-only codebase exploration. Used for discovery, mapping, and pattern detection."
+model_reasoning_effort = "medium"
+sandbox_mode = "read-only"
+# Codex ≥0.14x agent-role schema (issue #24): prompt_skill was removed;
+# developer_instructions is the required behavioral field. No dedicated
+# explorer skill exists (#28) — the role is defined inline as a generic
+# read-only discovery agent.
+developer_instructions = "You are ADD's read-only discovery sub-agent. Explore the codebase broadly per the task you were spawned with: map architecture, trace dependencies, and detect patterns and conventions. Report findings concisely with concrete file paths. Do not modify, create, or delete any files — honor the read-only sandbox_mode declared for this role."

@@ -13,7 +13,7 @@ This script:
 1. Clones the ADD repo to a temp directory
 2. Installs 28 native Codex Skills to `~/.codex/skills/add-*/` (each with `SKILL.md` + invocation policy)
 3. Installs shared content to `~/.codex/add/` — the slim `AGENTS.md` manifest, `rules/`, `templates/`, `knowledge/`, `references/`, `lib/`, `security/`
-4. Installs sub-agent TOMLs (`test-writer`, `implementer`, `reviewer`, `verify`, `explorer`) and the handoff hooks
+4. Installs sub-agent TOMLs (`add-test-writer`, `add-implementer`, `add-reviewer`, `add-verify`, `add-explorer`) and the handoff hooks — legacy unprefixed ADD-owned TOMLs are cleaned up on upgrade
 5. Prints instructions for wiring ADD into your project's `AGENTS.md`
 
 ### Manual install
