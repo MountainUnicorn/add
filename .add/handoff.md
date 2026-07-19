@@ -18,6 +18,13 @@ Codex-agent install review triaged → 4 issues filed:
 Rejected from review: "manifest path mismatch" (agent missed hidden .codex/
 dirs in dist — paths all resolve); CI smoke suggestion (already exists).
 
+**#26 FIXED** (9a29d4e, closed): min_codex_version 0.122.0 → 0.140.0 in
+adapter.yaml + compile.py fallback + capability matrix; dist regenerated,
+all checks green. Same commit repaired CHANGELOG ordering (0.10.x sections
+had been inserted mid-file below 0.8.1 with a duplicate [Unreleased] head —
+now strictly newest-first; content verified line-identical) and added the
+[Unreleased] entries for the smoke guards + floor bump.
+
 Smoke hardening pushed (01d135c): run-smoke.sh now asserts hooks.json nested
 ≥0.14x schema (rejects legacy flat) + agent TOMLs use developer_instructions
 (no prompt_skill). Both #24 regression guards; negative-tested locally.
