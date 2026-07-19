@@ -1,5 +1,5 @@
 <!-- ADD Plugin v0.11.0 | Design: Silicon Valley Unicorn | Palette: Raspberry | Generated: 2026-07-19 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 2660">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 3180">
   <defs>
     <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#1a1a2e"/>
@@ -85,12 +85,14 @@
   </defs>
 
   <!-- ============ BACKGROUND ============ -->
-  <rect width="1200" height="2660" fill="#0f0f23"/>
+  <rect width="1200" height="3180" fill="#0f0f23"/>
   <!-- Gradient orbs for depth -->
   <ellipse cx="200" cy="300" rx="350" ry="300" fill="url(#orbGlow1)"/>
   <ellipse cx="1000" cy="800" rx="400" ry="350" fill="url(#orbGlow2)"/>
   <ellipse cx="400" cy="1400" rx="300" ry="250" fill="url(#orbGlow2)"/>
   <ellipse cx="900" cy="2120" rx="350" ry="300" fill="url(#orbGlow1)"/>
+  <ellipse cx="300" cy="2450" rx="350" ry="300" fill="url(#orbGlow2)"/>
+  <ellipse cx="850" cy="2950" rx="350" ry="280" fill="url(#orbGlow1)"/>
   <ellipse cx="600" cy="600" rx="200" ry="200" fill="url(#orbGlow3)"/>
 
   <!-- Corner accents -->
@@ -98,10 +100,10 @@
   <line x1="30" y1="30" x2="30" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
   <line x1="1170" y1="30" x2="1130" y2="30" stroke="#b00149" stroke-width="1" opacity="0.3"/>
   <line x1="1170" y1="30" x2="1170" y2="70" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="2630" x2="70" y2="2630" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="30" y1="2630" x2="30" y2="2590" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="1170" y1="2630" x2="1130" y2="2630" stroke="#b00149" stroke-width="1" opacity="0.3"/>
-  <line x1="1170" y1="2630" x2="1170" y2="2590" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="3150" x2="70" y2="3150" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="30" y1="3150" x2="30" y2="3110" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="3150" x2="1130" y2="3150" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+  <line x1="1170" y1="3150" x2="1170" y2="3110" stroke="#b00149" stroke-width="1" opacity="0.3"/>
 
   <!-- ============ SECTION 1: HEADER BAR (y=0-60) ============ -->
   <g transform="translate(0, 0)">
@@ -137,17 +139,18 @@
     <rect x="0" y="0" width="1080" height="90" rx="16" fill="url(#cardGrad)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
     <!-- Metric 1: Skills -->
     <g transform="translate(108, 45)">
-      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">27</text>
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">28</text>
       <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Skills</text>
     </g>
     <!-- Metric 2: Rules -->
     <g transform="translate(324, 45)">
       <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">20</text>
       <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Rules</text>
+      <text x="0" y="32" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="300" opacity="0.3">17 auto + 3 on-demand</text>
     </g>
     <!-- Metric 3: Templates -->
     <g transform="translate(540, 45)">
-      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">23</text>
+      <text x="0" y="-8" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="800">29</text>
       <text x="0" y="18" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" opacity="0.5">Templates</text>
     </g>
     <!-- Metric 4: Runtimes -->
@@ -593,13 +596,152 @@
     <text x="735" y="268" text-anchor="middle" fill="#ff6b9d" font-family="SF Mono, Monaco, monospace" font-size="9">during retro</text>
   </g>
 
-  <!-- ============ SECTION 9: GET STARTED TERMINAL (y=2180-2415) ============ -->
-  <g transform="translate(120, 2180)">
+  <!-- ============ SECTION 9: PROVABLE INSTALLS (y=2180-2510) ============ -->
+  <g transform="translate(60, 2180)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">PROVABLE INSTALLS</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">Not claimed to work. Proven to install.</text>
+    <!-- Sub-copy -->
+    <text x="540" y="84" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="300" opacity="0.55">Every push reinstalls ADD for real -- on both runtimes, in CI, with live agents driving the first command.</text>
+
+    <!-- Card 1: Live Install Smokes -->
+    <g transform="translate(0, 105)">
+      <rect x="0" y="0" width="340" height="105" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- CI play icon -->
+      <g transform="translate(30, 35)">
+        <circle cx="0" cy="0" r="12" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <path d="M-3,-5 L6,0 L-3,5 Z" fill="#ff6b9d" opacity="0.7"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Live Install Smokes</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Both runtimes install for real in CI on</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">every push -- marketplace on Claude, curl</text>
+      <text x="55" y="82" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">on Codex -- with live agent legs.</text>
+    </g>
+
+    <!-- Card 2: /add:doctor -->
+    <g transform="translate(370, 105)">
+      <rect x="0" y="0" width="340" height="105" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Medical cross icon -->
+      <g transform="translate(30, 35)">
+        <circle cx="0" cy="0" r="12" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="-5" y1="0" x2="5" y2="0" stroke="#ff6b9d" stroke-width="2"/>
+        <line x1="0" y1="-5" x2="0" y2="5" stroke="#ff6b9d" stroke-width="2"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">/add:doctor</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Field verification: version parity, hook +</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">agent schemas, manifest integrity.</text>
+      <text x="55" y="82" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Every failure ships its remedy.</text>
+    </g>
+
+    <!-- Card 3: Manifest-Driven Installs -->
+    <g transform="translate(740, 105)">
+      <rect x="0" y="0" width="340" height="105" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Manifest/checklist icon -->
+      <g transform="translate(30, 35)">
+        <rect x="-9" y="-13" width="18" height="26" rx="2" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="-5" y1="-6" x2="5" y2="-6" stroke="#ff6b9d" stroke-width="1" opacity="0.6"/>
+        <line x1="-5" y1="0" x2="5" y2="0" stroke="#ff6b9d" stroke-width="1" opacity="0.6"/>
+        <path d="M-4,6 L-1,9 L5,3" fill="none" stroke="#ff6b9d" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Manifest-Driven Installs</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Codex installs write a sha256 manifest --</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">upgrades back up your edits, uninstall</text>
+      <text x="55" y="82" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">removes exactly what ADD added.</text>
+    </g>
+
+    <!-- Card 4: add-* Agent Namespace -->
+    <g transform="translate(0, 225)">
+      <rect x="0" y="0" width="340" height="105" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Tag icon -->
+      <g transform="translate(30, 35)">
+        <path d="M-12,-8 L2,-8 L12,2 L2,12 L-12,12 Z" fill="none" stroke="#ff6b9d" stroke-width="1.5" transform="rotate(-45)"/>
+        <circle cx="-5" cy="-5" r="2" fill="none" stroke="#ff6b9d" stroke-width="1.2"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">add-* Agent Namespace</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Codex sub-agents register as add-* --</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">no collisions with user or built-in</text>
+      <text x="55" y="82" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">agents; installer retires legacy names.</text>
+    </g>
+
+    <!-- Card 5: Signed Releases + Evidence -->
+    <g transform="translate(370, 225)">
+      <rect x="0" y="0" width="340" height="105" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Seal/rosette icon -->
+      <g transform="translate(30, 35)">
+        <circle cx="0" cy="-3" r="9" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <path d="M-4,-5 L-1,-2 L4,-8" fill="none" stroke="#ff6b9d" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M-5,4 L-7,13 L-3,10 L0,14 L2,5" fill="none" stroke="#ff6b9d" stroke-width="1.2"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Signed Releases + Evidence</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">GPG-signed tags, CI-green guard. Every</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">release attaches an evidence bundle:</text>
+      <text x="55" y="82" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">capability matrix, smoke runs, version map.</text>
+    </g>
+
+    <!-- Card 6: Automatic Migrations -->
+    <g transform="translate(740, 225)">
+      <rect x="0" y="0" width="340" height="105" rx="12" fill="url(#cardGrad)" stroke="#b00149" stroke-opacity="0.2" stroke-width="1"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <line x1="8" y1="8" x2="8" y2="28" stroke="#b00149" stroke-width="1" opacity="0.3"/>
+      <!-- Chain-of-hops icon -->
+      <g transform="translate(30, 35)">
+        <circle cx="-10" cy="0" r="4" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <circle cx="10" cy="0" r="4" fill="none" stroke="#ff6b9d" stroke-width="1.5"/>
+        <line x1="-5" y1="0" x2="3" y2="0" stroke="#ff6b9d" stroke-width="1.2"/>
+        <path d="M2,-3 L6,0 L2,3" fill="none" stroke="#ff6b9d" stroke-width="1.2"/>
+      </g>
+      <text x="55" y="30" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Automatic Migrations</text>
+      <text x="55" y="50" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">Upgrade from any version &gt;=0.5.0 --</text>
+      <text x="55" y="66" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">the hop chain is reachability-checked</text>
+      <text x="55" y="82" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="300" opacity="0.5">on every release.</text>
+    </g>
+  </g>
+
+  <!-- ============ SECTION 10: GA STATUS (y=2545-2705) ============ -->
+  <g transform="translate(60, 2545)">
+    <!-- Eyebrow -->
+    <text x="540" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">ROAD TO v1.0</text>
+    <!-- Title -->
+    <text x="540" y="55" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700">GA candidacy: 5 of 6 criteria met</text>
+
+    <!-- Criteria pills -->
+    <g transform="translate(0, 85)">
+      <rect x="0" y="0" width="170" height="34" rx="17" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="1" stroke-opacity="0.25"/>
+      <text x="85" y="22" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" opacity="0.85">&#x2713; CI guardrails</text>
+      <rect x="182" y="0" width="170" height="34" rx="17" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="1" stroke-opacity="0.25"/>
+      <text x="267" y="22" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" opacity="0.85">&#x2713; Install smokes</text>
+      <rect x="364" y="0" width="170" height="34" rx="17" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="1" stroke-opacity="0.25"/>
+      <text x="449" y="22" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" opacity="0.85">&#x2713; Capability matrix</text>
+      <rect x="546" y="0" width="170" height="34" rx="17" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="1" stroke-opacity="0.25"/>
+      <text x="631" y="22" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" opacity="0.85">&#x2713; Release evidence</text>
+      <rect x="728" y="0" width="170" height="34" rx="17" fill="#22c55e" opacity="0.08" stroke="#22c55e" stroke-width="1" stroke-opacity="0.25"/>
+      <text x="813" y="22" text-anchor="middle" fill="#22c55e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" opacity="0.85">&#x2713; Real-world use</text>
+      <rect x="910" y="0" width="170" height="34" rx="17" fill="url(#yellowGrad)" stroke="#eab308" stroke-width="1" stroke-opacity="0.35"/>
+      <text x="995" y="22" text-anchor="middle" fill="#eab308" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" opacity="0.9">&#x25CC; Marketplace review</text>
+    </g>
+
+    <!-- Promotion note -->
+    <text x="540" y="150" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="300" opacity="0.45">v1.0.0 is the promotion tag -- it ships the moment marketplace approval lands.</text>
+  </g>
+
+  <!-- ============ SECTION 11: GET STARTED TERMINAL (y=2735-3005) ============ -->
+  <g transform="translate(120, 2735)">
     <!-- Eyebrow -->
     <text x="480" y="20" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="3">GET STARTED</text>
 
     <!-- Terminal window -->
-    <rect x="0" y="40" width="960" height="195" rx="12" fill="url(#termBg)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <rect x="0" y="40" width="960" height="230" rx="12" fill="url(#termBg)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
     <!-- Title bar -->
     <rect x="0" y="40" width="960" height="32" rx="12" fill="#ffffff" opacity="0.03"/>
     <rect x="0" y="60" width="960" height="12" fill="#ffffff" opacity="0.03"/>
@@ -619,28 +761,32 @@
     <text x="320" y="126" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># 5-minute interview  -&gt;  full project setup</text>
 
     <text x="30" y="152" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
-    <text x="50" y="152" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:spec</text>
-    <text x="320" y="152" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># feature interview  -&gt;  specs/{feature}.md</text>
+    <text x="50" y="152" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:doctor</text>
+    <text x="320" y="152" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># provable install health  -&gt;  per-failure remedies</text>
 
     <text x="30" y="178" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
-    <text x="50" y="178" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:tdd-cycle</text>
-    <text x="320" y="178" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># RED  -&gt;  GREEN  -&gt;  REFACTOR  -&gt;  VERIFY</text>
+    <text x="50" y="178" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:spec</text>
+    <text x="320" y="178" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># feature interview  -&gt;  specs/{feature}.md</text>
 
     <text x="30" y="204" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
-    <text x="50" y="204" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:verify</text>
-    <text x="320" y="204" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># 5 quality gates + screenshot validation</text>
+    <text x="50" y="204" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:tdd-cycle</text>
+    <text x="320" y="204" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># RED  -&gt;  GREEN  -&gt;  REFACTOR  -&gt;  VERIFY</text>
 
     <text x="30" y="230" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
-    <text x="50" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:deploy</text>
-    <text x="320" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># environment-aware, verified</text>
+    <text x="50" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:verify</text>
+    <text x="320" y="230" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># 5 quality gates + screenshot validation</text>
+
+    <text x="30" y="256" fill="#22c55e" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">$</text>
+    <text x="50" y="256" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="13" font-weight="400">/add:deploy</text>
+    <text x="320" y="256" fill="#ffffff" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="400" opacity="0.3"># environment-aware, verified</text>
   </g>
 
-  <!-- ============ SECTION 10: FOOTER (y=2425-2495) ============ -->
-  <g transform="translate(600, 2435)">
+  <!-- ============ SECTION 12: FOOTER (y=3040-3110) ============ -->
+  <g transform="translate(600, 3050)">
     <!-- Divider line -->
     <line x1="-500" y1="-10" x2="500" y2="-10" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
     <text x="0" y="15" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" opacity="0.4">ADD v0.11.0 -- Agent Driven Development</text>
-    <text x="0" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.25">MIT License -- Free &amp; Open Source</text>
+    <text x="0" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="300" opacity="0.25">MIT License -- Free &amp; Open Source -- Generated 2026-07-19</text>
     <text x="0" y="58" text-anchor="middle" fill="#b00149" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" opacity="0.6">getADD.dev</text>
   </g>
 

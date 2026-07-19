@@ -368,6 +368,20 @@
         "codex",
         "shell"
       ]
+    },
+    {
+      "id": "L-054",
+      "title": "[agent-retro] Visual-regen pair (infographic + overview report): design-system-preservation briefs worked; SVG geometry contract held",
+      "body": "Two parallel agents regenerated docs/infographic.svg and reports/add-overview.html around the v0.11 story. Both preserved the existing design systems as briefed and self-verified; orchestrator re-verified independently (XML parse + viewBox/rect parity + no style/script for GitHub; HTML parse + stale-claim greps) \u2014 all clean. Wins to repeat: passing the historical-measurement-labels-stay-as-is rule prevented false re-stamping of the v0.9.11 token chart; requiring agents to state deliberate omissions surfaced good judgment calls (telemetry left out of 'provable installs' because it doesn't emit). Report agent also fixed latent content bugs unprompted (fictional 'Deployer' sub-agent card, '5 engagement modes' contradiction) \u2014 regeneration is also an audit.",
+      "date": "2026-07-19",
+      "scope": "process",
+      "severity": "low",
+      "source": "orchestrator",
+      "stack": [
+        "multi-agent",
+        "design",
+        "svg"
+      ]
     }
   ]
 }

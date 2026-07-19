@@ -667,7 +667,7 @@
     }
     .sub-agents-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 12px;
     }
     .sub-agent-card {
@@ -985,6 +985,8 @@
         <a href="#promotion-ladder" class="btn-secondary">Promotion Ladder</a>
         <a href="#token-economy" class="btn-secondary">Token Economy</a>
         <a href="#hierarchy" class="btn-secondary">Work Hierarchy</a>
+        <a href="#provable-installs" class="btn-secondary">Provable Installs</a>
+        <a href="#road-to-ga" class="btn-secondary">Road to GA</a>
         <a href="https://github.com/MountainUnicorn/add" class="btn-secondary">GitHub</a>
       </div>
     </div>
@@ -994,7 +996,7 @@
   <div class="metrics-bar">
     <div class="metrics-inner">
       <div class="metric">
-        <div class="metric-value">27</div>
+        <div class="metric-value">28</div>
         <div class="metric-label">Skills</div>
       </div>
       <div class="metric">
@@ -1002,7 +1004,7 @@
         <div class="metric-label">Rules</div>
       </div>
       <div class="metric">
-        <div class="metric-value">23</div>
+        <div class="metric-value">29</div>
         <div class="metric-label">Templates</div>
       </div>
       <div class="metric">
@@ -1080,7 +1082,7 @@
     <div style="max-width: 1100px; margin: 0 auto;">
       <div class="section-eyebrow">Coordinated Agent Teams</div>
       <h2>Orchestrated swarms, not solo agents</h2>
-      <p class="section-desc">ADD doesn't just use one agent. It dispatches specialized sub-agents — each with scoped permissions — then independently verifies their work. Trust but verify.</p>
+      <p class="section-desc">ADD doesn't just use one agent. It dispatches five specialized sub-agents — each with scoped permissions — then independently verifies their work. On Codex CLI they register under the <code style="font-family:'SF Mono',Monaco,monospace; font-size:13px; color:var(--accent);">add-*</code> prefix (since v0.11.0) so they never collide with your own agents.</p>
 
       <div class="swarm-flow">
         <!-- Orchestrator -->
@@ -1098,18 +1100,25 @@
           <span>&#x2193;</span><span>dispatch</span>
           <span>&#x2193;</span><span>dispatch</span>
           <span>&#x2193;</span><span>dispatch</span>
+          <span>&#x2193;</span>
         </div>
 
-        <!-- Sub-agents -->
+        <!-- Sub-agents (registered as add-* on Codex; role vocabulary on Claude) -->
         <div class="sub-agents-grid">
+          <div class="sub-agent-card">
+            <div class="sub-agent-icon">&#x1F9ED;</div>
+            <h5>Explorer</h5>
+            <p>Read-only codebase research feeding specs and plans.</p>
+            <div class="sub-agent-tools">
+              <span class="tool-tag">add-explorer</span>
+            </div>
+          </div>
           <div class="sub-agent-card">
             <div class="sub-agent-icon">&#x1F9EA;</div>
             <h5>Test Writer</h5>
             <p>Writes failing tests from spec acceptance criteria. RED phase.</p>
             <div class="sub-agent-tools">
-              <span class="tool-tag">Read</span>
-              <span class="tool-tag">Write</span>
-              <span class="tool-tag">Bash</span>
+              <span class="tool-tag">add-test-writer</span>
             </div>
           </div>
           <div class="sub-agent-card">
@@ -1117,10 +1126,7 @@
             <h5>Implementer</h5>
             <p>Minimal code to make tests pass. No gold-plating. GREEN phase.</p>
             <div class="sub-agent-tools">
-              <span class="tool-tag">Read</span>
-              <span class="tool-tag">Write</span>
-              <span class="tool-tag">Edit</span>
-              <span class="tool-tag">Bash</span>
+              <span class="tool-tag">add-implementer</span>
             </div>
           </div>
           <div class="sub-agent-card">
@@ -1128,18 +1134,15 @@
             <h5>Reviewer</h5>
             <p>Code review for spec compliance, patterns, and quality. Read-only.</p>
             <div class="sub-agent-tools">
-              <span class="tool-tag">Read</span>
-              <span class="tool-tag">Glob</span>
-              <span class="tool-tag">Grep</span>
+              <span class="tool-tag">add-reviewer</span>
             </div>
           </div>
           <div class="sub-agent-card">
-            <div class="sub-agent-icon">&#x1F680;</div>
-            <h5>Deployer</h5>
-            <p>Environment-aware deployment with smoke tests and rollback.</p>
+            <div class="sub-agent-icon">&#x2705;</div>
+            <h5>Verifier</h5>
+            <p>Independent quality-gate run — fresh context, no shared state.</p>
             <div class="sub-agent-tools">
-              <span class="tool-tag">Bash</span>
-              <span class="tool-tag">Read</span>
+              <span class="tool-tag">add-verify</span>
             </div>
           </div>
         </div>
@@ -1150,6 +1153,7 @@
           <span>&#x2193;</span><span>results</span>
           <span>&#x2193;</span><span>results</span>
           <span>&#x2193;</span><span>results</span>
+          <span>&#x2193;</span>
         </div>
 
         <!-- Independent verification -->
@@ -1409,7 +1413,7 @@
         <div class="value-card">
           <div class="value-icon">🤝</div>
           <h4>Structured human-AI teamwork</h4>
-          <p>5 engagement modes, structured interviews, away mode with boundaries. Humans architect and decide. Agents execute and verify. Clear handoffs always.</p>
+          <p>Three engagement modes, structured interviews, away mode with boundaries. Humans architect and decide. Agents execute and verify. Clear handoffs always.</p>
         </div>
         <div class="value-card">
           <div class="value-icon">🔄</div>
@@ -1548,7 +1552,7 @@
       <div class="value-card">
         <div class="value-icon">&#x1F4E6;</div>
         <h4>Physical maturity loading</h4>
-        <p>A SessionStart hook loads only the rules gated to your maturity level. POC sessions cut ~70% of rule tokens. Unneeded rules aren't merely ignored — they never enter context at all.</p>
+        <p>Before v0.9.9, all 20 rules loaded statically — ~17.8k tokens every session, whatever the maturity. Now a SessionStart hook loads only the rules gated to your level: POC sessions cut ~70% of rule tokens, and the always-on surface itself was trimmed ~6k tokens. Unneeded rules never enter context at all.</p>
       </div>
       <div class="value-card">
         <div class="value-icon">&#x1F3F7;&#xFE0F;</div>
@@ -1577,6 +1581,7 @@
         <div style="flex: 1; max-width: 160px; font-size: 12px; color: var(--text-secondary);"><strong>Beta</strong> · ~80%</div>
         <div style="flex: 1; max-width: 160px; font-size: 12px; color: var(--accent);"><strong>GA</strong> · 100%</div>
       </div>
+      <p style="margin-top: 12px; text-align: center; font-size: 12px; color: var(--text-muted);">Figures measured with <code style="font-family:'SF Mono',Monaco,monospace; font-size:11px; color:var(--accent);">scripts/count-tokens.py</code> as of the v0.9.11 measurement.</p>
     </div>
   </section>
 
@@ -1684,6 +1689,8 @@
         <tr><td><code>/add:brand</code></td><td>View branding — accent color, drift detection</td><td>Brand status report</td></tr>
         <tr><td><code>/add:brand-update</code></td><td>Update branding — colors, fonts, audit artifacts</td><td>Updated brand config</td></tr>
         <tr><td><code>/add:changelog</code></td><td>Generate CHANGELOG.md from conventional commits</td><td>CHANGELOG.md</td></tr>
+        <tr><td><code>/add:doctor</code></td><td>Provable install health check — schemas, versions, manifest integrity; every failure prints its remedy</td><td>Check table or <code>--check</code> machine line</td></tr>
+        <tr><td><code>/add:version</code></td><td>Show version, run migration hops from any install &ge; 0.5.0</td><td>Version report + migrations</td></tr>
       </tbody>
     </table>
 
@@ -1711,15 +1718,15 @@
   <section class="section">
     <div class="section-eyebrow">Architecture</div>
       <h2>Intentionally simple</h2>
-      <p class="section-desc">~64 files of markdown, JSON, and templates. No runtime. No build step. No backend.</p>
+      <p class="section-desc">Markdown, JSON, and a small set of shell hooks — compiled from one runtime-neutral <code style="font-family:'SF Mono',Monaco,monospace; font-size:13px; color:var(--accent);">core/</code> to both runtimes. No runtime dependencies. No backend.</p>
       <div class="arch-grid">
         <div class="arch-item">
           <h4>No dependencies</h4>
-          <p>Pure markdown and JSON files. Runs entirely within Claude Code's plugin system.</p>
+          <p>Pure markdown and JSON files. Runs on Claude Code's plugin system or the Codex CLI adapter — same <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">core/</code> source.</p>
         </div>
         <div class="arch-item">
           <h4>No build step</h4>
-          <p>Install and use immediately. One command: <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">claude plugin install add</code></p>
+          <p>Install and use immediately: <code style="font-size:12px; font-family: 'SF Mono', monospace; color: var(--accent);">claude plugin install add@add-marketplace</code></p>
         </div>
         <div class="arch-item">
           <h4>No backend</h4>
@@ -1740,6 +1747,143 @@
       </div>
   </section>
 
+  <!-- ===== PROVABLE INSTALLS ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="provable-installs">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-eyebrow">Install Verification</div>
+      <h2>Provable installs, not plausible ones</h2>
+      <p class="section-desc">The v0.10–v0.11 release arc replaced "installed without an error message" with "installed, verified, and recoverable." Every push to main runs both install paths in CI with live agents behind them; the same checks are available to any user via <code style="font-family:'SF Mono',Monaco,monospace; font-size:13px; color:var(--accent);">/add:doctor</code>.</p>
+
+      <div class="value-grid">
+        <div class="value-card">
+          <div class="value-icon">&#x1F7E3;</div>
+          <h4>Claude Code smoke (live agent)</h4>
+          <p>Installs the checkout via the real marketplace path (<code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">claude plugin marketplace add</code> + <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">claude plugin install add@add-marketplace</code>), asserts skill discovery, then drives a headless <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">/add:init --defaults</code> with a live agent until a valid <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">.add/config.json</code> exists. The smoke uses the same flag a user would — tests and product share one path.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x1F7E0;</div>
+          <h4>Codex CLI smoke (live agent)</h4>
+          <p>Builds a Docker image with the Codex CLI pinned from <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">adapter.yaml</code> (0.144.5; minimum supported 0.140.0), runs the same curl installer a user runs, asserts the full installed surface — 28 skills, five <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">add-*</code> sub-agent TOMLs in the &ge;0.14x schema, nested hooks.json, version parity — then drives init with a live agent. The first live runs found three real bugs, including #24, which had silently disabled ADD's sub-agents and hooks on modern Codex.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;">
+        <div class="value-card">
+          <div class="value-icon">&#x1FA7A;</div>
+          <h4><code style="font-size:14px; font-family:'SF Mono',monospace; color:var(--accent);">/add:doctor</code></h4>
+          <p>One command that verifies an install in the field: version agreement, Codex feature flags, hooks.json nested-schema validity, agent-TOML schema, path resolution, install-manifest integrity, stale artifacts, marketplace-cache drift. Each failure prints its remedy. Human table or <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">--check</code> machine line; checks live in a tested shell library (13-case fixture suite), not prose.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x1F4DC;</div>
+          <h4>Manifest-driven lifecycle</h4>
+          <p>The Codex installer records every file it writes with a sha256 checksum in <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">install-manifest.json</code>. Upgrades back up files you have edited instead of overwriting; uninstall removes exactly what was installed and nothing else; re-runs are idempotent (26-case fixture suite).</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x1F517;</div>
+          <h4>Continuity-checked migrations</h4>
+          <p>Upgrade is automatic from any version &ge; 0.5.0 via the <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">migrations.json</code> hop chain. A reachability check in the release-evidence script verifies the chain on every release — it caught a real stranded-version defect (v0.7.3) on its first run.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ROAD TO GA ===== -->
+  <section class="section" id="road-to-ga">
+    <div class="section-eyebrow">Road to GA</div>
+    <h2>Six criteria. Five met.</h2>
+    <p class="section-desc">ADD's GA bar (set in v0.9.5) is engineering evidence, not calendar time. Status as of v0.11.0:</p>
+
+    <table class="maturity-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Criterion</th>
+          <th>Evidence</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Guardrail suite in CI, release-blocking</td>
+          <td><code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">release.sh</code> refuses to tag unless CI is green; branch protection on main requires 23 checks</td>
+          <td><span class="maturity-level level-ga">Met</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Real Claude + Codex install smoke in CI</td>
+          <td>Both smokes green end-to-end with live agent legs (since v0.10.0)</td>
+          <td><span class="maturity-level level-ga">Met</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Per-runtime capability matrix in release notes</td>
+          <td><code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">docs/capability-matrix.md</code> — enforced vs agent-followed vs advisory, appended to every release</td>
+          <td><span class="maturity-level level-ga">Met</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Beta exercise evidence</td>
+          <td>&ge;3 rollback-free releases past v0.9.0; community PR merged during beta; release-evidence bundle generated per release</td>
+          <td><span class="maturity-level level-ga">Met</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Marketplace submission approved</td>
+          <td>Candidate submitted; external review in progress</td>
+          <td><span class="maturity-level level-poc">Pending</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Verified in active use beyond the maintainer</td>
+          <td>Maintainer-attested via private signal (per criterion wording)</td>
+          <td><span class="maturity-level level-ga">Met</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top: 24px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow);">
+      <h4 style="font-size: 14px; margin-bottom: 8px;">Why v1.0.0 is a promotion tag</h4>
+      <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
+        Marketplace submission was deliberately sequenced <em>after</em> the install smokes went green, so the external review exercises a machine-verified artifact. When the listing clears review, v1.0.0 ships as a promotion tag — a statement that the bar was met, not a release that changes behavior. The artifact under review is the artifact that was tested; GA day introduces zero new code.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== AFTER V1.0 ===== -->
+  <section class="section" style="background: var(--bg-secondary);" id="after-v1">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-eyebrow">After v1.0</div>
+      <h2>A small core, extended by companion plugins</h2>
+      <p class="section-desc">ADD core is a methodology runtime — specs, plans, TDD enforcement, maturity gates, learnings, multi-runtime install. It is pure markdown and JSON with zero runtime dependencies, and every rule it injects costs context tokens. The core's feature budget is effectively spent; growth happens as loosely-coupled companion plugins instead — each optional, installable and removable on its own.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="value-card">
+          <div class="value-icon">&#x1F4C8;</div>
+          <h4>Telemetry &amp; analytics</h4>
+          <p>ADD already specifies an OTel-aligned JSONL telemetry format; a companion plugin would own emission, aggregation, and the cost/velocity dashboards — so projects that don't want measurement never pay for it.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x1F3DB;&#xFE0F;</div>
+          <h4>Enterprise controls</h4>
+          <p>Org-level policy packs: stricter deploy gates, audit trails, compliance reporting. The kind of thing a platform team turns on for every repo, and a solo developer never sees.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#x1F501;</div>
+          <h4>CI/CD bridges</h4>
+          <p>First-class bridges from ADD's quality gates and evidence bundles into GitHub Actions and friends, beyond the smokes ADD runs on itself.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow);">
+        <h4 style="font-size: 14px; margin-bottom: 8px;">Same contract, same evidence bar</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
+          The contract between core and companions is the one the two runtimes already honor: shared state lives in <code style="font-size:12px; font-family:'SF Mono',monospace; color:var(--accent);">.add/</code> with documented schemas, and anything a companion needs from core must be a stable, versioned surface. Each companion gets its own repository and ships under the same evidence bar as core — signed releases, install smokes, migration chains. These are directions being explored, not dated commitments; specs will land in the open before any code does.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== GET STARTED ===== -->
   <section class="section" id="get-started">
     <div class="section-eyebrow">Get Started</div>
@@ -1753,12 +1897,14 @@
         <div class="terminal-title">Terminal</div>
       </div>
       <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="arg">claude plugin install add</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:init</span>     <span class="comment"># 5-minute interview → full project setup</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>     <span class="comment"># feature interview → specs/{feature}.md</span></div>
+        <div><span class="prompt">$</span> <span class="arg">claude plugin marketplace add MountainUnicorn/add</span></div>
+        <div><span class="prompt">$</span> <span class="arg">claude plugin install add@add-marketplace</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:init</span>      <span class="comment"># interview → full project setup (or --quick, or --defaults)</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:doctor</span>    <span class="comment"># prove the install is healthy</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:spec</span>      <span class="comment"># feature interview → specs/{feature}.md</span></div>
         <div><span class="prompt">$</span> <span class="cmd">/add:tdd-cycle</span> <span class="comment"># RED → GREEN → REFACTOR → VERIFY</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>   <span class="comment"># 5 quality gates</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>   <span class="comment"># environment-aware, verified</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:verify</span>    <span class="comment"># 5 quality gates</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">/add:deploy</span>    <span class="comment"># environment-aware, verified</span></div>
       </div>
     </div>
   </section>
@@ -1768,7 +1914,7 @@
     <div class="footer-tagline">ADD something to your development.</div>
     <div class="footer-sub">Built with ADD, using ADD. Dog-fooded from day one.</div>
     <div class="footer-meta">
-      ADD v0.11.0 — Agent Driven Development | MIT License | <a href="https://github.com/MountainUnicorn/add">github.com/MountainUnicorn/add</a>
+      ADD v0.11.0 — Agent Driven Development | Generated 2026-07-19 | MIT License | <a href="https://github.com/MountainUnicorn/add">github.com/MountainUnicorn/add</a>
     </div>
   </footer>
 
