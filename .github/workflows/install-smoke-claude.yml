@@ -63,11 +63,9 @@ jobs:
           cd "$SCRATCH"
           git init -q
           set +e
-          # Quick mode still interviews (5 questions) and a one-shot -p session
-          # has no second turn — supply the answers inline. Filed as a product
-          # gap: /add:init needs a true non-interactive --defaults path (v0.10.1
-          # candidate); when that ships, revert this prompt to bare --quick.
-          claude -p "/add:init --quick — non-interactive run: use answers smoke-test, python, 1 (local only), poc, autonomous. Do not ask any questions; write the config now." \
+          # --defaults is the true non-interactive path (#23) — zero questions,
+          # everything derived or defaulted. No inline answers needed.
+          claude -p "/add:init --defaults" \
             --permission-mode acceptEdits \
             --max-turns 30 \
             > "$SCRATCH/session.log" 2>&1
@@ -76,7 +74,7 @@ jobs:
           echo "--- session tail ---"
           tail -40 "$SCRATCH/session.log"
           if [ ! -f .add/config.json ]; then
-            echo "::error::/add:init --quick did not produce .add/config.json (claude exit $STATUS)"
+            echo "::error::/add:init --defaults did not produce .add/config.json (claude exit $STATUS)"
             exit 1
           fi
           # No config schema exists in core/schemas yet (spec deviation, recorded
