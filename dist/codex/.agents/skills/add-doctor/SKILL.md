@@ -1,10 +1,10 @@
 ---
 name: add-doctor
-description: "[ADD v0.10.1] Provable install health check — verify hooks, agents, config, and paths are actually live"
+description: "[ADD v0.11.0] Provable install health check — verify hooks, agents, config, and paths are actually live"
 argument-hint: "[--check]"
 ---
 
-# ADD Doctor Command v0.10.1
+# ADD Doctor Command v0.11.0
 
 Distinguish "seems installed" from "provably healthy". An ADD install can be silently dead — e.g. Codex ≥0.14x ignoring agents and hooks with no error (issue #24). This command runs a check battery and reports per-check status with a one-line remedy for every failure. Doctor only reports — it never repairs (remediation: `/add-init --reconfigure` or re-running the installer).
 

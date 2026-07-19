@@ -6,9 +6,13 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+## [0.11.0] — 2026-07-19
+
 ### Changed
 
-- **Codex sub-agent names prefixed `add-*` (#28)** — `explorer`/`implementer`/`reviewer`/`test-writer`/`verify` registrations become `add-explorer` etc., ending collision risk with user or built-in agents in the global `~/.codex/agents/` namespace. The installer removes ADD-owned legacy-named TOMLs (prior-manifest sha or `# ADD sub-agent` marker) and warns-but-preserves user-owned files (16-case suite). The explorer role no longer misappropriates the docs skill as its role definition. Claude-side role vocabulary is unchanged. Codex users: re-run the installer; a migration hop will accompany the v0.11.0 release.
+- **Codex sub-agent names prefixed `add-*` (#28)** — `explorer`/`implementer`/`reviewer`/`test-writer`/`verify` registrations become `add-explorer` etc., ending collision risk with user or built-in agents in the global `~/.codex/agents/` namespace. The installer removes ADD-owned legacy-named TOMLs (prior-manifest sha or `# ADD sub-agent` marker) and warns-but-preserves user-owned files (16-case suite). The explorer role no longer misappropriates the docs skill as its role definition. Claude-side role vocabulary is unchanged. Codex users: re-run the installer (migration hop 0.10.2→0.11.0 records this).
+
+## [0.10.2] — 2026-07-19
 
 ### Added
 

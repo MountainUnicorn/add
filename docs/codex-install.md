@@ -73,13 +73,15 @@ ADD's Codex adapter ships with each release. To upgrade:
 ./scripts/install-codex.sh
 ```
 
-The installer is idempotent. It backs up any existing prompt with `.pre-add.bak` if you had a file of the same name.
+The installer is idempotent and manifest-driven (v0.10.2+): every installed file is recorded with its checksum in `~/.codex/add/install-manifest.json`, and files you've edited are backed up (`.bak-<version>`) instead of clobbered on upgrade.
 
 ## Uninstall
 
 ```bash
-rm -rf ~/.codex/add ~/.codex/skills/add-*
+bash ~/.codex/add/uninstall-add.sh
 ```
+
+The generated uninstaller removes exactly the files listed in the install manifest, preserves anything you created or modified, and lists backups for optional restore. (Pre-v0.10.2 installs without a manifest: `rm -rf ~/.codex/add ~/.codex/skills/add-*` and remove the ADD agent TOMLs from `~/.codex/agents/`.)
 
 If you merged ADD's AGENTS.md content into a project's AGENTS.md, edit that file manually to remove the ADD sections.
 
