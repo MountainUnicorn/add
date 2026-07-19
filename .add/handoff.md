@@ -1,4 +1,26 @@
-# Handoff — v0.10.1 RELEASED, #24 closed (updated 2026-07-18, evening)
+# Handoff — v0.10.1 released; local Codex upgraded; install-review issues #25–#28 filed (updated 2026-07-19)
+
+## Codex install verified + review triage (2026-07-18/19)
+Local ~/.codex was stale at v0.9.4 (silently dead on 0.144.x per #24). Re-ran
+scripts/install-codex.sh → v0.10.1; replaced legacy flat ~/.codex/hooks.json
+with nested schema (backup: hooks.json.bak-0.9.4); config.toml features were
+already correct. Verified live in Codex app: /add-version dispatched, plugin
+v0.10.1 (agentVoice project at 0.9.3 → will auto-migrate).
+
+Codex-agent install review triaged → 4 issues filed:
+- **#25** /add-doctor — provable install health check (top pick)
+- **#26** min_codex_version=0.122.0 contradicts developer_instructions
+  (needs ≥0.14x floor) — patch-worthy, v0.10.2 candidate alongside #23
+- **#27** install-manifest.json for idempotent uninstall/upgrade (printed
+  rm -rf uninstall already drifted — omits verify.toml)
+- **#28** prefix agent names add-* (v0.11, breaking-ish; also covers
+  explorer.toml pointing at add-docs/SKILL.md as its role def)
+Rejected from review: "manifest path mismatch" (agent missed hidden .codex/
+dirs in dist — paths all resolve); CI smoke suggestion (already exists).
+
+Smoke hardening pushed (01d135c): run-smoke.sh now asserts hooks.json nested
+≥0.14x schema (rejects legacy flat) + agent TOMLs use developer_instructions
+(no prompt_skill). Both #24 regression guards; negative-tested locally.
 
 ## v0.10.1 (2026-07-18) — RELEASED, signed, verified
 https://github.com/MountainUnicorn/add/releases/tag/v0.10.1 — Codex ≥0.14x
