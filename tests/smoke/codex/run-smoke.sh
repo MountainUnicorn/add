@@ -62,6 +62,23 @@ pass "skill frontmatter/name parity checked"
 
 # --- 4. Hooks + shared assets --------------------------------------------
 [ -f "$CODEX_HOME/hooks.json" ] || fail "hooks.json not installed"
+# Codex ≥0.14x nested schema (#24): top-level "hooks" object, entries carry a
+# "hooks" array of {type, command}. The legacy flat schema is silently ignored.
+if python3 - "$CODEX_HOME/hooks.json" <<'PY'
+import json, sys
+d = json.load(open(sys.argv[1]))
+events = d.get("hooks")
+assert isinstance(events, dict) and events, "missing nested 'hooks' object (legacy flat schema?)"
+for ev, entries in events.items():
+    for e in entries:
+        for h in e["hooks"]:
+            assert h["type"] == "command" and h["command"], f"{ev}: bad hook entry"
+PY
+then
+  pass "hooks.json valid nested (>=0.14x) schema"
+else
+  fail "hooks.json is not valid nested (>=0.14x) schema"
+fi
 HOOK_COUNT=$(find "$CODEX_HOME/hooks" -maxdepth 1 -name '*.sh' 2>/dev/null | wc -l | tr -d ' ')
 [ "$HOOK_COUNT" -gt 0 ] || fail "no hook scripts installed"
 while IFS= read -r f; do
@@ -76,6 +93,24 @@ if [ "$INSTALLED_VERSION" = "$CORE_VERSION" ]; then
   pass "installed VERSION $INSTALLED_VERSION matches core/VERSION"
 else
   fail "installed VERSION '$INSTALLED_VERSION' != core/VERSION '$CORE_VERSION'"
+fi
+
+# --- 4b. Agent-role TOML schema (#24) -------------------------------------
+# Codex ≥0.14x removed prompt_skill; developer_instructions is required.
+AGENT_TOML_COUNT=0
+while IFS= read -r toml; do
+  AGENT_TOML_COUNT=$((AGENT_TOML_COUNT + 1))
+  if grep -Eq '^[[:space:]]*prompt_skill[[:space:]]*=' "$toml"; then
+    fail "legacy prompt_skill key in $(basename "$toml")"
+  fi
+  if ! grep -Eq '^[[:space:]]*developer_instructions[[:space:]]*=' "$toml"; then
+    fail "missing developer_instructions in $(basename "$toml")"
+  fi
+done < <(find "$CODEX_HOME/agents" -maxdepth 1 -name '*.toml' 2>/dev/null)
+if [ "$AGENT_TOML_COUNT" -gt 0 ]; then
+  pass "$AGENT_TOML_COUNT agent TOMLs use developer_instructions (no prompt_skill)"
+else
+  fail "no agent TOMLs installed under agents/"
 fi
 
 # --- 5. F-002 path-reference regression suite ----------------------------
