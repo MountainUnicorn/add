@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.10.1",
+  "plugin_version": "0.10.2",
   "migrations": [
     {
       "from": "0.1.0",
@@ -320,7 +320,7 @@
       "from": "0.9.9",
       "to": "0.9.10",
       "steps": [],
-      "description": "v0.9.10 \u2014 dedup + hygiene release closing the token-audit arc. Heaviest skills slimmed ~35-45% (init 1093\u2192638, deploy 874\u2192557, verify 761\u2192432, cycle 659\u2192462, docs 582\u2192352 lines) via extraction to templates/ (init-interview, init-output-examples, commit-message, deploy-reference, cycle-plan, verify-report) and references/ (skill-epilogue, secrets-gate, docs-archetypes). Skill version literals normalized to 0.10.1 (compile substitutes; can't drift). Injection patterns de-noised (ignore-previous noun now required, and a false negative on the canonical injection phrase was closed; base64 blob info@120+; system-heading anchored); audit-log redaction unified with the secret-patterns catalog; PASSWORD_KV case-insensitive; .secretsignore negations warn loudly. CHANGELOG reminder hook moved to PreToolUse (fires BEFORE push); post-write auto-fix now opt-in via hooks.autofix (default false \u2014 linters advise, don't rewrite). CI: marketplace-validate fails loudly instead of skipping green; new hooks-json + load-rules + compile suites in the guardrails matrix. Optional new consumer config key: hooks.autofix. Consumers using the stock .secretsignore template: negation lines were removed (they never worked)."
+      "description": "v0.9.10 \u2014 dedup + hygiene release closing the token-audit arc. Heaviest skills slimmed ~35-45% (init 1093\u2192638, deploy 874\u2192557, verify 761\u2192432, cycle 659\u2192462, docs 582\u2192352 lines) via extraction to templates/ (init-interview, init-output-examples, commit-message, deploy-reference, cycle-plan, verify-report) and references/ (skill-epilogue, secrets-gate, docs-archetypes). Skill version literals normalized to 0.10.2 (compile substitutes; can't drift). Injection patterns de-noised (ignore-previous noun now required, and a false negative on the canonical injection phrase was closed; base64 blob info@120+; system-heading anchored); audit-log redaction unified with the secret-patterns catalog; PASSWORD_KV case-insensitive; .secretsignore negations warn loudly. CHANGELOG reminder hook moved to PreToolUse (fires BEFORE push); post-write auto-fix now opt-in via hooks.autofix (default false \u2014 linters advise, don't rewrite). CI: marketplace-validate fails loudly instead of skipping green; new hooks-json + load-rules + compile suites in the guardrails matrix. Optional new consumer config key: hooks.autofix. Consumers using the stock .secretsignore template: negation lines were removed (they never worked)."
     },
     {
       "from": "0.9.10",
@@ -347,6 +347,12 @@
       "to": "0.10.1",
       "steps": [],
       "description": "Codex \u22650.14x schema fixes (#24): sub-agent TOMLs use developer_instructions (prompt_skill removed upstream); hooks.json uses the nested hooks/matcher/type schema with ~ paths. Codex users should re-run the installer to refresh ~/.codex/agents/ and ~/.codex/hooks.json. No Claude-side changes."
+    },
+    {
+      "from": "0.10.1",
+      "to": "0.10.2",
+      "steps": [],
+      "description": "Adds /add:doctor, /add:init --defaults, and the Codex install manifest. Codex users should re-run the installer to get install-manifest.json + the generated uninstaller and the doctor skill. min_codex_version floor raised to 0.140.0 (#26). No config migration steps."
     }
   ]
 }

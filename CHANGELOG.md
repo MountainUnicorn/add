@@ -6,6 +6,8 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+## [0.10.2] — 2026-07-19
+
 ### Added
 
 - **`/add:init --defaults` (#23)** — true non-interactive init: zero questions, every value derived (name from CWD, language from manifest files) or defaulted (poc maturity, local-only environments, autonomous mode). Never overwrites an existing config. Both install smokes now exercise this real headless path instead of smuggling interview answers into the prompt.

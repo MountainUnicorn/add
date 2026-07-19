@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "plugin_version": "0.10.1",
+  "plugin_version": "0.10.2",
   "migrations": [
     {
       "from": "0.1.0",
@@ -347,6 +347,12 @@
       "to": "0.10.1",
       "steps": [],
       "description": "Codex \u22650.14x schema fixes (#24): sub-agent TOMLs use developer_instructions (prompt_skill removed upstream); hooks.json uses the nested hooks/matcher/type schema with ~ paths. Codex users should re-run the installer to refresh ~/.codex/agents/ and ~/.codex/hooks.json. No Claude-side changes."
+    },
+    {
+      "from": "0.10.1",
+      "to": "0.10.2",
+      "steps": [],
+      "description": "Adds /add:doctor, /add:init --defaults, and the Codex install manifest. Codex users should re-run the installer to get install-manifest.json + the generated uninstaller and the doctor skill. min_codex_version floor raised to 0.140.0 (#26). No config migration steps."
     }
   ]
 }
