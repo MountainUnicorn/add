@@ -1,4 +1,25 @@
-# Handoff — v0.10.2 + v0.11.0 RELEASED (updated 2026-07-19, evening)
+# Handoff — v0.10.2 + v0.11.0 RELEASED; docs refreshed; GA-prep blog live (updated 2026-07-19, night)
+
+## Docs refresh + GA-prep blog post (2026-07-19, night)
+- **Plugin repo (7a0f84d):** README (28 skills, command table completed with
+  learnings/version/doctor/agents-md, --defaults in quick start, manifest
+  install blurb, ~110-file count fixed from ~60), TROUBLESHOOTING (doctor-first
+  triage), CONTRIBUTING (28 skills / 29 templates), root AGENTS.md regenerated
+  (was stale at 0.9.4), stale --quick workflow comment fixed.
+- **getadd.dev (128ffa5):** new post blog/preparing-for-ga.html + card at top
+  of blog index + homepage hero teaser (badge v0.11.0); homepage skills metric
+  27→28. Post covers: 5/6 GA criteria met (marketplace approval remaining),
+  the provable-install arc, v1.0.0-as-promotion-tag sequencing, and the
+  post-GA direction — small core + loosely-coupled companion plugins
+  (telemetry/analytics, enterprise controls, CI/CD bridges; each own-repo,
+  same evidence bar, explicitly "directions not dated commitments").
+- Content was reviewed by two parallel agents (fact-audit vs repo: 8 findings
+  fixed incl. wrong install snippet missing marketplace-add, smokes/floor
+  misattributed to wrong releases, "repo-per-plugin" unsupported precedent
+  claim; editorial: garbled sentences, AI-tell density, missing orientation
+  + upgrade path, house apostrophe style). All findings applied before push.
+- NOTE: companion-plugin areas are a NEW public direction statement made in
+  this post (no prior repo doc describes them) — carry into v1.1 planning.
 
 ## v0.10.2 + v0.11.0 (2026-07-19) — BOTH RELEASED, signed, verified
 - **v0.10.2** https://github.com/MountainUnicorn/add/releases/tag/v0.10.2 —
