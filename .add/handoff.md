@@ -1,4 +1,35 @@
-# Handoff — v0.10.1 released; local Codex upgraded; install-review issues #25–#28 filed (updated 2026-07-19)
+# Handoff — #23/#25/#27/#28 ALL IMPLEMENTED & CLOSED; [Unreleased] staged for v0.10.2/v0.11.0 (updated 2026-07-19)
+
+## Full SDLC run: issues #23 #25 #27 #28 (2026-07-19, autonomous)
+Specs + plans committed first (specs/{init-defaults,doctor,codex-install-manifest,
+codex-agent-prefixing}.md + docs/plans/*-plan.md, c7c996a). Two waves of
+parallel subagents with strict file-ownership contracts; zero clobbers.
+
+**Wave 1 (b564ef7, CI fully green incl. both live smokes):**
+- **#23 CLOSED** (2b4de02): /add:init --defaults — zero-question headless init;
+  both install smokes now drive it live (real end-to-end proof in CI).
+- **#25 CLOSED** (58eaa8c): /add:doctor (28th skill) + core/lib/doctor-checks.sh
+  (5 pure check functions, RED-first 13-case fixture suite). skill-policy.yaml
+  entry required for new skills — compile fails without it (learning L-052).
+- **#27 CLOSED** (3b38cba): installer writes ~/.codex/add/install-manifest.json
+  (141 files + sha256) + generated uninstall-add.sh; upgrade protection backs
+  up user-edited files; RED-first 26-case suite.
+
+**Wave 2 (0cebc1d):**
+- **#28 CLOSED**: Codex sub-agents renamed add-explorer/-implementer/-reviewer/
+  -test-writer/-verify; installer removes ADD-owned legacy names (marker or
+  manifest-sha gated, 16-case suite); explorer role no longer points at
+  add-docs skill; smoke asserts exact prefixed set. **Migration hop for
+  v0.11.0 release still TODO at release time** (migrations.json + re-run
+  installer note).
+
+Local ~/.codex dogfooded: upgrade cleaned 5 legacy TOMLs, manifest written,
+all five doctor checks pass live. Note: doctor-checks.sh is bash-only —
+sourcing from zsh breaks sha detection (L-053, hardening candidate).
+
+CHANGELOG [Unreleased] has all four entries. Release split when cutting:
+#23/#25/#27 + #26 → v0.10.2 (patch-ish), #28 → v0.11.0 (breaking-ish).
+Marketplace synced post-integration.
 
 ## Codex install verified + review triage (2026-07-18/19)
 Local ~/.codex was stale at v0.9.4 (silently dead on 0.144.x per #24). Re-ran
