@@ -1,5 +1,13 @@
 # Handoff — v0.10.2 + v0.11.0 RELEASED; docs refreshed; GA-prep blog live (updated 2026-07-19, night)
 
+## Visuals regenerated (2026-07-19, night, 6b52eac)
+docs/infographic.svg (canvas 2660→3180; Provable Installs centerpiece + GA
+status strip; measured v0.9.11 token chart kept verbatim) and
+reports/add-overview.html (1949 lines; new Provable Installs / Road to GA /
+After v1.0 sections mirroring the blog framing; fictional Deployer card and
+"5 engagement modes" contradiction removed). Both agent-generated, then
+independently re-validated. Retro L-054.
+
 ## Docs refresh + GA-prep blog post (2026-07-19, night)
 - **Plugin repo (7a0f84d):** README (28 skills, command table completed with
   learnings/version/doctor/agents-md, --defaults in quick start, manifest
