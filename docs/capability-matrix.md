@@ -26,7 +26,9 @@ expected to obey; no mechanical backstop. **Advisory**: documentation/patterns o
 | GPG-signed releases | n/a (repo-level) | n/a (repo-level) | All tags signed; see `docs/release-signing.md` |
 
 **Pinned Codex CLI (CI target):** see `codex_cli_version` in `runtimes/codex/adapter.yaml`
-(0.144.5 as of v0.10.0; minimum supported: 0.122.0).
+(0.144.5 as of v0.10.0; minimum supported: 0.140.0 — the `developer_instructions`
+agent-role schema and nested hooks.json schema ADD emits since v0.10.1 do not
+exist on older CLIs; see #26).
 
 **Summary for release notes:** on Claude Code, ADD's quality gates are mechanically
 enforced by hooks; on Codex CLI they are agent-followed unless the user enables

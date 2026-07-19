@@ -4,6 +4,54 @@ All notable changes to ADD are documented here. Format loosely follows [Keep a C
 
 For commit-level detail see `git log`.
 
+## [Unreleased]
+
+### Fixed
+
+- **`min_codex_version` raised 0.122.0 → 0.140.0 (#26).** Since v0.10.1 the emitted agent-role TOMLs (`developer_instructions`) and nested hooks.json schema only exist on the Codex 0.14x generation, so the old floor advertised compatibility with CLIs that reject or silently ignore both. `runtimes/codex/adapter.yaml`, the `compile.py` fallback, and the capability matrix now state the honest floor.
+- **CHANGELOG ordering repaired** — the `[Unreleased]`/0.10.1/0.10.0 sections had been inserted mid-file (below 0.8.1) and `[Unreleased]` was duplicated; sections are now strictly newest-first with a single `[Unreleased]` head.
+
+### Added
+
+- **Codex smoke #24 regression guards** — `run-smoke.sh` now asserts the installed hooks.json is the nested ≥0.14x schema (legacy flat form fails) and every installed agent TOML uses `developer_instructions` with no `prompt_skill`.
+
+## [0.10.1] — 2026-07-18
+
+**Codex ≥0.14x compatibility (#24)** — found by the v0.10.0 install smoke's first live run against the re-pinned CLI 0.144.5.
+
+### Fixed
+
+- **Sub-agent TOMLs were silently ignored on Codex ≥0.14x** — the `prompt_skill` field no longer exists in the agent-role schema. All 5 roles (explorer, implementer, reviewer, test-writer, verify) now use the required `developer_instructions` field, instructing the spawned agent to load its role's SKILL.md — behavior stays skill-sourced. Verified accepted by CLI 0.144.5.
+- **hooks.json was rejected on Codex ≥0.14x** — registration now uses the current schema (top-level `hooks` key, matcher groups, typed `command` entries) and `~/.codex/...` command paths (the old bare relative paths only resolved when the session started in `$HOME`). Verified accepted by CLI 0.144.5.
+- Migration hop 0.10.0→0.10.1 tells Codex users to re-run the installer to refresh `~/.codex/agents/` and `~/.codex/hooks.json`.
+
+### Known limitations (carried)
+
+- **Known gap (#23, found by the first live smoke run):** `/add:init --quick` still interviews, so headless one-shot sessions exit without writing config. Smokes work around it with inline answers; a true `--defaults` path targets v0.10.1.
+
+## [0.10.0] — 2026-07-18
+
+**"Install path confirmed" — GA release candidate** (spec: `specs/install-path-confirmation.md`; sequencing: smoke green → marketplace submission → v1.0.0 promotion tag on approval).
+
+### Added
+
+- **Real install smoke in CI (GA criterion #2).** `.github/workflows/install-smoke-claude.yml` — installs the checkout via the actual marketplace path (`claude plugin marketplace add` + `claude plugin install add@add-marketplace`), asserts skill discovery, and drives a headless `/add:init --quick` asserting `.add/config.json` (agent leg skips loudly without `ANTHROPIC_API_KEY`). `.github/workflows/install-smoke-codex.yml` + `tests/smoke/codex/` — Docker image with the Codex CLI pinned from `runtimes/codex/adapter.yaml` (single source of truth via build-arg), runs `scripts/install-codex.sh` for real, asserts 27/27 skills, hooks, shared assets, version parity, the F-002 path suite, and (with `OPENAI_API_KEY`) an agent-driven `/add-init`.
+- **`docs/capability-matrix.md` (GA criterion #3 / AC-027).** Per-runtime enforced vs agent-followed vs advisory truth table, appended to every release's notes by `release.sh`; `SECURITY.md` now points at it before the threat model.
+- **`scripts/release-evidence.sh` (GA criterion #4 / AC-025).** Assembles `reports/release-evidence/vX.Y.Z/` — version map, capability-matrix snapshot, command catalog, install-smoke run links, and a migration-graph reachability check; `--upload` attaches the bundle to the GitHub release.
+
+### Changed
+
+- **Codex CLI re-pinned 0.122.0 → 0.144.5** (`codex_cli_version`; `min_codex_version` stays 0.122.0). Install smoke verified green in Docker against the new pin (Q-001 re-baseline).
+- **`release.sh` is now release-blocking (GA criterion #1).** Refuses to tag unless HEAD is on origin/main with all CI check-runs green; `--no-verify-ci` is the loud emergency override.
+
+### Fixed
+
+- **`migrations.json`: v0.7.3 users were stranded** — no outgoing hop existed from 0.7.3 (same class as the v0.8.1→v0.9.3 chain break). Caught by the new reachability check; fixed with a 0.7.3→0.8.0 hop carrying the standard 0.8.0 steps.
+
+### Known limitations
+
+- **Telemetry emission confirmed absent (Q-MS-003/D6).** `.add/telemetry/` never populates — the spec exists, no hook writes it. Recorded as a finding; implementation deferred past v0.10.0 (does not gate the six GA criteria).
+
 ## [0.9.11] — 2026-07-16
 
 Closes the stale-rules gap reported by Tomasz Dmitruk ([@tdmitruk](https://github.com/tdmitruk)): `/add:init` used to copy 10 ADD rules into the consumer project's `.claude/rules/`, where they auto-loaded forever at the version they were copied — never updated by plugin upgrades, and (since v0.9.9) duplicating and eventually contradicting the fresh rules the SessionStart hook injects. Copies also bypassed maturity gating entirely.
@@ -116,68 +164,6 @@ CI/release hardening + truth-pass, opening the v1.0 credibility cycle. Turns a r
 - **Codex `verify` sub-agent (B3).** ADD's 4th role was missing from the Codex adapter — added `runtimes/codex/agents/verify.toml` (workspace-write, high reasoning) and the two `compile.py` enumerations that omitted it. The Codex adapter now emits five sub-agents.
 - **`tests/release-tooling/test-release-verify.sh`** — behavioral regression guard for #18 (mocks git/gh/python3, asserts the script exits non-zero when no release page exists), registered in the guardrail matrix.
 - **`tests/security/fixtures/benign-multibyte.json`** — regression guard for the unicode-tag-block false-positive bug; asserts dense benign multibyte content does not fire (mutation-verified to go red against the old regex).
-
-## [0.8.1] — 2026-04-23
-
-Hotfix. Fixes three findings from the plugin-family release-hardening review before v0.9.0 ships. The M3 feature set (agents-md, cache-discipline, secrets-handling, telemetry-jsonl, prompt-injection-defense, test-deletion-guardrail, codex-native-skills) has already merged to main; this release makes that merge actually installable and makes the test-deletion guardrail actually enforce.
-
-### Fixed
-
-- **Claude marketplace validation (F-001).** `.claude-plugin/marketplace.json` had `description` at the root, which the marketplace schema rejects. Moved into the `metadata` object per the validator's guidance. `claude plugin validate .` and `claude plugin validate plugins/add` both now pass. Removed the stale `"13 commands, 12 skills, 15 rules"` count string — counts drift; manifests aren't the right place for them.
-- **Codex install path mismatch (F-002).** Generated Codex skills referenced `~/.codex/templates/`, `~/.codex/knowledge/`, `~/.codex/rules/`, `~/.codex/lib/`, `~/.codex/security/`, but `scripts/install-codex.sh` stages shared assets under the namespaced `~/.codex/add/` subdirectory. Every skill invocation on Codex would have failed to resolve its asset refs. Fixed by pointing the `${CLAUDE_PLUGIN_ROOT}` → Codex substitution at `~/.codex/add/` and adding a separate `${CLAUDE_PLUGIN_ROOT}/hooks` → `~/.codex/hooks` rule (hooks stay at the Codex-conventional root). `scripts/compile.py` now also ships `core/rules/` and `core/security/` into `dist/codex/`, and `scripts/install-codex.sh` stages `knowledge/`, `rules/`, `lib/`, `security/` under `$CODEX_HOME/add/` alongside the existing `templates/`. `filter-learnings.sh` is also now shipped into Codex's hooks dir as a cross-runtime utility.
-- **Test-deletion guardrail bypass (F-003).** `scripts/check-test-count.py` treated `--allow-test-rewrite` as a full bypass of the same-name-replacement approval check instead of as an acknowledgment flag that still required a recorded override. The documented intent (flag **AND** override record) matched the error message but not the code. Fix: the replacement check now runs unconditionally; `--allow-test-rewrite` is required to acknowledge intent, AND either a recorded override in `.add/cycles/cycle-{N}/overrides.json` or an `[ADD-TEST-DELETE: <reason>]` commit trailer is required to pass. Regression fixture `replacement-with-flag-no-override` added — proves the flag alone is insufficient.
-
-### Added
-
-- **`tests/codex-install/test-install-paths.sh`** — F-002 regression smoke. Installs the Codex adapter into a temp `CODEX_HOME`, collects every `~/.codex/...` reference from installed skill bodies, and asserts each one resolves (or is explicitly allowlisted). Runs in seconds; no Codex CLI needed.
-
-### Known limitations (tracked for v0.8.2)
-
-- `/add:version` reads `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`, which has no Codex equivalent (the Codex version lives in `plugin.toml` or `VERSION`). Allowlisted in the new smoke test; cross-runtime fix deferred.
-- Hotfix does not address F-004+ from the plugin-family review — adapter contracts, host-neutral kernel, runtime overlays, command catalog generator. Those remain M4 / v0.10+ scope, not v0.9.0 blockers.
-
-## [Unreleased]
-
-## [Unreleased]
-
-_(Nothing yet — tracking items go here between releases.)_
-
-## [0.10.1] — 2026-07-18
-
-**Codex ≥0.14x compatibility (#24)** — found by the v0.10.0 install smoke's first live run against the re-pinned CLI 0.144.5.
-
-### Fixed
-
-- **Sub-agent TOMLs were silently ignored on Codex ≥0.14x** — the `prompt_skill` field no longer exists in the agent-role schema. All 5 roles (explorer, implementer, reviewer, test-writer, verify) now use the required `developer_instructions` field, instructing the spawned agent to load its role's SKILL.md — behavior stays skill-sourced. Verified accepted by CLI 0.144.5.
-- **hooks.json was rejected on Codex ≥0.14x** — registration now uses the current schema (top-level `hooks` key, matcher groups, typed `command` entries) and `~/.codex/...` command paths (the old bare relative paths only resolved when the session started in `$HOME`). Verified accepted by CLI 0.144.5.
-- Migration hop 0.10.0→0.10.1 tells Codex users to re-run the installer to refresh `~/.codex/agents/` and `~/.codex/hooks.json`.
-
-### Known limitations (carried)
-
-- **Known gap (#23, found by the first live smoke run):** `/add:init --quick` still interviews, so headless one-shot sessions exit without writing config. Smokes work around it with inline answers; a true `--defaults` path targets v0.10.1.
-
-## [0.10.0] — 2026-07-18
-
-**"Install path confirmed" — GA release candidate** (spec: `specs/install-path-confirmation.md`; sequencing: smoke green → marketplace submission → v1.0.0 promotion tag on approval).
-
-### Added
-
-- **Real install smoke in CI (GA criterion #2).** `.github/workflows/install-smoke-claude.yml` — installs the checkout via the actual marketplace path (`claude plugin marketplace add` + `claude plugin install add@add-marketplace`), asserts skill discovery, and drives a headless `/add:init --quick` asserting `.add/config.json` (agent leg skips loudly without `ANTHROPIC_API_KEY`). `.github/workflows/install-smoke-codex.yml` + `tests/smoke/codex/` — Docker image with the Codex CLI pinned from `runtimes/codex/adapter.yaml` (single source of truth via build-arg), runs `scripts/install-codex.sh` for real, asserts 27/27 skills, hooks, shared assets, version parity, the F-002 path suite, and (with `OPENAI_API_KEY`) an agent-driven `/add-init`.
-- **`docs/capability-matrix.md` (GA criterion #3 / AC-027).** Per-runtime enforced vs agent-followed vs advisory truth table, appended to every release's notes by `release.sh`; `SECURITY.md` now points at it before the threat model.
-- **`scripts/release-evidence.sh` (GA criterion #4 / AC-025).** Assembles `reports/release-evidence/vX.Y.Z/` — version map, capability-matrix snapshot, command catalog, install-smoke run links, and a migration-graph reachability check; `--upload` attaches the bundle to the GitHub release.
-
-### Changed
-
-- **Codex CLI re-pinned 0.122.0 → 0.144.5** (`codex_cli_version`; `min_codex_version` stays 0.122.0). Install smoke verified green in Docker against the new pin (Q-001 re-baseline).
-- **`release.sh` is now release-blocking (GA criterion #1).** Refuses to tag unless HEAD is on origin/main with all CI check-runs green; `--no-verify-ci` is the loud emergency override.
-
-### Fixed
-
-- **`migrations.json`: v0.7.3 users were stranded** — no outgoing hop existed from 0.7.3 (same class as the v0.8.1→v0.9.3 chain break). Caught by the new reachability check; fixed with a 0.7.3→0.8.0 hop carrying the standard 0.8.0 steps.
-
-### Known limitations
-
-- **Telemetry emission confirmed absent (Q-MS-003/D6).** `.add/telemetry/` never populates — the spec exists, no hook writes it. Recorded as a finding; implementation deferred past v0.10.0 (does not gate the six GA criteria).
 
 ## [0.9.5] — 2026-04-22
 
@@ -337,6 +323,25 @@ Seven feature specs planned together, built in parallel by worktree-isolated age
 - Architect/Editor model-role rule (v0.9.1 docs pass)
 - Cross-tool memory schema for `~/.claude/add/`
 - Governance maturity bands tied to autonomy ceilings
+
+## [0.8.1] — 2026-04-23
+
+Hotfix. Fixes three findings from the plugin-family release-hardening review before v0.9.0 ships. The M3 feature set (agents-md, cache-discipline, secrets-handling, telemetry-jsonl, prompt-injection-defense, test-deletion-guardrail, codex-native-skills) has already merged to main; this release makes that merge actually installable and makes the test-deletion guardrail actually enforce.
+
+### Fixed
+
+- **Claude marketplace validation (F-001).** `.claude-plugin/marketplace.json` had `description` at the root, which the marketplace schema rejects. Moved into the `metadata` object per the validator's guidance. `claude plugin validate .` and `claude plugin validate plugins/add` both now pass. Removed the stale `"13 commands, 12 skills, 15 rules"` count string — counts drift; manifests aren't the right place for them.
+- **Codex install path mismatch (F-002).** Generated Codex skills referenced `~/.codex/templates/`, `~/.codex/knowledge/`, `~/.codex/rules/`, `~/.codex/lib/`, `~/.codex/security/`, but `scripts/install-codex.sh` stages shared assets under the namespaced `~/.codex/add/` subdirectory. Every skill invocation on Codex would have failed to resolve its asset refs. Fixed by pointing the `${CLAUDE_PLUGIN_ROOT}` → Codex substitution at `~/.codex/add/` and adding a separate `${CLAUDE_PLUGIN_ROOT}/hooks` → `~/.codex/hooks` rule (hooks stay at the Codex-conventional root). `scripts/compile.py` now also ships `core/rules/` and `core/security/` into `dist/codex/`, and `scripts/install-codex.sh` stages `knowledge/`, `rules/`, `lib/`, `security/` under `$CODEX_HOME/add/` alongside the existing `templates/`. `filter-learnings.sh` is also now shipped into Codex's hooks dir as a cross-runtime utility.
+- **Test-deletion guardrail bypass (F-003).** `scripts/check-test-count.py` treated `--allow-test-rewrite` as a full bypass of the same-name-replacement approval check instead of as an acknowledgment flag that still required a recorded override. The documented intent (flag **AND** override record) matched the error message but not the code. Fix: the replacement check now runs unconditionally; `--allow-test-rewrite` is required to acknowledge intent, AND either a recorded override in `.add/cycles/cycle-{N}/overrides.json` or an `[ADD-TEST-DELETE: <reason>]` commit trailer is required to pass. Regression fixture `replacement-with-flag-no-override` added — proves the flag alone is insufficient.
+
+### Added
+
+- **`tests/codex-install/test-install-paths.sh`** — F-002 regression smoke. Installs the Codex adapter into a temp `CODEX_HOME`, collects every `~/.codex/...` reference from installed skill bodies, and asserts each one resolves (or is explicitly allowlisted). Runs in seconds; no Codex CLI needed.
+
+### Known limitations (tracked for v0.8.2)
+
+- `/add:version` reads `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`, which has no Codex equivalent (the Codex version lives in `plugin.toml` or `VERSION`). Allowlisted in the new smoke test; cross-runtime fix deferred.
+- Hotfix does not address F-004+ from the plugin-family review — adapter contracts, host-neutral kernel, runtime overlays, command catalog generator. Those remain M4 / v0.10+ scope, not v0.9.0 blockers.
 
 ## [0.8.0] — 2026-04-22
 

@@ -10,9 +10,12 @@ output_dir: dist/codex
 # ------------------------
 # min_codex_version: Lowest Codex CLI version that ships every feature ADD emits
 # (native Skills, sub-agents, hooks, plugin marketplace). Per spec AC-032.
+# Floor is 0.140.0 since v0.10.1 (#24/#26): the emitted agent-role schema
+# (developer_instructions) and nested hooks.json schema only exist on the
+# 0.14x generation — older CLIs reject or silently ignore both.
 # codex_cli_version:  The version the CI plugin-validate job targets (AC-035).
 codex_cli_version: "0.144.5"
-min_codex_version: "0.122.0"
+min_codex_version: "0.140.0"
 
 # Output mode: "native" = Codex Skills format (v0.9+). The legacy "prompts" mode
 # wrote to ~/.codex/prompts/ and is no longer emitted.

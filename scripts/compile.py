@@ -744,7 +744,7 @@ def load_adapter_metadata() -> dict:
     Minimal parse — we only need two top-level scalar keys.
     """
     adapter = RUNTIMES / "codex" / "adapter.yaml"
-    meta = {"min_codex_version": "0.122.0", "codex_cli_version": "0.122.0"}
+    meta = {"min_codex_version": "0.140.0", "codex_cli_version": "0.144.5"}
     if not adapter.exists():
         return meta
     for raw in adapter.read_text().splitlines():
