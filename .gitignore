@@ -3,3 +3,4 @@
 .add/security/
 scripts/.venv/
 .add/away-logs/
+reports/release-evidence/*.tar.gz
