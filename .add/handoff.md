@@ -1,4 +1,27 @@
-# Handoff — #23/#25/#27/#28 ALL IMPLEMENTED & CLOSED; [Unreleased] staged for v0.10.2/v0.11.0 (updated 2026-07-19)
+# Handoff — v0.10.2 + v0.11.0 RELEASED (updated 2026-07-19, evening)
+
+## v0.10.2 + v0.11.0 (2026-07-19) — BOTH RELEASED, signed, verified
+- **v0.10.2** https://github.com/MountainUnicorn/add/releases/tag/v0.10.2 —
+  #23 (--defaults) + #25 (doctor) + #26 (min_codex floor) + #27 (install
+  manifest). Cut from release/v0.10.2 branch at b564ef7 (last pre-#28 commit,
+  CI fully green on that exact tree incl. both live smokes) because #28 had
+  already merged to main; release.sh is main-only so tag+gh release were done
+  manually mirroring its steps (signed tag verified, capability-matrix footer,
+  release page verified, evidence bundle uploaded + snapshot committed to the
+  branch). Release notes state the branch-cut provenance.
+- **v0.11.0** https://github.com/MountainUnicorn/add/releases/tag/v0.11.0 —
+  #28 (add-* agent prefixing). Cut from main via release.sh (24 CI checks
+  green guard passed). migrations.json on main carries BOTH hops
+  0.10.1→0.10.2→0.11.0 (0.10.2 branch carries just the first). Evidence
+  uploaded + snapshot committed. docs/codex-install.md uninstall section
+  now points at the generated uninstall-add.sh.
+- Marketplace synced (0.11.0); local ~/.codex reinstalled at 0.11.0;
+  getadd.dev footers → v0.11.0 (5 pages carry footers now, not 9) pushed.
+- Gotcha hit: release.sh refuses on untracked files — stray already-uploaded
+  evidence tarballs (v0.10.1, v0.11.0) had to be deleted; consider gitignoring
+  reports/release-evidence/*.tar.gz.
+- GA state unchanged: criterion #5 (marketplace approval) still pending;
+  v1.0.0 remains the promotion tag on approval.
 
 ## Full SDLC run: issues #23 #25 #27 #28 (2026-07-19, autonomous)
 Specs + plans committed first (specs/{init-defaults,doctor,codex-install-manifest,
