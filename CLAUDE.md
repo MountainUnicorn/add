@@ -51,7 +51,7 @@ Cut a signed release:
 
 ```
 core/                  # Source of truth (runtime-neutral)
-  skills/              #   27 skills — all slash commands
+  skills/              #   28 skills — all slash commands
   rules/               #   17 auto-loaded behavioral rules (+3 on-demand)
   references/          #   non-autoloaded reference rules (loaded on-demand)
   templates/           #   29 document templates + data manifests

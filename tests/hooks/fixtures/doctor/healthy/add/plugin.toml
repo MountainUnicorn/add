@@ -1,0 +1,14 @@
+# fixture ADD Codex plugin manifest
+name = "add"
+version = "0.10.1"
+min_codex_version = "0.140.0"
+
+skills = [
+  ".agents/skills/add-verify/SKILL.md",
+]
+
+agents = [
+  ".codex/agents/verify.toml",
+]
+
+hooks = ".codex/hooks.json"

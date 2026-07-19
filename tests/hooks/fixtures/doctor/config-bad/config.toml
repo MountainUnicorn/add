@@ -1,0 +1,3 @@
+[features]
+collab = true
+codex_hooks = false

@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "version": "0.10.1",
+  "installed_at": "2026-07-19T00:00:00Z",
+  "files": [
+    { "path": "skills/add-verify/SKILL.md", "sha256": "7f6a97f361227cd46f388ecd8f84b46cb2a795ef08b6acc62da291a3058b5ad2" },
+    { "path": "agents/ghost.toml", "sha256": "0000000000000000000000000000000000000000000000000000000000000000" }
+  ],
+  "backups": []
+}

@@ -1,0 +1,20 @@
+{
+  "description": "ADD (Agent Driven Development) lifecycle hooks",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          { "type": "command", "command": "~/.codex/hooks/load-handoff.sh" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "~/.codex/hooks/write-handoff.sh" }
+        ]
+      }
+    ]
+  }
+}

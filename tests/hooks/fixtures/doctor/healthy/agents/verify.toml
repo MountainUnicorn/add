@@ -1,0 +1,6 @@
+# ADD sub-agent — verify
+name = "verify"
+description = "Runs quality gates."
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+developer_instructions = "You are this role's dedicated sub-agent. First read ~/.codex/skills/add-verify/SKILL.md and adopt it verbatim as your role definition, then execute the task you were spawned with."

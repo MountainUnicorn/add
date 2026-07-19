@@ -11,7 +11,7 @@ curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/in
 This script:
 
 1. Clones the ADD repo to a temp directory
-2. Installs 27 native Codex Skills to `~/.codex/skills/add-*/` (each with `SKILL.md` + invocation policy)
+2. Installs 28 native Codex Skills to `~/.codex/skills/add-*/` (each with `SKILL.md` + invocation policy)
 3. Installs shared content to `~/.codex/add/` — the slim `AGENTS.md` manifest, `rules/`, `templates/`, `knowledge/`, `references/`, `lib/`, `security/`
 4. Installs sub-agent TOMLs (`test-writer`, `implementer`, `reviewer`, `verify`, `explorer`) and the handoff hooks
 5. Prints instructions for wiring ADD into your project's `AGENTS.md`
@@ -55,7 +55,7 @@ Codex resolves `@-references` at session start, merging ADD's rules into the loa
 | **Core workflow** | `/add-init`, `/add-spec`, `/add-plan`, `/add-tdd-cycle`, `/add-test-writer`, `/add-implementer`, `/add-reviewer`, `/add-verify`, `/add-optimize`, `/add-deploy` |
 | **Planning** | `/add-cycle`, `/add-milestone`, `/add-roadmap`, `/add-promote` |
 | **Design & docs** | `/add-ux`, `/add-docs`, `/add-infographic`, `/add-brand`, `/add-brand-update`, `/add-dashboard` |
-| **Process** | `/add-away`, `/add-back`, `/add-retro`, `/add-changelog`, `/add-learnings`, `/add-version`, `/add-agents-md` |
+| **Process** | `/add-away`, `/add-back`, `/add-retro`, `/add-changelog`, `/add-learnings`, `/add-version`, `/add-doctor`, `/add-agents-md` |
 
 Same methodology, same spec/plan/TDD/verify flow. The only differences from the Claude Code experience:
 

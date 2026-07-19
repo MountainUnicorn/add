@@ -1,0 +1,6 @@
+# ADD sub-agent — reviewer
+name = "reviewer"
+description = "Reviews changes against spec acceptance criteria."
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+prompt_skill = "add-reviewer"

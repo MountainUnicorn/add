@@ -126,6 +126,10 @@ skills:
     allow_implicit_invocation: true
     tools: [read, bash]
 
+  - skill: doctor
+    allow_implicit_invocation: true
+    tools: [read, bash]
+
   - skill: agents-md
     allow_implicit_invocation: true
     tools: [read, write, edit, bash]
