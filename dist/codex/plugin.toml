@@ -18,6 +18,7 @@ skills = [
   ".agents/skills/add-dashboard/SKILL.md",
   ".agents/skills/add-deploy/SKILL.md",
   ".agents/skills/add-docs/SKILL.md",
+  ".agents/skills/add-doctor/SKILL.md",
   ".agents/skills/add-implementer/SKILL.md",
   ".agents/skills/add-infographic/SKILL.md",
   ".agents/skills/add-init/SKILL.md",

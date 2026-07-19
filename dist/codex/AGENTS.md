@@ -45,6 +45,7 @@ Before executing any ADD skill, read `~/.codex/add/knowledge/global.md` (Tier-1 
 | `/add-dashboard` | `.agents/skills/add-dashboard/SKILL.md` | yes | Generate a visual HTML project dashboard from .add/ project files |
 | `/add-deploy` | `.agents/skills/add-deploy/SKILL.md` | no | Environment-aware commit, push, and deploy workflow |
 | `/add-docs` | `.agents/skills/add-docs/SKILL.md` | yes | Generate and sync project documentation — architecture diagrams, API docs, README |
+| `/add-doctor` | `.agents/skills/add-doctor/SKILL.md` | yes | Provable install health check — verify hooks, agents, config, and paths are actually live |
 | `/add-implementer` | `.agents/skills/add-implementer/SKILL.md` | no | Write minimal implementation to pass tests (TDD GREEN phase) |
 | `/add-infographic` | `.agents/skills/add-infographic/SKILL.md` | yes | Generate project infographic — SVG from PRD + config with branding |
 | `/add-init` | `.agents/skills/add-init/SKILL.md` | yes | Initialize Agent Driven Development — PRD interview + project setup |

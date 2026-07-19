@@ -1,7 +1,7 @@
 ---
 name: add-init
 description: "[ADD v0.10.1] Initialize Agent Driven Development — PRD interview + project setup"
-argument-hint: "[--reconfigure] [--quick] [--sync-registry]"
+argument-hint: "[--reconfigure] [--quick] [--defaults] [--sync-registry]"
 ---
 
 <!-- ADD AskUserQuestion shim (Codex) -->
@@ -36,6 +36,7 @@ Initialize Agent Driven Development for this project. This command conducts a st
 |---|---|---|---|
 | (none) | Full interview — detects adoption vs greenfield, runs Phases 0-5 | ~12 | New projects with non-trivial scope or existing codebases |
 | `--quick` | Greenfield fast path — 5 essential questions, sensible defaults elsewhere | 5 | Prototypes, solo projects, time-constrained onboarding |
+| `--defaults` | True non-interactive init — every value derived or defaulted, zero questions | 0 | Headless sessions (`claude -p`, `codex exec`), CI pipelines |
 | `--reconfigure` | Re-run interview preserving existing answers as defaults | ~12 | Updating an already-initialized project |
 | `--sync-registry` | Read-only: reconcile `~/.claude/add/projects/{name}.json` with ground truth | 0 | Fixing drift detected by the registry-sync rule |
 
@@ -85,6 +86,49 @@ Everything else that the full interview asks is defaulted:
 
 After quick init, the user can always run `/add-init --reconfigure` for the full interview, or run `/add-spec` to start formalizing features. Specs created under a quick-init project are no different from specs created under full init.
 
+## Defaults Mode (`--defaults`)
+
+True non-interactive init. Asks **zero** questions — no ask the user (use a clear, single-question prompt) calls, no interview turns, no confirmation prompts. Every value is derived from the project or defaulted. Designed for headless one-shot sessions (`claude -p "/add-init --defaults"`, `codex exec "/add-init --defaults"`) and CI pipelines, where there is no second turn to answer a question in.
+
+### Existing-config guard
+
+Before doing anything else, check for `.add/config.json`. If it exists, print a notice and stop — touch nothing:
+
+```
+.add/config.json already exists — /add-init --defaults never overwrites an
+initialized project. Run /add-init --reconfigure to refresh the configuration.
+```
+
+### Values derived
+
+| Field | Defaults-mode value |
+|------|-------------------|
+| Project name | Basename of the current working directory |
+| Language | Auto-detected from manifest files: `package.json` → typescript (if `tsconfig.json` or TS deps) else javascript, `pyproject.toml`/`setup.py` → python, `go.mod` → go, `Cargo.toml` → rust, `Gemfile`/`*.gemspec` → ruby; fallback `unknown` |
+| Environments | `["local"]`, no autoPromote |
+| Maturity | `poc` (greenfield) or the evidence-based detected level (adoption path) — no confirmation question either way |
+| Operating mode | `autonomous` |
+| Scope paragraph | Omitted — PRD stub notes "run /add-spec to define scope" |
+| Quality mode, coverage, branding, etc. | Same defaults table as `--quick` |
+
+### What `--defaults` skips
+
+- The entire interview (Phases 0-1 questions) — adoption vs greenfield is still auto-detected, but the findings/assessment panels are informational only, never confirmation prompts
+- The maturity confirmation — the detected (or `poc`) level is applied directly
+- The scope-paragraph prompt that `--quick` asks at the end
+- All profile-integration, rule-overlap, and CLAUDE.md-overwrite questions — apply the non-destructive default silently (append, never overwrite)
+
+### What `--defaults` still does
+
+- Writes `.add/config.json`, `.add/learnings.json` (empty), `docs/prd.md` (stub noting "run /add-spec to define scope"), `specs/` (dir), `docs/plans/` (dir)
+- Bumps the project registry (`~/.claude/add/projects/{name}.json`)
+- Runs Phase 4 Cross-Project Persistence promptlessly — reads an existing profile if present, never creates or modifies one (profile creation requires the interview)
+- Composes with `--sync-registry` unchanged
+
+### Upgrade path
+
+Same as `--quick`: run `/add-init --reconfigure` any time for the full interview, or `/add-spec` to start formalizing features.
+
 ## Sync Registry Mode (`--sync-registry`)
 
 Reconciles `~/.claude/add/projects/{name}.json` against the project's ground truth. Triggered automatically by the `registry-sync.md` rule when drift is detected at session start, or manually by the user.
@@ -107,6 +151,7 @@ Does not run the interview. Does not touch `.add/config.json`.
 1. Check if `.add/config.json` already exists
 2. If exists AND no `--reconfigure` flag, display current config summary and ask if reconfiguration is wanted
 3. If exists AND `--reconfigure` flag, proceed with interview (preserving existing answers as defaults)
+4. If exists AND `--defaults` flag, print the existing-config notice (see Defaults Mode) and exit without touching anything
 
 ### User Profile Detection
 

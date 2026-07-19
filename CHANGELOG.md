@@ -6,6 +6,12 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+### Added
+
+- **`/add:init --defaults` (#23)** — true non-interactive init: zero questions, every value derived (name from CWD, language from manifest files) or defaulted (poc maturity, local-only environments, autonomous mode). Never overwrites an existing config. Both install smokes now exercise this real headless path instead of smuggling interview answers into the prompt.
+- **`/add:doctor` (#25)** — provable install health check (28th skill). Verifies version agreement, Codex feature flags, hooks.json nested-schema validity, agent-TOML schema, plugin.toml path resolution, and install-manifest integrity; flags stale artifacts and marketplace-cache drift. Human table or `--check` machine line. Checks live in testable `core/lib/doctor-checks.sh` (13-case fixture suite).
+- **Codex install manifest (#27)** — `install-codex.sh` writes `~/.codex/add/install-manifest.json` (every installed file + sha256) and generates an exact-file `uninstall-add.sh`, replacing the drifted hand-listed rm -rf. Upgrades back up user-edited files instead of clobbering, shed stale ADD-owned files from prior versions, and are idempotent (26-case suite).
+
 ### Fixed
 
 - **`min_codex_version` raised 0.122.0 → 0.140.0 (#26).** Since v0.10.1 the emitted agent-role TOMLs (`developer_instructions`) and nested hooks.json schema only exist on the Codex 0.14x generation, so the old floor advertised compatibility with CLIs that reject or silently ignore both. `runtimes/codex/adapter.yaml`, the `compile.py` fallback, and the capability matrix now state the honest floor.

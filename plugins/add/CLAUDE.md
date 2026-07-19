@@ -57,7 +57,7 @@ Roadmap (docs/prd.md milestones section — Now / Next / Later)
 
 ## Key Skills
 
-All 27 skills register as `/add:*` slash commands with their descriptions — the skill list in your context is authoritative; this file doesn't duplicate it. The core workflow chain:
+All 28 skills register as `/add:*` slash commands with their descriptions — the skill list in your context is authoritative; this file doesn't duplicate it. The core workflow chain:
 
 `/add:init` → `/add:spec` → `/add:plan` → `/add:tdd-cycle` → `/add:verify` → `/add:deploy`, orchestrated in batches by `/add:cycle` under `/add:roadmap` / `/add:milestone`, with `/add:retro` closing the loop. `/add:away` + `/add:back` bracket autonomous stretches; `/add:promote` moves the maturity dial.
 
