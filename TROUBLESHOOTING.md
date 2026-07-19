@@ -2,6 +2,8 @@
 
 Common issues and their fixes. If your problem isn't here, open an issue: https://github.com/MountainUnicorn/add/issues
 
+**Start with the doctor (v0.10.2+):** `/add:doctor` (Claude) or `/add-doctor` (Codex) checks version agreement, hook and agent schemas, feature flags, and install-manifest integrity, and prints a remedy for each failure. Many of the issues below are ones it detects.
+
 ## Install
 
 ### "Marketplace not found" after `claude plugin marketplace add MountainUnicorn/add`

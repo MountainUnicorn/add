@@ -101,7 +101,7 @@ ADD ships a Codex adapter alongside the Claude plugin. One-line install:
 curl -fsSL https://raw.githubusercontent.com/MountainUnicorn/add/main/scripts/install-codex.sh | bash
 ```
 
-This installs 27 native Codex Skills plus the slim AGENTS.md manifest and shared content. See [Codex install docs](https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md).
+This installs 28 native Codex Skills plus the slim AGENTS.md manifest and shared content. The installer is manifest-driven (v0.10.2+): every file it writes is recorded with a checksum, upgrades never clobber your edits, and `~/.codex/add/uninstall-add.sh` removes exactly what was installed. See [Codex install docs](https://github.com/MountainUnicorn/add/blob/main/docs/codex-install.md).
 
 ### Troubleshooting
 
@@ -118,9 +118,10 @@ ADD has **zero agent-side runtime dependencies** and **no build step** on the co
 ```bash
 /add:init              # full interview (~12 questions, ~5 minutes)
 /add:init --quick      # greenfield fast path (5 questions, ~2 minutes)
+/add:init --defaults   # zero questions — headless sessions and CI (v0.10.2+)
 ```
 
-ADD interviews you about your project (product vision, tech stack, team size, deployment model) and scaffolds the project structure. Use `--quick` for prototypes or when you want to start building immediately — it asks only the essentials and defaults the rest.
+ADD interviews you about your project (product vision, tech stack, team size, deployment model) and scaffolds the project structure. Use `--quick` for prototypes or when you want to start building immediately — it asks only the essentials and defaults the rest. Use `--defaults` where there is no one to answer: it derives the project name and language from the repository and defaults everything else.
 
 ADD's behavioral rules are **not** copied into your project — the plugin injects the current, maturity-gated rule set at session start, so upgrading the plugin upgrades the rules everywhere, immediately. (Projects initialized before v0.9.11 may have rule copies in `.claude/rules/`; ADD warns about them and the upgrade migration offers a one-time cleanup.)
 
@@ -428,7 +429,7 @@ ADD is intentionally simple:
 - **No vendor lock-in** — Standard markdown specs and plans work with any tool
 - **Plugin format** — Claude Code `.claude-plugin/plugin.json` manifest
 
-The entire plugin is ~60 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
+The entire plugin is ~110 files of markdown, JSON, and templates. It runs entirely within Claude Code's plugin system using commands, skills, rules, hooks, knowledge, and templates.
 
 ### Optional Capabilities
 
@@ -482,7 +483,7 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 ---
 
 <details>
-<summary><strong>Commands &amp; Skills</strong> — 27 total</summary>
+<summary><strong>Commands &amp; Skills</strong> — 28 total</summary>
 
 **Core workflow:**
 
@@ -527,6 +528,10 @@ Quality gates, deployment skills, and test matrices all adjust based on your tie
 | `/add:back` | Return from absence — get briefing |
 | `/add:retro` | Run a retrospective — capture and promote learnings |
 | `/add:changelog` | Generate/update CHANGELOG.md from conventional commits |
+| `/add:learnings` | Manage learnings — active views, archiving, stats |
+| `/add:version` | Show plugin vs project version, flag drift, run migrations |
+| `/add:doctor` | Verify the install is healthy — schemas, paths, feature flags |
+| `/add:agents-md` | Generate or sync a portable AGENTS.md from project state |
 
 </details>
 

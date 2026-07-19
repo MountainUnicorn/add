@@ -4,7 +4,7 @@ name: Claude install smoke
 # Installs ADD through the actual marketplace path — `claude plugin marketplace
 # add <checkout>` + `claude plugin install add@add-marketplace` — so the commit
 # under test is what gets installed, then drives a headless session through
-# /add:init --quick in a scratch project.
+# /add:init --defaults in a scratch project.
 #
 # Auth (AC-007): the agent-driven leg needs ANTHROPIC_API_KEY. When the secret
 # is absent (fork PRs), the install/discovery assertions still run and gate;

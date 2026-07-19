@@ -1,4 +1,4 @@
-<!-- ADD:MANAGED:START version=0.9.4 maturity=beta generated=2026-04-30T17:34:32Z -->
+<!-- ADD:MANAGED:START version=0.11.0 maturity=beta generated=2026-07-19T22:00:00Z -->
 
 # ADD
 
@@ -22,7 +22,7 @@ Production deploys and merges to the default branch always require human approva
 
 ## Currently Active Spec
 
-- [`specs/plugin-family-release-hardening.md`](./specs/plugin-family-release-hardening.md)
+None in flight. Last shipped: [`specs/codex-agent-prefixing.md`](./specs/codex-agent-prefixing.md) (v0.11.0), [`specs/init-defaults.md`](./specs/init-defaults.md), [`specs/doctor.md`](./specs/doctor.md), [`specs/codex-install-manifest.md`](./specs/codex-install-manifest.md) (v0.10.2). Current focus: GA promotion (`docs/milestones/v1.0-ga.md`) — marketplace approval pending.
 
 ## Pointers
 
