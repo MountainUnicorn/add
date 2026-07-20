@@ -19,7 +19,7 @@ core/                   # Source of truth (v0.7+ restructure)
 ├── rules/              # 17 auto-loaded behavioral rules (+3 on-demand)
 ├── references/         # Non-autoloaded reference rules (loaded on-demand)
 ├── templates/          # 29 document templates (PRD, spec, plan, config, etc.)
-├── knowledge/          # 4 Tier-1 knowledge files (global, image-gen-detection, secret-patterns, threat-model)
+├── knowledge/          # 5 Tier-1 knowledge files (global, image-gen-detection, secret-patterns, test-discovery-patterns, threat-model)
 ├── lib/                # Shared library functions used by hooks/skills
 ├── security/           # Security-related artifacts (threat model, redaction)
 ├── schemas/            # 2 JSON Schema validators (rule + skill frontmatter)
