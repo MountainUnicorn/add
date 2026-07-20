@@ -1,4 +1,29 @@
-# Handoff — v0.10.2 + v0.11.0 RELEASED; docs refreshed; GA-prep blog live (updated 2026-07-19, night)
+# Handoff — v0.10.2 + v0.11.0 released; all doc surfaces synced to v0.11; repo cleaned (updated 2026-07-19, late night)
+
+## Site synced with overview report + live-verified (2026-07-19/20)
+getadd.dev c02915a (Pages deploy green, live spot-checks all pass):
+- docs/skills.html: 28 skills + full /add:doctor reference card
+- docs/index.html: counts fixed incl. knowledge 4→5 (test-discovery-patterns
+  was never counted — CLAUDE.md/CONTRIBUTING had the same bug, fixed in
+  plugin repo 61cd44d); stale hook claims corrected both directions (Claude
+  pre-push secret scan added; "Codex has no auto-registered hooks" was false
+  since nested hooks.json)
+- index.html: fictional "Deployer" fully retired (hero, card→Verifier,
+  agent-architecture.svg had a literal Deployer label→Explorer); new
+  "Provable installs" panel in Security & Trust linking the GA blog post
+- guides/enterprise.html: Deployer→Verifier row + Explorer row added
+All doc surfaces now agree: README, infographic, overview report, CLAUDE.md,
+site, blog. imgGen skill verified working (note: trivial prompts can return
+empty/filtered; real prompts fine).
+
+## Repo branch cleanup (2026-07-19)
+Policy decision (user): trunk-based on main only; releases = signed tags;
+short-lived release/vX.Y.Z ONLY for cut-behind-HEAD patches, deleted after
+tagging (evidence snapshot carried to main first — v0.10.2's was, 2d7400b).
+Deleted: release/v0.10.2 + restructure/plugin-isolation (remote), 10
+squash-merged feat/* M3 branches + 2 wave branches (remote), 30 stale local
+branches, worktree registrations pruned. Remote now: main only (+ tdmitruk
+fork remote untouched). v0.10.2 signed tag verified intact post-cleanup.
 
 ## Visuals regenerated (2026-07-19, night, 6b52eac)
 docs/infographic.svg (canvas 2660→3180; Provable Installs centerpiece + GA
