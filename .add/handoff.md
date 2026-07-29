@@ -1,4 +1,27 @@
-# Handoff — v0.10.2 + v0.11.0 released; all doc surfaces synced to v0.11; repo cleaned (updated 2026-07-19, late night)
+# Handoff — GA rollout plan authored; awaiting Phase 0 kickoff (updated 2026-07-29)
+
+## GA rollout plan (66d00f2) — docs/plans/ga-rollout-plan.md
+Marketplace submission + GA rollout, 5 phases, tasks tagged [A]gent /
+[H]uman / [3P] third-party with dependency spine. Anchor finding: the
+official-directory submission is from **2026-02-14, still pending, and
+predates the v0.7 restructure** — Phase 0 refreshes it so Anthropic reviews
+the v0.11 GA candidate, not a February artifact.
+- P0 (now): [H] audit Feb submission + re-submit + contact channel;
+  [A] marketplace.json/plugin.json metadata refresh + REVIEWERS.md package
+- P1 (during review latency): [A] promotion runbook, v1.0.0 notes/blog/site
+  staged, announcement drafts; [H] sign-off; standing rule — interim
+  releases refresh staged assets
+- P2 (on [3P] approval): [H] confirm listing installs; [A] directory-leg
+  smoke, run runbook (tag v1.0.0 via release.sh, evidence, sync),
+  /add:promote beta→ga, publish staged site
+- P3 launch week: [H] posts (HN/Reddit/PH from approved drafts); [A] triage,
+  aggregator checks, awesome-list refresh PRs
+- P4 (v1.1): telemetry companion-plugin spec (closes D6, honors blog's
+  "specs before code"), doctor zsh-guard, injection parity, GA-cycle retro
+- Critical path: resubmit → Anthropic review → v1.0.0 tag. Escape hatch at
+  +60d latency: [H] decision to re-word criterion #5 (milestone amendment).
+**NEXT ACTION: [H] 0.1 — audit the Feb submission (ID/email), then [A] lane
+0.2/0.3 can run immediately.**
 
 ## Site synced with overview report + live-verified (2026-07-19/20)
 getadd.dev c02915a (Pages deploy green, live spot-checks all pass):
