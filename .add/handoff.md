@@ -1,304 +1,71 @@
-# Handoff — GA rollout plan authored; awaiting Phase 0 kickoff (updated 2026-07-29)
+# Handoff — RESTART: GA Phase 0 stalled since 2026-07-29 (updated 2026-10-06)
 
-## GA rollout plan (66d00f2) — docs/plans/ga-rollout-plan.md
-Marketplace submission + GA rollout, 5 phases, tasks tagged [A]gent /
-[H]uman / [3P] third-party with dependency spine. Anchor finding: the
-official-directory submission is from **2026-02-14, still pending, and
-predates the v0.7 restructure** — Phase 0 refreshes it so Anthropic reviews
-the v0.11 GA candidate, not a February artifact.
-- P0 (now): [H] audit Feb submission + re-submit + contact channel;
-  [A] marketplace.json/plugin.json metadata refresh + REVIEWERS.md package
-- P1 (during review latency): [A] promotion runbook, v1.0.0 notes/blog/site
-  staged, announcement drafts; [H] sign-off; standing rule — interim
-  releases refresh staged assets
-- P2 (on [3P] approval): [H] confirm listing installs; [A] directory-leg
-  smoke, run runbook (tag v1.0.0 via release.sh, evidence, sync),
-  /add:promote beta→ga, publish staged site
-- P3 launch week: [H] posts (HN/Reddit/PH from approved drafts); [A] triage,
-  aggregator checks, awesome-list refresh PRs
-- P4 (v1.1): telemetry companion-plugin spec (closes D6, honors blog's
-  "specs before code"), doctor zsh-guard, injection parity, GA-cycle retro
-- Critical path: resubmit → Anthropic review → v1.0.0 tag. Escape hatch at
-  +60d latency: [H] decision to re-word criterion #5 (milestone amendment).
-**NEXT ACTION: [H] 0.1 — audit the Feb submission (ID/email), then [A] lane
-0.2/0.3 can run immediately.**
+## Where we are
+- Plugin repo untouched since 2026-07-29 (HEAD c48bc5c, clean, CI green on all
+  three workflows). getadd.dev untouched since 2026-07-29. No new issues/PRs.
+- Latest release v0.11.0 (2026-07-19), signed + verified. Local marketplace
+  cache and ~/.codex both at 0.11.0 with add-* agents.
+- GA status unchanged: criteria #1–#4+#6 met; #5 (marketplace approval) open;
+  v1.0.0 = promotion tag on approval.
+- GA rollout plan: docs/plans/ga-rollout-plan.md (Phase 0 never kicked off).
 
-## Site synced with overview report + live-verified (2026-07-19/20)
-getadd.dev c02915a (Pages deploy green, live spot-checks all pass):
-- docs/skills.html: 28 skills + full /add:doctor reference card
-- docs/index.html: counts fixed incl. knowledge 4→5 (test-discovery-patterns
-  was never counted — CLAUDE.md/CONTRIBUTING had the same bug, fixed in
-  plugin repo 61cd44d); stale hook claims corrected both directions (Claude
-  pre-push secret scan added; "Codex has no auto-registered hooks" was false
-  since nested hooks.json)
-- index.html: fictional "Deployer" fully retired (hero, card→Verifier,
-  agent-architecture.svg had a literal Deployer label→Explorer); new
-  "Provable installs" panel in Security & Trust linking the GA blog post
-- guides/enterprise.html: Deployer→Verifier row + Explorer row added
-All doc surfaces now agree: README, infographic, overview report, CLAUDE.md,
-site, blog. imgGen skill verified working (note: trivial prompts can return
-empty/filtered; real prompts fine).
+## Blockers / drift found at restart (2026-09-15 audit, re-confirmed 2026-10-06)
+1. **[H] Phase 0.1 — audit the Feb-2026 marketplace submission.** Still the
+   critical-path item and still not done. The plan's +60d escape hatch was
+   anchored to *resubmission*, which never happened, so the Feb submission is
+   now ~8 months old. Decision needed: resubmit now, or invoke the escape
+   hatch (re-word criterion #5 via milestone amendment).
+2. **Retro overdue.** Last retro 2026-04-22; 29 learnings since (L-026…L-054).
+   Compliance rule BLOCKS /add:away, /add:cycle --plan, /add:back after 7 days.
+   Run `/add:retro` before any cycle work.
+3. **Codex CLI drift.** npm latest 0.154.0; adapter pins codex_cli_version
+   0.144.5 (min 0.140.0). 0.144 previously broke schemas (#24), so re-run the
+   Docker smoke against 0.154.x and re-pin if green. Claude Code is at 2.1.272.
+4. **Fictional "Deployer" survivors in the plugin repo** (site copy was fixed,
+   repo copy was not): `.claude-plugin/marketplace.json` description
+   ("…reviewers, deployers"), `docs/agent-architecture.svg` line ~245 label,
+   README.md:191 alt text. `specs/plugin-installation-reliability.md:131`
+   quotes the old description (historical — leave).
+5. **Agent-lane P0 deliverables not started** (never depended on the human
+   audit): 0.2 marketplace.json / plugin.json metadata refresh (fixes #4),
+   0.3 REVIEWERS.md package for Anthropic reviewers.
 
-## Repo branch cleanup (2026-07-19)
-Policy decision (user): trunk-based on main only; releases = signed tags;
-short-lived release/vX.Y.Z ONLY for cut-behind-HEAD patches, deleted after
-tagging (evidence snapshot carried to main first — v0.10.2's was, 2d7400b).
-Deleted: release/v0.10.2 + restructure/plugin-isolation (remote), 10
-squash-merged feat/* M3 branches + 2 wave branches (remote), 30 stale local
-branches, worktree registrations pruned. Remote now: main only (+ tdmitruk
-fork remote untouched). v0.10.2 signed tag verified intact post-cleanup.
+## Suggested restart order
+1. `/add:retro` (unblocks cadence; covers v0.10.x/v0.11 cycle + GA-prep docs).
+2. [A] Phase 0.2 + 0.3 + Deployer cleanup → one commit, compile/validate, push,
+   sync marketplace. Patch release optional (v0.11.1) if metadata changes
+   should ship to the marketplace.
+3. [A] Codex 0.154 smoke in Docker; re-pin + capability-matrix update if green;
+   file an issue if not.
+4. [H] Phase 0.1 decision → unblocks Phase 1 (promotion runbook, v1.0.0
+   staged notes/blog/site).
 
-## Visuals regenerated (2026-07-19, night, 6b52eac)
-docs/infographic.svg (canvas 2660→3180; Provable Installs centerpiece + GA
-status strip; measured v0.9.11 token chart kept verbatim) and
-reports/add-overview.html (1949 lines; new Provable Installs / Road to GA /
-After v1.0 sections mirroring the blog framing; fictional Deployer card and
-"5 engagement modes" contradiction removed). Both agent-generated, then
-independently re-validated. Retro L-054.
+## Shipped history (condensed; see CHANGELOG + git log for detail)
+- **2026-07-29** GA rollout plan authored (66d00f2): 5 phases, [A]/[H]/[3P]
+  lanes, dependency spine; critical path resubmit → review → v1.0.0.
+- **2026-07-19/20** All doc surfaces synced to v0.11 (README, infographic
+  canvas 3180, overview report, CLAUDE.md, site, GA-prep blog post
+  getadd.dev/blog/preparing-for-ga announcing companion-plugin direction —
+  NEW public direction with no repo spec yet; carry into v1.1 planning).
+  Branch cleanup: trunk-based on main only; releases = signed tags;
+  release/vX.Y.Z only for cut-behind-HEAD patches, deleted after tagging.
+- **2026-07-19** v0.10.2 (#23 --defaults, #25 doctor, #26 codex floor,
+  #27 install manifest; branch-cut) + v0.11.0 (#28 add-* agent prefixing).
+  Both signed, evidence uploaded, migration hops recorded. Gotchas:
+  release.sh refuses on untracked files (evidence tarballs now gitignored);
+  doctor-checks.sh is bash-only (zsh sourcing breaks sha detection, L-053);
+  skill-policy.yaml entry required for new skills (L-052).
+- **2026-07-18** v0.10.0 (smokes, release.sh CI-green guard, capability
+  matrix, release-evidence.sh, branch protection) + v0.10.1 (#24 Codex ≥0.14x
+  schema fix). Both live-agent smokes green in CI. Codex-in-Docker needs
+  `codex login --with-api-key` (stdin) + `--dangerously-bypass-approvals-and-sandbox`.
+  D6 finding: telemetry does NOT emit — fix deferred (v1.1 companion spec).
+- **2026-07-16** v0.9.11 stale-rules fix (reported by @tdmitruk, credited).
+- **Earlier** v0.9.8–v0.9.10 token architecture + dedup; see memory/CHANGELOG.
 
-## Docs refresh + GA-prep blog post (2026-07-19, night)
-- **Plugin repo (7a0f84d):** README (28 skills, command table completed with
-  learnings/version/doctor/agents-md, --defaults in quick start, manifest
-  install blurb, ~110-file count fixed from ~60), TROUBLESHOOTING (doctor-first
-  triage), CONTRIBUTING (28 skills / 29 templates), root AGENTS.md regenerated
-  (was stale at 0.9.4), stale --quick workflow comment fixed.
-- **getadd.dev (128ffa5):** new post blog/preparing-for-ga.html + card at top
-  of blog index + homepage hero teaser (badge v0.11.0); homepage skills metric
-  27→28. Post covers: 5/6 GA criteria met (marketplace approval remaining),
-  the provable-install arc, v1.0.0-as-promotion-tag sequencing, and the
-  post-GA direction — small core + loosely-coupled companion plugins
-  (telemetry/analytics, enterprise controls, CI/CD bridges; each own-repo,
-  same evidence bar, explicitly "directions not dated commitments").
-- Content was reviewed by two parallel agents (fact-audit vs repo: 8 findings
-  fixed incl. wrong install snippet missing marketplace-add, smokes/floor
-  misattributed to wrong releases, "repo-per-plugin" unsupported precedent
-  claim; editorial: garbled sentences, AI-tell density, missing orientation
-  + upgrade path, house apostrophe style). All findings applied before push.
-- NOTE: companion-plugin areas are a NEW public direction statement made in
-  this post (no prior repo doc describes them) — carry into v1.1 planning.
-
-## v0.10.2 + v0.11.0 (2026-07-19) — BOTH RELEASED, signed, verified
-- **v0.10.2** https://github.com/MountainUnicorn/add/releases/tag/v0.10.2 —
-  #23 (--defaults) + #25 (doctor) + #26 (min_codex floor) + #27 (install
-  manifest). Cut from release/v0.10.2 branch at b564ef7 (last pre-#28 commit,
-  CI fully green on that exact tree incl. both live smokes) because #28 had
-  already merged to main; release.sh is main-only so tag+gh release were done
-  manually mirroring its steps (signed tag verified, capability-matrix footer,
-  release page verified, evidence bundle uploaded + snapshot committed to the
-  branch). Release notes state the branch-cut provenance.
-- **v0.11.0** https://github.com/MountainUnicorn/add/releases/tag/v0.11.0 —
-  #28 (add-* agent prefixing). Cut from main via release.sh (24 CI checks
-  green guard passed). migrations.json on main carries BOTH hops
-  0.10.1→0.10.2→0.11.0 (0.10.2 branch carries just the first). Evidence
-  uploaded + snapshot committed. docs/codex-install.md uninstall section
-  now points at the generated uninstall-add.sh.
-- Marketplace synced (0.11.0); local ~/.codex reinstalled at 0.11.0;
-  getadd.dev footers → v0.11.0 (5 pages carry footers now, not 9) pushed.
-- Gotcha hit: release.sh refuses on untracked files — stray already-uploaded
-  evidence tarballs (v0.10.1, v0.11.0) had to be deleted; consider gitignoring
-  reports/release-evidence/*.tar.gz.
-- GA state unchanged: criterion #5 (marketplace approval) still pending;
-  v1.0.0 remains the promotion tag on approval.
-
-## Full SDLC run: issues #23 #25 #27 #28 (2026-07-19, autonomous)
-Specs + plans committed first (specs/{init-defaults,doctor,codex-install-manifest,
-codex-agent-prefixing}.md + docs/plans/*-plan.md, c7c996a). Two waves of
-parallel subagents with strict file-ownership contracts; zero clobbers.
-
-**Wave 1 (b564ef7, CI fully green incl. both live smokes):**
-- **#23 CLOSED** (2b4de02): /add:init --defaults — zero-question headless init;
-  both install smokes now drive it live (real end-to-end proof in CI).
-- **#25 CLOSED** (58eaa8c): /add:doctor (28th skill) + core/lib/doctor-checks.sh
-  (5 pure check functions, RED-first 13-case fixture suite). skill-policy.yaml
-  entry required for new skills — compile fails without it (learning L-052).
-- **#27 CLOSED** (3b38cba): installer writes ~/.codex/add/install-manifest.json
-  (141 files + sha256) + generated uninstall-add.sh; upgrade protection backs
-  up user-edited files; RED-first 26-case suite.
-
-**Wave 2 (0cebc1d):**
-- **#28 CLOSED**: Codex sub-agents renamed add-explorer/-implementer/-reviewer/
-  -test-writer/-verify; installer removes ADD-owned legacy names (marker or
-  manifest-sha gated, 16-case suite); explorer role no longer points at
-  add-docs skill; smoke asserts exact prefixed set. **Migration hop for
-  v0.11.0 release still TODO at release time** (migrations.json + re-run
-  installer note).
-
-Local ~/.codex dogfooded: upgrade cleaned 5 legacy TOMLs, manifest written,
-all five doctor checks pass live. Note: doctor-checks.sh is bash-only —
-sourcing from zsh breaks sha detection (L-053, hardening candidate).
-
-CHANGELOG [Unreleased] has all four entries. Release split when cutting:
-#23/#25/#27 + #26 → v0.10.2 (patch-ish), #28 → v0.11.0 (breaking-ish).
-Marketplace synced post-integration.
-
-## Codex install verified + review triage (2026-07-18/19)
-Local ~/.codex was stale at v0.9.4 (silently dead on 0.144.x per #24). Re-ran
-scripts/install-codex.sh → v0.10.1; replaced legacy flat ~/.codex/hooks.json
-with nested schema (backup: hooks.json.bak-0.9.4); config.toml features were
-already correct. Verified live in Codex app: /add-version dispatched, plugin
-v0.10.1 (agentVoice project at 0.9.3 → will auto-migrate).
-
-Codex-agent install review triaged → 4 issues filed:
-- **#25** /add-doctor — provable install health check (top pick)
-- **#26** min_codex_version=0.122.0 contradicts developer_instructions
-  (needs ≥0.14x floor) — patch-worthy, v0.10.2 candidate alongside #23
-- **#27** install-manifest.json for idempotent uninstall/upgrade (printed
-  rm -rf uninstall already drifted — omits verify.toml)
-- **#28** prefix agent names add-* (v0.11, breaking-ish; also covers
-  explorer.toml pointing at add-docs/SKILL.md as its role def)
-Rejected from review: "manifest path mismatch" (agent missed hidden .codex/
-dirs in dist — paths all resolve); CI smoke suggestion (already exists).
-
-**#26 FIXED** (9a29d4e, closed): min_codex_version 0.122.0 → 0.140.0 in
-adapter.yaml + compile.py fallback + capability matrix; dist regenerated,
-all checks green. Same commit repaired CHANGELOG ordering (0.10.x sections
-had been inserted mid-file below 0.8.1 with a duplicate [Unreleased] head —
-now strictly newest-first; content verified line-identical) and added the
-[Unreleased] entries for the smoke guards + floor bump.
-
-Smoke hardening pushed (01d135c): run-smoke.sh now asserts hooks.json nested
-≥0.14x schema (rejects legacy flat) + agent TOMLs use developer_instructions
-(no prompt_skill). Both #24 regression guards; negative-tested locally.
-
-## v0.10.1 (2026-07-18) — RELEASED, signed, verified
-https://github.com/MountainUnicorn/add/releases/tag/v0.10.1 — Codex ≥0.14x
-compatibility (#24, closed via commit): all 5 sub-agent TOMLs now emit
-developer_instructions (prompt_skill removed upstream; agents load their
-role's SKILL.md), hooks.json emits the nested hooks/matcher/type schema with
-~ paths. Verified accepted by CLI 0.144.5 in Docker (zero schema warnings)
-AND both live-agent smokes green in CI on the release commit. Capability
-matrix un-broke the two rows. Migration hop 0.10.0→0.10.1 tells Codex users
-to re-run the installer. Evidence bundle attached; marketplace synced; site
-footers → v0.10.1.
-
-Remaining for GA: #23 (/add:init --defaults, v0.10.2 candidate, non-blocking);
-marketplace approval (criterion #5) → v1.0.0 promotion tag.
-
-## v0.10.0 (2026-07-18) — RELEASED, signed, verified
-https://github.com/MountainUnicorn/add/releases/tag/v0.10.0 — GA release
-candidate. Signed tag verified; release notes carry the capability matrix;
-release-evidence-v0.10.0.tar.gz attached (bundle also committed under
-reports/release-evidence/v0.10.0/). Marketplace cache synced; getadd.dev
-footers bumped to v0.10.0 (9 pages) and pushed. CI was fully green on the
-tagged commit (both smokes + all guardrails) — the new release.sh guard
-verified this before tagging.
-
-## Live agent-leg results (2026-07-18, after secrets added)
-- Both repo secrets set. **Claude smoke fully green end-to-end with a live
-  agent** — marketplace install → /add:init → valid config.json proven in CI.
-- First live runs found 3 real bugs (the smokes working as designed):
-  * **#23** /add:init --quick still interviews → headless sessions exit
-    without config. Workaround: inline answers in smoke prompts. --defaults
-    path targets v0.10.1.
-  * **#24** Codex ≥0.14x rejects ADD's sub-agent TOMLs (`prompt_skill`) and
-    hooks.json schema (`SessionStart`) — sub-agents + hooks silently dead on
-    modern Codex. Matrix updated to "Broken on ≥0.14x". Fix targets v0.10.1.
-  * Codex 0.144 needs `codex login --with-api-key` (stdin) — bare env var
-    gives 401. Fixed in run-smoke.sh.
-- Codex agent leg now auths but fails on **"Quota exceeded" — the OpenAI
-  project key has no credits**. Layout legs all green. Once billing is funded
-  the leg should pass unchanged.
-
-UPDATE (PM): OpenAI quota funded → after two env fixes (login --with-api-key
-stdin; --dangerously-bypass-approvals-and-sandbox inside the Docker container,
-where codex's landlock can't init), **BOTH smokes are green in CI end-to-end
-with live agents**. GA criterion #2 fully closed.
-
-STILL OPEN: (1) #23 + #24 fixes → v0.10.1 (Codex sub-agents/hooks broken on
-≥0.14x is the headline); (2) marketplace submission pending approval
-(criterion #5); (3) v1.0.0 promotion tag once approved.
-
-## v0.10.0 implementation (2026-07-18, same-day follow-up to the spec)
-All sections of specs/install-path-confirmation.md implemented in one pass:
-- **Codex re-pin 0.122.0 → 0.144.5** (adapter.yaml; min stays 0.122.0). Smoke
-  **passed locally in Docker** against the new pin — 27/27 skills, F-002 path
-  suite, version parity. Q-001 retired.
-- **Smoke workflows** install-smoke-claude.yml (marketplace install from
-  checkout + headless /add:init, needs ANTHROPIC_API_KEY secret) and
-  install-smoke-codex.yml (tests/smoke/codex/ Docker, pin via build-arg,
-  needs OPENAI_API_KEY for agent leg; layout asserts gate regardless).
-  **ACTION: add both secrets to repo settings** or agent legs skip w/ warning.
-- **release.sh**: CI-green guard (refuses tag unless HEAD checks green;
-  --no-verify-ci override) + appends capability matrix to release notes.
-- **docs/capability-matrix.md** + SECURITY.md pointer (AC-027 done).
-- **scripts/release-evidence.sh** (AC-025) — first run CAUGHT A REAL BUG:
-  migrations.json had no hop out of 0.7.3 (stranded users). Fixed. Check is
-  graph-reachability. Dogfood bundle at reports/release-evidence/v0.9.11/.
-- **D6 answered: telemetry does NOT emit** (.add/telemetry/ absent). Finding
-  recorded milestone+CHANGELOG; fix deferred.
-- Milestone doc: D8 decision (v0.10/v0.11 consolidation, submit-before-promote),
-  status updates. CHANGELOG [Unreleased] staged for v0.10.0.
-- **Branch protection APPLIED** (23 required contexts = both smokes + all
-  guardrails jobs; enforce_admins false so direct-push flow survives;
-  path-filtered workflows deliberately excluded — release.sh guard covers
-  them; re-apply command + maintenance note in docs/release-signing.md).
-- **Both smokes GREEN in CI on first run** (caf7d90/dfa9689). My release.sh
-  guard change initially broke the release-tooling fixture suite (mocks
-  predated the new git/gh calls) — shims fixed + new red-checks-refusal case
-  added (dfa9689), guardrails green again.
-
-Remaining before cutting v0.10.0 (all human-gated):
-1. Add ANTHROPIC_API_KEY + OPENAI_API_KEY repo Actions secrets → re-run smokes
-   so the agent-driven /add:init legs execute (currently skip w/ warning).
-2. Promote CHANGELOG [Unreleased] → [0.10.0], bump core/VERSION, release.
-3. Run scripts/release-evidence.sh v0.10.0 --upload after the release.
-4. Submit to marketplace (criterion #5); v1.0.0 = promotion tag on approval.
-
-## GA review + v0.10.0 spec (2026-07-18)
-Reviewed GA readiness against docs/milestones/v1.0-ga.md: criteria #6 met, #1/#4
-near/partial, #2/#3/#5 open. Sequencing decision: build + pass install smoke
-BEFORE marketplace submission (review the verified artifact), consolidating the
-planned v0.10.0 + v0.11.0 scope into one RC; v1.0.0 reserved as the promotion
-tag on approval. New spec: **specs/install-path-confirmation.md** (Draft, target
-v0.10.0) — Claude marketplace-install smoke (AC-022), Codex containerized smoke
-+ CLI re-pin off 0.122 (AC-023/AC-035/Q-001), release-blocking branch protection,
-capability matrix (AC-027), release-evidence bundle (AC-025), D6 telemetry check.
-Implementation not started. Note: site footers ARE at v0.9.11 (line below is
-stale from last session).
-
-## v0.9.11 (2026-07-16) — RELEASED
-Stale-rules gap reported by Tomasz Dmitruk (@tdmitruk): init-copied rules in
-.claude/rules/ never updated and conflicted with hook-injected rules. Fixed by
-retiring rule copying entirely — /add:init Phase 2.5 now detect+cleanup only;
-load-rules.sh warns on stale copies each session; migration hop 0.9.10→0.9.11
-adds remove_stale_rule_copies (confirm-once, backup-first). Credited in
-CONTRIBUTORS.md + CHANGELOG. No GitHub issue existed (private report).
-
-
-## Shipped this session (all three RELEASED, signed, verified, marketplace synced, site footers bumped)
-
-- **v0.9.8 — P0 correctness.** Codex substitution leaks fixed (copy_tree transform;
-  `/add:` → `/add-` rule; .template/.toml in substitution set); Claude/Codex share one
-  `rule_autoloads()` predicate (explicit `autoload:` key now REQUIRED on every rule);
-  unicode-tag-block detector no longer fails open without python3 (audits the skip);
-  `compile.py --check` snapshot+content-diff (catches pre-drifted trees); adapter.yaml
-  truth-pass (Codex injection defense is advisory-only — stated plainly).
-- **v0.9.9 — token architecture.** Physical maturity rule loading via SessionStart
-  hook `load-rules.sh` (POC ~70% rule-token cut; fail-open to full set; 8 fixture
-  tests; rule-parity test rewritten). telemetry/cache-discipline/model-roles →
-  autoload:false; learning + maturity-lifecycle trimmed (new references:
-  telemetry-reference, maturity-matrix). MODEL tier (fast/editor/architect) +
-  maturity-scaled BUDGET on every dispatch (swarm-protocol tables, tdd-cycle roles).
-  learnings-active char budget (6000 default). count-tokens.py de-drifted.
-- **v0.9.10 — dedup + hygiene.** init/deploy/verify/cycle/docs slimmed 35–45%
-  (6 new templates, 3 new references incl. skill-epilogue + secrets-gate); skill
-  version literals → {{VERSION}}; namespace fixes; injection patterns de-noised
-  (+1 real FN closed); redaction unified with secret catalog; CHANGELOG hook →
-  PreToolUse; post-write autofix opt-in (`hooks.autofix`); marketplace-validate
-  fails loudly; away-logs gitignored; 25 learnings archived; infographic/report/
-  CONTRIBUTING/issue templates refreshed with the token-economy story.
-
-## State
-- main green: compile-drift ✓, schema ✓, guardrails ✓ (v0.9.9's guardrails run was
-  transiently red on the telemetry autoload assertion — fixed in v0.9.10, ~16 min).
-- getadd.dev footers at v0.9.10 (Pages deploys green).
-- New consumer config keys (optional): `hooks.autofix`, `learnings.active_char_budget`,
-  `swarm.budgets`.
-
-## Next candidates (not started)
+## Open candidates (not started, not blocking GA)
 - Codex injection-scanner parity (adapter.yaml limitation, targeted v1.0).
-- Codex-side stale-rules equivalent: AGENTS.md merged at init could also drift — worth an /add-version check (minor).
-- Workflow-descriptor emission pilot (deferred to v1.1 per v0.9.7 decision).
-- getadd.dev blog post covering the token-architecture arc (site copy beyond
-  footers not yet written).
-- v1.0 GA gate: marketplace submission + remaining promotion criteria.
+- Codex-side stale AGENTS.md drift check in /add-version (minor).
+- doctor zsh-guard, injection parity, GA-cycle retro → Phase 4 / v1.1.
+- Workflow-descriptor emission pilot (deferred to v1.1).
+- Blog post on the token-architecture arc.
