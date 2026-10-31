@@ -48,14 +48,14 @@ This skill is the only way to regenerate AGENTS.md. A PostToolUse hook marks the
 
 ## Generator Invocation
 
-The skill delegates to `scripts/generate-agents-md.py`:
+The skill delegates to `~/.codex/add/lib/generate-agents-md.py`:
 
 ```bash
-python3 scripts/generate-agents-md.py              # --write (default)
-python3 scripts/generate-agents-md.py --check
-python3 scripts/generate-agents-md.py --merge
-python3 scripts/generate-agents-md.py --import
-python3 scripts/generate-agents-md.py --dry-run
+python3 ~/.codex/add/lib/generate-agents-md.py              # --write (default)
+python3 ~/.codex/add/lib/generate-agents-md.py --check
+python3 ~/.codex/add/lib/generate-agents-md.py --merge
+python3 ~/.codex/add/lib/generate-agents-md.py --import
+python3 ~/.codex/add/lib/generate-agents-md.py --dry-run
 ```
 
 The script is deterministic given the same inputs plus `--generated` and `--skill-version` overrides (used by fixture tests for reproducibility). Normal invocation stamps the current UTC timestamp and reads the skill version from `core/VERSION`.
@@ -105,7 +105,7 @@ TDD Discipline is omitted when `architecture.languages` contains only `Markdown`
 4. In sync → exit 0, print "AGENTS.md in sync."
 5. Drift → exit 1, print a unified diff.
 
-Designed for CI: `python3 scripts/generate-agents-md.py --check` can gate builds.
+Designed for CI: `python3 ~/.codex/add/lib/generate-agents-md.py --check` can gate builds.
 
 ### `--merge`
 

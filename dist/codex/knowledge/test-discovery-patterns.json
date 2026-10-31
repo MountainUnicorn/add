@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "added": "v0.9.0",
     "spec": "specs/test-deletion-guardrail.md",
-    "purpose": "Per-language regex catalog for discovering test functions inside test files. Used by test-surface-snapshot.sh and scripts/check-test-count.py. Users may extend for additional frameworks (bun:test, vitest variants, pytest plugins) by copying this file into their project's knowledge directory and PRing back.",
+    "purpose": "Per-language regex catalog for discovering test functions inside test files. Used by test-surface-snapshot.sh and lib/check-test-count.py. Users may extend for additional frameworks (bun:test, vitest variants, pytest plugins) by copying this file into their project's knowledge directory and PRing back.",
     "notes": [
       "Patterns match the *declaration line* of a test function; the body is then scanned until a dedent/close-brace.",
       "`function_name_group` indexes the regex capture group that contains the function / describe / it name. 1-based.",

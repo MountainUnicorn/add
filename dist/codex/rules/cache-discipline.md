@@ -54,6 +54,8 @@ v0.8's `.add/learnings-active.md` (pre-filtered companion view to
 
 ## Validation
 
+ADD source repo only (maintainer tooling; scans ADD's own `core/skills/`, not consumer projects):
+
 ```bash
 python3 scripts/validate-cache-discipline.py            # warn-only (v0.9)
 python3 scripts/validate-cache-discipline.py --strict   # v1.0 enforcement

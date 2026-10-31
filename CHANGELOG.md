@@ -6,6 +6,11 @@ For commit-level detail see `git log`.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Skill helper scripts now ship in the plugin.** `/add:agents-md` (and `/add:verify` Gate 4.5) called `scripts/generate-agents-md.py`, and the test-deletion guardrail (`/add:verify` Gate 3.5, `/add:tdd-cycle`, `/add:test-writer`, `/add:implementer`) called `${CLAUDE_PLUGIN_ROOT}/../../scripts/check-test-count.py`. Both paths only resolve inside the ADD source checkout — `compile.py` ships `core/*` but never the repo-level `scripts/` maintainer tooling — so they worked when dog-fooding ADD on itself and failed in every installed consumer project. Both helpers moved to `core/lib/` (shipped as `${CLAUDE_PLUGIN_ROOT}/lib/`); the AGENTS.md generator now reads its marker version from the installed plugin manifest instead of the consumer's (nonexistent) `core/VERSION`, which previously stamped `version=0.0.0`. `validate-cache-discipline.py` is explicitly scoped as ADD-source-repo-only tooling.
+- **New guard `tests/compile/test-plugin-root-refs.sh`** (CI fixture suite): fails if shipped content references a `${CLAUDE_PLUGIN_ROOT}/…` path that isn't in the compiled plugin, escapes the plugin root via `..`, or invokes a repo-relative `scripts/` helper.
+
 ## [0.11.0] — 2026-07-19
 
 ### Changed

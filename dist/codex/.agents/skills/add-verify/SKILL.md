@@ -175,7 +175,7 @@ advisory note.
 
 2. **Run the gate script**
    ```bash
-   python3 ~/.codex/add/../../scripts/check-test-count.py gate \
+   python3 ~/.codex/add/lib/check-test-count.py gate \
      --red .add/cycles/cycle-{N}/tdd-{slug}-red.json \
      --green .add/cycles/cycle-{N}/tdd-{slug}-green.json \
      --project-root .
@@ -183,7 +183,7 @@ advisory note.
 
    For standalone runs (no RED/GREEN snapshot), use the baseline form instead:
    ```bash
-   python3 scripts/check-test-count.py --baseline origin/main
+   python3 ~/.codex/add/lib/check-test-count.py --baseline origin/main
    ```
 
 3. **Interpret exit code**
@@ -250,7 +250,7 @@ marker formats and the full rationale.
 **When enabled**:
 
 1. Check that `AGENTS.md` exists at project root. If absent, warn and skip (not a fail — the project may not publish one).
-2. Run `python3 scripts/generate-agents-md.py --check` from the project root.
+2. Run `python3 ~/.codex/add/lib/generate-agents-md.py --check` from the project root.
    - Exit 0 → in sync, gate PASSES.
    - Exit 1 → drift detected, gate FAILS (advisory — does not block Gate 5).
 3. Print the unified diff on failure for fast human review. Suggest `/add-agents-md --write` to remediate.

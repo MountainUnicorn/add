@@ -80,6 +80,7 @@ jobs:
           - hooks/test-load-rules.sh
           - hooks-json/test-hooks-json.sh
           - compile/test-compile-codex.sh
+          - compile/test-plugin-root-refs.sh
           - test-deletion-guardrail/test-test-deletion-guardrail.sh
           - codex-install/test-install-paths.sh
           - cache-discipline/test-cache-discipline.sh
