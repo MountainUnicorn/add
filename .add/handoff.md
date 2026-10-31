@@ -1,4 +1,23 @@
-# Handoff — RESTART: GA Phase 0 stalled since 2026-07-29 (updated 2026-10-06)
+# Handoff — PR #29 in flight; Astra critique says hold GA (updated 2026-10-31)
+
+## Today (2026-10-31)
+- **PR #29** (fix/ship-agents-md-generator): ship generate-agents-md.py +
+  check-test-count.py in core/lib/. Codex Sol review found 4 issues; all fixed
+  in 4c19480 (empty-VERSION fallback; guard now covers ~/.codex/add refs,
+  ./ and quoted scripts/ invocations, fails on grep errors, and smoke-runs
+  both helpers from copied Claude + Codex layouts). All local gates green.
+- **Blocked on CI secret:** required check "Claude install smoke" fails with
+  `Invalid API key` — repo secret ANTHROPIC_API_KEY (set 2026-07-18) is dead.
+  [H] rotate it, re-run, merge. (main's 10-06 smoke failure is a different
+  cause: "installed plugin skills directory not found" — investigate.)
+- **Astra pre-GA critique:** docs/reviews/2026-10-31-astra-ga-critique.md —
+  22 findings, recommends holding GA. Verified: deploy merges/tags before the
+  production confirm gate; push hook scans the (empty) staged index; hook
+  warnings go to stderr on exit 0 (model never sees them); sync-marketplace
+  rsync --delete targets the cache parent dir. Needs triage into issues before
+  any v1.0 promotion — this likely supersedes the Phase 0 order below.
+
+## Previous handoff — RESTART: GA Phase 0 stalled since 2026-07-29 (updated 2026-10-06)
 
 ## Where we are
 - Plugin repo untouched since 2026-07-29 (HEAD c48bc5c, clean, CI green on all
