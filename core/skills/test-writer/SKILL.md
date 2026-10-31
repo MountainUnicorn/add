@@ -179,7 +179,7 @@ Before returning control to the tdd-cycle orchestrator, capture the test surface
 snapshot so Gate 3.5 can later detect deletions:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/../../scripts/check-test-count.py snapshot \
+python3 ${CLAUDE_PLUGIN_ROOT}/lib/check-test-count.py snapshot \
   --phase red \
   --cycle-id {N} \
   --spec-slug {slug} \

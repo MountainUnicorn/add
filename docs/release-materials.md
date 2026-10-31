@@ -95,7 +95,7 @@ Most of these are caught by the version-bump checklist in maintainer memory, but
   - **Automation:** semi-auto (rule count tested; others manual)
   - **Why:** stale counts erode trust in the rest of the docs.
 
-- [ ] **AGENTS.md regenerated.** `python3 scripts/generate-agents-md.py --write`. The PostToolUse staleness hook writes `.add/agents-md.stale` when source inputs change; manually regen at release time.
+- [ ] **AGENTS.md regenerated.** `python3 core/lib/generate-agents-md.py --write`. The PostToolUse staleness hook writes `.add/agents-md.stale` when source inputs change; manually regen at release time.
   - **Files:** `AGENTS.md`
   - **Automation:** semi-auto (generator exists; invocation manual)
   - **Why:** the dog-fooded AGENTS.md is the most-visible runtime artifact users see when cloning the repo.

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # test-test-deletion-guardrail.sh — Fixture-based tests for the test-deletion guardrail.
 #
-# Exercises scripts/check-test-count.py against a family of RED/GREEN snapshot fixtures,
+# Exercises core/lib/check-test-count.py against a family of RED/GREEN snapshot fixtures,
 # plus a discovery smoke test against a tiny sample project.
 #
 # Usage: bash tests/test-deletion-guardrail/test-test-deletion-guardrail.sh
@@ -10,7 +10,7 @@ set -u  # NOTE: do not set -e — we want to evaluate non-zero exits deliberatel
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-CHECKER="$REPO_ROOT/scripts/check-test-count.py"
+CHECKER="$REPO_ROOT/core/lib/check-test-count.py"
 FIXTURES="$SCRIPT_DIR/fixtures"
 
 PASS=0

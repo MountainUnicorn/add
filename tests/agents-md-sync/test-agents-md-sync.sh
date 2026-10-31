@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-agents-md-sync.sh — Fixture-based tests for scripts/generate-agents-md.py
+# test-agents-md-sync.sh — Fixture-based tests for core/lib/generate-agents-md.py
 #
 # Copies each fixture to a temp dir, runs the generator with deterministic
 # --generated and --skill-version flags, and diffs against expected output.
@@ -11,7 +11,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-GEN="$REPO_ROOT/scripts/generate-agents-md.py"
+GEN="$REPO_ROOT/core/lib/generate-agents-md.py"
 FIXTURES="$SCRIPT_DIR/fixtures"
 
 FIXED_TIMESTAMP="2026-04-22T12:00:00Z"

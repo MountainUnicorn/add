@@ -63,7 +63,7 @@ This invariant is enforced at three points:
    RED with no new tests is itself a TDD violation.
 2. **End of GREEN** — `/add:implementer` re-runs discovery against the same files and
    writes `.add/cycles/cycle-{N}/tdd-{slug}-green.json` with identical schema.
-3. **Gate 3.5 in `/add:verify`** — runs `scripts/check-test-count.py gate --red ... --green ...`.
+3. **Gate 3.5 in `/add:verify`** — runs `${CLAUDE_PLUGIN_ROOT}/lib/check-test-count.py gate --red ... --green ...`.
    If `tests_removed > 0` without an override, or `tests_replaced > 0` without
    `--allow-test-rewrite`, the gate fails with a structured error listing each removed
    or replaced test. The cycle does not advance to Gate 4.

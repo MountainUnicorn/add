@@ -45,7 +45,7 @@ every dispatch in a session; only the VOLATILE block changes per role.
 - AC subset for this dispatch
 - Per-call hints — recent edits, tool outputs, working-set diffs
 
-Validate compliance with `python3 scripts/validate-cache-discipline.py`.
+When working in the ADD source repo, validate compliance with `python3 scripts/validate-cache-discipline.py` (maintainer tooling — not shipped to consumer projects).
 
 ## Pre-Flight Checks
 
@@ -87,7 +87,7 @@ Verify tests actually fail:
 After test-writer signals RED complete, capture the test surface snapshot:
 
 ```bash
-python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
+python3 ~/.codex/add/lib/check-test-count.py snapshot \
   --phase red \
   --cycle-id {N} \
   --spec-slug {slug} \
@@ -138,7 +138,7 @@ After implementation:
 **GREEN-end snapshot (test-deletion guardrail — required since v0.9.0):**
 
 ```bash
-python3 ~/.codex/add/../../scripts/check-test-count.py snapshot \
+python3 ~/.codex/add/lib/check-test-count.py snapshot \
   --phase green \
   --cycle-id {N} \
   --spec-slug {slug} \

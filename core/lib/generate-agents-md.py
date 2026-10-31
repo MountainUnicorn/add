@@ -7,11 +7,11 @@ wrapped in an ADD-managed marker block so user-authored sections survive
 regeneration.
 
 Usage:
-    python3 scripts/generate-agents-md.py                 # --write (default)
-    python3 scripts/generate-agents-md.py --check         # drift detection; non-zero on drift
-    python3 scripts/generate-agents-md.py --merge         # prepend ADD block to existing file (non-interactive)
-    python3 scripts/generate-agents-md.py --import        # absorb existing content as user-authored section
-    python3 scripts/generate-agents-md.py --dry-run       # preview without writing
+    python3 ${CLAUDE_PLUGIN_ROOT}/lib/generate-agents-md.py                 # --write (default)
+    python3 ${CLAUDE_PLUGIN_ROOT}/lib/generate-agents-md.py --check         # drift detection; non-zero on drift
+    python3 ${CLAUDE_PLUGIN_ROOT}/lib/generate-agents-md.py --merge         # prepend ADD block to existing file (non-interactive)
+    python3 ${CLAUDE_PLUGIN_ROOT}/lib/generate-agents-md.py --import        # absorb existing content as user-authored section
+    python3 ${CLAUDE_PLUGIN_ROOT}/lib/generate-agents-md.py --dry-run       # preview without writing
 
 Exit codes:
     0   success (or no drift in --check)
@@ -21,7 +21,7 @@ Exit codes:
 Options:
     --project-root DIR   Operate against this directory (default: cwd)
     --generated ISO      Override the generated= timestamp (for reproducible fixtures)
-    --skill-version VER  Override the version= field in the marker (default: read from core/VERSION)
+    --skill-version VER  Override the version= field in the marker (default: plugin/core VERSION)
 """
 
 from __future__ import annotations
@@ -85,9 +85,29 @@ POC_CRITICAL_RULES = [
 
 
 def read_version(project_root: Path) -> str:
-    core_version = project_root / "core" / "VERSION"
-    if core_version.exists():
-        return core_version.read_text().strip()
+    """Resolve the ADD version stamped into the marker block.
+
+    The generator ships inside the plugin (`<plugin>/lib/`), so the version
+    must come from the generator's own install location, not the consumer
+    project. Order: source checkout `core/VERSION` next to this file, the
+    installed Claude plugin manifest, then the project's own `core/VERSION`
+    (ADD dog-fooding itself).
+    """
+    here = Path(__file__).resolve().parent
+    candidates = [
+        here.parent / "VERSION",  # core/lib/ -> core/VERSION (source checkout)
+        here.parent / ".claude-plugin" / "plugin.json",  # <plugin>/lib/ -> manifest
+        project_root / "core" / "VERSION",
+    ]
+    for path in candidates:
+        if not path.exists():
+            continue
+        if path.suffix == ".json":
+            version = (read_json(path) or {}).get("version")
+            if version:
+                return str(version)
+        else:
+            return path.read_text().strip()
     return "0.0.0"
 
 

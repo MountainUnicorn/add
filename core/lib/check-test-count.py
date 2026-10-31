@@ -13,7 +13,7 @@ Three modes:
 
 The minimal one-shot form used by /add:verify's Gate 3.5 and by CI dog-food checks:
 
-    python3 scripts/check-test-count.py --baseline <ref>
+    python3 ${CLAUDE_PLUGIN_ROOT}/lib/check-test-count.py --baseline <ref>
 
 This is shorthand for: take a snapshot of the working tree NOW, a snapshot of the tree at
 <ref>, compare them, and fail if the net test count dropped with no justification marker
@@ -43,10 +43,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+# This script ships in the plugin at <plugin>/lib/ and lives in the source repo at
+# core/lib/. In both layouts the catalog is the sibling knowledge/ directory.
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CATALOG = ROOT / "core" / "knowledge" / "test-discovery-patterns.json"
-# For consumer projects (where the plugin is installed), fall back to plugins/add copy
-FALLBACK_CATALOG = ROOT / "plugins" / "add" / "knowledge" / "test-discovery-patterns.json"
+DEFAULT_CATALOG = ROOT / "knowledge" / "test-discovery-patterns.json"
+# Source checkout: the compiled plugin copy, in case core/knowledge is absent.
+FALLBACK_CATALOG = ROOT.parent / "plugins" / "add" / "knowledge" / "test-discovery-patterns.json"
 
 COMMIT_TRAILER_RE = re.compile(r"\[ADD-TEST-DELETE:\s*([^\]]+?)\s*\]")
 
