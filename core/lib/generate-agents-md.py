@@ -107,7 +107,9 @@ def read_version(project_root: Path) -> str:
             if version:
                 return str(version)
         else:
-            return path.read_text().strip()
+            version = path.read_text().strip()
+            if version:
+                return version
     return "0.0.0"
 
 
